@@ -1,0 +1,22 @@
+database:
+  image: admin.datapunt.amsterdam.nl:5000/atlas/postgres
+  ports:
+    - "5406:5432"
+  environment:
+    POSTGRES_PASSWORD: insecure
+    POSTGRES_DB: handelsregister
+    POSTGRES_USER: handelsregister
+
+web:
+  build: ./web
+  ports:
+    - "8102:8000"
+  links:
+    - database:database
+  volumes:
+    - $PWD/reports:/app/reports
+    - $PWD/data:/app/data
+  environment:
+    SECRET_KEY: hoi
+    DB_NAME: handelsregister
+    DB_PASSWORD: insecure
