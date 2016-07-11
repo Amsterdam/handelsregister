@@ -28,6 +28,7 @@ class Persoon(models.Model):
     # Faillisement (FAL)
 
 
+
 class NatuurlijkPersoon(models.Model):
     """
     NPS
@@ -477,11 +478,24 @@ class MaatschappelijkActiviteit(models.Model):
     """
 
     # naam - De (statutaire) naam of eerste handelsnaam van de inschrijving.
+    naam = models.CharField(max_length=600, blank=True, null=True)
+
     # kvkNummer - Betreft het identificerende gegeven voor de
-    # {MaatschappelijkeActiviteit}, het KvK-nummer
+    kvknummer = models.CharField(
+        unique=True, max_length=8, blank=True, null=True)
+
+    # MaatschappelijkeActiviteit id
+    macid = models.DecimalField(
+        primary_key=True, max_digits=18, decimal_places=0)
 
     # datumAanvang - De datum van aanvang van de {MaatschappelijkeActiviteit}.
+    datumaanvang = models.DecimalField(
+        max_digits=8, decimal_places=0, blank=True, null=True)
+
     # datumEindeneeDatum - De datum van beëindiging van de
+    datumeinde = models.DecimalField(
+        max_digits=8, decimal_places=0, blank=True, null=True)
+
     # {MaatschappelijkeActiviteit}.
 
     # incidenteelUitlenenArbeidskrachten - die aangeeft of de ondernemer

@@ -67,44 +67,65 @@ class Kvkmacm00(models.Model):
     """
     macid = models.DecimalField(
         primary_key=True, max_digits=18, decimal_places=0)
+
     beherendekamer = models.CharField(max_length=100, blank=True, null=True)
+
     domeinnaam1 = models.CharField(max_length=300, blank=True, null=True)
     domeinnaam2 = models.CharField(max_length=300, blank=True, null=True)
     domeinnaam3 = models.CharField(max_length=300, blank=True, null=True)
+
     emailadres1 = models.CharField(max_length=200, blank=True, null=True)
     emailadres2 = models.CharField(max_length=200, blank=True, null=True)
     emailadres3 = models.CharField(max_length=200, blank=True, null=True)
+
     fulltimewerkzamepersonen = models.DecimalField(
         max_digits=6, decimal_places=0, blank=True, null=True)
+
     indicatieonderneming = models.CharField(
         max_length=3, blank=True, null=True)
+
     kvknummer = models.CharField(
         unique=True, max_length=8, blank=True, null=True)
+
     naam = models.CharField(max_length=600, blank=True, null=True)
+
     nonmailing = models.CharField(max_length=3, blank=True, null=True)
+
     nummer1 = models.CharField(max_length=15, blank=True, null=True)
     nummer2 = models.CharField(max_length=15, blank=True, null=True)
     nummer3 = models.CharField(max_length=15, blank=True, null=True)
+
     parttimewerkzamepersonen = models.DecimalField(
         max_digits=6, decimal_places=0, blank=True, null=True)
+
     prsid = models.DecimalField(max_digits=18, decimal_places=0)
+
     soort1 = models.CharField(max_length=10, blank=True, null=True)
     soort2 = models.CharField(max_length=10, blank=True, null=True)
     soort3 = models.CharField(max_length=10, blank=True, null=True)
+
     toegangscode1 = models.DecimalField(
         max_digits=4, decimal_places=0, blank=True, null=True)
+
     toegangscode2 = models.DecimalField(
         max_digits=4, decimal_places=0, blank=True, null=True)
+
     toegangscode3 = models.DecimalField(
         max_digits=4, decimal_places=0, blank=True, null=True)
+
     totaalwerkzamepersonen = models.DecimalField(
         max_digits=6, decimal_places=0, blank=True, null=True)
+
     datumaanvang = models.DecimalField(
         max_digits=8, decimal_places=0, blank=True, null=True)
+
     datumeinde = models.DecimalField(
         max_digits=8, decimal_places=0, blank=True, null=True)
+
     laatstbijgewerkt = models.DateTimeField()
+
     statusobject = models.CharField(max_length=20)
+
     machibver = models.DecimalField(max_digits=19, decimal_places=0)
 
     class Meta:
@@ -185,14 +206,20 @@ class Kvkprsm00(models.Model):
 
 
 class Kvkveshdnm00(models.Model):
+    """
+    Vestiging handelsnaam
+    """
     veshdnid = models.DecimalField(
         primary_key=True, max_digits=18, decimal_places=0)
+
     hdnid = models.DecimalField(max_digits=18, decimal_places=0)
     vesid = models.DecimalField(max_digits=18, decimal_places=0)
+
     beginrelatie = models.DecimalField(
         max_digits=17, decimal_places=0, blank=True, null=True)
     eindrelatie = models.DecimalField(
         max_digits=17, decimal_places=0, blank=True, null=True)
+
     veshdnhibver = models.DecimalField(max_digits=19, decimal_places=0)
 
     class Meta:
@@ -202,12 +229,17 @@ class Kvkveshdnm00(models.Model):
 
 
 class Kvkveshism00(models.Model):
+
     hisvesid = models.DecimalField(
         primary_key=True, max_digits=18, decimal_places=0)
+
     vestigingsnummer = models.CharField(max_length=12)
+
     kvknummer = models.CharField(max_length=8)
+
     enddate = models.DecimalField(
         max_digits=17, decimal_places=0, blank=True, null=True)
+
     hishibver = models.DecimalField(max_digits=19, decimal_places=0)
 
     class Meta:
@@ -217,41 +249,59 @@ class Kvkveshism00(models.Model):
 
 
 class Kvk_ves_m00(models.Model):
+
     vesid = models.DecimalField(
         primary_key=True, max_digits=18, decimal_places=0)
+
     datumaanvang = models.DecimalField(
         max_digits=8, decimal_places=0, blank=True, null=True)
+
     datumeinde = models.DecimalField(
         max_digits=8, decimal_places=0, blank=True, null=True)
+
     datumuitschrijving = models.DecimalField(
         max_digits=8, decimal_places=0, blank=True, null=True)
+
     domeinnaam1 = models.CharField(max_length=300, blank=True, null=True)
     domeinnaam2 = models.CharField(max_length=300, blank=True, null=True)
     domeinnaam3 = models.CharField(max_length=300, blank=True, null=True)
+
     eerstehandelsnaam = models.CharField(max_length=600, blank=True, null=True)
+
     eindgeldigheidactiviteit = models.DecimalField(
         max_digits=17, decimal_places=0, blank=True, null=True)
+
     emailadres1 = models.CharField(max_length=200, blank=True, null=True)
     emailadres2 = models.CharField(max_length=200, blank=True, null=True)
     emailadres3 = models.CharField(max_length=200, blank=True, null=True)
+
     exportactiviteit = models.CharField(max_length=3, blank=True, null=True)
     fulltimewerkzamepersonen = models.DecimalField(
         max_digits=6, decimal_places=0, blank=True, null=True)
+
     importactiviteit = models.CharField(max_length=3, blank=True, null=True)
+
     indicatiehoofdvestiging = models.CharField(
         max_length=3, blank=True, null=True)
+
     macid = models.DecimalField(max_digits=18, decimal_places=0)
+
     naam = models.CharField(max_length=500, blank=True, null=True)
+
     nummer1 = models.CharField(max_length=15, blank=True, null=True)
     nummer2 = models.CharField(max_length=15, blank=True, null=True)
     nummer3 = models.CharField(max_length=15, blank=True, null=True)
+
     omschrijvingactiviteit = models.CharField(
         max_length=2000, blank=True, null=True)
     ookgenoemd = models.CharField(max_length=600, blank=True, null=True)
+
     parttimewerkzamepersonen = models.DecimalField(
         max_digits=6, decimal_places=0, blank=True, null=True)
+
     registratietijdstip = models.DecimalField(
         max_digits=17, decimal_places=0, blank=True, null=True)
+
     sbicodehoofdactiviteit = models.DecimalField(
         max_digits=6, decimal_places=0, blank=True, null=True)
     sbicodenevenactiviteit1 = models.DecimalField(
@@ -260,6 +310,7 @@ class Kvk_ves_m00(models.Model):
         max_digits=6, decimal_places=0, blank=True, null=True)
     sbicodenevenactiviteit3 = models.DecimalField(
         max_digits=6, decimal_places=0, blank=True, null=True)
+
     sbiomschrijvinghoofdact = models.CharField(
         max_length=180, blank=True, null=True)
     sbiomschrijvingnevenact1 = models.CharField(
@@ -268,22 +319,30 @@ class Kvk_ves_m00(models.Model):
         max_length=180, blank=True, null=True)
     sbiomschrijvingnevenact3 = models.CharField(
         max_length=180, blank=True, null=True)
+
     soort1 = models.CharField(max_length=10, blank=True, null=True)
     soort2 = models.CharField(max_length=10, blank=True, null=True)
     soort3 = models.CharField(max_length=10, blank=True, null=True)
+
     toegangscode1 = models.DecimalField(
         max_digits=4, decimal_places=0, blank=True, null=True)
     toegangscode2 = models.DecimalField(
         max_digits=4, decimal_places=0, blank=True, null=True)
     toegangscode3 = models.DecimalField(
         max_digits=4, decimal_places=0, blank=True, null=True)
+
     totaalwerkzamepersonen = models.DecimalField(
         max_digits=6, decimal_places=0, blank=True, null=True)
+
     typeringvestiging = models.CharField(max_length=3, blank=True, null=True)
+
     verkortenaam = models.CharField(max_length=60, blank=True, null=True)
+
     vestigingsnummer = models.CharField(
         unique=True, max_length=12, blank=True, null=True)
+
     statusobject = models.CharField(max_length=20)
+
     veshibver = models.DecimalField(max_digits=19, decimal_places=0)
 
     class Meta:
