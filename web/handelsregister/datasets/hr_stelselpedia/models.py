@@ -662,24 +662,97 @@ class Locatie(models.Model):
 class Handelsnaam(models.Model):
     """
     HN
+
+    Een Handelsnaam is een naam waaronder een Onderneming of een
+    Vestiging van een Onderneming handelt.
+
+    Een Onderneming mag meerdere Handelsnamen hebben. De Vestiging heeft
+    tenminste één, of meerdere, Handelsna(a)m(en) waarmee die naar
+    buiten treedt.
+
+    Bij privaatrechtelijke Rechtspersonen is de statutaire naam altijd ook
+    een van de Handelsnamen van de bijbehorende Onderneming.
+
+    De Handelsnamen van de Onderneming zijn een opsomming van alle
+    Handelsnamen van alle Vestigingen.
+
+    Indien een Handelsnaam dubbel voorkomt zal deze slechts éénmaal
+    worden getoond.
     """
-    pass
+
+    # datumAanvang - Datum aanvang van de Handelsnaam
+
+    # datumEinde - Datum einde van de Handelsnaam
+
+    # handelsnaam - De Handelsnaam van de vestiging waaronder gehandeld wordt.
+
+    # OndernemingHandelsnaamRelatie (OHR) - aanvang van de relatie
+    # van de Handelsnaam met de Onderneming.
+
+    # datumEinde - Datum einde van de relatie van de Handelsnaam
+    # met de Onderneming.
+    # Onderneming (OND) heeft handelsnaam
 
 
 class CommunicatieGegevens(models.Model):
     """
     COM
+
+    In het handelsregister worden over een Rechtspersoon waaraan geen
+    Onderneming toebehoord en die geen Vestiging heeft of van een
+    Vestiging, opgenomen:
+
+    et telefoonnummer, het faxnummer, het e-mailadres en het internetadres
     """
+
+    # Domeinnaam -  Het internetadres (URL).
+
+    # EmailAdres - waarop de ondernemen gemaild kan worden.
+
+    # toegangscode - De internationale toeganscode waar
+    # (telefoon of fax) betrekking heeft.
+
+    # communicatieNummer - is het telefoon- of faxnummer zonder opmaak.
+
+    # soortCommunicatieNummer- (Telefoonnummer en Faxnummer)
 
 
 class RechterlijkeUitspraak(models.Model):
     """
     UIT
+
+    Abstracte klasse Rechtelijke Uitspraak
+
+    Een uitspraak van een rechter die invloed heeft op de
+    registratie in het handelsregister. Het betreft hier een
+    abstractie om andere klassen daadwerkelijk van een
+    RechtelijkeUitspraak gegevens te kunnen voorzien.
+
+    RechtelijkeUitspraak heeft de volgende relaties:
+
+
     """
+
+    # Uitspraak (UIT) aanvang door
+
+    # Uitspraak (UIT) einde door
+
+    # datumUitspraak - Datum waarop de uitspraak door de rechter is gedaan
+    # Gerecht (GER) - De naam van het gerecht
+    # plaatsvindt - Plaats waar het gerecht is gevestigd
 
 
 class Kapitaal(models.Model):
     """
     KAP
+
     """
-    pass
+
+    # bedrag- Het bedrag van het kapitaal uitgedrukt in de valuta en de waarde.
+
+    # AantalAandelen - Het aantal aandelen van de genoemde
+    # soort en waarde bij Aandeel.
+
+    # Aandeelsoort - Beschrijving van het soort aandeel.
+
+    # waarde - Waarde (nominaal) per aandeel.
