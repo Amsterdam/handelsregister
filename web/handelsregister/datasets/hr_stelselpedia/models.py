@@ -40,22 +40,44 @@ class NatuurlijkPersoon(models.Model):
     # Burgerservicenummer.
 
     # geboortedatum
-    # geboorteland
-    # geslachtsnaam
-    # voornamen
-    # voorvoegsel Geslachtsnaam
-    # Geslachtsnaam
-    # Voorvoegsel Geslachtsnaam
-    # Voornamen
-    # Geslachtsaanduiding
-    # Geboortedatum
+    geboortedatum = models.DecimalField(
+        max_digits=8, decimal_places=0, blank=True, null=True)
+
     # Geboorteplaats
-    # Geboorteland
+    geboorteplaats = models.CharField(max_length=240, blank=True, null=True)
+
+    # geboorteland
+    geboorteland = models.CharField(max_length=50, blank=True, null=True)
+
+    # geslachtsnaam
+
+    geslachtsnaam = models.CharField(max_length=240, blank=True, null=True)
+    # voornamen
+
+    naam = models.CharField(max_length=600, blank=True, null=True)
+    # voorvoegsel Geslachtsnaam
+    geslachtsaanduiding = models.CharField(
+        max_length=20, blank=True, null=True)
+    # Geslachtsnaam
+
+    # Voorvoegsel Geslachtsnaam
+
+    # Voornamen
+
+    # Geslachtsaanduiding ? man / vrouw / unknown
+    geslachtsaanduiding = models.CharField(
+        max_length=20, blank=True, null=True)
+
     # Overlijdensdatum
-    # adellijkeTitel-adellijkeTitel
+
+    # adellijkeTitel
+
     # aanduidingNaamgebruik
+
     # GeslachtsnaamPartner
+
     # VoorvoegselGeslachtsnaamPartner
+
     # handelingsbekwaam
 
 
@@ -564,7 +586,7 @@ class Vestiging(models.Model):
 
     # datumVoortzetting-datumVoortzettingneeDatum voortzetting van de vestiging
 
-    # Heeft als postadresHR: Locatie (LOC)LOCjapostadres
+    # Heeft als postadresHR: Locatie (LOC) postadres
 
     # Heeft als bezoekadresHR: Locatie (LOC)
 
@@ -657,6 +679,8 @@ class Locatie(models.Model):
 
     # regio-regiojaRegio is een deel van het land (streek, provincie, etc.)
     # land-landjaDe naam van het land waar het adres zich bevindt.
+
+    # x, y ?
 
 
 class Handelsnaam(models.Model):

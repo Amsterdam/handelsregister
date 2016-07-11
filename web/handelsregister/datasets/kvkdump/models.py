@@ -7,7 +7,9 @@ from django.contrib.gis.db import models
 
 class Kvkadrm00(models.Model):
     adrid = models.DecimalField(max_digits=18, decimal_places=0)
+
     afgeschermd = models.CharField(max_length=3, blank=True, null=True)
+
     huisletter = models.CharField(max_length=1, blank=True, null=True)
     huisnummer = models.DecimalField(
         max_digits=5, decimal_places=0, blank=True, null=True)
@@ -60,6 +62,9 @@ class Kvkhdnm00(models.Model):
 
 
 class Kvkmacm00(models.Model):
+    """
+    Maatschappelijk activiteit
+    """
     macid = models.DecimalField(
         primary_key=True, max_digits=18, decimal_places=0)
     beherendekamer = models.CharField(max_length=100, blank=True, null=True)
@@ -108,6 +113,9 @@ class Kvkmacm00(models.Model):
 
 
 class Kvkprsashm00(models.Model):
+    """
+    Persoon
+    """
     ashid = models.DecimalField(
         primary_key=True, max_digits=18, decimal_places=0)
     functie = models.CharField(max_length=20, blank=True, null=True)
@@ -123,6 +131,9 @@ class Kvkprsashm00(models.Model):
 
 
 class Kvkprsm00(models.Model):
+    """
+    Natuurlijk Persoon
+    """
     prsid = models.DecimalField(
         primary_key=True, max_digits=18, decimal_places=0)
     datumuitschrijving = models.DecimalField(
