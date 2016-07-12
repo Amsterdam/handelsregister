@@ -35,5 +35,5 @@ class Command(BaseCommand):
         """
         validate and execute import task
         """
-
+        log.info('debug')
         build_hr_data.fill_stelselpedia()

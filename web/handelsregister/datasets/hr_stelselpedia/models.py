@@ -28,7 +28,6 @@ class Persoon(models.Model):
     # Faillisement (FAL)
 
 
-
 class NatuurlijkPersoon(models.Model):
     """
     NPS
@@ -465,7 +464,7 @@ class Activiteit(models.Model):
     # de activiteiten de hoofdactiviteit is.
 
 
-class MaatschappelijkActiviteit(models.Model):
+class MaatschappelijkeActiviteit(models.Model):
     """
     MAC
 
@@ -509,7 +508,8 @@ class MaatschappelijkActiviteit(models.Model):
     # communicatiegegevens van inschrijving
 
     # foreign key naar COM.
-    communicatiegegevens = models.ForeignKey('CommunicatieGegevens')
+    communicatiegegevens = models.ForeignKey(
+        'CommunicatieGegevens', null=True, blank=True)
 
     # Activiteiten - MaatschappelijkeActiviteit ACT De SBI-activiteit(en) van
     # de {MaatschappelijkeActiviteit} is het totaal van alle {SBI-activiteit}
@@ -523,7 +523,7 @@ class MaatschappelijkActiviteit(models.Model):
     # bezoekadreshoofdvestiging
     # HR: Vestiging (VES)
 
-    vestiging = models.ForeignKey('Vestiging')
+    vestiging = models.ForeignKey('Vestiging', blank=True, null=True)
 
     # activiteiten = models.JSON
 
@@ -703,7 +703,7 @@ class Locatie(models.Model):
         max_length=5, blank=True, null=True)
 
     # Afgeschermd - Geeft aan of het adres afgeschermd is of niet.
-    afgeschermd = models.BoolenField(blank=True, null=True)
+    afgeschermd = models.BooleanField()
 
     # Adres(ADR)AdresBinnenlandsAdres
     # postbusnummer-postbusnummer

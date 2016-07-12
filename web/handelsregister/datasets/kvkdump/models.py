@@ -70,8 +70,11 @@ class Kvk_handelsnaam(models.Model):
     hdnid = models.DecimalField(
         primary_key=True, max_digits=18, decimal_places=0)
     handelsnaam = models.CharField(max_length=700, blank=True, null=True)
+
     macid = models.ForeignKey(
-        'Kvkmacm00', models.DO_NOTHING, db_column='macid')
+        'Kvk_maatschappelijkeactiviteit',
+        models.DO_NOTHING, db_column='macid', related_name='handelsnamen')
+
     hdnhibver = models.DecimalField(max_digits=19, decimal_places=0)
 
     class Meta:

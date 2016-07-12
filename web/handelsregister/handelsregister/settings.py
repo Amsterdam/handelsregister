@@ -28,8 +28,13 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
-# Application definition
+PARTIAL_IMPORT = {
+    'numerator': 1,
+    'denominator': 1000,
+}
 
+
+# Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -43,13 +48,15 @@ INSTALLED_APPS = [
 
     'django.contrib.gis',
     'rest_framework',
-    #'rest_framework_gis',
-    #'rest_framework_swagger',
+
+    # 'rest_framework_gis',
+    # 'rest_framework_swagger',
 
     'corsheaders',
 
     'handelsregister',
     'datasets.kvkdump',
+    'datasets.hr_stelselpedia',
 ]
 
 if DEBUG:
@@ -157,15 +164,31 @@ STATIC_ROOT = os.path.abspath(os.path.join(BASE_DIR, '..', 'static'))
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
-    'handlers': {
+
+    'formatters': {
         'console': {
-            'class': 'logging.StreamHandler',
+            'format': '%(asctime)s - %(name)s - %(levelname)s - %(message)s',
         },
     },
+
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'console',
+        },
+    },
+
+    'root': {
+        'level': 'DEBUG',
+        'handlers': ['console'],
+    },
+
+
     'loggers': {
         'django': {
             'handlers': ['console'],
-            'level': 'INFO',
+            'level': 'ERROR',
         },
     },
 }
