@@ -83,7 +83,11 @@ def fill_stelselpedia():
     For go through all tables and fill stelselpedia tables
     """
     # Go throuhgs all macs
-    mac_to_maatschappelijke_activiteit()
+    mks_mac_to_maatschappelijke_activiteit()
+
+    # Go through vestigingen..
+
+    # Go through...ect ect
 
 
 def load_mac_row(mac_object):
@@ -97,7 +101,7 @@ def load_mac_row(mac_object):
         # Pick the first name
         naam = m.handelsnamen.all()[0].handelsnaam,
 
-    MaatschappelijkeActiviteit.objects.create(
+    MaatschappelijkeActiviteit.objects.update_or_create(
         macid=m.macid,
         kvknummer=m.kvknummer,
         naam=naam,
@@ -108,7 +112,7 @@ def load_mac_row(mac_object):
     # create search document?
 
 
-def mac_to_maatschappelijke_activiteit():
+def mks_mac_to_maatschappelijke_activiteit():
     """
     Chunck loading of data in parts
     """

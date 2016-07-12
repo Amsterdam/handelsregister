@@ -160,6 +160,7 @@ STATIC_URL = '/static/'
 
 STATIC_ROOT = os.path.abspath(os.path.join(BASE_DIR, '..', 'static'))
 
+HEALTH_MODEL = 'hr_stelselpedia.MaatschappelijkeActiviteit'
 
 LOGGING = {
     'version': 1,
