@@ -508,16 +508,24 @@ class MaatschappelijkActiviteit(models.Model):
     # Communicatiegegeven - MaatschappelijkeActiviteit COM ageleid van
     # communicatiegegevens van inschrijving
 
+    # foreign key naar COM.
+    communicatiegegevens = models.ForeignKey('CommunicatieGegevens')
+
     # Activiteiten - MaatschappelijkeActiviteit ACT De SBI-activiteit(en) van
     # de {MaatschappelijkeActiviteit} is het totaal van alle {SBI-activiteit}
     # en die voorkomen bij de {MaatschappelijkeActiviteit} behorende
     # {NietCommercieleVestigingen} en bij de {Rechtspersoon}.
+
 
     # /Locatie-MaatschappelijkeActiviteit
     # LOC postadres/
     # Locatie-MaatschappelijkeActiviteit (LOC)LOC-LOC-LOC
     # bezoekadreshoofdvestiging
     # HR: Vestiging (VES)
+
+    vestiging = models.ForeignKey('Vestiging')
+
+    # activiteiten = models.JSON
 
     # -MaatschappelijkeActiviteit-VestigingdatumAanvang-
 
@@ -625,6 +633,24 @@ class Vestiging(models.Model):
 
     # Heeft {Activiteiten} die bij een {NietCommercieleVestiging} horen.
 
+    sbicodehoofdactiviteit = models.DecimalField(
+        max_digits=6, decimal_places=0, blank=True, null=True)
+    sbicodenevenactiviteit1 = models.DecimalField(
+        max_digits=6, decimal_places=0, blank=True, null=True)
+    sbicodenevenactiviteit2 = models.DecimalField(
+        max_digits=6, decimal_places=0, blank=True, null=True)
+    sbicodenevenactiviteit3 = models.DecimalField(
+        max_digits=6, decimal_places=0, blank=True, null=True)
+
+    sbiomschrijvinghoofdact = models.CharField(
+        max_length=180, blank=True, null=True)
+    sbiomschrijvingnevenact1 = models.CharField(
+        max_length=180, blank=True, null=True)
+    sbiomschrijvingnevenact2 = models.CharField(
+        max_length=180, blank=True, null=True)
+    sbiomschrijvingnevenact3 = models.CharField(
+        max_length=180, blank=True, null=True)
+
     # HR: Locatie (LOC)
 
     # nee{Activiteiten} die bij een {NietCommercieleVestiging} horen.
@@ -665,36 +691,60 @@ class Locatie(models.Model):
     Een {Locatie} is een aanwijsbare plek op aarde.
     """
 
+    adrid = models.DecimalField(max_digits=18, decimal_places=0)
+
     # volledigAdres - BAG - Samengesteld adres
+    volledigadres = models.CharField(max_length=550, blank=True, null=True)
 
     # Vrije tekst om een Adres nader aan te kunnen duiden.
+
     # toevoegingAdres- toevoegingAdres -
+    huisnummertoevoeging = models.CharField(
+        max_length=5, blank=True, null=True)
 
     # Afgeschermd - Geeft aan of het adres afgeschermd is of niet.
+    afgeschermd = models.BoolenField(blank=True, null=True)
 
     # Adres(ADR)AdresBinnenlandsAdres
     # postbusnummer-postbusnummer
-    # BAGidentificatie (BAG)postbusnummer
-    # BAGidentificatieLocatie heeft betrekking op een adresseerbaar object
-    # Verblijfsobject ,Standplaats ,Ligplaats:
 
+    # BAGidentificatie (BAG)postbusnummer
+
+    # BAGidentificatieLocatie heeft betrekking op een adresseerbaar object
+    # bag-id nummeraanduiding
+    # Verblijfsobject ,Standplaats ,Ligplaats:
     # De unieke BAG identificatie van een verblijfsobject, standplaats
     # of ligplaats.
 
-    # Locatie heeft een adresseerbaarBAG: NummeraanduidingneeDe unieke
-    # identificatie van de BAG Nummeraanduiding.
+    # BRON = kvkadrm00 identificatieaoa
+    bagid = models.CharField(max_length=16, blank=True, null=True)
+
+    # Locatie heeft een adresseerbaarBAG: Nummeraanduidingnee
+    # De unieke identificatie van de BAG Nummeraanduiding.
+
     # BuitenlandsAdres
 
     # straatHuisnummer- Het straat/huisnummer is een combinatie van de
+    straathuisnummer = models.CharField(max_length=220, blank=True, null=True)
     # straat en huisnummer.
 
     # postcodeWoonplaats- De postcode/woonplaats is de combinatie van
-    # een eventuele postcode en woonplaats.
+    postcodewoonplaats = models.CharField(
+        max_length=220, blank=True, null=True)
 
     # regio-regiojaRegio is een deel van het land (streek, provincie, etc.)
+    regio = models.CharField(max_length=170, blank=True, null=True)
+
+    land = models.CharField(max_length=50, blank=True, null=True)
     # land-landjaDe naam van het land waar het adres zich bevindt.
 
     # x, y ?
+    xcoordinaat = models.DecimalField(
+        max_digits=9, decimal_places=3, blank=True, null=True)
+    ycoordinaat = models.DecimalField(
+        max_digits=9, decimal_places=3, blank=True, null=True)
+
+    geopunt = models.PointField(srid=28992, blank=True, null=True)
 
 
 class Handelsnaam(models.Model):
@@ -743,15 +793,40 @@ class CommunicatieGegevens(models.Model):
     et telefoonnummer, het faxnummer, het e-mailadres en het internetadres
     """
 
+    # BRON DATA KVKMACM00
+    macid = models.DecimalField(
+        primary_key=True, max_digits=18, decimal_places=0)
+
     # Domeinnaam -  Het internetadres (URL).
+    domeinnaam1 = models.CharField(max_length=300, blank=True, null=True)
+    domeinnaam2 = models.CharField(max_length=300, blank=True, null=True)
+    domeinnaam3 = models.CharField(max_length=300, blank=True, null=True)
 
     # EmailAdres - waarop de ondernemen gemaild kan worden.
+    emailadres1 = models.CharField(max_length=200, blank=True, null=True)
+    emailadres2 = models.CharField(max_length=200, blank=True, null=True)
+    emailadres3 = models.CharField(max_length=200, blank=True, null=True)
 
     # toegangscode - De internationale toeganscode waar
     # (telefoon of fax) betrekking heeft.
+    toegangscode1 = models.DecimalField(
+        max_digits=4, decimal_places=0, blank=True, null=True)
+    toegangscode2 = models.DecimalField(
+        max_digits=4, decimal_places=0, blank=True, null=True)
+    toegangscode3 = models.DecimalField(
+        max_digits=4, decimal_places=0, blank=True, null=True)
 
     # communicatieNummer - is het telefoon- of faxnummer zonder opmaak.
+    communicatienummer1 = models.CharField(
+        max_length=15, blank=True, null=True)
+    communicatienummer2 = models.CharField(
+        max_length=15, blank=True, null=True)
+    communicatienummer3 = models.CharField(
+        max_length=15, blank=True, null=True)
 
+    soort1 = models.CharField(max_length=10, blank=True, null=True)
+    soort2 = models.CharField(max_length=10, blank=True, null=True)
+    soort3 = models.CharField(max_length=10, blank=True, null=True)
     # soortCommunicatieNummer- (Telefoonnummer en Faxnummer)
 
 

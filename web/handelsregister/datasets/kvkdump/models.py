@@ -6,6 +6,7 @@ from django.contrib.gis.db import models
 
 
 class Kvkadrm00(models.Model):
+
     adrid = models.DecimalField(max_digits=18, decimal_places=0)
 
     afgeschermd = models.CharField(max_length=3, blank=True, null=True)
@@ -15,31 +16,49 @@ class Kvkadrm00(models.Model):
         max_digits=5, decimal_places=0, blank=True, null=True)
     huisnummertoevoeging = models.CharField(
         max_length=5, blank=True, null=True)
+
+    # bag-id nummeraanduiding
     identificatieaoa = models.CharField(max_length=16, blank=True, null=True)
+
+    # kadastrale gemeente
     identificatietgo = models.CharField(max_length=16, blank=True, null=True)
+
     land = models.CharField(max_length=50, blank=True, null=True)
+
+    # plaats.
     plaats = models.CharField(max_length=100, blank=True, null=True)
+
     postbusnummer = models.DecimalField(
         max_digits=5, decimal_places=0, blank=True, null=True)
+
     postcode = models.CharField(max_length=6, blank=True, null=True)
+
     postcodewoonplaats = models.CharField(
         max_length=220, blank=True, null=True)
     regio = models.CharField(max_length=170, blank=True, null=True)
+
     straathuisnummer = models.CharField(max_length=220, blank=True, null=True)
     straatnaam = models.CharField(max_length=100, blank=True, null=True)
     toevoegingadres = models.CharField(max_length=100, blank=True, null=True)
     totenmetadres = models.CharField(max_length=3, blank=True, null=True)
+
     typering = models.CharField(max_length=13, blank=True, null=True)
+
     vesid = models.DecimalField(
         max_digits=18, decimal_places=0, blank=True, null=True)
+
     macid = models.DecimalField(
         max_digits=18, decimal_places=0, blank=True, null=True)
+
     volledigadres = models.CharField(max_length=550, blank=True, null=True)
+
     xcoordinaat = models.DecimalField(
         max_digits=9, decimal_places=3, blank=True, null=True)
     ycoordinaat = models.DecimalField(
         max_digits=9, decimal_places=3, blank=True, null=True)
+
     adrhibver = models.DecimalField(max_digits=19, decimal_places=0)
+
     geopunt = models.PointField(srid=28992, blank=True, null=True)
 
     class Meta:
@@ -319,6 +338,16 @@ class Kvk_ves_m00(models.Model):
         max_length=180, blank=True, null=True)
     sbiomschrijvingnevenact3 = models.CharField(
         max_length=180, blank=True, null=True)
+
+    # Communuicatie
+
+    domeinnaam1 = models.CharField(max_length=300, blank=True, null=True)
+    domeinnaam2 = models.CharField(max_length=300, blank=True, null=True)
+    domeinnaam3 = models.CharField(max_length=300, blank=True, null=True)
+
+    emailadres1 = models.CharField(max_length=200, blank=True, null=True)
+    emailadres2 = models.CharField(max_length=200, blank=True, null=True)
+    emailadres3 = models.CharField(max_length=200, blank=True, null=True)
 
     soort1 = models.CharField(max_length=10, blank=True, null=True)
     soort2 = models.CharField(max_length=10, blank=True, null=True)
