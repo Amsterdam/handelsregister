@@ -623,7 +623,7 @@ class Vestiging(models.Model):
     # Een classificatie van de {Vestiging} van de {Maatschappelijke Activiteit}
     # niet zijnde de {Onderneming}.
 
-    # naam-naamjaDeDe naam van de {NietCommercieleVestiging}.
+    # naam - De naam van de {NietCommercieleVestiging}.
 
     # verkorteNaam- De administratieve naam in het handelsregister indien
     # de naam langer is dan 45 karakters.

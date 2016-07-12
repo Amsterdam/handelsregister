@@ -6,6 +6,7 @@ fill the stelselpedia dumps
 
 from datasets.kvkdump.models import Kvk_maatschappelijkeactiviteit
 from datasets.kvkdump.models import Kvk_vestiging
+
 from datasets.kvkdump import models as kvk_models
 
 from datasets.hr_stelselpedia.models import MaatschappelijkeActiviteit
@@ -20,6 +21,7 @@ log = logging.getLogger(__name__)
 
 class BatchImport(object):
 
+    item_handle = None
     queryset = None
     batch_size = 10000
 
@@ -67,27 +69,16 @@ class BatchImport(object):
             end = min(start + batch_size, end_part)
             yield (i+1, total_batches+1, start, end, total, qs[start:end])
 
+    def process_rows(self):
+        for job, endjob, start, end, total, qs in self.batch_qs():
+            for item in qs:
+                self.proces_item(item)
 
-class MAC_batcher(BatchImport):
-
-    queryset = Kvk_maatschappelijkeactiviteit.objects.all().order_by('macid')
-
-
-class VES_batcher(BatchImport):
-
-    queryset = Kvk_vestiging.objects.all().order_by('vesid')
-
-
-def fill_stelselpedia():
-    """
-    For go through all tables and fill stelselpedia tables
-    """
-    # Go throuhgs all macs
-    mks_mac_to_maatschappelijke_activiteit()
-
-    # Go through vestigingen..
-
-    # Go through...ect ect
+    def proces_item(self, item):
+        """
+        Handle a single item/row.
+        """
+        raise(NotImplementedError)
 
 
 def load_mac_row(mac_object):
@@ -109,16 +100,35 @@ def load_mac_row(mac_object):
         datumeinde=m.datumeinde,
     )
 
-    # create search document?
 
-
-def mks_mac_to_maatschappelijke_activiteit():
+def load_ves_row(ves_object):
     """
-    Chunck loading of data in parts
     """
+    v = ves_object
+    pass
 
-    mac_batcher = MAC_batcher()
 
-    for job, endjob, start, end, total, qs in mac_batcher.batch_qs():
-        for mac_item in qs:
-            load_mac_row(mac_item)
+class MAC_batcher(BatchImport):
+
+    queryset = Kvk_maatschappelijkeactiviteit.objects.all().order_by('macid')
+
+    def proces_item(self, item):
+        load_mac_row(item)
+
+
+class VES_batcher(BatchImport):
+
+    queryset = Kvk_vestiging.objects.all().order_by('vesid')
+
+    def proces_item(self, item):
+        load_ves_row(item)
+
+
+def fill_stelselpedia():
+    """
+    For go through all tables and fill stelselpedia tables
+    """
+    # Go throuhgs all macs
+    MAC_batcher().process_rows()
+    VES_batcher().process_rows()
+    # Go through...ect ect
