@@ -5,7 +5,7 @@ from __future__ import unicode_literals
 from django.contrib.gis.db import models
 
 
-class Kvkadrm00(models.Model):
+class Kvk_adres(models.Model):
 
     adrid = models.DecimalField(max_digits=18, decimal_places=0)
 
@@ -66,7 +66,7 @@ class Kvkadrm00(models.Model):
         db_table = 'kvkadrm00'
 
 
-class Kvkhdnm00(models.Model):
+class Kvk_handelsnaam(models.Model):
     hdnid = models.DecimalField(
         primary_key=True, max_digits=18, decimal_places=0)
     handelsnaam = models.CharField(max_length=700, blank=True, null=True)
@@ -80,7 +80,7 @@ class Kvkhdnm00(models.Model):
         unique_together = (('handelsnaam', 'macid'),)
 
 
-class Kvkmacm00(models.Model):
+class Kvk_maatschappelijkeactiviteit(models.Model):
     """
     Maatschappelijk activiteit
     """
@@ -224,7 +224,7 @@ class Kvkprsm00(models.Model):
         db_table = 'kvkprsm00'
 
 
-class Kvkveshdnm00(models.Model):
+class Kvk_vestiging_handelsnaam(models.Model):
     """
     Vestiging handelsnaam
     """
@@ -248,6 +248,9 @@ class Kvkveshdnm00(models.Model):
 
 
 class Kvkveshism00(models.Model):
+    """
+    History / gebruiken we nog niet
+    """
 
     hisvesid = models.DecimalField(
         primary_key=True, max_digits=18, decimal_places=0)
@@ -267,7 +270,10 @@ class Kvkveshism00(models.Model):
         unique_together = (('vestigingsnummer', 'kvknummer'),)
 
 
-class Kvk_ves_m00(models.Model):
+class Kvk_vestiging(models.Model):
+    """
+    mks vestiging gegevens
+    """
 
     vesid = models.DecimalField(
         primary_key=True, max_digits=18, decimal_places=0)
