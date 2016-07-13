@@ -105,6 +105,7 @@ def load_ves_row(ves_object):
     """
     """
     v = ves_object
+    # maak vestigings objects aan..
     pass
 
 
