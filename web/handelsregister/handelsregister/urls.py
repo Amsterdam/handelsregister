@@ -14,10 +14,37 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import url, include
-from django.contrib import admin
+from rest_framework import routers
+
+from datasets.hr_stelselpedia import views as hr_views
+
+
+class HandelsRegisterRouter(routers.DefaultRouter):
+    """
+    Handelsregister (HR)
+
+    End point for different Handelsregister
+    """
+    def get_api_root_view(self):
+        view = super().get_api_root_view()
+        cls = view.cls
+
+        class HandelsRegister(cls):
+            pass
+
+        HandelsRegister.__doc__ = self.__doc__
+        return HandelsRegister.as_view()
+
+
+hr_router = HandelsRegisterRouter()
+
+hr_router.register(
+    r'maatschappelijkeactiviteit',
+    hr_views.MaatschappelijkeActiviteitViewSet
+)
+
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-
     url(r'^status/', include('health.urls', namespace='health')),
+    url(r'^handelsregister/', include(hr_router.urls))
 ]
