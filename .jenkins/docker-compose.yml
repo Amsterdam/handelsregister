@@ -4,9 +4,6 @@ database:
     POSTGRES_PASSWORD: insecure
     POSTGRES_USER: handelsregister
 
-db-mks-restore:
-  image: admin.datapunt.amsterdam.nl:5000/atlas/postgres
-
 elasticsearch:
   image: admin.datapunt.amsterdam.nl:5000/atlas/elasticsearch
   volumes:
@@ -29,8 +26,6 @@ importer:
             && pg_restore -j 4 -c -C -h database -d handelsregister -U handelsregister /app/data/handelsregister_latest.gz || true\
             && python manage.py migrate \
             && python manage.py run_import"
-  environment:
-     PGPASSWORD: insecure
 
 db-backup:
   image: admin.datapunt.amsterdam.nl:5000/atlas/postgres
@@ -48,4 +43,4 @@ db-backup:
                         -T auth*    \
                         -U handelsregister \
                         -h db -p 5432 \
-                        panorama > /tmp/backups/database.dump"
+                        handelsregister > /tmp/backups/database.dump"
