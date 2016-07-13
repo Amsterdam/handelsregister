@@ -1,3 +1,4 @@
+
 database:
   image: admin.datapunt.amsterdam.nl:5000/atlas/postgres
   environment:
@@ -11,7 +12,23 @@ elasticsearch:
   user: root
   command: /usr/share/elasticsearch/bin/elasticsearch -Des.insecure.allow.root=true -Des.network.host=0.0.0.0 -Des.path.repo=/tmp
 
-importer:
+
+importer_mks:
+  build: ../web
+  links:
+    - database:database
+  environment:
+    DB_NAME: handelsregister
+    DB_PASSWORD: insecure
+  volumes:
+    - ./data:/app/data
+  command: >
+    bash -c "/app/docker-wait.sh \
+            && echo database:5432:handelsregister:handelsregister:insecure > ~/.pgpass \
+            && chmod 600 ~/.pgpass \
+            && pg_restore -j 4 -c -C -h database -d handelsregister -U handelsregister /app/data/handelsregister_latest.gz || true"
+
+importer_1:
   build: ../web
   links:
     - database:database
@@ -23,9 +40,25 @@ importer:
     - ./data:/app/data
   command: >
     bash -c "/app/docker-wait.sh \
-            && pg_restore -j 4 -c -C -h database -d handelsregister -U handelsregister /app/data/handelsregister_latest.gz || true\
+                            && python manage.py migrate \
+            && python manage.py run_import --partial 1/1000"
+
+importer_2:
+  build: ../web
+  links:
+    - database:database
+    - elasticsearch:elasticsearch
+  environment:
+    DB_NAME: handelsregister
+    DB_PASSWORD: insecure
+  volumes:
+    - ./data:/app/data
+  command: >
+    bash -c "/app/docker-wait.sh \
             && python manage.py migrate \
-            && python manage.py run_import"
+            && python manage.py run_import --partial 2/1000"
+
+
 
 db-backup:
   image: admin.datapunt.amsterdam.nl:5000/atlas/postgres
@@ -34,7 +67,7 @@ db-backup:
   volumes:
     - ./backups:/tmp/backups
   command: >
-    bash -c "echo db:5432:handelsregister:handelsregister:insecure > ~/.pgpass \
+    bash -c "echo database:5432:handelsregister:handelsregister:insecure > ~/.pgpass \
             && chmod 600 ~/.pgpass \
             && pg_dump --clean \
                         -Fc \
