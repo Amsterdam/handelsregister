@@ -16,11 +16,11 @@ class Command(BaseCommand):
 
     clear data using:
 
-    - manage.py migrate hr_stelselpedia zero
+    - manage.py migrate handelsregister zero
 
     apply new/updated migrations
 
-    - manage.py migrate hr_stelselpedia
+    - manage.py migrate handelsregister
 
     """
 

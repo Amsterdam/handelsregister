@@ -98,7 +98,7 @@ class Migration(migrations.Migration):
                 ('macid', models.DecimalField(decimal_places=0, max_digits=18, primary_key=True, serialize=False)),
                 ('datumaanvang', models.DecimalField(blank=True, decimal_places=0, max_digits=8, null=True)),
                 ('datumeinde', models.DecimalField(blank=True, decimal_places=0, max_digits=8, null=True)),
-                ('communicatiegegevens', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='hr_stelselpedia.CommunicatieGegevens')),
+                ('communicatiegegevens', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='hr.CommunicatieGegevens')),
             ],
         ),
         migrations.CreateModel(
@@ -151,6 +151,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='maatschappelijkeactiviteit',
             name='vestiging',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='hr_stelselpedia.Vestiging', blank=True, null=True),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='hr.Vestiging', blank=True, null=True),
         ),
     ]

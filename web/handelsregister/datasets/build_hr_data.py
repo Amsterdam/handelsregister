@@ -9,8 +9,8 @@ from datasets.kvkdump.models import Kvk_vestiging
 
 from datasets.kvkdump import models as kvk_models
 
-from datasets.hr_stelselpedia.models import MaatschappelijkeActiviteit
-from datasets.hr_stelselpedia.models import Vestiging
+from datasets.hr.models import MaatschappelijkeActiviteit
+from datasets.hr.models import Vestiging
 
 from django.conf import settings
 

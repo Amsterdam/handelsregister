@@ -56,7 +56,7 @@ INSTALLED_APPS = [
 
     'handelsregister',
     'datasets.kvkdump',
-    'datasets.hr_stelselpedia',
+    'datasets.hr',
 ]
 
 if DEBUG:
@@ -160,7 +160,7 @@ STATIC_URL = '/static/'
 
 STATIC_ROOT = os.path.abspath(os.path.join(BASE_DIR, '..', 'static'))
 
-HEALTH_MODEL = 'hr_stelselpedia.MaatschappelijkeActiviteit'
+HEALTH_MODEL = 'hr.MaatschappelijkeActiviteit'
 
 LOGGING = {
     'version': 1,

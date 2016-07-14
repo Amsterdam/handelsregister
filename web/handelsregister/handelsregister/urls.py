@@ -16,7 +16,7 @@ Including another URLconf
 from django.conf.urls import url, include
 from rest_framework import routers
 
-from datasets.hr_stelselpedia import views as hr_views
+from datasets.hr import views as hr_views
 
 
 class HandelsRegisterRouter(routers.DefaultRouter):
