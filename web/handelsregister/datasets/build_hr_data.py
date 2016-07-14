@@ -90,7 +90,7 @@ def load_mac_row(mac_object):
     naam = '?'
     if m.handelsnamen.count() > 0:
         # Pick the first name
-        naam = m.handelsnamen.all()[0].handelsnaam,
+        naam = m.handelsnamen.all()[0].handelsnaam
 
     MaatschappelijkeActiviteit.objects.update_or_create(
         macid=m.macid,
