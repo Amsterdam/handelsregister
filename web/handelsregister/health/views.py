@@ -33,9 +33,9 @@ def health(request):
             "Database connectivity failed",
             content_type="text/plain", status=500)
 
-    response = check_data(request)
-    if response:
-        return response
+    #response = check_data(request)
+    # if response:
+    #    return response
 
     return HttpResponse(
         "Connectivity OK", content_type='text/plain', status=200)
