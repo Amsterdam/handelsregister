@@ -153,6 +153,24 @@ USE_L10N = True
 USE_TZ = True
 
 
+REST_FRAMEWORK = dict(
+    PAGE_SIZE=25,
+    MAX_PAGINATE_BY=100,
+    DEFAULT_AUTHENTICATION_CLASSES=(
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ),
+    DEFAULT_PAGINATION_CLASS='drf_hal_json.pagination.HalPageNumberPagination',
+    DEFAULT_PARSER_CLASSES=('drf_hal_json.parsers.JsonHalParser',),
+    DEFAULT_RENDERER_CLASSES=(
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer'
+    ),
+    DEFAULT_FILTER_BACKENDS=('rest_framework.filters.DjangoFilterBackend',),
+    COERCE_DECIMAL_TO_STRING=False,
+)
+
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
