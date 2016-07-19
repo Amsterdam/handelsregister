@@ -501,8 +501,9 @@ class MaatschappelijkeActiviteit(models.Model):
     # tijdelijk arbeidskrachten ter beschikking stelt en dit niet onderdeel
     # is van zijn 'reguliere' activiteiten.
 
-    # nonMailing- Indicator die aangeeft of de inschrijving haar
+    # Indicator die aangeeft of de inschrijving haar
     # adresgegevens beschikbaar stelt voor mailing-doeleinden.
+    nonMailing = models.BooleanField()
 
     # Communicatiegegeven - MaatschappelijkeActiviteit COM ageleid van
     # communicatiegegevens van inschrijving
@@ -550,14 +551,20 @@ class MaatschappelijkeActiviteit(models.Model):
     # de {Onderneming}, is gelijk aan het KvKNummer van de
     # bijbehorende {MaatschappelijkeActiviteit}
 
-    # totaalWerkzamePersonen - totaal aantal werkzame personen bij de
+    # totaal aantal werkzame personen bij de
     # onderneming. Som van fulltime en parttime.
+    totaalWerkzamePersonen = models.DecimalField(
+        max_digits=8, decimal_places=0, blank=True, null=True)
 
-    # fulltimeWerkzamePersonen - aantal fulltime (>15 uur per week)
+    # aantal fulltime (>15 uur per week)
     # werkzame personen bij de onderneming
+    fulltimeWerkzamePersonen = models.DecimalField(
+        max_digits=8, decimal_places=0, blank=True, null=True)
 
-    # parttimeWerkzamePersonen - Het aantal parttime (<=15 uur per week)
+    # Het aantal parttime (<=15 uur per week)
     # werkzame personen bij de onderneming
+    parttimeWerkzamePersonen = models.DecimalField(
+        max_digits=8, decimal_places=0, blank=True, null=True)
 
     # datumAanvang - De datum van aanvang van de {Onderneming}.
 
@@ -790,7 +797,7 @@ class CommunicatieGegevens(models.Model):
     Onderneming toebehoord en die geen Vestiging heeft of van een
     Vestiging, opgenomen:
 
-    et telefoonnummer, het faxnummer, het e-mailadres en het internetadres
+    het telefoonnummer, het faxnummer, het e-mailadres en het internetadres
     """
 
     # BRON DATA KVKMACM00
@@ -824,10 +831,10 @@ class CommunicatieGegevens(models.Model):
     communicatienummer3 = models.CharField(
         max_length=15, blank=True, null=True)
 
+    # soortCommunicatieNummer- (Telefoonnummer en Faxnummer)
     soort1 = models.CharField(max_length=10, blank=True, null=True)
     soort2 = models.CharField(max_length=10, blank=True, null=True)
     soort3 = models.CharField(max_length=10, blank=True, null=True)
-    # soortCommunicatieNummer- (Telefoonnummer en Faxnummer)
 
 
 class RechterlijkeUitspraak(models.Model):

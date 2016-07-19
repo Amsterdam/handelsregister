@@ -1,6 +1,5 @@
 """
 From the original dump
-
 fill the stelselpedia dumps
 """
 
@@ -9,6 +8,7 @@ from datasets.kvkdump.models import Kvk_vestiging
 
 from datasets.kvkdump import models as kvk_models
 
+from datasets.hr.models import CommunicatieGegevens
 from datasets.hr.models import MaatschappelijkeActiviteit
 from datasets.hr.models import Vestiging
 
@@ -92,12 +92,36 @@ def load_mac_row(mac_object):
         # Pick the first name
         naam = m.handelsnamen.all()[0].handelsnaam
 
+    comms, created = CommunicatieGegevens.objects.update_or_create(
+      macid=m.macid,
+      domeinnaam1=m.domeinnaam1,
+      domeinnaam2=m.domeinnaam2,
+      domeinnaam3=m.domeinnaam3,
+      emailadres1=m.emailadres1,
+      emailadres2=m.emailadres2,
+      emailadres3=m.emailadres3,
+      toegangscode1=m.toegangscode1,
+      toegangscode2=m.toegangscode2,
+      toegangscode3=m.toegangscode3,
+      communicatienummer1=m.nummer1,
+      communicatienummer2=m.nummer2,
+      communicatienummer3=m.nummer3,
+      soort1=m.soort1,
+      soort2=m.soort2,
+      soort3=m.soort3,
+    )
+
     MaatschappelijkeActiviteit.objects.update_or_create(
         macid=m.macid,
         kvknummer=m.kvknummer,
         naam=naam,
         datumaanvang=m.datumaanvang,
         datumeinde=m.datumeinde,
+        nonMailing=((m.nonmailing or '').lower() == 'Ja'),
+        totaalWerkzamePersonen=m.totaalwerkzamepersonen,
+        fulltimeWerkzamePersonen=m.fulltimewerkzamepersonen,
+        parttimeWerkzamePersonen=m.parttimewerkzamepersonen,
+        communicatiegegevens=comms,
     )
 
 

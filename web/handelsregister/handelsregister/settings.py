@@ -30,7 +30,7 @@ ALLOWED_HOSTS = []
 
 PARTIAL_IMPORT = {
     'numerator': 1,
-    'denominator': 1000,
+    'denominator': 250,
 }
 
 
