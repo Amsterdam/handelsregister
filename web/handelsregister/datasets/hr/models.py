@@ -775,11 +775,15 @@ class Handelsnaam(models.Model):
     worden getoond.
     """
 
+    macid = models.DecimalField(
+        primary_key=True, max_digits=18, decimal_places=0)
     # datumAanvang - Datum aanvang van de Handelsnaam
 
     # datumEinde - Datum einde van de Handelsnaam
 
     # handelsnaam - De Handelsnaam van de vestiging waaronder gehandeld wordt.
+    handelsnaam = models.CharField(
+        max_length=500, blank=True, null=True)
 
     # OndernemingHandelsnaamRelatie (OHR) - aanvang van de relatie
     # van de Handelsnaam met de Onderneming.
