@@ -42,7 +42,7 @@ node {
         build job: 'Subtask_Openstack_Playbook',
                 parameters: [
                         [$class: 'StringParameterValue', name: 'INVENTORY', value: INVENTORY],
-                        [$class: 'StringParameterValue', name: 'PLAYBOOK', value: 'deploy-hr.yml'],
+                        [$class: 'StringParameterValue', name: 'PLAYBOOK', value: 'deploy-handelsregister.yml'],
                         [$class: 'StringParameterValue', name: 'BRANCH', value: BRANCH],
                 ]
 }
