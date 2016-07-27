@@ -173,7 +173,7 @@ class Kvkprsashm00(models.Model):
         unique_together = (('prsidh', 'prsidi'),)
 
 
-class Kvkprsm00(models.Model):
+class Kvk_persoon(models.Model):
     """
     Natuurlijk Persoon
     """

@@ -5,6 +5,7 @@ fill the stelselpedia dumps
 
 from datasets.kvkdump.models import Kvk_maatschappelijkeactiviteit
 from datasets.kvkdump.models import Kvk_vestiging
+from datasets.kvkdump.models import Kvk_persoon
 
 from datasets.kvkdump import models as kvk_models
 
@@ -94,24 +95,24 @@ def load_mac_row(mac_object):
           handelsnaam=handelsnaam,
         )
 
-    comms, created = CommunicatieGegevens.objects.update_or_create(
-        macid=m.macid,
-        domeinnaam1=m.domeinnaam1,
-        domeinnaam2=m.domeinnaam2,
-        domeinnaam3=m.domeinnaam3,
-        emailadres1=m.emailadres1,
-        emailadres2=m.emailadres2,
-        emailadres3=m.emailadres3,
-        toegangscode1=m.toegangscode1,
-        toegangscode2=m.toegangscode2,
-        toegangscode3=m.toegangscode3,
-        communicatienummer1=m.nummer1,
-        communicatienummer2=m.nummer2,
-        communicatienummer3=m.nummer3,
-        soort1=m.soort1,
-        soort2=m.soort2,
-        soort3=m.soort3,
-    )
+    # comms, created = CommunicatieGegevens.objects.update_or_create(
+    #     macid=m.macid,
+    #     domeinnaam1=m.domeinnaam1,
+    #     domeinnaam2=m.domeinnaam2,
+    #     domeinnaam3=m.domeinnaam3,
+    #     emailadres1=m.emailadres1,
+    #     emailadres2=m.emailadres2,
+    #     emailadres3=m.emailadres3,
+    #     toegangscode1=m.toegangscode1,
+    #     toegangscode2=m.toegangscode2,
+    #     toegangscode3=m.toegangscode3,
+    #     communicatienummer1=m.nummer1,
+    #     communicatienummer2=m.nummer2,
+    #     communicatienummer3=m.nummer3,
+    #     soort1=m.soort1,
+    #     soort2=m.soort2,
+    #     soort3=m.soort3,
+    # )
 
     naam = '?'
     if m.handelsnamen.count() > 0:
@@ -128,7 +129,7 @@ def load_mac_row(mac_object):
         totaalWerkzamePersonen=m.totaalwerkzamepersonen,
         fulltimeWerkzamePersonen=m.fulltimewerkzamepersonen,
         parttimeWerkzamePersonen=m.parttimewerkzamepersonen,
-        communicatiegegevens=comms,
+        # communicatiegegevens=comms,
     )
 
 
@@ -137,6 +138,14 @@ def load_ves_row(ves_object):
     """
     v = ves_object
     # maak vestigings objects aan..
+    pass
+
+
+def load_prs_row(prs_object):
+    """
+    """
+    p = prs_object
+    # maak persoon objects aan..
     pass
 
 
@@ -156,6 +165,14 @@ class VES_batcher(BatchImport):
         load_ves_row(item)
 
 
+class PRS_batcher(BatchImport):
+
+    queryset = Kvk_persoon.objects.all().order_by('prsid')
+
+    def proces_item(self, item):
+        load_prs_row(item)
+
+
 def fill_stelselpedia():
     """
     For go through all tables and fill stelselpedia tables
@@ -163,4 +180,5 @@ def fill_stelselpedia():
     # Go throuhgs all macs
     MAC_batcher().process_rows()
     VES_batcher().process_rows()
+    PRS_batcher().process_rows()
     # Go through...ect ect

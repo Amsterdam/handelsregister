@@ -509,8 +509,8 @@ class MaatschappelijkeActiviteit(models.Model):
     # communicatiegegevens van inschrijving
 
     # foreign key naar COM.
-    communicatiegegevens = models.ForeignKey(
-        'CommunicatieGegevens', null=True, blank=True)
+    # communicatiegegevens = models.ForeignKey(
+    #     'CommunicatieGegevens', null=True, blank=True)
 
     # Activiteiten - MaatschappelijkeActiviteit ACT De SBI-activiteit(en) van
     # de {MaatschappelijkeActiviteit} is het totaal van alle {SBI-activiteit}

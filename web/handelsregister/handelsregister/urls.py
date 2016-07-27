@@ -19,24 +19,24 @@ from rest_framework import routers
 from datasets.hr import views as hr_views
 
 
-class HandelsRegisterRouter(routers.DefaultRouter):
+class HandelsregisterRouter(routers.DefaultRouter):
     """
     Handelsregister (HR)
 
-    End point for different Handelsregister
+    Endpoint for handelsregister
     """
     def get_api_root_view(self):
         view = super().get_api_root_view()
         cls = view.cls
 
-        class HandelsRegister(cls):
+        class Handelsregister(cls):
             pass
 
-        HandelsRegister.__doc__ = self.__doc__
-        return HandelsRegister.as_view()
+        Handelsregister.__doc__ = self.__doc__
+        return Handelsregister.as_view()
 
 
-hr_router = HandelsRegisterRouter()
+hr_router = HandelsregisterRouter()
 
 hr_router.register(
     r'maatschappelijkeactiviteit',
