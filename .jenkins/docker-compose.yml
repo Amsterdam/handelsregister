@@ -18,8 +18,8 @@ importer_mks:
   links:
     - database:database
   environment:
-    DB_NAME: handelsregister
-    DB_PASSWORD: insecure
+    DATABASE_NAME: handelsregister
+    DATABASE_PASSWORD: insecure
   volumes:
     - ./data:/app/data
   command: >
@@ -34,8 +34,8 @@ importer_1:
     - database:database
     - elasticsearch:elasticsearch
   environment:
-    DB_NAME: handelsregister
-    DB_PASSWORD: insecure
+    DATABASE_NAME: handelsregister
+    DATABASE_PASSWORD: insecure
   volumes:
     - ./data:/app/data
   command: >
@@ -49,8 +49,8 @@ importer_2:
     - database:database
     - elasticsearch:elasticsearch
   environment:
-    DB_NAME: handelsregister
-    DB_PASSWORD: insecure
+    DATABASE_NAME: handelsregister
+    DATABASE_PASSWORD: insecure
   volumes:
     - ./data:/app/data
   command: >
