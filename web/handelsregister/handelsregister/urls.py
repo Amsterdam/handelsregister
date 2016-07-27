@@ -46,6 +46,10 @@ hr_router.register(
     r'persoon',
     hr_views.PersoonViewSet
 )
+hr_router.register(
+    r'vestiging',
+    hr_views.VestigingViewSet
+)
 
 
 urlpatterns = [

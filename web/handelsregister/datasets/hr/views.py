@@ -30,3 +30,16 @@ class PersoonViewSet(rest.AtlasViewSet):
 
         return super().retrieve(
             request, *args, **kwargs)
+
+
+class VestigingViewSet(rest.AtlasViewSet):
+
+    queryset = models.Vestiging.objects.all()
+
+    serializer_detail_class = serializers.Vestiging
+    serializer_class = serializers.Vestiging
+
+    def retrieve(self, request, *args, **kwargs):
+
+        return super().retrieve(
+            request, *args, **kwargs)
