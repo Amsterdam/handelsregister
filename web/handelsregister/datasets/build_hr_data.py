@@ -4,14 +4,15 @@ fill the stelselpedia dumps
 """
 
 from datasets.kvkdump.models import Kvk_maatschappelijkeactiviteit
-from datasets.kvkdump.models import Kvk_vestiging
 from datasets.kvkdump.models import Kvk_persoon
+from datasets.kvkdump.models import Kvk_vestiging
 
 from datasets.kvkdump import models as kvk_models
 
 from datasets.hr.models import CommunicatieGegevens
 from datasets.hr.models import Handelsnaam
 from datasets.hr.models import MaatschappelijkeActiviteit
+from datasets.hr.models import Persoon
 from datasets.hr.models import Vestiging
 
 from django.conf import settings
@@ -84,9 +85,6 @@ class BatchImport(object):
 
 
 def load_mac_row(mac_object):
-    """
-    Convert mac row to stelselpedia MAC
-    """
     m = mac_object
 
     for handelsnaam in m.handelsnamen.all():
@@ -95,24 +93,24 @@ def load_mac_row(mac_object):
           handelsnaam=handelsnaam,
         )
 
-    # comms, created = CommunicatieGegevens.objects.update_or_create(
-    #     macid=m.macid,
-    #     domeinnaam1=m.domeinnaam1,
-    #     domeinnaam2=m.domeinnaam2,
-    #     domeinnaam3=m.domeinnaam3,
-    #     emailadres1=m.emailadres1,
-    #     emailadres2=m.emailadres2,
-    #     emailadres3=m.emailadres3,
-    #     toegangscode1=m.toegangscode1,
-    #     toegangscode2=m.toegangscode2,
-    #     toegangscode3=m.toegangscode3,
-    #     communicatienummer1=m.nummer1,
-    #     communicatienummer2=m.nummer2,
-    #     communicatienummer3=m.nummer3,
-    #     soort1=m.soort1,
-    #     soort2=m.soort2,
-    #     soort3=m.soort3,
-    # )
+    communicatiegegevens, created = CommunicatieGegevens.objects.update_or_create(
+        macid=m.macid,
+        domeinnaam1=m.domeinnaam1,
+        domeinnaam2=m.domeinnaam2,
+        domeinnaam3=m.domeinnaam3,
+        emailadres1=m.emailadres1,
+        emailadres2=m.emailadres2,
+        emailadres3=m.emailadres3,
+        toegangscode1=m.toegangscode1,
+        toegangscode2=m.toegangscode2,
+        toegangscode3=m.toegangscode3,
+        communicatienummer1=m.nummer1,
+        communicatienummer2=m.nummer2,
+        communicatienummer3=m.nummer3,
+        soort1=m.soort1,
+        soort2=m.soort2,
+        soort3=m.soort3,
+    )
 
     naam = '?'
     if m.handelsnamen.count() > 0:
@@ -123,30 +121,37 @@ def load_mac_row(mac_object):
         macid=m.macid,
         kvknummer=m.kvknummer,
         naam=naam,
-        datumaanvang=m.datumaanvang,
-        datumeinde=m.datumeinde,
-        nonMailing=((m.nonmailing or '').lower() == 'Ja'),
-        totaalWerkzamePersonen=m.totaalwerkzamepersonen,
-        fulltimeWerkzamePersonen=m.fulltimewerkzamepersonen,
-        parttimeWerkzamePersonen=m.parttimewerkzamepersonen,
-        # communicatiegegevens=comms,
+        datum_aanvang=m.datumaanvang,
+        datum_einde=m.datumeinde,
+        non_mailing=((m.nonmailing or '').lower() == 'Ja'),
+        totaal_werkzame_personen=m.totaalwerkzamepersonen,
+        fulltime_werkzame_personen=m.fulltimewerkzamepersonen,
+        parttime_werkzame_personen=m.parttimewerkzamepersonen,
+        communicatiegegevens=communicatiegegevens,
     )
 
 
 def load_ves_row(ves_object):
-    """
-    """
     v = ves_object
-    # maak vestigings objects aan..
-    pass
+    # Vestiging.objects.update_or_create(
+    #     sbicode_hoofdactiviteit=v.,
+    #     sbicode_nevenactiviteit1=v.,
+    #     sbicode_nevenactiviteit2=v.,
+    #     sbicode_nevenactiviteit3=v.,
+    #     sbi_omschrijving_hoofdact=v.,
+    #     sbi_omschrijving_nevenact1=v.,
+    #     sbi_omschrijving_nevenact2=v.,
+    #     sbi_omschrijving_nevenact3=v.,
+    # )
 
 
 def load_prs_row(prs_object):
-    """
-    """
     p = prs_object
-    # maak persoon objects aan..
-    pass
+    Persoon.objects.update_or_create(
+        rechtsvorm=p.rechtsvorm,
+        uitgebreide_rechtsvorm=p.uitgebreiderechtsvorm,
+        volledige_naam = p.volledigenaam,
+    )
 
 
 class MAC_batcher(BatchImport):
@@ -175,10 +180,8 @@ class PRS_batcher(BatchImport):
 
 def fill_stelselpedia():
     """
-    For go through all tables and fill stelselpedia tables
+    Go through all tables and fill Stelselpedia tables.
     """
-    # Go throuhgs all macs
     MAC_batcher().process_rows()
-    VES_batcher().process_rows()
     PRS_batcher().process_rows()
-    # Go through...ect ect
+    VES_batcher().process_rows()

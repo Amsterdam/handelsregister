@@ -42,6 +42,10 @@ hr_router.register(
     r'maatschappelijkeactiviteit',
     hr_views.MaatschappelijkeActiviteitViewSet
 )
+hr_router.register(
+    r'persoon',
+    hr_views.PersoonViewSet
+)
 
 
 urlpatterns = [
