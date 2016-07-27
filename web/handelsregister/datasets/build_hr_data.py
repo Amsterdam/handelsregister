@@ -133,16 +133,17 @@ def load_mac_row(mac_object):
 
 def load_ves_row(ves_object):
     v = ves_object
-    # Vestiging.objects.update_or_create(
-    #     sbicode_hoofdactiviteit=v.,
-    #     sbicode_nevenactiviteit1=v.,
-    #     sbicode_nevenactiviteit2=v.,
-    #     sbicode_nevenactiviteit3=v.,
-    #     sbi_omschrijving_hoofdact=v.,
-    #     sbi_omschrijving_nevenact1=v.,
-    #     sbi_omschrijving_nevenact2=v.,
-    #     sbi_omschrijving_nevenact3=v.,
-    # )
+    Vestiging.objects.update_or_create(
+        vesid=v.vesid,
+        sbicode_hoofdactiviteit=v.sbicodehoofdactiviteit,
+        sbicode_nevenactiviteit1=v.sbicodenevenactiviteit1,
+        sbicode_nevenactiviteit2=v.sbicodenevenactiviteit2,
+        sbicode_nevenactiviteit3=v.sbicodenevenactiviteit3,
+        sbi_omschrijving_hoofdact=v.sbiomschrijvinghoofdact,
+        sbi_omschrijving_nevenact1=v.sbiomschrijvingnevenact1,
+        sbi_omschrijving_nevenact2=v.sbiomschrijvingnevenact2,
+        sbi_omschrijving_nevenact3=v.sbiomschrijvingnevenact3,
+    )
 
 
 def load_prs_row(prs_object):
