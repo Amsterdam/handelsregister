@@ -6,6 +6,7 @@ class Persoon(models.Model):
     Persoon
     """
 
+    prsid = models.CharField(primary_key=True, max_length=20)
     rechtsvorm = models.CharField(max_length=50, blank=True, null=True)
     uitgebreide_rechtsvorm = models.CharField(max_length=240, blank=True, null=True)
     volledige_naam = models.CharField(max_length=240, blank=True, null=True)
@@ -90,9 +91,9 @@ class MaatschappelijkeActiviteit(models.Model):
     kvknummer = models.CharField(unique=True, max_length=8, blank=True, null=True)
     datum_aanvang = models.CharField(max_length=8, blank=True, null=True)
     datum_einde = models.CharField(max_length=8, blank=True, null=True)
-    non_mailing = models.BooleanField()
+    non_mailing = models.NullBooleanField()
 
-    communicatiegegevens = models.ForeignKey('CommunicatieGegevens', null=True, blank=True)
+    communicatiegegevens = models.ForeignKey('Communicatiegegevens', null=True, blank=True)
     vestiging = models.ForeignKey('Vestiging', blank=True, null=True)
 
     totaal_werkzame_personen = models.DecimalField(max_digits=8, decimal_places=0, blank=True, null=True)
@@ -164,7 +165,7 @@ class Handelsnaam(models.Model):
     handelsnaam = models.CharField(max_length=500, blank=True, null=True)
 
 
-class CommunicatieGegevens(models.Model):
+class Communicatiegegevens(models.Model):
     """
     In het handelsregister worden over een Rechtspersoon waaraan geen
     Onderneming toebehoord en die geen Vestiging heeft of van een

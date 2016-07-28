@@ -6,18 +6,18 @@ from datapunt import rest
 from . import models
 
 
-class CommunicatieGegevens(serializers.ModelSerializer):
+class Communicatiegegevens(serializers.ModelSerializer):
     dataset = 'hr'
 
     class Meta:
-        model = models.CommunicatieGegevens
+        model = models.Communicatiegegevens
 
 
 class MaatschappelijkeActiviteit(rest.HALSerializer):
     dataset = 'hr'
 
     _display = rest.DisplayField()
-    communicatiegegevens = CommunicatieGegevens()
+    communicatiegegevens = Communicatiegegevens()
 
     class Meta:
         model = models.MaatschappelijkeActiviteit

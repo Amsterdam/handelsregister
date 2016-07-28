@@ -3,13 +3,13 @@ From the original dump
 fill the stelselpedia dumps
 """
 
-from datasets.kvkdump.models import Kvk_maatschappelijkeactiviteit
-from datasets.kvkdump.models import Kvk_persoon
-from datasets.kvkdump.models import Kvk_vestiging
+from datasets.kvkdump.models import KvkMaatschappelijkeActiviteit
+from datasets.kvkdump.models import KvkPersoon
+from datasets.kvkdump.models import KvkVestiging
 
 from datasets.kvkdump import models as kvk_models
 
-from datasets.hr.models import CommunicatieGegevens
+from datasets.hr.models import Communicatiegegevens
 from datasets.hr.models import Handelsnaam
 from datasets.hr.models import MaatschappelijkeActiviteit
 from datasets.hr.models import Persoon
@@ -75,9 +75,9 @@ class BatchImport(object):
     def process_rows(self):
         for job, endjob, start, end, total, qs in self.batch_qs():
             for item in qs:
-                self.proces_item(item)
+                self.process_item(item)
 
-    def proces_item(self, item):
+    def process_item(self, item):
         """
         Handle a single item/row.
         """
@@ -93,7 +93,7 @@ def load_mac_row(mac_object):
           handelsnaam=handelsnaam,
         )
 
-    communicatiegegevens, created = CommunicatieGegevens.objects.update_or_create(
+    comms, created = Communicatiegegevens.objects.update_or_create(
         macid=m.macid,
         domeinnaam1=m.domeinnaam1,
         domeinnaam2=m.domeinnaam2,
@@ -127,7 +127,7 @@ def load_mac_row(mac_object):
         totaal_werkzame_personen=m.totaalwerkzamepersonen,
         fulltime_werkzame_personen=m.fulltimewerkzamepersonen,
         parttime_werkzame_personen=m.parttimewerkzamepersonen,
-        communicatiegegevens=communicatiegegevens,
+        communicatiegegevens=comms,
     )
 
 
@@ -149,6 +149,7 @@ def load_ves_row(ves_object):
 def load_prs_row(prs_object):
     p = prs_object
     Persoon.objects.update_or_create(
+        prsid=p.prsid,
         rechtsvorm=p.rechtsvorm,
         uitgebreide_rechtsvorm=p.uitgebreiderechtsvorm,
         volledige_naam = p.volledigenaam,
@@ -157,25 +158,25 @@ def load_prs_row(prs_object):
 
 class MAC_batcher(BatchImport):
 
-    queryset = Kvk_maatschappelijkeactiviteit.objects.all().order_by('macid')
+    queryset = KvkMaatschappelijkeActiviteit.objects.all().order_by('macid')
 
-    def proces_item(self, item):
+    def process_item(self, item):
         load_mac_row(item)
 
 
 class VES_batcher(BatchImport):
 
-    queryset = Kvk_vestiging.objects.all().order_by('vesid')
+    queryset = KvkVestiging.objects.all().order_by('vesid')
 
-    def proces_item(self, item):
+    def process_item(self, item):
         load_ves_row(item)
 
 
 class PRS_batcher(BatchImport):
 
-    queryset = Kvk_persoon.objects.all().order_by('prsid')
+    queryset = KvkPersoon.objects.all().order_by('prsid')
 
-    def proces_item(self, item):
+    def process_item(self, item):
         load_prs_row(item)
 
 

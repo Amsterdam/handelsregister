@@ -5,7 +5,7 @@ from __future__ import unicode_literals
 from django.contrib.gis.db import models
 
 
-class Kvk_adres(models.Model):
+class KvkAdres(models.Model):
 
     adrid = models.DecimalField(max_digits=18, decimal_places=0)
 
@@ -66,13 +66,13 @@ class Kvk_adres(models.Model):
         db_table = 'kvkadrm00'
 
 
-class Kvk_handelsnaam(models.Model):
+class KvkHandelsnaam(models.Model):
     hdnid = models.DecimalField(
         primary_key=True, max_digits=18, decimal_places=0)
     handelsnaam = models.CharField(max_length=700, blank=True, null=True)
 
     macid = models.ForeignKey(
-        'Kvk_maatschappelijkeactiviteit',
+        'KvkMaatschappelijkeActiviteit',
         models.DO_NOTHING, db_column='macid', related_name='handelsnamen')
 
     hdnhibver = models.DecimalField(max_digits=19, decimal_places=0)
@@ -83,7 +83,7 @@ class Kvk_handelsnaam(models.Model):
         unique_together = (('handelsnaam', 'macid'),)
 
 
-class Kvk_maatschappelijkeactiviteit(models.Model):
+class KvkMaatschappelijkeActiviteit(models.Model):
     """
     Maatschappelijk activiteit
     """
@@ -155,7 +155,7 @@ class Kvk_maatschappelijkeactiviteit(models.Model):
         db_table = 'kvkmacm00'
 
 
-class Kvkprsashm00(models.Model):
+class KvkPrsashm00(models.Model):
     """
     Persoon
     """
@@ -173,7 +173,7 @@ class Kvkprsashm00(models.Model):
         unique_together = (('prsidh', 'prsidi'),)
 
 
-class Kvk_persoon(models.Model):
+class KvkPersoon(models.Model):
     """
     Natuurlijk Persoon
     """
@@ -227,7 +227,7 @@ class Kvk_persoon(models.Model):
         db_table = 'kvkprsm00'
 
 
-class Kvk_vestiging_handelsnaam(models.Model):
+class KvkVestigingHandelsnaam(models.Model):
     """
     Vestiging handelsnaam
     """
@@ -250,7 +250,7 @@ class Kvk_vestiging_handelsnaam(models.Model):
         unique_together = (('hdnid', 'vesid'),)
 
 
-class Kvkveshism00(models.Model):
+class KvkVeshism00(models.Model):
     """
     History / gebruiken we nog niet
     """
@@ -273,7 +273,7 @@ class Kvkveshism00(models.Model):
         unique_together = (('vestigingsnummer', 'kvknummer'),)
 
 
-class Kvk_vestiging(models.Model):
+class KvkVestiging(models.Model):
     """
     mks vestiging gegevens
     """
@@ -290,18 +290,10 @@ class Kvk_vestiging(models.Model):
     datumuitschrijving = models.DecimalField(
         max_digits=8, decimal_places=0, blank=True, null=True)
 
-    domeinnaam1 = models.CharField(max_length=300, blank=True, null=True)
-    domeinnaam2 = models.CharField(max_length=300, blank=True, null=True)
-    domeinnaam3 = models.CharField(max_length=300, blank=True, null=True)
-
     eerstehandelsnaam = models.CharField(max_length=600, blank=True, null=True)
 
     eindgeldigheidactiviteit = models.DecimalField(
         max_digits=17, decimal_places=0, blank=True, null=True)
-
-    emailadres1 = models.CharField(max_length=200, blank=True, null=True)
-    emailadres2 = models.CharField(max_length=200, blank=True, null=True)
-    emailadres3 = models.CharField(max_length=200, blank=True, null=True)
 
     exportactiviteit = models.CharField(max_length=3, blank=True, null=True)
     fulltimewerkzamepersonen = models.DecimalField(
@@ -315,10 +307,6 @@ class Kvk_vestiging(models.Model):
     macid = models.DecimalField(max_digits=18, decimal_places=0)
 
     naam = models.CharField(max_length=500, blank=True, null=True)
-
-    nummer1 = models.CharField(max_length=15, blank=True, null=True)
-    nummer2 = models.CharField(max_length=15, blank=True, null=True)
-    nummer3 = models.CharField(max_length=15, blank=True, null=True)
 
     omschrijvingactiviteit = models.CharField(
         max_length=2000, blank=True, null=True)
@@ -348,7 +336,7 @@ class Kvk_vestiging(models.Model):
     sbiomschrijvingnevenact3 = models.CharField(
         max_length=180, blank=True, null=True)
 
-    # Communuicatie
+    # Communicatie
 
     domeinnaam1 = models.CharField(max_length=300, blank=True, null=True)
     domeinnaam2 = models.CharField(max_length=300, blank=True, null=True)
@@ -357,6 +345,10 @@ class Kvk_vestiging(models.Model):
     emailadres1 = models.CharField(max_length=200, blank=True, null=True)
     emailadres2 = models.CharField(max_length=200, blank=True, null=True)
     emailadres3 = models.CharField(max_length=200, blank=True, null=True)
+
+    nummer1 = models.CharField(max_length=15, blank=True, null=True)
+    nummer2 = models.CharField(max_length=15, blank=True, null=True)
+    nummer3 = models.CharField(max_length=15, blank=True, null=True)
 
     soort1 = models.CharField(max_length=10, blank=True, null=True)
     soort2 = models.CharField(max_length=10, blank=True, null=True)
