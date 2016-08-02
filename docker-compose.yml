@@ -14,7 +14,6 @@ web:
   links:
     - database:database
   volumes:
-    - $PWD/reports:/app/reports
     - $PWD/data:/app/data
   environment:
     SECRET_KEY: hoi

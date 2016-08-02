@@ -167,3 +167,5 @@ web/handelsregister/datasets/__pycache__/
 web/handelsregister/datasets/kvkdump/__pycache__/
 web/handelsregister/handelsregister/__pycache__/
 web/web.iml
+
+.jenkins/backups

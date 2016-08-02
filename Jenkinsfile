@@ -1,32 +1,37 @@
 #!groovy
 
-node {
+def tryStep(String message, Closure block, Closure tearDown = null) {
+    try {
+        block();
+    }
+    catch (Throwable t) {
+        slackSend message: "${env.JOB_NAME}: ${message} failure ${env.BUILD_URL}", channel: '#ci-channel', color: 'danger'
+
+        throw t;
+    }
+    finally {
+        if (tearDown) {
+            tearDown();
+        }
+    }
+}
+
 
     String BRANCH = "${env.BRANCH_NAME}"
     String INVENTORY = (BRANCH == "master" ? "production" : "acceptance")
 
-    try {
-
+node {
     stage "Checkout"
         checkout scm
 
-    //stage "Test"
-
-    //    try {
-    //        sh "docker-compose build"
-    //        sh "docker-compose up -d"
-    //        sh "sleep 20"
-    //        sh "docker-compose up -d"
-    //        sh "docker-compose run -u root atlas python manage.py jenkins"
-
-    //        step([$class: "JUnitResultArchiver", testResults: "reports/junit.xml"])
-
-    //    }
-    //    finally {
-    //        sh "docker-compose stop"
-    //        sh "docker-compose rm -f"
-    //    }
-
+--   stage "Test"
+--    tryStep "Test",  {
+--        sh "docker-compose -p handelsregister -f .jenkins/docker-compose.yml run -u root --rm tests"
+--    }, {
+--        step([$class: "JUnitResultArchiver", testResults: "reports/junit.xml"])
+--
+--        sh "docker-compose -p handelsregister -f .jenkins/docker-compose.yml down"
+--    }
 
     stage "Build"
 
@@ -36,20 +41,17 @@ node {
         if (BRANCH == "master") {
             image.push("latest")
         }
+    }
+}
 
-    stage "Deploy"
-
+node {
+    stage name: "Deploy", concurrency: 1
+    tryStep "deployment", {
         build job: 'Subtask_Openstack_Playbook',
                 parameters: [
                         [$class: 'StringParameterValue', name: 'INVENTORY', value: INVENTORY],
                         [$class: 'StringParameterValue', name: 'PLAYBOOK', value: 'deploy-handelsregister.yml'],
                         [$class: 'StringParameterValue', name: 'BRANCH', value: BRANCH],
                 ]
-}
-    catch (err) {
-        slackSend message: "Problem while building Handelsregister service: ${err}",
-                channel: '#ci-channel'
-
-        throw err
     }
 }
