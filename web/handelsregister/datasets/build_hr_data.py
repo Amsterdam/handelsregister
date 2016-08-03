@@ -7,8 +7,6 @@ from datasets.kvkdump.models import KvkMaatschappelijkeActiviteit
 from datasets.kvkdump.models import KvkPersoon
 from datasets.kvkdump.models import KvkVestiging
 
-from datasets.kvkdump import models as kvk_models
-
 from datasets.hr.models import Communicatiegegevens
 from datasets.hr.models import Handelsnaam
 from datasets.hr.models import MaatschappelijkeActiviteit

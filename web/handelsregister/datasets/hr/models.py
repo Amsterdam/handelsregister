@@ -18,6 +18,8 @@ class Persoon(models.Model):
     uitgebreide_rechtsvorm = models.CharField(max_length=240, blank=True, null=True)
     volledige_naam = models.CharField(max_length=240, blank=True, null=True)
 
+    def __str__(self):
+        return "{} ({})".format(self.volledige_naam, self.prsid)
 
 class NatuurlijkPersoon(models.Model):
     """
@@ -40,6 +42,9 @@ class NatuurlijkPersoon(models.Model):
     naam = models.CharField(max_length=600, blank=True, null=True)
     geslachtsnaam = models.CharField(max_length=240, blank=True, null=True)
     geslachtsaanduiding = models.CharField(max_length=20, blank=True, null=True)
+
+    def __str__(self):
+        return "{}".format(self.naam)
 
 
 class NietNatuurlijkPersoon(models.Model):
@@ -124,6 +129,9 @@ class MaatschappelijkeActiviteit(models.Model):
     fulltime_werkzame_personen = models.DecimalField(max_digits=8, decimal_places=0, blank=True, null=True)
     parttime_werkzame_personen = models.DecimalField(max_digits=8, decimal_places=0, blank=True, null=True)
 
+    def __str__(self):
+        return "{} ({})".format(self.naam, self.macid)
+
 
 class Vestiging(models.Model):
     """
@@ -147,6 +155,9 @@ class Vestiging(models.Model):
     sbi_omschrijving_nevenact2 = models.CharField(max_length=180, blank=True, null=True)
     sbi_omschrijving_nevenact3 = models.CharField(max_length=180, blank=True, null=True)
 
+    def __str__(self):
+        return "{} ({})".format("Vestiging", self.vesid)
+
 
 class Locatie(models.Model):
     """
@@ -167,6 +178,9 @@ class Locatie(models.Model):
     x_coordinaat = models.DecimalField(max_digits=9, decimal_places=3, blank=True, null=True)
     y_coordinaat = models.DecimalField(max_digits=9, decimal_places=3, blank=True, null=True)
     geopunt = models.PointField(srid=28992, blank=True, null=True)
+
+    def __str__(self):
+        return "{} ({})".format(self.volledig_adres, self.adid)
 
 
 class Handelsnaam(models.Model):
@@ -192,6 +206,9 @@ class Handelsnaam(models.Model):
 
     macid = models.CharField(primary_key=True, max_length=20)
     handelsnaam = models.CharField(max_length=500, blank=True, null=True)
+
+    def __str__(self):
+        return "{} ({})".format(self.handelsnaam, self.macid)
 
 
 class Communicatiegegevens(models.Model):
@@ -228,6 +245,7 @@ class Communicatiegegevens(models.Model):
     soort1 = models.CharField(max_length=10, blank=True, null=True)
     soort2 = models.CharField(max_length=10, blank=True, null=True)
     soort3 = models.CharField(max_length=10, blank=True, null=True)
+
 
 class RechterlijkeUitspraak(models.Model):
     """
