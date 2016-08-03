@@ -88,12 +88,12 @@ def load_mac_row(mac_object):
     m = mac_object
 
     for handelsnaam in m.handelsnamen.all():
-        Handelsnaam.objects.update_or_create(
+        Handelsnaam.objects.create(
           macid=m.macid,
           handelsnaam=handelsnaam,
         )
 
-    comms, created = Communicatiegegevens.objects.update_or_create(
+    comms, created = Communicatiegegevens.objects.create(
         macid=m.macid,
         domeinnaam1=m.domeinnaam1,
         domeinnaam2=m.domeinnaam2,
@@ -117,7 +117,7 @@ def load_mac_row(mac_object):
         # Pick the first name
         naam = m.handelsnamen.all()[0].handelsnaam
 
-    MaatschappelijkeActiviteit.objects.update_or_create(
+    MaatschappelijkeActiviteit.objects.create(
         macid=m.macid,
         kvknummer=m.kvknummer,
         naam=naam,
@@ -133,7 +133,7 @@ def load_mac_row(mac_object):
 
 def load_ves_row(ves_object):
     v = ves_object
-    Vestiging.objects.update_or_create(
+    Vestiging.objects.create(
         vesid=v.vesid,
         sbicode_hoofdactiviteit=v.sbicodehoofdactiviteit,
         sbicode_nevenactiviteit1=v.sbicodenevenactiviteit1,
@@ -148,7 +148,7 @@ def load_ves_row(ves_object):
 
 def load_prs_row(prs_object):
     p = prs_object
-    Persoon.objects.update_or_create(
+    Persoon.objects.create(
         prsid=p.prsid,
         rechtsvorm=p.rechtsvorm,
         uitgebreide_rechtsvorm=p.uitgebreiderechtsvorm,

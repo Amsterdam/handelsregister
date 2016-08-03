@@ -23,7 +23,10 @@ class HandelsregisterRouter(routers.DefaultRouter):
     """
     Handelsregister (HR)
 
-    Endpoint for handelsregister
+    Endpoint for handelsregister. De Basisregistratie Handelsregister is een
+    administratie van (rechts)personen, maatschappelijke nevenactiviteiten
+    waaronder ondernemingen en vestigingen, en legt vast hoe deze zich
+    onderling verhouden.
     """
     def get_api_root_view(self):
         view = super().get_api_root_view()

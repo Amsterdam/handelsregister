@@ -7,6 +7,15 @@ from . import serializers
 
 
 class MaatschappelijkeActiviteitViewSet(rest.AtlasViewSet):
+    """
+    Maatschappelijke Activiteit (MAC)
+
+    Een {MaatschappelijkeActiviteit} is de activiteit van een
+    {NatuurlijkPersoon} of {NietNatuurlijkPersoon}. De
+    {MaatschappelijkeActiviteit} is het totaal van alle activiteiten
+    uitgeoefend door een {NatuurlijkPersoon} of een {NietNatuurlijkPersoon}.
+    Een {MaatschappelijkeActiviteit} kan ook als {Onderneming} voorkomen.
+    """
 
     queryset = models.MaatschappelijkeActiviteit.objects.all()
 
@@ -20,6 +29,16 @@ class MaatschappelijkeActiviteitViewSet(rest.AtlasViewSet):
 
 
 class PersoonViewSet(rest.AtlasViewSet):
+    """
+    Persoon (PRS)
+
+    Een {Persoon} is een ieder die rechten en plichten kan hebben. {Persoon}
+    wordt gebruikt als overkoepelend begrip (een verzamelnaam voor
+    {NatuurlijkPersoon}, {NietNatuurlijkPersoon} en {NaamPersoon}) om er over
+    te kunnen communiceren. Iedere in het handelsregister voorkomende {Persoon}
+    heeft ofwel een {Eigenaarschap} en/ of minstens één {Functievervulling}
+    waarmee de rol van de {Persoon} is vastgelegd.
+    """
 
     queryset = models.Persoon.objects.all()
 
@@ -33,6 +52,14 @@ class PersoonViewSet(rest.AtlasViewSet):
 
 
 class VestigingViewSet(rest.AtlasViewSet):
+    """
+    Vestiging (VES)
+
+    Een {Vestiging} is gebouw of een complex van gebouwen waar duurzame
+    uitoefening van activiteiten van een {Onderneming} of {Rechtspersoon}
+    plaatsvindt. De vestiging is een combinatie van {Activiteiten} en
+    {Locatie}.
+    """
 
     queryset = models.Vestiging.objects.all()
 

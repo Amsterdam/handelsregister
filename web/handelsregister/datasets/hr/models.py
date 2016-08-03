@@ -3,7 +3,14 @@ from django.contrib.gis.db import models
 
 class Persoon(models.Model):
     """
-    Persoon
+    Persoon (PRS)
+
+    Een {Persoon} is een ieder die rechten en plichten kan hebben. {Persoon}
+    wordt gebruikt als overkoepelend begrip (een verzamelnaam voor
+    {NatuurlijkPersoon}, {NietNatuurlijkPersoon} en {NaamPersoon}) om er over
+    te kunnen communiceren. Iedere in het handelsregister voorkomende {Persoon}
+    heeft ofwel een {Eigenaarschap} en/ of minstens één {Functievervulling}
+    waarmee de rol van de {Persoon} is vastgelegd.
     """
 
     prsid = models.CharField(primary_key=True, max_length=20)
@@ -14,7 +21,17 @@ class Persoon(models.Model):
 
 class NatuurlijkPersoon(models.Model):
     """
-    NatuurlijkPersoon
+    Natuurlijk Persoon (NPS)
+
+    Een {NatuurlijkPersoon} is een mens. Iedere {NatuurlijkPersoon} heeft ofwel
+    een {Eigenaarschap} ofwel een {FunctieVervulling} waarbij hij optreedt in
+    een relevante rol zoals bestuurder, aandeelhouder of gevolmachtigde.
+    Persoonsgegevens zijn alleen authentiek indien de betreffende
+    {NatuurlijkPersoon}:
+
+    - een eigenaar is van een eenmanszaak;
+    - deelneemt als maat, vennoot of lid van een rederij bij een
+    {Samenwerkingsverband}.
     """
 
     geboortedatum = models.CharField(max_length=8, blank=True, null=True)
@@ -27,21 +44,22 @@ class NatuurlijkPersoon(models.Model):
 
 class NietNatuurlijkPersoon(models.Model):
     """
-    Een NietNatuurlijkPersoon is een Persoon met rechten
-    en plichten die geen {NatuurlijkPersoon} is.
+    Niet-natuurlijk Persoon (NNP)
 
-    De definitie sluit aan bij de definitie in de stelselcatalogus.
-    In het handelsregister wordt de {EenmanszaakMetMeerdereEigenaren}
-    en {RechtspersoonInOprichting} niet als {Samenwerkingsverband}
-    geregistreerd. Voor het handelsregister worden deze beschouwd
-    als niet-natuurlijke personen.
+    Een NietNatuurlijkPersoon is een Persoon met rechten en plichten die geen
+    {NatuurlijkPersoon} is. De definitie sluit aan bij de definitie in de
+    stelselcatalogus. In het handelsregister wordt de
+    {EenmanszaakMetMeerdereEigenaren} en {RechtspersoonInOprichting} niet als
+    {Samenwerkingsverband} geregistreerd. Voor het handelsregister worden deze
+    beschouwd als niet-natuurlijke personen.
     """
 
 
 class BuitenlandseVennootschap(models.Model):
     """
-    Een BuitenlandseVennootschap is opgericht naar buitenlands recht.
+    Buitenlandse Vennootschap (BRV)
 
+    Een BuitenlandseVennootschap is opgericht naar buitenlands recht.
     In het handelsregister wordt van een {BuitenlandseVennootschap}
     opgenomen: het registratienummer uit het buitenlands register,
     de naam van het register en de plaats en land waar het register
@@ -51,39 +69,45 @@ class BuitenlandseVennootschap(models.Model):
 
 class BinnenlandseNietNatuurlijkPersoon(models.Model):
     """
-    BinnenlandseNietNatuurlijkPersoon
+    Binnenlandse Niet-natuurlijk Persoon (BNP)
+
+    Een {BinnenlandseNietNatuurlijkPersoon} is een {NietNatuurlijkPersoon} die
+    bestaat naar Nederlands recht. Dit zijn alle Nederlandse rechtsvormen
+    behalve de eenmanszaak.
     """
 
 
 class FunctieVervulling(models.Model):
     """
-    Een {Functievervulling} is een vervulling door een {Persoon}
-    van een functie voor een {Persoon}.
+    FunctieVervulling (FVV)
 
-    Een {FunctieVervulling} geeft de relatie weer van de {Persoon}
-    als functionaris en de {Persoon} als eigenaar van de {Onderneming} of
+    Een {FunctieverVulling} is een vervulling door een {Persoon} van een
+    functie voor een {Persoon}. Een {FunctieVervulling} geeft de relatie weer
+    van de {Persoon} als functionaris en de {Persoon} als eigenaar van de
+    {Onderneming} of {MaatschappelijkeActiviteit}.
     """
 
 
 class Activiteit(models.Model):
     """
+    Activiteit (ACT)
+
     Van deze entiteit zijn de entiteiten Activiteiten-CommercieleVestiging},
     {ActiviteitenNietCommerciele Vestiging en ActiviteitenRechtpersoon
-    afgeleid.
-
-    Zie ook de toelichting van Activiteiten bij de uitleg van het semantisch
-    gegevensmodel in de officiële catalogus, paragraaf 1.5
+    afgeleid. Zie ook de toelichting van Activiteiten bij de uitleg van het
+    semantisch gegevensmodel in de officiële catalogus, paragraaf 1.5.
     """
 
 
 class MaatschappelijkeActiviteit(models.Model):
     """
-    Een {Maatschappelijke Activiteit} is de activiteit van een
-    {Natuurlijk persoon} of {Niet-natuurlijk persoon}.
+    Maatschappelijke Activiteit (MAC)
 
-    De {Maatschappelijke Activiteit} is het totaal van alle activiteiten
-    uitgeoefend door een {Natuurlijk Persoon} of een {Niet-natuurlijk Persoon}.
-    Een {Maatschappelijke Activiteit} kan ook als {Onderneming} voorkomen.
+    Een {MaatschappelijkeActiviteit} is de activiteit van een
+    {NatuurlijkPersoon} of {NietNatuurlijkPersoon}. De
+    {MaatschappelijkeActiviteit} is het totaal van alle activiteiten
+    uitgeoefend door een {NatuurlijkPersoon} of een {NietNatuurlijkPersoon}.
+    Een {MaatschappelijkeActiviteit} kan ook als {Onderneming} voorkomen.
     """
 
     macid = models.CharField(primary_key=True, max_length=20)
@@ -103,11 +127,12 @@ class MaatschappelijkeActiviteit(models.Model):
 
 class Vestiging(models.Model):
     """
-    Een {Vestiging} is gebouw of een complex van gebouwen waar duurzame
-    uitoefening van activiteiten van een {Onderneming} of
-    {Rechtspersoon} plaatsvindt.
+    Vestiging (VES)
 
-    De vestiging is een combinatie van {Activiteiten} en {Locatie}.
+    Een {Vestiging} is gebouw of een complex van gebouwen waar duurzame
+    uitoefening van activiteiten van een {Onderneming} of {Rechtspersoon}
+    plaatsvindt. De vestiging is een combinatie van {Activiteiten} en
+    {Locatie}.
     """
 
     vesid = models.CharField(primary_key=True, max_length=20)
@@ -125,6 +150,8 @@ class Vestiging(models.Model):
 
 class Locatie(models.Model):
     """
+    Locatie (LOC)
+
     Een {Locatie} is een aanwijsbare plek op aarde.
     """
 
@@ -144,6 +171,8 @@ class Locatie(models.Model):
 
 class Handelsnaam(models.Model):
     """
+    Handelsnaam (HN)
+
     Een Handelsnaam is een naam waaronder een Onderneming of een
     Vestiging van een Onderneming handelt.
 
@@ -167,6 +196,8 @@ class Handelsnaam(models.Model):
 
 class Communicatiegegevens(models.Model):
     """
+    Communicatiegegevens (COM)
+
     In het handelsregister worden over een Rechtspersoon waaraan geen
     Onderneming toebehoord en die geen Vestiging heeft of van een
     Vestiging, opgenomen:
@@ -200,7 +231,7 @@ class Communicatiegegevens(models.Model):
 
 class RechterlijkeUitspraak(models.Model):
     """
-    Abstracte klasse Rechtelijke Uitspraak
+    Abstracte klasse Rechtelijke Uitspraak (UIT)
 
     Een uitspraak van een rechter die invloed heeft op de
     registratie in het handelsregister. Het betreft hier een
@@ -211,5 +242,12 @@ class RechterlijkeUitspraak(models.Model):
 
 class Kapitaal(models.Model):
     """
-    Kapitaal
+    Kapitaal (KAP)
+
+    In het handelsregister worden over een naamloze vennootschap, een besloten
+    vennootschap met beperkte aansprakelijkheid, een Europese naamloze
+    vennootschap of een Europese coöperatieve vennootschap opgenomen: het
+    maatschappelijke kapitaal en het bedrag van het geplaatste kapitaal en van
+    het gestorte deel daarvan, onderverdeeld naar soort indien er verschillende
+    soorten aandelen zijn.
     """
