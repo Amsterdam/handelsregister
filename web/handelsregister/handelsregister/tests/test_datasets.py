@@ -2,7 +2,6 @@
 from rest_framework.test import APITestCase
 from unittest.mock import Mock
 from django.http import HttpResponse
-from corsheaders.middleware import CorsMiddleware
 # Project
 from datasets.hr.tests import factories as factories_hr
 
@@ -43,19 +42,3 @@ class BrowseDatasetsTestCase(APITestCase):
             self.assertEqual(detail.status_code, 200, 'Wrong response code for {}'.format(url))
             self.assertEqual(detail['Content-Type'], 'application/json', 'Wrong Content-Type for {}'.format(url))
             self.assertIn('_display', detail.data)
-
-    def test_cors(self):
-        """
-        Cross Origin Requests should be allowed.
-        """
-        request = Mock(path='https://api.datapunt.amsterdam.nl/{}/'.format(self.datasets[0]))
-        request.method = 'GET'
-        request.is_secure = lambda: True
-        request.META = {
-            'HTTP_REFERER': 'https://foo.google.com',
-            'HTTP_ORIGIN': 'https://foo.google.com',
-            'HTTP_HOST': 'api.datapunt.amsterdam.nl',
-        }
-        response = CorsMiddleware().process_response(request, HttpResponse())
-        self.assertTrue('access-control-allow-origin' in response._headers)
-        self.assertEquals('*', response._headers['access-control-allow-origin'][1])

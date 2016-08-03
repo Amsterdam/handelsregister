@@ -25,5 +25,4 @@ sqlparse==0.1.18
 tqdm==3.8.0
 urllib3==1.14
 wheel==0.29.0
-django-cors-headers==1.1.0
 werkzeug
