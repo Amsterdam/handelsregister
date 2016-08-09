@@ -9,6 +9,7 @@ def tryStep(String message, Closure block, Closure tearDown = null) {
 
         throw t;
     }
+
     finally {
         if (tearDown) {
             tearDown();
@@ -17,23 +18,12 @@ def tryStep(String message, Closure block, Closure tearDown = null) {
 }
 
 
-    String BRANCH = "${env.BRANCH_NAME}"
-    String INVENTORY = (BRANCH == "master" ? "production" : "acceptance")
+String BRANCH = "${env.BRANCH_NAME}"
+String INVENTORY = (BRANCH == "master" ? "production" : "acceptance")
 
 node {
     stage "Checkout"
         checkout scm
-
-//
-//  stage "Test"
-//   tryStep "Test",  {
-//       sh "docker-compose -p handelsregister -f .jenkins/docker-compose.yml run -u root --rm tests"
-//   }, {
-//       step([$class: "JUnitResultArchiver", testResults: "reports/junit.xml"])
-//
-//       sh "docker-compose -p handelsregister -f .jenkins/docker-compose.yml down"
-//   }
-//
 
     stage "Build"
 
@@ -44,7 +34,6 @@ node {
             image.push("latest")
         }
     }
-}
 
 node {
     stage name: "Deploy", concurrency: 1
