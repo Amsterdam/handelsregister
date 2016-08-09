@@ -91,7 +91,7 @@ def load_mac_row(mac_object):
           handelsnaam=handelsnaam,
         )
 
-    comms, created = Communicatiegegevens.objects.create(
+    comms = Communicatiegegevens.objects.create(
         macid=m.macid,
         domeinnaam1=m.domeinnaam1,
         domeinnaam2=m.domeinnaam2,
@@ -150,11 +150,11 @@ def load_prs_row(prs_object):
         prsid=p.prsid,
         rechtsvorm=p.rechtsvorm,
         uitgebreide_rechtsvorm=p.uitgebreiderechtsvorm,
-        volledige_naam = p.volledigenaam,
+        volledige_naam=p.volledigenaam,
     )
 
 
-class MAC_batcher(BatchImport):
+class MACbatcher(BatchImport):
 
     queryset = KvkMaatschappelijkeActiviteit.objects.all().order_by('macid')
 
@@ -162,7 +162,7 @@ class MAC_batcher(BatchImport):
         load_mac_row(item)
 
 
-class VES_batcher(BatchImport):
+class VESbatcher(BatchImport):
 
     queryset = KvkVestiging.objects.all().order_by('vesid')
 
@@ -170,7 +170,7 @@ class VES_batcher(BatchImport):
         load_ves_row(item)
 
 
-class PRS_batcher(BatchImport):
+class PRSbatcher(BatchImport):
 
     queryset = KvkPersoon.objects.all().order_by('prsid')
 
@@ -182,6 +182,6 @@ def fill_stelselpedia():
     """
     Go through all tables and fill Stelselpedia tables.
     """
-    MAC_batcher().process_rows()
-    PRS_batcher().process_rows()
-    VES_batcher().process_rows()
+    MACbatcher().process_rows()
+    PRSbatcher().process_rows()
+    VESbatcher().process_rows()
