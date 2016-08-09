@@ -204,7 +204,9 @@ class Handelsnaam(models.Model):
     worden getoond.
     """
 
-    macid = models.CharField(primary_key=True, max_length=20)
+    handelsnaamid = models.DecimalField(
+        primary_key=True, max_digits=18, decimal_places=0)
+    macid = models.CharField(max_length=20)
     handelsnaam = models.CharField(max_length=500, blank=True, null=True)
 
     def __str__(self):

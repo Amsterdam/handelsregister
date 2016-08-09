@@ -158,10 +158,18 @@ def load_prs_row(prs_object):
 def load_handelsnaam_row(handelsnaam_object):
     h = handelsnaam_object
 
-    Handelsnaam.objects.create(
-        macid=h.macid,
-        handelsnaam=h.handelsnaam
-    )
+    try:
+        Handelsnaam.objects.create(
+            handelsnaamid=h.hdnid,
+            macid=h.macid.macid,
+            handelsnaam=h.handelsnaam
+        )
+    except Exception as err:
+        print(err)
+        print('FAIL FAIL FAIL')
+        print(h.macid.macid)
+        print(h.handelsnaam)
+        print('FAIL FAIL FAIL')
 
 
 class MACbatcher(BatchImport):
@@ -193,6 +201,7 @@ class HandelsnaamBatcher(BatchImport):
     queryset = KvkHandelsnaam.objects.all().order_by('hdnid')
 
     def process_item(self, item):
+
         load_handelsnaam_row(item)
 
 
