@@ -24,14 +24,16 @@ node {
     stage "Checkout"
         checkout scm
 
---   stage "Test"
---    tryStep "Test",  {
---        sh "docker-compose -p handelsregister -f .jenkins/docker-compose.yml run -u root --rm tests"
---    }, {
---        step([$class: "JUnitResultArchiver", testResults: "reports/junit.xml"])
---
---        sh "docker-compose -p handelsregister -f .jenkins/docker-compose.yml down"
---    }
+//
+//  stage "Test"
+//   tryStep "Test",  {
+//       sh "docker-compose -p handelsregister -f .jenkins/docker-compose.yml run -u root --rm tests"
+//   }, {
+//       step([$class: "JUnitResultArchiver", testResults: "reports/junit.xml"])
+//
+//       sh "docker-compose -p handelsregister -f .jenkins/docker-compose.yml down"
+//   }
+//
 
     stage "Build"
 
