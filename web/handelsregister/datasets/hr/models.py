@@ -9,7 +9,7 @@ class Persoon(models.Model):
     wordt gebruikt als overkoepelend begrip (een verzamelnaam voor
     {NatuurlijkPersoon}, {NietNatuurlijkPersoon} en {NaamPersoon}) om er over
     te kunnen communiceren. Iedere in het handelsregister voorkomende {Persoon}
-    heeft ofwel een {Eigenaarschap} en/ of minstens één {Functievervulling}
+    heeft ofwel een {Eigenaarschap} en/ of minstens een {Functievervulling}
     waarmee de rol van de {Persoon} is vastgelegd.
     """
 

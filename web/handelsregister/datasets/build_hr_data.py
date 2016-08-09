@@ -6,6 +6,7 @@ fill the stelselpedia dumps
 from datasets.kvkdump.models import KvkMaatschappelijkeActiviteit
 from datasets.kvkdump.models import KvkPersoon
 from datasets.kvkdump.models import KvkVestiging
+from datasets.kvkdump.models import KvkHandelsnaam
 
 from datasets.hr.models import Communicatiegegevens
 from datasets.hr.models import Handelsnaam
@@ -83,13 +84,13 @@ class BatchImport(object):
 
 
 def load_mac_row(mac_object):
+
     m = mac_object
 
-    for handelsnaam in m.handelsnamen.all():
-        Handelsnaam.objects.create(
-          macid=m.macid,
-          handelsnaam=handelsnaam,
-        )
+    #Handelsnaam.objects.create(
+    #    macid=m.macid,
+    #    handelsnaam=m.naam,
+    #)
 
     comms = Communicatiegegevens.objects.create(
         macid=m.macid,
@@ -110,15 +111,15 @@ def load_mac_row(mac_object):
         soort3=m.soort3,
     )
 
-    naam = '?'
-    if m.handelsnamen.count() > 0:
-        # Pick the first name
-        naam = m.handelsnamen.all()[0].handelsnaam
+    # naam = '?'
+    # if m.handelsnamen.count() > 0:
+    #    # Pick the first name
+    #    naam = m.handelsnamen.all()[0].handelsnaam
 
     MaatschappelijkeActiviteit.objects.create(
         macid=m.macid,
         kvknummer=m.kvknummer,
-        naam=naam,
+        naam=m.naam,
         datum_aanvang=m.datumaanvang,
         datum_einde=m.datumeinde,
         non_mailing=((m.nonmailing or '').lower() == 'Ja'),
@@ -154,6 +155,15 @@ def load_prs_row(prs_object):
     )
 
 
+def load_handelsnaam_row(handelsnaam_object):
+    h = handelsnaam_object
+
+    Handelsnaam.objects.create(
+        macid=h.macid,
+        handelsnaam=h.handelsnaam
+    )
+
+
 class MACbatcher(BatchImport):
 
     queryset = KvkMaatschappelijkeActiviteit.objects.all().order_by('macid')
@@ -178,6 +188,14 @@ class PRSbatcher(BatchImport):
         load_prs_row(item)
 
 
+class HandelsnaamBatcher(BatchImport):
+
+    queryset = KvkHandelsnaam.objects.all().order_by('hdnid')
+
+    def process_item(self, item):
+        load_handelsnaam_row(item)
+
+
 def fill_stelselpedia():
     """
     Go through all tables and fill Stelselpedia tables.
@@ -185,3 +203,4 @@ def fill_stelselpedia():
     MACbatcher().process_rows()
     PRSbatcher().process_rows()
     VESbatcher().process_rows()
+    HandelsnaamBatcher().process_rows()
