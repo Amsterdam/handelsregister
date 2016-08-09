@@ -87,11 +87,6 @@ def load_mac_row(mac_object):
 
     m = mac_object
 
-    #Handelsnaam.objects.create(
-    #    macid=m.macid,
-    #    handelsnaam=m.naam,
-    #)
-
     comms = Communicatiegegevens.objects.create(
         macid=m.macid,
         domeinnaam1=m.domeinnaam1,
@@ -110,11 +105,6 @@ def load_mac_row(mac_object):
         soort2=m.soort2,
         soort3=m.soort3,
     )
-
-    # naam = '?'
-    # if m.handelsnamen.count() > 0:
-    #    # Pick the first name
-    #    naam = m.handelsnamen.all()[0].handelsnaam
 
     MaatschappelijkeActiviteit.objects.create(
         macid=m.macid,
