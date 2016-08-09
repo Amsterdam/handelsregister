@@ -30,7 +30,7 @@ ALLOWED_HOSTS = []
 
 PARTIAL_IMPORT = {
     'numerator': 1,
-    'denominator': 250,
+    'denominator': 1,
 }
 
 PROJECT_APPS = [
