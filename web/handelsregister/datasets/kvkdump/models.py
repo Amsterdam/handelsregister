@@ -155,7 +155,7 @@ class KvkMaatschappelijkeActiviteit(models.Model):
         db_table = 'kvkmacm00'
 
 
-class KvkPrsashm00(models.Model):
+class KvkFunctievervulling(models.Model):
     """
     Persoon
     """

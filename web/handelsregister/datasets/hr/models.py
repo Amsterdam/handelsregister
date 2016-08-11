@@ -92,6 +92,9 @@ class Functievervulling(models.Model):
     {Onderneming} of {MaatschappelijkeActiviteit}.
     """
 
+    fvvid = models.CharField(primary_key=True, max_length=20)
+    functietitel = models.CharField(max_length=20)
+
 
 class Activiteit(models.Model):
     """

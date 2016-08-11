@@ -170,7 +170,7 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.CreateModel(
-            name='Kvkprsashm00',
+            name='KvkFunctievervulling',
             fields=[
                 ('ashid', models.DecimalField(decimal_places=0, max_digits=18, primary_key=True, serialize=False)),
                 ('functie', models.CharField(blank=True, max_length=20, null=True)),
