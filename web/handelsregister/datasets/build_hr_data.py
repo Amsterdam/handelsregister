@@ -124,6 +124,7 @@ def load_ves_row(ves_object):
     v = ves_object
     Vestiging.objects.create(
         vesid=v.vesid,
+        vestigingsnummer = v.vestigingsnummer,
         sbicode_hoofdactiviteit=v.sbicodehoofdactiviteit,
         sbicode_nevenactiviteit1=v.sbicodenevenactiviteit1,
         sbicode_nevenactiviteit2=v.sbicodenevenactiviteit2,

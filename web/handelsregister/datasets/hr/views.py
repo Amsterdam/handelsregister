@@ -70,3 +70,25 @@ class VestigingViewSet(rest.AtlasViewSet):
 
         return super().retrieve(
             request, *args, **kwargs)
+
+
+
+class FunctieVervullingViewSet(rest.AtlasViewSet):
+    """
+    FunctieVervulling (FVV)
+
+    Een {Functievervulling} is een vervulling door een {Persoon} van een functie
+    voor een {Persoon}. Een {FunctieVervulling} geeft de relatie weer van de
+    {Persoon} als functionaris en de {Persoon} als eigenaar van de
+    {Onderneming} of {MaatschappelijkeActiviteit}.
+    """
+
+    queryset = models.FunctieVervulling.objects.all()
+
+    serializer_detail_class = serializers.FunctieVervulling
+    serializer_class = serializers.FunctieVervulling
+
+    def retrieve(self, request, *args, **kwargs):
+
+        return super().retrieve(
+            request, *args, **kwargs)

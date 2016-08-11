@@ -129,6 +129,7 @@ class MaatschappelijkeActiviteit(models.Model):
     fulltime_werkzame_personen = models.DecimalField(max_digits=8, decimal_places=0, blank=True, null=True)
     parttime_werkzame_personen = models.DecimalField(max_digits=8, decimal_places=0, blank=True, null=True)
 
+
     def __str__(self):
         return "{} ({})".format(self.naam, self.macid)
 
@@ -144,6 +145,7 @@ class Vestiging(models.Model):
     """
 
     vesid = models.CharField(primary_key=True, max_length=20)
+    vestigingsnummer = models.CharField(max_length=12)
 
     sbicode_hoofdactiviteit = models.CharField(max_length=20, blank=True, null=True)
     sbicode_nevenactiviteit1 = models.CharField(max_length=20, blank=True, null=True)

@@ -53,7 +53,10 @@ hr_router.register(
     r'vestiging',
     hr_views.VestigingViewSet
 )
-
+hr_router.register(
+    r'functievervulling',
+    hr_views.FunctieVervullingViewSet
+)
 
 urlpatterns = [
     url(r'^status/', include('health.urls', namespace='health')),
