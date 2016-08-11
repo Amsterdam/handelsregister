@@ -55,7 +55,7 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
-            name='FunctieVervulling',
+            name='Functievervulling',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
             ],

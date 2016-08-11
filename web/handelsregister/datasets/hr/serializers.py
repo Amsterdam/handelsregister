@@ -41,10 +41,10 @@ class Vestiging(rest.HALSerializer):
         model = models.Vestiging
 
 
-class FunctieVervulling(rest.HALSerializer):
+class Functievervulling(rest.HALSerializer):
     dataset = 'hr'
 
     _display = rest.DisplayField()
 
     class Meta:
-        model = models.FunctieVervulling
+        model = models.Functievervulling

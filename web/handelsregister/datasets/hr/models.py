@@ -26,7 +26,7 @@ class NatuurlijkPersoon(models.Model):
     Natuurlijk Persoon (NPS)
 
     Een {NatuurlijkPersoon} is een mens. Iedere {NatuurlijkPersoon} heeft ofwel
-    een {Eigenaarschap} ofwel een {FunctieVervulling} waarbij hij optreedt in
+    een {Eigenaarschap} ofwel een {Functievervulling} waarbij hij optreedt in
     een relevante rol zoals bestuurder, aandeelhouder of gevolmachtigde.
     Persoonsgegevens zijn alleen authentiek indien de betreffende
     {NatuurlijkPersoon}:
@@ -82,12 +82,12 @@ class BinnenlandseNietNatuurlijkPersoon(models.Model):
     """
 
 
-class FunctieVervulling(models.Model):
+class Functievervulling(models.Model):
     """
-    FunctieVervulling (FVV)
+    Functievervulling (FVV)
 
     Een {FunctieverVulling} is een vervulling door een {Persoon} van een
-    functie voor een {Persoon}. Een {FunctieVervulling} geeft de relatie weer
+    functie voor een {Persoon}. Een {Functievervulling} geeft de relatie weer
     van de {Persoon} als functionaris en de {Persoon} als eigenaar van de
     {Onderneming} of {MaatschappelijkeActiviteit}.
     """

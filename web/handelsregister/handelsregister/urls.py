@@ -55,7 +55,7 @@ hr_router.register(
 )
 hr_router.register(
     r'functievervulling',
-    hr_views.FunctieVervullingViewSet
+    hr_views.FunctievervullingViewSet
 )
 
 urlpatterns = [
