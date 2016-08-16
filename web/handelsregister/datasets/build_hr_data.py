@@ -7,12 +7,14 @@ from datasets.kvkdump.models import KvkMaatschappelijkeActiviteit
 from datasets.kvkdump.models import KvkPersoon
 from datasets.kvkdump.models import KvkVestiging
 from datasets.kvkdump.models import KvkHandelsnaam
+from datasets.kvkdump.models import KvkFunctievervulling
 
 from datasets.hr.models import Communicatiegegevens
 from datasets.hr.models import Handelsnaam
 from datasets.hr.models import MaatschappelijkeActiviteit
 from datasets.hr.models import Persoon
 from datasets.hr.models import Vestiging
+from datasets.hr.models import Functievervulling
 
 from django.conf import settings
 from django.db import transaction
@@ -156,19 +158,19 @@ def load_prs_row(prs_object):
 
 def load_handelsnaam_row(handelsnaam_object):
     h = handelsnaam_object
+    Handelsnaam.objects.create(
+        handelsnaamid=h.hdnid,
+        macid=h.macid.macid,
+        handelsnaam=h.handelsnaam
+    )
 
-    try:
-        Handelsnaam.objects.create(
-            handelsnaamid=h.hdnid,
-            macid=h.macid.macid,
-            handelsnaam=h.handelsnaam
-        )
-    except Exception as err:
-        print(err)
-        print('FAIL FAIL FAIL')
-        print(h.macid.macid)
-        print(h.handelsnaam)
-        print('FAIL FAIL FAIL')
+
+def load_functievervulling_row(functievervulling_object):
+    f = functievervulling_object
+    Functievervulling.objects.create(
+        fvvid=f.ashid,
+        functietitel=f.functie
+    )
 
 
 class MACbatcher(BatchImport):
@@ -204,6 +206,15 @@ class HandelsnaamBatcher(BatchImport):
         load_handelsnaam_row(item)
 
 
+class FunctievervullingBatcher(BatchImport):
+
+    queryset = KvkFunctievervulling.objects.all().order_by('ashid')
+
+    def process_item(self, item):
+
+        load_functievervulling_row(item)
+
+
 def fill_stelselpedia():
     """
     Go through all tables and fill Stelselpedia tables.
@@ -212,3 +223,4 @@ def fill_stelselpedia():
     PRSbatcher().process_rows()
     VESbatcher().process_rows()
     HandelsnaamBatcher().process_rows()
+    FunctievervullingBatcher().process_rows()

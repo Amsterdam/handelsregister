@@ -15,12 +15,14 @@ class BrowseDatasetsTestCase(APITestCase):
         'handelsregister/maatschappelijkeactiviteit',
         'handelsregister/persoon',
         'handelsregister/vestiging',
+        'handelsregister/functievervulling',
     ]
 
     def setUp(self):
         factories_hr.MaatschappelijkeActiviteitFactory.create()
         factories_hr.PersoonFactory.create()
         factories_hr.VestigingFactory.create()
+        factories_hr.FunctievervullingFactory.create()
 
     def test_lists(self):
         for url in self.datasets:

@@ -23,3 +23,10 @@ class VestigingFactory(factory.DjangoModelFactory):
         model = models.Vestiging
 
     vesid = fuzzy.FuzzyInteger(low=100000000000000000, high=100000000000000099)
+
+
+class FunctievervullingFactory(factory.DjangoModelFactory):
+    class Meta:
+        model = models.Functievervulling
+
+    ashid = fuzzy.FuzzyInteger(low=100000000000000000, high=100000000000000099)
