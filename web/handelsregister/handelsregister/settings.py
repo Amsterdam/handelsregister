@@ -108,6 +108,14 @@ def get_docker_host():
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
 
+#database = os.environ.get('DATABASE_1_ENV_POSTGRES_DB', 'handelregister')
+#    password = os.environ.get('DATABASE_ENV_POSTGRES_PASSWORD', 'insecure')
+#    user = os.environ.get('DATABASE_1_ENV_POSTGRES_USER', 'handelsregister')
+#    port = os.environ.get('DATABASE_1_PORT_5432_TCP_PORT', 5432)
+#    host = os.environ.get(
+#        'HANDELSREGISTER_DATABASE_1_PORT_5432_TCP_ADDR', '127.0.0.1')
+
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',

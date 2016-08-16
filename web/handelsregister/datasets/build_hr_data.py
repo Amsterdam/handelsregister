@@ -15,8 +15,11 @@ from datasets.hr.models import Persoon
 from datasets.hr.models import Vestiging
 
 from django.conf import settings
+from django.db import transaction
+
 
 import logging
+import time
 
 log = logging.getLogger(__name__)
 
@@ -25,7 +28,7 @@ class BatchImport(object):
 
     item_handle = None
     queryset = None
-    batch_size = 10000
+    batch_size = 4000
 
     def batch_qs(self):
         """
@@ -47,6 +50,7 @@ class BatchImport(object):
         numerator = settings.PARTIAL_IMPORT['numerator']
         denominator = settings.PARTIAL_IMPORT['denominator']
 
+        log.info("STARTING BATCHER JOB: %s" % (self.__class__.__name__))
         log.info("PART: %s OF %s" % (numerator+1, denominator))
 
         end_part = count = total = qs.count()
@@ -69,12 +73,16 @@ class BatchImport(object):
 
         for i, start in enumerate(range(start_index, end_part, batch_size)):
             end = min(start + batch_size, end_part)
+            t_start = time.time()
             yield (i+1, total_batches+1, start, end, total, qs[start:end])
+            log.info("CHUNCK %5s - %-5s  in %.3f seconds" % (
+                start, end, time.time() - t_start))
 
     def process_rows(self):
-        for job, endjob, start, end, total, qs in self.batch_qs():
-            for item in qs:
-                self.process_item(item)
+        with transaction.atomic():
+            for job, endjob, start, end, total, qs in self.batch_qs():
+                for item in qs:
+                    self.process_item(item)
 
     def process_item(self, item):
         """
@@ -124,7 +132,7 @@ def load_ves_row(ves_object):
     v = ves_object
     Vestiging.objects.create(
         vesid=v.vesid,
-        vestigingsnummer = v.vestigingsnummer,
+        vestigingsnummer=v.vestigingsnummer,
         sbicode_hoofdactiviteit=v.sbicodehoofdactiviteit,
         sbicode_nevenactiviteit1=v.sbicodenevenactiviteit1,
         sbicode_nevenactiviteit2=v.sbicodenevenactiviteit2,
@@ -165,7 +173,7 @@ def load_handelsnaam_row(handelsnaam_object):
 
 class MACbatcher(BatchImport):
 
-    queryset = KvkMaatschappelijkeActiviteit.objects.all().order_by('macid')
+    queryset = KvkMaatschappelijkeActiviteit.objects.order_by('macid')
 
     def process_item(self, item):
         load_mac_row(item)
@@ -173,7 +181,7 @@ class MACbatcher(BatchImport):
 
 class VESbatcher(BatchImport):
 
-    queryset = KvkVestiging.objects.all().order_by('vesid')
+    queryset = KvkVestiging.objects.order_by('vesid')
 
     def process_item(self, item):
         load_ves_row(item)
@@ -181,7 +189,7 @@ class VESbatcher(BatchImport):
 
 class PRSbatcher(BatchImport):
 
-    queryset = KvkPersoon.objects.all().order_by('prsid')
+    queryset = KvkPersoon.objects.order_by('prsid')
 
     def process_item(self, item):
         load_prs_row(item)
@@ -189,7 +197,7 @@ class PRSbatcher(BatchImport):
 
 class HandelsnaamBatcher(BatchImport):
 
-    queryset = KvkHandelsnaam.objects.all().order_by('hdnid')
+    queryset = KvkHandelsnaam.objects.select_related('macid').order_by('hdnid')
 
     def process_item(self, item):
 

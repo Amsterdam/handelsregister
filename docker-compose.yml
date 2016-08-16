@@ -19,3 +19,4 @@ web:
     SECRET_KEY: hoi
     DB_NAME: handelsregister
     DB_PASSWORD: insecure
+    PGPASSWORD: insecure

@@ -7,7 +7,7 @@ from django.contrib.gis.db import models
 
 class KvkAdres(models.Model):
 
-    adrid = models.DecimalField(max_digits=18, decimal_places=0)
+    adrid = models.DecimalField(db_index=True, max_digits=18, decimal_places=0)
 
     afgeschermd = models.CharField(max_length=3, blank=True, null=True)
 
@@ -45,9 +45,11 @@ class KvkAdres(models.Model):
     typering = models.CharField(max_length=13, blank=True, null=True)
 
     vesid = models.DecimalField(
+        db_index=True,
         max_digits=18, decimal_places=0, blank=True, null=True)
 
     macid = models.DecimalField(
+        db_index=True,
         max_digits=18, decimal_places=0, blank=True, null=True)
 
     volledigadres = models.CharField(max_length=550, blank=True, null=True)
