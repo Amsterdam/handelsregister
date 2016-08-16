@@ -42,7 +42,7 @@ class Command(BaseCommand):
             numerator = int(numerator) - 1
             denominator = int(denominator)
 
-            assert(numerator < denominator)
+            assert(numerator <= denominator)
 
             settings.PARTIAL_IMPORT['numerator'] = numerator
             settings.PARTIAL_IMPORT['denominator'] = denominator

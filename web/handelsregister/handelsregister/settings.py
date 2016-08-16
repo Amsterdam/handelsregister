@@ -29,7 +29,7 @@ ALLOWED_HOSTS = []
 
 
 PARTIAL_IMPORT = {
-    'numerator': 1,
+    'numerator': 0,
     'denominator': 1,
 }
 
