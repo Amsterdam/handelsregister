@@ -13,11 +13,19 @@ class Communicatiegegevens(serializers.ModelSerializer):
         model = models.Communicatiegegevens
 
 
+class Onderneming(serializers.ModelSerializer):
+    dataset = 'hr'
+
+    class Meta:
+        model = models.Onderneming
+
+
 class MaatschappelijkeActiviteit(rest.HALSerializer):
     dataset = 'hr'
 
     _display = rest.DisplayField()
     communicatiegegevens = Communicatiegegevens()
+    onderneming = Onderneming()
 
     class Meta:
         model = models.MaatschappelijkeActiviteit

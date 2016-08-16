@@ -1,13 +1,28 @@
 from __future__ import unicode_literals
 
-# Create your models here
+from typing import List
 
 from django.contrib.gis.db import models
+from django.db.models import Manager
+
+
+def copy_pastable_to_string(model, excluded: List[str] = None):
+    model_name = model.__class__.__name__
+    field_names = [f.name for f in model._meta.get_fields() if f.name not in (excluded or [])]
+
+    values = [(f, getattr(model, f)) for f in field_names]
+    simple_values = [(k, v) for (k, v) in values if not isinstance(v, Manager)]
+    simple_initializers = ["{}={}".format(k, repr(v)) for (k, v) in simple_values if v is not None]
+
+    manager_values = [(k, list(v.all())) for (k, v) in values if isinstance(v, Manager)]
+    model_adders = ["{}.{}.add({})".format(model_name, k, ",".join([str(e) for e in v])) for (k, v) in manager_values if
+                    v]
+
+    return "{}.objects.create(\n{}\n)\n{}".format(model_name, ",\n".join(simple_initializers), "\n".join(model_adders))
 
 
 class KvkAdres(models.Model):
-
-    adrid = models.DecimalField(db_index=True, max_digits=18, decimal_places=0)
+    adrid = models.DecimalField(primary_key=True, db_index=True, max_digits=18, decimal_places=0)
 
     afgeschermd = models.CharField(max_length=3, blank=True, null=True)
 
@@ -48,9 +63,11 @@ class KvkAdres(models.Model):
         db_index=True,
         max_digits=18, decimal_places=0, blank=True, null=True)
 
-    macid = models.DecimalField(
-        db_index=True,
-        max_digits=18, decimal_places=0, blank=True, null=True)
+    macid = models.ForeignKey(
+        'KvkMaatschappelijkeActiviteit',
+        related_name='adressen', db_column='macid',
+        blank=True, null=True
+    )
 
     volledigadres = models.CharField(max_length=550, blank=True, null=True)
 
@@ -67,10 +84,14 @@ class KvkAdres(models.Model):
         managed = False
         db_table = 'kvkadrm00'
 
+    def __str__(self):
+        return copy_pastable_to_string(self, excluded=["macid"])
+
 
 class KvkHandelsnaam(models.Model):
     hdnid = models.DecimalField(
-        primary_key=True, max_digits=18, decimal_places=0)
+        primary_key=True, max_digits=18, decimal_places=0
+    )
     handelsnaam = models.CharField(max_length=700, blank=True, null=True)
 
     macid = models.ForeignKey(
@@ -83,6 +104,9 @@ class KvkHandelsnaam(models.Model):
         managed = False
         db_table = 'kvkhdnm00'
         unique_together = (('handelsnaam', 'macid'),)
+
+    def __str__(self):
+        return copy_pastable_to_string(self, excluded=["macid"])
 
 
 class KvkMaatschappelijkeActiviteit(models.Model):
@@ -155,6 +179,9 @@ class KvkMaatschappelijkeActiviteit(models.Model):
     class Meta:
         managed = False
         db_table = 'kvkmacm00'
+
+    def __str__(self):
+        return copy_pastable_to_string(self)
 
 
 class KvkFunctievervulling(models.Model):

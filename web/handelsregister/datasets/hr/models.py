@@ -1,3 +1,5 @@
+import uuid
+
 from django.contrib.gis.db import models
 
 
@@ -20,6 +22,7 @@ class Persoon(models.Model):
 
     def __str__(self):
         return "{} ({})".format(self.volledige_naam, self.prsid)
+
 
 class NatuurlijkPersoon(models.Model):
     """
@@ -106,35 +109,122 @@ class Activiteit(models.Model):
     semantisch gegevensmodel in de officiële catalogus, paragraaf 1.5.
     """
 
+    activiteitsomschrijving = models.CharField(
+        max_length=300, blank=True, null=True,
+        help_text="De omschrijving van de activiteiten die de Vestiging of Rechtspersoon uitoefent"
+    )
+    sbi_code = models.CharField(
+        max_length=3, blank=True, null=True,
+        help_text="De codering van de activiteit conform de SBI2008"
+    )
+    omschrijving = models.CharField(
+        max_length=300, blank=True, null=True,
+        help_text="Omschrijving van de activiteit"
+    )
+    hoofdactiviteit = models.NullBooleanField(
+        help_text="Indicatie die aangeeft welke van de activiteiten de hoofdactiviteit is"
+    )
+
 
 class MaatschappelijkeActiviteit(models.Model):
     """
     Maatschappelijke Activiteit (MAC)
 
-    Een {MaatschappelijkeActiviteit} is de activiteit van een
-    {NatuurlijkPersoon} of {NietNatuurlijkPersoon}. De
-    {MaatschappelijkeActiviteit} is het totaal van alle activiteiten
-    uitgeoefend door een {NatuurlijkPersoon} of een {NietNatuurlijkPersoon}.
-    Een {MaatschappelijkeActiviteit} kan ook als {Onderneming} voorkomen.
+    Een MaatschappelijkeActiviteit is de activiteit van een
+    NatuurlijkPersoon of NietNatuurlijkPersoon. De
+    MaatschappelijkeActiviteit is het totaal van alle activiteiten
+    uitgeoefend door een NatuurlijkPersoon of een NietNatuurlijkPersoon.
+    Een MaatschappelijkeActiviteit kan ook als Onderneming voorkomen.
     """
+    id = models.CharField(
+        primary_key=True, max_length=20
+    )
 
-    macid = models.CharField(primary_key=True, max_length=20)
-    naam = models.CharField(max_length=600, blank=True, null=True)
-    kvknummer = models.CharField(unique=True, max_length=8, blank=True, null=True)
-    datum_aanvang = models.CharField(max_length=8, blank=True, null=True)
-    datum_einde = models.CharField(max_length=8, blank=True, null=True)
-    non_mailing = models.NullBooleanField()
+    naam = models.CharField(
+        max_length=600, blank=True, null=True,
+        help_text="De (statutaire) naam of eerste handelsnaam van de inschrijving",
+    )
+    kvk_nummer = models.CharField(
+        unique=True, max_length=8, blank=True, null=True,
+        help_text="Betreft het identificerende gegeven voor de {MaatschappelijkeActiviteit}, het KvK-nummer",
+    )
+    datum_aanvang = models.DateField(
+        max_length=8, blank=True, null=True,
+        help_text="De datum van aanvang van de {MaatschappelijkeActiviteit}",
+    )
+    datum_einde = models.DateField(
+        max_length=8, blank=True, null=True,
+        help_text="De datum van beëindiging van de {MaatschappelijkeActiviteit}",
+    )
+    incidenteel_uitlenen_arbeidskrachten = models.NullBooleanField(
+        help_text="Indicatie die aangeeft of de ondernemer tijdelijk arbeidskrachten ter beschikking stelt en dit "
+                  "niet onderdeel is van zijn 'reguliere' activiteiten.",
+    )
+    non_mailing = models.NullBooleanField(
+        help_text="Indicator die aangeeft of de inschrijving haar adresgegevens beschikbaar stelt voor "
+                  "mailing-doeleinden.",
+    )
 
-    communicatiegegevens = models.ForeignKey('Communicatiegegevens', null=True, blank=True)
-    vestiging = models.ForeignKey('Vestiging', blank=True, null=True)
+    communicatiegegevens = models.ManyToManyField(
+        'Communicatiegegevens',
+        help_text="Afgeleid van communicatiegegevens van inschrijving",
+    )
+    activiteiten = models.ManyToManyField(
+        'Activiteit',
+        help_text="De SBI-activiteiten van de MaatschappelijkeActiviteit is het totaal van alle "
+                  "SBI-activiteiten die voorkomen bij de MaatschappelijkeActiviteit behorende "
+                  "NietCommercieleVestigingen en bij de Rechtspersoon",
+    )
+
+    postadres = models.ForeignKey(
+        'Locatie', related_name="+", blank=True, null=True,
+        help_text="postadres",
+    )
+    bezoekadres = models.ForeignKey(
+        'Locatie', related_name="+", blank=True, null=True,
+        help_text="bezoekadres",
+    )
+
+    hoofdvestiging = models.ForeignKey(
+        'Vestiging', related_name='+', blank=True, null=True,
+        help_text="",
+    )
+
+    eigenaar = models.ForeignKey(
+        'Persoon', blank=True, null=True,
+        help_text="",
+    )
+    onderneming = models.OneToOneField(
+        'Onderneming', on_delete=models.CASCADE, null=True, blank=True,
+        help_text="",
+    )
+
+    def __str__(self):
+        return "{} ({})".format(self.naam, self.mac_id)
+
+
+class Onderneming(models.Model):
+    """
+    Van een Onderneming is sprake indien een voldoende zelfstandig optredende organisatorische eenheid van één of
+    meer personen bestaat waarin door voldoende inbreng van arbeid of middelen, ten behoeve van derden diensten of
+    goederen worden geleverd of werken tot stand worden gebracht met het oogmerk daarmee materieel voordeel te
+    behalen.
+    """
+    id = models.CharField(primary_key=True, max_length=20)
 
     totaal_werkzame_personen = models.DecimalField(max_digits=8, decimal_places=0, blank=True, null=True)
     fulltime_werkzame_personen = models.DecimalField(max_digits=8, decimal_places=0, blank=True, null=True)
     parttime_werkzame_personen = models.DecimalField(max_digits=8, decimal_places=0, blank=True, null=True)
 
 
-    def __str__(self):
-        return "{} ({})".format(self.naam, self.macid)
+class MaatschappelijkeActiviteitVestiging(models.Model):
+    """
+    """
+    maatschappelijke_activiteit = models.ForeignKey('MaatschappelijkeActiviteit')
+    vestiging = models.ForeignKey('Vestiging')
+
+    datum_aanvang = models.CharField(max_length=8, blank=True, null=True)
+    datum_einde = models.CharField(max_length=8, blank=True, null=True)
 
 
 class Vestiging(models.Model):
@@ -168,21 +258,43 @@ class Locatie(models.Model):
     """
     Locatie (LOC)
 
-    Een {Locatie} is een aanwijsbare plek op aarde.
+    Een Locatie is een aanwijsbare plek op aarde.
     """
 
-    adrid = models.CharField(max_length=16, blank=True, null=True)
-    bagid = models.CharField(max_length=16, blank=True, null=True)
-    volledig_adres = models.CharField(max_length=550, blank=True, null=True)
-    huisnummer_toevoeging = models.CharField(max_length=5, blank=True, null=True)
-    afgeschermd = models.BooleanField()
+    id = models.CharField(
+        primary_key=True, max_length=18
+    )
+    volledig_adres = models.CharField(
+        max_length=550, blank=True, null=True,
+        help_text="Samengesteld adres "
+    )
+    toevoeging_adres = models.TextField(
+        blank=True, null=True,
+        help_text="Vrije tekst om een Adres nader aan te kunnen duiden"
+    )
+    afgeschermd = models.BooleanField(
+        help_text="Geeft aan of het adres afgeschermd is of niet"
+    )
+
+    postbus_nummer = models.CharField(
+        max_length=10, blank=True, null=True,
+    )
+
+    bag_nummeraanduiding = models.URLField(
+        max_length=200, blank=True, null=True,
+        help_text="Link naar de BAG Nummeraanduiding"
+    )
+    bag_adresseerbaar_object = models.URLField(
+        max_length=200, blank=True, null=True,
+        help_text="Link naar het BAG Adresseerbaar object"
+    )
+
     straat_huisnummer = models.CharField(max_length=220, blank=True, null=True)
     postcode_woonplaats = models.CharField(max_length=220, blank=True, null=True)
     regio = models.CharField(max_length=170, blank=True, null=True)
     land = models.CharField(max_length=50, blank=True, null=True)
-    x_coordinaat = models.DecimalField(max_digits=9, decimal_places=3, blank=True, null=True)
-    y_coordinaat = models.DecimalField(max_digits=9, decimal_places=3, blank=True, null=True)
-    geopunt = models.PointField(srid=28992, blank=True, null=True)
+
+    geometry = models.PointField(srid=28992, blank=True, null=True)
 
     def __str__(self):
         return "{} ({})".format(self.volledig_adres, self.adid)
@@ -209,13 +321,14 @@ class Handelsnaam(models.Model):
     worden getoond.
     """
 
-    handelsnaamid = models.DecimalField(
-        primary_key=True, max_digits=18, decimal_places=0)
-    macid = models.CharField(max_length=20)
+    id = models.CharField(
+        primary_key=True, max_length=20
+    )
     handelsnaam = models.CharField(max_length=500, blank=True, null=True)
+    onderneming = models.ForeignKey('Onderneming', related_name='handelsnamen')
 
     def __str__(self):
-        return "{} ({})".format(self.handelsnaam, self.macid)
+        return "{} ({})".format(self.handelsnaam, self.onderneming.kvk_nummer)
 
 
 class Communicatiegegevens(models.Model):
@@ -223,35 +336,41 @@ class Communicatiegegevens(models.Model):
     Communicatiegegevens (COM)
 
     In het handelsregister worden over een Rechtspersoon waaraan geen
-    Onderneming toebehoord en die geen Vestiging heeft of van een
+    Onderneming toebehoort en die geen Vestiging heeft of van een
     Vestiging, opgenomen:
     - telefoonnummer
     - faxnummer
     - e-mailadres
     - internetadres
     """
+    SOORT_COMMUNICATIE_TELEFOON = 'Telefoon'
+    SOORT_COMMUNICATIE_FAX = 'Fax'
+    SOORT_COMMUNICATIE_CHOICES = (
+        (SOORT_COMMUNICATIE_TELEFOON, SOORT_COMMUNICATIE_TELEFOON),
+        (SOORT_COMMUNICATIE_FAX, SOORT_COMMUNICATIE_FAX),
+    )
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4)
 
-    macid = models.CharField(primary_key=True, max_length=20)
+    domeinnaam = models.URLField(
+        max_length=300, blank=True, null=True, help_text="Het internetadres (URL)"
+    )
+    emailadres = models.EmailField(
+        max_length=200, blank=True, null=True,
+        help_text="Het e-mailadres waar op de onderneming gemaild kan worden"
+    )
 
-    domeinnaam1 = models.CharField(max_length=300, blank=True, null=True)
-    domeinnaam2 = models.CharField(max_length=300, blank=True, null=True)
-    domeinnaam3 = models.CharField(max_length=300, blank=True, null=True)
-
-    emailadres1 = models.CharField(max_length=200, blank=True, null=True)
-    emailadres2 = models.CharField(max_length=200, blank=True, null=True)
-    emailadres3 = models.CharField(max_length=200, blank=True, null=True)
-
-    toegangscode1 = models.CharField(max_length=10, blank=True, null=True)
-    toegangscode2 = models.CharField(max_length=10, blank=True, null=True)
-    toegangscode3 = models.CharField(max_length=10, blank=True, null=True)
-
-    communicatienummer1 = models.CharField(max_length=15, blank=True, null=True)
-    communicatienummer2 = models.CharField(max_length=15, blank=True, null=True)
-    communicatienummer3 = models.CharField(max_length=15, blank=True, null=True)
-
-    soort1 = models.CharField(max_length=10, blank=True, null=True)
-    soort2 = models.CharField(max_length=10, blank=True, null=True)
-    soort3 = models.CharField(max_length=10, blank=True, null=True)
+    toegangscode = models.CharField(
+        max_length=10, blank=True, null=True,
+        help_text="De internationale toegangscode van het land waarop het nummer (telefoon of fax) betrekking heeft'"
+    )
+    communicatie_nummer = models.CharField(
+        max_length=15, blank=True, null=True,
+        help_text="Nummer is het telefoon- of faxnummer zonder opmaak"
+    )
+    soort_communicatie_nummer = models.CharField(
+        max_length=10, blank=True, null=True,
+        choices=SOORT_COMMUNICATIE_CHOICES
+    )
 
 
 class RechterlijkeUitspraak(models.Model):
