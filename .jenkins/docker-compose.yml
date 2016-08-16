@@ -87,6 +87,8 @@ db-backup:
   image: admin.datapunt.amsterdam.nl:5000/atlas/postgres
   links:
     - database:db
+  environment:
+    PGPASSWORD: insecure
   volumes:
     - ./backups:/tmp/backups
   command: >
@@ -94,10 +96,9 @@ db-backup:
             && chmod 600 ~/.pgpass \
             && pg_dump --clean \
                         -Fc \
-                        -t handelsregister* \
+                        -t hr* \
                         -t geo*  \
                         -T auth*    \
-                        -T kvk*    \
                         -U handelsregister \
                         -h db -p 5432 \
                         handelsregister > /tmp/backups/database.dump"
