@@ -170,7 +170,7 @@ def load_functievervulling_row(functievervulling_object):
     Functievervulling.objects.create(
         fvvid=f.ashid,
         functietitel=f.functie
-    )
+        )
 
 
 class MACbatcher(BatchImport):
