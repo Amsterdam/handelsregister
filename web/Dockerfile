@@ -19,6 +19,8 @@ RUN adduser --system datapunt \
 	&& chown datapunt /static \
 	&& mkdir -p /app/unzipped \
 	&& chown datapunt /app/unzipped \
+	&& mkdir -p /app/data \
+	&& chown datapunt /app/data \
 	&& pip install uwsgi
 
 WORKDIR /app

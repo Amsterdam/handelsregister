@@ -32,11 +32,11 @@ importer_mks:
     DATABASE_NAME: handelsregister
     DATABASE_PASSWORD: insecure
     PGPASSWORD: insecure
-  volumes:
-    - ../data:/app/data
+    OS_PASSWORD:
   command: >
     bash -c "/app/docker-wait.sh \
             && yes \"yes\" | python manage.py migrate \
+            && python load_mks_dumps.py \
             && bash -c /app/loaddumps.sh"
 
 importer_1:

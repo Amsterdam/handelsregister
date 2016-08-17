@@ -160,6 +160,8 @@ USE_L10N = True
 
 USE_TZ = True
 
+DUMP_DIR = 'mks-dump'
+
 
 REST_FRAMEWORK = dict(
     PAGE_SIZE=25,
