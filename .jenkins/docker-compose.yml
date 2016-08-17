@@ -97,6 +97,7 @@ db-backup:
             && pg_dump --clean \
                         -Fc \
                         -t hr* \
+                        -t kvk* \
                         -t geo*  \
                         -T auth*    \
                         -U handelsregister \
