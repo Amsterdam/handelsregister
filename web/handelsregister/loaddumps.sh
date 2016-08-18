@@ -17,13 +17,9 @@ cd /app/unzipped/
 #Load all sql files
 
 for sql in *.sql; do
-    # Exclude duplicate sql.
-    if [ "$sql" = "kvkadr.sql" ]
-    then
-        continue
-    fi
     grep -v OWNER $sql | grep -v search_path | grep -v REVOKE |  \
     grep -v GRANT | \
     grep -v TRIGGER | \
+    sed 's/^.*geometry(Point.*$/    geopunt GEOMETRY(Point,28992)/' | \
     psql -v ON_ERROR_STOP=1 -d handelsregister -h ${DATABASE_PORT_5432_TCP_ADDR} -U handelsregister
 done
