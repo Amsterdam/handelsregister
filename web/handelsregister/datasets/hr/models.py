@@ -200,7 +200,7 @@ class MaatschappelijkeActiviteit(models.Model):
     )
 
     def __str__(self):
-        return "{} ({})".format(self.naam, self.mac_id)
+        return "{}".format(self.naam)
 
 
 class Onderneming(models.Model):

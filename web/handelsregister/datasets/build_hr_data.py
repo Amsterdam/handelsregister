@@ -183,7 +183,6 @@ def load_mac_row(mac_object: KvkMaatschappelijkeActiviteit):
             parttime_werkzame_personen=m.parttimewerkzamepersonen,
         )
         mac.onderneming = ond
-        mac.save()
 
         for hn in m.handelsnamen.all():
             Handelsnaam.objects.create(
@@ -200,6 +199,7 @@ def load_mac_row(mac_object: KvkMaatschappelijkeActiviteit):
             mac.postadres = _as_adres(kvk_adres)
 
     mac.communicatiegegevens.add(*communicatiegegevens)
+    mac.save()
     return mac
 
 

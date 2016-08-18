@@ -19,7 +19,7 @@ class MaatschappelijkeActiviteitViewSet(rest.AtlasViewSet):
 
     queryset = models.MaatschappelijkeActiviteit.objects.all()
 
-    serializer_detail_class = serializers.MaatschappelijkeActiviteit
+    serializer_detail_class = serializers.MaatschappelijkeActiviteitDetail
     serializer_class = serializers.MaatschappelijkeActiviteit
 
 

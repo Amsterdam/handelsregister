@@ -293,6 +293,7 @@ class ImportMaatschappelijkeActiviteitTest(TestCase):
         m.refresh_from_db()
 
         mac = build_hr_data.load_mac_row(m)
+        mac.refresh_from_db()       # make sure all relations are stored correctly
 
         self.assertIsNotNone(mac.postadres)
         self.assertEqual('Postbus 36026 1020MA Amsterdam', mac.postadres.volledig_adres)
