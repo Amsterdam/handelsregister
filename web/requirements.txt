@@ -8,6 +8,7 @@ django-filter==0.12.0
 django-jenkins==0.18.1
 django-shotgun==0.2
 djangorestframework==3.3.3
+djangorestframework-gis==0.10.1
 django-rest-swagger==0.3.5
 drf-extensions==0.2.8
 drf-hal-json==0.9.0

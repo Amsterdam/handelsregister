@@ -2,32 +2,33 @@
 From the original dump
 fill the stelselpedia dumps
 """
-
-from datasets.kvkdump.models import KvkMaatschappelijkeActiviteit
-from datasets.kvkdump.models import KvkPersoon
-from datasets.kvkdump.models import KvkVestiging
-from datasets.kvkdump.models import KvkHandelsnaam
-from datasets.kvkdump.models import KvkFunctievervulling
-
-from datasets.hr.models import Communicatiegegevens
-from datasets.hr.models import Handelsnaam
-from datasets.hr.models import MaatschappelijkeActiviteit
-from datasets.hr.models import Persoon
-from datasets.hr.models import Vestiging
-from datasets.hr.models import Functievervulling
+import datetime
+import logging
+import time
+from decimal import Decimal
+from typing import List
 
 from django.conf import settings
 from django.db import transaction
 
+from datasets.hr.models import Communicatiegegevens, Onderneming, Locatie
+from datasets.hr.models import Functievervulling
+from datasets.hr.models import Handelsnaam
+from datasets.hr.models import MaatschappelijkeActiviteit
+from datasets.hr.models import Persoon
+from datasets.hr.models import Vestiging
+from datasets.kvkdump.models import KvkFunctievervulling, KvkAdres
+from datasets.kvkdump.models import KvkMaatschappelijkeActiviteit
+from datasets.kvkdump.models import KvkPersoon
+from datasets.kvkdump.models import KvkVestiging
 
-import logging
-import time
+BAG_NUMMERAANDUIDING = "https://api.datapunt.amsterdam.nl/bag/nummeraanduiding/{}/"
+BAG_VERBLIJFSOBJECT = "https://api.datapunt.amsterdam.nl/bag/verblijfsobject/{}/"
 
 log = logging.getLogger(__name__)
 
 
 class BatchImport(object):
-
     item_handle = None
     queryset = None
     batch_size = 4000
@@ -53,7 +54,7 @@ class BatchImport(object):
         denominator = settings.PARTIAL_IMPORT['denominator']
 
         log.info("STARTING BATCHER JOB: %s" % (self.__class__.__name__))
-        log.info("PART: %s OF %s" % (numerator+1, denominator))
+        log.info("PART: %s OF %s" % (numerator + 1, denominator))
 
         end_part = count = total = qs.count()
         chunk_size = batch_size
@@ -76,13 +77,13 @@ class BatchImport(object):
         for i, start in enumerate(range(start_index, end_part, batch_size)):
             end = min(start + batch_size, end_part)
             t_start = time.time()
-            yield (i+1, total_batches+1, start, end, total, qs[start:end])
-            log.info("CHUNCK %5s - %-5s  in %.3f seconds" % (
+            yield (i + 1, total_batches + 1, start, end, total, qs[start:end])
+            log.info("CHUNK %5s - %-5s  in %.3f seconds" % (
                 start, end, time.time() - t_start))
 
     def process_rows(self):
-        with transaction.atomic():
-            for job, endjob, start, end, total, qs in self.batch_qs():
+        for job, end_job, start, end, total, qs in self.batch_qs():
+            with transaction.atomic():
                 for item in qs:
                     self.process_item(item)
 
@@ -90,44 +91,116 @@ class BatchImport(object):
         """
         Handle a single item/row.
         """
-        raise(NotImplementedError)
+        raise NotImplementedError()
 
 
-def load_mac_row(mac_object):
+def _as_adres(a: KvkAdres) -> Locatie:
+    loc = Locatie(
+        id=str(a.adrid),
+        volledig_adres=a.volledigadres,
+        toevoeging_adres=a.toevoegingadres,
+        afgeschermd=_parse_indicatie(a.afgeschermd),
+        postbus_nummer=a.postbusnummer,
+        straat_huisnummer=a.straathuisnummer,
+        postcode_woonplaats=a.postcodewoonplaats,
+        regio=a.regio,
+        land=a.land,
+        geometry=a.geopunt,
+    )
 
+    if a.identificatieaoa:
+        loc.bag_nummeraanduiding = BAG_NUMMERAANDUIDING.format(a.identificatieaoa)
+
+    if a.identificatietgo:
+        loc.bag_adresseerbaar_object = BAG_VERBLIJFSOBJECT.format(a.identificatietgo)
+
+    loc.save()
+    return loc
+
+
+def _as_communicatiegegevens(m: KvkMaatschappelijkeActiviteit) -> List[Communicatiegegevens]:
+    cg1, cg2, cg3 = None, None, None
+    if m.domeinnaam1 or m.emailadres1 or m.nummer1:
+        cg1 = Communicatiegegevens(
+            domeinnaam=m.domeinnaam1,
+            emailadres=m.emailadres1,
+            toegangscode=m.toegangscode1,
+            communicatie_nummer=m.nummer1,
+            soort_communicatie_nummer=m.soort1,
+        )
+    if m.domeinnaam2 or m.emailadres2 or m.nummer2:
+        cg2 = Communicatiegegevens(
+            domeinnaam=m.domeinnaam2,
+            emailadres=m.emailadres2,
+            toegangscode=m.toegangscode2,
+            communicatie_nummer=m.nummer2,
+            soort_communicatie_nummer=m.soort2,
+        )
+    if m.domeinnaam3 or m.emailadres3 or m.nummer3:
+        cg3 = Communicatiegegevens(
+            domeinnaam=m.domeinnaam3,
+            emailadres=m.emailadres3,
+            toegangscode=m.toegangscode3,
+            communicatie_nummer=m.nummer3,
+            soort_communicatie_nummer=m.soort3,
+        )
+
+    return [c for c in (cg1, cg2, cg3) if c]
+
+
+def _parse_decimal_date(d: Decimal) -> datetime.date:
+    if not d:
+        return None
+
+    return datetime.datetime.strptime(str(d), "%Y%m%d")
+
+
+def _parse_indicatie(s: str) -> bool:
+    return bool(s and s.lower() == 'ja')
+
+
+def load_mac_row(mac_object: KvkMaatschappelijkeActiviteit):
     m = mac_object
 
-    comms = Communicatiegegevens.objects.create(
-        macid=m.macid,
-        domeinnaam1=m.domeinnaam1,
-        domeinnaam2=m.domeinnaam2,
-        domeinnaam3=m.domeinnaam3,
-        emailadres1=m.emailadres1,
-        emailadres2=m.emailadres2,
-        emailadres3=m.emailadres3,
-        toegangscode1=m.toegangscode1,
-        toegangscode2=m.toegangscode2,
-        toegangscode3=m.toegangscode3,
-        communicatienummer1=m.nummer1,
-        communicatienummer2=m.nummer2,
-        communicatienummer3=m.nummer3,
-        soort1=m.soort1,
-        soort2=m.soort2,
-        soort3=m.soort3,
+    communicatiegegevens = _as_communicatiegegevens(m)
+    for c in communicatiegegevens:
+        c.save()
+
+    mac = MaatschappelijkeActiviteit.objects.create(
+        id=str(m.macid),
+        kvk_nummer=m.kvknummer,
+        naam=m.naam,
+        datum_aanvang=_parse_decimal_date(m.datumaanvang),
+        datum_einde=_parse_decimal_date(m.datumeinde),
+        non_mailing=_parse_indicatie(m.nonmailing),
     )
 
-    MaatschappelijkeActiviteit.objects.create(
-        macid=m.macid,
-        kvknummer=m.kvknummer,
-        naam=m.naam,
-        datum_aanvang=m.datumaanvang,
-        datum_einde=m.datumeinde,
-        non_mailing=((m.nonmailing or '').lower() == 'Ja'),
-        totaal_werkzame_personen=m.totaalwerkzamepersonen,
-        fulltime_werkzame_personen=m.fulltimewerkzamepersonen,
-        parttime_werkzame_personen=m.parttimewerkzamepersonen,
-        communicatiegegevens=comms,
-    )
+    if _parse_indicatie(m.indicatieonderneming):
+        ond = Onderneming.objects.create(
+            id=str(m.macid),
+            totaal_werkzame_personen=m.totaalwerkzamepersonen,
+            fulltime_werkzame_personen=m.fulltimewerkzamepersonen,
+            parttime_werkzame_personen=m.parttimewerkzamepersonen,
+        )
+        mac.onderneming = ond
+
+        for hn in m.handelsnamen.all():
+            Handelsnaam.objects.create(
+                id=hn.hdnid,
+                handelsnaam=hn.handelsnaam,
+                onderneming=ond,
+            )
+
+    for kvk_adres in m.adressen.all():
+        if kvk_adres.typering == 'bezoekLocatie':
+            mac.bezoekadres = _as_adres(kvk_adres)
+
+        if kvk_adres.typering == 'postLocatie':
+            mac.postadres = _as_adres(kvk_adres)
+
+    mac.communicatiegegevens.add(*communicatiegegevens)
+    mac.save()
+    return mac
 
 
 def load_ves_row(ves_object):
@@ -156,33 +229,24 @@ def load_prs_row(prs_object):
     )
 
 
-def load_handelsnaam_row(handelsnaam_object):
-    h = handelsnaam_object
-    Handelsnaam.objects.create(
-        handelsnaamid=h.hdnid,
-        macid=h.macid.macid,
-        handelsnaam=h.handelsnaam
-    )
-
-
 def load_functievervulling_row(functievervulling_object):
     f = functievervulling_object
     Functievervulling.objects.create(
         fvvid=f.ashid,
         functietitel=f.functie
-        )
+    )
 
 
 class MACbatcher(BatchImport):
-
-    queryset = KvkMaatschappelijkeActiviteit.objects.order_by('macid')
+    queryset = (KvkMaatschappelijkeActiviteit.objects
+                .prefetch_related('handelsnamen', 'adressen')
+                .order_by('macid'))
 
     def process_item(self, item):
         load_mac_row(item)
 
 
 class VESbatcher(BatchImport):
-
     queryset = KvkVestiging.objects.order_by('vesid')
 
     def process_item(self, item):
@@ -190,28 +254,16 @@ class VESbatcher(BatchImport):
 
 
 class PRSbatcher(BatchImport):
-
     queryset = KvkPersoon.objects.order_by('prsid')
 
     def process_item(self, item):
         load_prs_row(item)
 
 
-class HandelsnaamBatcher(BatchImport):
-
-    queryset = KvkHandelsnaam.objects.select_related('macid').order_by('hdnid')
-
-    def process_item(self, item):
-
-        load_handelsnaam_row(item)
-
-
 class FunctievervullingBatcher(BatchImport):
-
     queryset = KvkFunctievervulling.objects.all().order_by('ashid')
 
     def process_item(self, item):
-
         load_functievervulling_row(item)
 
 
@@ -222,5 +274,4 @@ def fill_stelselpedia():
     MACbatcher().process_rows()
     PRSbatcher().process_rows()
     VESbatcher().process_rows()
-    HandelsnaamBatcher().process_rows()
     FunctievervullingBatcher().process_rows()

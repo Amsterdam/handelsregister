@@ -19,13 +19,9 @@ Developing
 
 Use `docker-compose` to start a local database.
 
-	(sudo) docker-compose start -d
-
-or
-
 	docker-compose up -d
 
-The API should now be available on http://localhost:8100/nap
+The API should now be available on http://localhost:8100/handelsregister
 
 
 To run an import, execute:
@@ -43,11 +39,17 @@ To see the various options for partial imports, execute:
 
 	./handelsregister/manage.py run_import --help
 
-
 To import the latest database from acceptance:
 
-	docker exec -it $(docker-compose ps -q database) update-handelsregister.sh
+	docker-compose exec database update-handelsregister.sh
 
-To import the latest elastic index from acceptance:
 
-	docker exec -it $(docker-compose ps -q elasticsearch) update-handelsregister.sh
+Import Quickstart
+-----------------
+
+    docker-compose exec database update-handelsregister.sh
+    ./web/handelsregister/manage.py migrate hr zero
+    ./web/handelsregister/manage.py migrate hr 
+    ./web/handelsregister/manage.py run_import
+    
+   
