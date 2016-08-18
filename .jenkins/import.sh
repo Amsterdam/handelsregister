@@ -22,6 +22,11 @@ dc up importer_1  importer_2 importer_3
 # wait until all building is done
 docker wait jenkins_importer_1_1 jenkins_importer_2_1 jenkins_importer_3_1
 
+err=`docker-compose ps -q | xargs docker inspect -f '{{ .State.ExitCode }}' | grep -v 0 | wc -l | tr -d ' '`
+if [ "$code" == "1" ]; then
+    exit -1
+fi
+
 # run the backup shizzle
 dc run --rm db-backup
 #dc run --rm el-backup
