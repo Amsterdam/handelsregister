@@ -6,12 +6,13 @@ import datetime
 import logging
 import time
 from decimal import Decimal
-from typing import List
+from typing import List, Union
 
 from django.conf import settings
 from django.db import transaction
 
-from datasets.hr.models import Communicatiegegevens, Onderneming, Locatie
+from datasets.hr.models import Communicatiegegevens, Onderneming, Locatie, CommercieleVestiging, \
+    NietCommercieleVestiging, Activiteit
 from datasets.hr.models import Functievervulling
 from datasets.hr.models import Handelsnaam
 from datasets.hr.models import MaatschappelijkeActiviteit
@@ -118,7 +119,7 @@ def _as_adres(a: KvkAdres) -> Locatie:
     return loc
 
 
-def _as_communicatiegegevens(m: KvkMaatschappelijkeActiviteit) -> List[Communicatiegegevens]:
+def _as_communicatiegegevens(m: Union[KvkMaatschappelijkeActiviteit, KvkVestiging]) -> List[Communicatiegegevens]:
     cg1, cg2, cg3 = None, None, None
     if m.domeinnaam1 or m.emailadres1 or m.nummer1:
         cg1 = Communicatiegegevens(
@@ -148,6 +149,40 @@ def _as_communicatiegegevens(m: KvkMaatschappelijkeActiviteit) -> List[Communica
     return [c for c in (cg1, cg2, cg3) if c]
 
 
+def _as_activiteiten(v: KvkVestiging) -> List[Activiteit]:
+    a1, a2, a3, a4 = None, None, None, None
+    if v.sbicodehoofdactiviteit:
+        a1 = Activiteit(
+            activiteitsomschrijving=v.omschrijvingactiviteit,
+            sbi_code=str(v.sbicodehoofdactiviteit),
+            sbi_omschrijving=v.sbiomschrijvinghoofdact,
+            hoofdactiviteit=True,
+        )
+
+    if v.sbicodenevenactiviteit1:
+        a2 = Activiteit(
+            sbi_code=str(v.sbicodenevenactiviteit1),
+            sbi_omschrijving=v.sbiomschrijvingnevenact1,
+            hoofdactiviteit=False,
+        )
+
+    if v.sbicodenevenactiviteit2:
+        a3 = Activiteit(
+            sbi_code=str(v.sbicodenevenactiviteit2),
+            sbi_omschrijving=v.sbiomschrijvingnevenact2,
+            hoofdactiviteit=False,
+        )
+
+    if v.sbicodenevenactiviteit3:
+        a4 = Activiteit(
+            sbi_code=str(v.sbicodenevenactiviteit3),
+            sbi_omschrijving=v.sbiomschrijvingnevenact3,
+            hoofdactiviteit=False,
+        )
+
+    return [a for a in (a1, a2, a3, a4) if a]
+
+
 def _parse_decimal_date(d: Decimal) -> datetime.date:
     if not d:
         return None
@@ -159,9 +194,7 @@ def _parse_indicatie(s: str) -> bool:
     return bool(s and s.lower() == 'ja')
 
 
-def load_mac_row(mac_object: KvkMaatschappelijkeActiviteit):
-    m = mac_object
-
+def load_mac_row(m: KvkMaatschappelijkeActiviteit) -> MaatschappelijkeActiviteit:
     communicatiegegevens = _as_communicatiegegevens(m)
     for c in communicatiegegevens:
         c.save()
@@ -203,20 +236,60 @@ def load_mac_row(mac_object: KvkMaatschappelijkeActiviteit):
     return mac
 
 
-def load_ves_row(ves_object):
-    v = ves_object
-    Vestiging.objects.create(
-        vesid=v.vesid,
+def load_ves_row(v: KvkVestiging) -> Vestiging:
+    if False and v.sbicodenevenactiviteit2:
+        print(v)
+        import sys
+        sys.exit()
+
+    ves = Vestiging.objects.create(
+        id=v.vesid,
+        maatschappelijke_activiteit_id=v.maatschappelijke_activiteit_id,
         vestigingsnummer=v.vestigingsnummer,
-        sbicode_hoofdactiviteit=v.sbicodehoofdactiviteit,
-        sbicode_nevenactiviteit1=v.sbicodenevenactiviteit1,
-        sbicode_nevenactiviteit2=v.sbicodenevenactiviteit2,
-        sbicode_nevenactiviteit3=v.sbicodenevenactiviteit3,
-        sbi_omschrijving_hoofdact=v.sbiomschrijvinghoofdact,
-        sbi_omschrijving_nevenact1=v.sbiomschrijvingnevenact1,
-        sbi_omschrijving_nevenact2=v.sbiomschrijvingnevenact2,
-        sbi_omschrijving_nevenact3=v.sbiomschrijvingnevenact3,
+        hoofdvestiging=_parse_indicatie(v.indicatiehoofdvestiging),
+        naam=v.eerstehandelsnaam or v.naam,
+        datum_aanvang=_parse_decimal_date(v.datumaanvang),
+        datum_einde=_parse_decimal_date(v.datumeinde),
     )
+
+    if v.typeringvestiging == "CVS":
+        cvs = CommercieleVestiging.objects.create(
+            totaal_werkzame_personen=v.totaalwerkzamepersonen,
+            parttime_werkzame_personen=v.parttimewerkzamepersonen,
+            fulltime_werkzame_personen=v.fulltimewerkzamepersonen,
+            import_activiteit=_parse_indicatie(v.importactiviteit),
+            export_activiteit=_parse_indicatie(v.exportactiviteit),
+        )
+        ves.commerciele_vestiging = cvs
+    elif v.typeringvestiging == "NCV":
+        ncv = NietCommercieleVestiging.objects.create(
+            ook_genoemd=v.ookgenoemd,
+            verkorte_naam=v.verkortenaam,
+        )
+        ves.niet_commerciele_vestiging = ncv
+    else:
+        raise ValueError("Unknown typering {}".format(v.typeringvestiging))
+
+    for kvk_adres in v.adressen.all():
+        if kvk_adres.typering == 'bezoekLocatie':
+            ves.bezoekadres = _as_adres(kvk_adres)
+
+        if kvk_adres.typering == 'postLocatie':
+            ves.postadres = _as_adres(kvk_adres)
+
+    communicatiegegevens = _as_communicatiegegevens(v)
+    for c in communicatiegegevens:
+        c.save()
+    ves.communicatiegegevens.add(*communicatiegegevens)
+
+    activiteiten = _as_activiteiten(v)
+    for a in activiteiten:
+        a.save()
+    ves.activiteiten.add(*activiteiten)
+
+    ves.save()
+
+    return ves
 
 
 def load_prs_row(prs_object):

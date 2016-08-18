@@ -6,8 +6,6 @@ from . import models
 
 
 class Communicatiegegevens(serializers.ModelSerializer):
-    dataset = 'hr'
-
     class Meta:
         model = models.Communicatiegegevens
         exclude = (
@@ -16,8 +14,6 @@ class Communicatiegegevens(serializers.ModelSerializer):
 
 
 class Onderneming(serializers.ModelSerializer):
-    dataset = 'hr'
-
     class Meta:
         model = models.Onderneming
         exclude = (
@@ -26,14 +22,32 @@ class Onderneming(serializers.ModelSerializer):
 
 
 class Locatie(serializers.ModelSerializer):
-    dataset = 'hr'
-
     class Meta:
         model = models.Locatie
         exclude = (
             'id',
         )
 
+class CommercieleVestiging(serializers.ModelSerializer):
+    class Meta:
+        model = models.CommercieleVestiging
+        exclude = (
+            'id',
+        )
+
+class NietCommercieleVestiging(serializers.ModelSerializer):
+    class Meta:
+        model = models.NietCommercieleVestiging
+        exclude = (
+            'id',
+        )
+
+class Activiteit(serializers.ModelSerializer):
+    class Meta:
+        model = models.Activiteit
+        exclude = (
+            'id',
+        )
 
 class MaatschappelijkeActiviteit(rest.HALSerializer):
     dataset = 'hr'
@@ -65,6 +79,10 @@ class Vestiging(rest.HALSerializer):
 
     class Meta:
         model = models.Vestiging
+        fields = (
+            '_links',
+            '_display',
+        )
 
 
 class Functievervulling(rest.HALSerializer):
@@ -87,3 +105,18 @@ class MaatschappelijkeActiviteitDetail(rest.HALSerializer):
 
     class Meta:
         model = models.MaatschappelijkeActiviteit
+
+
+class VestigingDetail(rest.HALSerializer):
+    dataset = 'hr'
+
+    _display = rest.DisplayField()
+    commerciele_vestiging = CommercieleVestiging()
+    niet_commerciele_vestiging = NietCommercieleVestiging()
+    communicatiegegevens = Communicatiegegevens(many=True)
+    postadres = Locatie()
+    bezoekadres = Locatie()
+    activiteiten = Activiteit(many=True)
+
+    class Meta:
+        model = models.Vestiging

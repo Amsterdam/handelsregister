@@ -109,19 +109,19 @@ class Activiteit(models.Model):
     semantisch gegevensmodel in de officiële catalogus, paragraaf 1.5.
     """
 
-    activiteitsomschrijving = models.CharField(
-        max_length=300, blank=True, null=True,
+    activiteitsomschrijving = models.TextField(
+        blank=True, null=True,
         help_text="De omschrijving van de activiteiten die de Vestiging of Rechtspersoon uitoefent"
     )
     sbi_code = models.CharField(
-        max_length=3, blank=True, null=True,
+        max_length=5,
         help_text="De codering van de activiteit conform de SBI2008"
     )
-    omschrijving = models.CharField(
-        max_length=300, blank=True, null=True,
-        help_text="Omschrijving van de activiteit"
+    sbi_omschrijving = models.CharField(
+        max_length=300,
+        help_text="Omschrijving van de activiteit conform de SBI2008"
     )
-    hoofdactiviteit = models.NullBooleanField(
+    hoofdactiviteit = models.BooleanField(
         help_text="Indicatie die aangeeft welke van de activiteiten de hoofdactiviteit is"
     )
 
@@ -212,19 +212,37 @@ class Onderneming(models.Model):
     """
     id = models.CharField(primary_key=True, max_length=20)
 
-    totaal_werkzame_personen = models.DecimalField(max_digits=8, decimal_places=0, blank=True, null=True)
-    fulltime_werkzame_personen = models.DecimalField(max_digits=8, decimal_places=0, blank=True, null=True)
-    parttime_werkzame_personen = models.DecimalField(max_digits=8, decimal_places=0, blank=True, null=True)
+    totaal_werkzame_personen = models.IntegerField(
+        blank=True, null=True
+    )
+    fulltime_werkzame_personen = models.IntegerField(
+        blank=True, null=True
+    )
+    parttime_werkzame_personen = models.IntegerField(
+        blank=True, null=True
+    )
 
 
-class MaatschappelijkeActiviteitVestiging(models.Model):
+class CommercieleVestiging(models.Model):
     """
+    Een classificatie van de Vestiging van de Onderneming.
     """
-    maatschappelijke_activiteit = models.ForeignKey('MaatschappelijkeActiviteit')
-    vestiging = models.ForeignKey('Vestiging')
+    totaal_werkzame_personen = models.IntegerField(
+        blank=True, null=True
+    )
+    fulltime_werkzame_personen = models.IntegerField(
+        blank=True, null=True
+    )
+    parttime_werkzame_personen = models.IntegerField(
+        blank=True, null=True
+    )
+    import_activiteit = models.NullBooleanField()
+    export_activiteit = models.NullBooleanField()
 
-    datum_aanvang = models.CharField(max_length=8, blank=True, null=True)
-    datum_einde = models.CharField(max_length=8, blank=True, null=True)
+
+class NietCommercieleVestiging(models.Model):
+    ook_genoemd = models.CharField(max_length=200, null=True, blank=True)
+    verkorte_naam = models.CharField(max_length=60, null=True, blank=True)
 
 
 class Vestiging(models.Model):
@@ -237,21 +255,73 @@ class Vestiging(models.Model):
     {Locatie}.
     """
 
-    vesid = models.CharField(primary_key=True, max_length=20)
-    vestigingsnummer = models.CharField(max_length=12)
+    id = models.CharField(
+        primary_key=True, max_length=20
+    )
 
-    sbicode_hoofdactiviteit = models.CharField(max_length=20, blank=True, null=True)
-    sbicode_nevenactiviteit1 = models.CharField(max_length=20, blank=True, null=True)
-    sbicode_nevenactiviteit2 = models.CharField(max_length=20, blank=True, null=True)
-    sbicode_nevenactiviteit3 = models.CharField(max_length=20, blank=True, null=True)
+    maatschappelijke_activiteit = models.ForeignKey(
+        'MaatschappelijkeActiviteit'
+    )
 
-    sbi_omschrijving_hoofdact = models.CharField(max_length=180, blank=True, null=True)
-    sbi_omschrijving_nevenact1 = models.CharField(max_length=180, blank=True, null=True)
-    sbi_omschrijving_nevenact2 = models.CharField(max_length=180, blank=True, null=True)
-    sbi_omschrijving_nevenact3 = models.CharField(max_length=180, blank=True, null=True)
+    vestigingsnummer = models.CharField(
+        max_length=12, unique=True,
+        help_text="Betreft het identificerende gegeven voor de Vestiging"
+    )
+    hoofdvestiging = models.BooleanField()
+    naam = models.CharField(
+        max_length=200, null=True, blank=True,
+    )
+    datum_aanvang = models.DateField(
+        null=True, blank=True,
+        help_text="De datum van aanvang van de Vestiging"
+    )
+    datum_einde = models.DateField(
+        null=True, blank=True,
+        help_text="De datum van beëindiging van de Vestiging"
+    )
+    datum_voortzetting = models.DateField(
+        null=True, blank=True,
+        help_text="De datum van voortzetting van de Vestiging"
+    )
+    communicatiegegevens = models.ManyToManyField(
+        'Communicatiegegevens',
+        help_text="Afgeleid van communicatiegegevens van inschrijving",
+    )
+    postadres = models.ForeignKey(
+        'Locatie', related_name="+", blank=True, null=True,
+        help_text="postadres",
+    )
+    bezoekadres = models.ForeignKey(
+        'Locatie', related_name="+", blank=True, null=True,
+        help_text="bezoekadres",
+    )
+    commerciele_vestiging = models.OneToOneField(
+        'CommercieleVestiging',
+        on_delete=models.CASCADE, null=True, blank=True,
+    )
+    niet_commerciele_vestiging = models.OneToOneField(
+        'NietCommercieleVestiging',
+        on_delete=models.CASCADE, null=True, blank=True,
+    )
+
+    activiteiten = models.ManyToManyField(
+        'Activiteit'
+    )
+
+    # todo: samenvoeging
+
+    # sbicode_hoofdactiviteit = models.CharField(max_length=20, blank=True, null=True)
+    # sbicode_nevenactiviteit1 = models.CharField(max_length=20, blank=True, null=True)
+    # sbicode_nevenactiviteit2 = models.CharField(max_length=20, blank=True, null=True)
+    # sbicode_nevenactiviteit3 = models.CharField(max_length=20, blank=True, null=True)
+    #
+    # sbi_omschrijving_hoofdact = models.CharField(max_length=180, blank=True, null=True)
+    # sbi_omschrijving_nevenact1 = models.CharField(max_length=180, blank=True, null=True)
+    # sbi_omschrijving_nevenact2 = models.CharField(max_length=180, blank=True, null=True)
+    # sbi_omschrijving_nevenact3 = models.CharField(max_length=180, blank=True, null=True)
 
     def __str__(self):
-        return "{} ({})".format("Vestiging", self.vesid)
+        return "{}".format(self.naam)
 
 
 class Locatie(models.Model):

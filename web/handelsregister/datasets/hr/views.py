@@ -53,7 +53,7 @@ class VestigingViewSet(rest.AtlasViewSet):
 
     queryset = models.Vestiging.objects.all()
 
-    serializer_detail_class = serializers.Vestiging
+    serializer_detail_class = serializers.VestigingDetail
     serializer_class = serializers.Vestiging
 
 

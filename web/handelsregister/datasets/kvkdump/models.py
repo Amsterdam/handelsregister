@@ -59,9 +59,10 @@ class KvkAdres(models.Model):
 
     typering = models.CharField(max_length=13, blank=True, null=True)
 
-    vesid = models.DecimalField(
-        db_index=True,
-        max_digits=18, decimal_places=0, blank=True, null=True)
+    vesid = models.ForeignKey(
+        'KvkVestiging',
+        related_name='adressen', db_column='vesid',
+        blank=True, null=True)
 
     macid = models.ForeignKey(
         'KvkMaatschappelijkeActiviteit',
@@ -85,7 +86,7 @@ class KvkAdres(models.Model):
         db_table = 'kvkadrm00'
 
     def __str__(self):
-        return copy_pastable_to_string(self, excluded=["macid"])
+        return copy_pastable_to_string(self, excluded=["macid", "vesid"])
 
 
 class KvkHandelsnaam(models.Model):
@@ -181,7 +182,7 @@ class KvkMaatschappelijkeActiviteit(models.Model):
         db_table = 'kvkmacm00'
 
     def __str__(self):
-        return copy_pastable_to_string(self)
+        return copy_pastable_to_string(self, excluded=["vestigingen"])
 
 
 class KvkFunctievervulling(models.Model):
@@ -333,7 +334,11 @@ class KvkVestiging(models.Model):
     indicatiehoofdvestiging = models.CharField(
         max_length=3, blank=True, null=True)
 
-    macid = models.DecimalField(max_digits=18, decimal_places=0)
+    maatschappelijke_activiteit = models.ForeignKey(
+        'KvkMaatschappelijkeActiviteit',
+        related_name='vestigingen', db_column='macid',
+        blank=True, null=True
+    )
 
     naam = models.CharField(max_length=500, blank=True, null=True)
 
@@ -407,3 +412,6 @@ class KvkVestiging(models.Model):
     class Meta:
         managed = False
         db_table = 'kvkvesm00'
+
+    def __str__(self):
+        return copy_pastable_to_string(self)
