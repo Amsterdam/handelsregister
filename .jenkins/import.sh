@@ -14,7 +14,7 @@ trap 'dc kill ; dc rm -f' EXIT
 rm -rf ${DIR}/backups
 mkdir -p ${DIR}/backups
 
-dc build
+dc build --pull
 # import new mks dump data in database
 dc run --rm importer_mks
 # create the hr_data
