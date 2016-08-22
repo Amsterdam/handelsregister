@@ -25,6 +25,17 @@ node {
     stage "Checkout"
         checkout scm
 
+    stage "Test"
+        tryStep "Test",  {
+            sh "docker-compose -p handelsregister -f .jenkins/docker-compose.yml build && " +
+                    "docker-compose -p handelsregister -f .jenkins/docker-compose.yml run -u root --rm tests"
+        }, {
+            step([$class: "JUnitResultArchiver", testResults: "reports/junit.xml"])
+
+            sh "docker-compose -p handelsregister -f .jenkins/docker-compose.yml down"
+        }
+
+
     stage "Build"
 
         def image = docker.build("admin.datapunt.amsterdam.nl:5000/datapunt/handelsregister:${BRANCH}", "web" )
@@ -34,6 +45,8 @@ node {
             image.push("latest")
         }
     }
+
+
 
 node {
     stage name: "Deploy", concurrency: 1

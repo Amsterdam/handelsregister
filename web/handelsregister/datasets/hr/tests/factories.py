@@ -8,7 +8,7 @@ class MaatschappelijkeActiviteitFactory(factory.DjangoModelFactory):
     class Meta:
         model = models.MaatschappelijkeActiviteit
 
-    macid = fuzzy.FuzzyInteger(low=100000000000000000, high=100000000000000099)
+    id = fuzzy.FuzzyInteger(low=100000000000000000, high=100000000000000099)
 
 
 class PersoonFactory(factory.DjangoModelFactory):
@@ -18,15 +18,18 @@ class PersoonFactory(factory.DjangoModelFactory):
     prsid = fuzzy.FuzzyInteger(low=100000000000000000, high=100000000000000099)
 
 
+
 class VestigingFactory(factory.DjangoModelFactory):
     class Meta:
         model = models.Vestiging
 
-    vesid = fuzzy.FuzzyInteger(low=100000000000000000, high=100000000000000099)
+    id = fuzzy.FuzzyInteger(low=100000000000000000, high=100000000000000099)
+    hoofdvestiging = fuzzy.FuzzyChoice(choices=[True, False])
+    maatschappelijke_activiteit = factory.SubFactory(MaatschappelijkeActiviteitFactory)
 
 
 class FunctievervullingFactory(factory.DjangoModelFactory):
     class Meta:
         model = models.Functievervulling
 
-    ashid = fuzzy.FuzzyInteger(low=100000000000000000, high=100000000000000099)
+    fvvid = fuzzy.FuzzyInteger(low=100000000000000000, high=100000000000000099)

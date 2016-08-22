@@ -169,3 +169,4 @@ web/handelsregister/handelsregister/__pycache__/
 web/web.iml
 
 .jenkins/backups
+reports/junit.xml
