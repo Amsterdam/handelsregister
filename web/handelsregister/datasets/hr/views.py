@@ -17,7 +17,10 @@ class MaatschappelijkeActiviteitViewSet(rest.AtlasViewSet):
     Een MaatschappelijkeActiviteit kan ook als Onderneming voorkomen.
     """
 
-    queryset = models.MaatschappelijkeActiviteit.objects.all()
+    queryset = (models.MaatschappelijkeActiviteit.objects.all())
+    queryset_detail = (models.MaatschappelijkeActiviteit.objects
+                       .select_related('onderneming')
+                       .all())
 
     serializer_detail_class = serializers.MaatschappelijkeActiviteitDetail
     serializer_class = serializers.MaatschappelijkeActiviteit
