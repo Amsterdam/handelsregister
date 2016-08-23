@@ -22,3 +22,4 @@ web:
     DATABASE_PASSWORD: insecure
     DATABASE_PORT_5432_TCP_ADDR: database
     DATABASE_PORT_5432_TCP_PORT: 5432
+    PGPASSWORD: insecure

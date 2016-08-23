@@ -170,3 +170,4 @@ web/web.iml
 
 .jenkins/backups
 reports/junit.xml
+data/
