@@ -17,6 +17,8 @@ web:
     - $PWD/data:/app/data
   environment:
     SECRET_KEY: hoi
-    DB_NAME: handelsregister
-    DB_PASSWORD: insecure
-    PGPASSWORD: insecure
+    DATABASE_NAME: handelsregister
+    DATABASE_USER: handelsregister
+    DATABASE_PASSWORD: insecure
+    DATABASE_PORT_5432_TCP_ADDR: database
+    DATABASE_PORT_5432_TCP_PORT: 5432
