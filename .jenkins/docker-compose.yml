@@ -39,7 +39,7 @@ importer_mks:
             && python load_mks_dumps.py \
             && bash -c /app/loaddumps.sh"
 
-importer_1:
+importer:
   build: ../web
   links:
     - database:database
@@ -51,37 +51,7 @@ importer_1:
     - ./data:/app/data
   command: >
     bash -c "/app/docker-wait.sh \
-            && python manage.py run_import --partial 1/3"
-
-importer_2:
-  build: ../web
-  links:
-    - database:database
-    - elasticsearch:elasticsearch
-  environment:
-    DATABASE_NAME: handelsregister
-    DATABASE_PASSWORD: insecure
-  volumes:
-    - ./data:/app/data
-  command: >
-    bash -c "/app/docker-wait.sh \
-            && python manage.py run_import --partial 2/3"
-
-
-importer_3:
-  build: ../web
-  links:
-    - database:database
-    - elasticsearch:elasticsearch
-  environment:
-    DATABASE_NAME: handelsregister
-    DATABASE_PASSWORD: insecure
-  volumes:
-    - ../data:/app/data
-  command: >
-    bash -c "/app/docker-wait.sh \
-            && python manage.py run_import --partial 3/3"
-
+            && python manage.py run_import"
 
 db-backup:
   image: admin.datapunt.amsterdam.nl:5000/atlas/postgres

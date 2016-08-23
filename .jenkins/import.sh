@@ -18,9 +18,9 @@ dc build --pull
 # import new mks dump data in database
 dc run --rm importer_mks
 # create the hr_data
-dc up importer_1  importer_2 importer_3
+dc up importer
 # wait until all building is done
-import_status=`docker wait jenkins_importer_1_1 jenkins_importer_2_1 jenkins_importer_3_1`
+import_status=`docker wait jenkins_importer_1`
 
 # count the errors.
 import_error=`echo $import_status | grep -o "1" | wc -l`
