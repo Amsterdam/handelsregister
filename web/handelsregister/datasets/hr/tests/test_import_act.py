@@ -64,3 +64,29 @@ class ImportActiviteitenTest(TestCase):
             sbi_omschrijving='Verhuur van overige woonruimte',
             hoofdactiviteit=False,
         )], acts)
+
+    def test_opschonen_activiteiten_zooi(self):
+        m = kvk.KvkVestiging(
+            omschrijvingactiviteit='Het schrijven van teksten, notuleren en verslaglegging',
+            sbicodehoofdactiviteit=Decimal('900302'),
+            sbiomschrijvinghoofdact='Scheppende kunst en documentaire schrijvers',
+            sbicodenevenactiviteit1=Decimal('889922'),
+            sbiomschrijvingnevenact1='Specifiek maatschappelijk werk',
+            sbicodenevenactiviteit2=Decimal('620202'),
+            sbiomschrijvingnevenact2='Software consultancy',
+        )
+        acts = build_hr_data._as_activiteiten(m)
+        self.assertActEqual([models.Activiteit(
+            activiteitsomschrijving='Het schrijven van teksten, notuleren en verslaglegging',
+            sbi_code='9003',
+            sbi_omschrijving='Scheppende kunst en documentaire schrijvers',
+            hoofdactiviteit=True,
+        ), models.Activiteit(
+            sbi_code='88992',
+            sbi_omschrijving='Specifiek maatschappelijk werk',
+            hoofdactiviteit=False,
+        ), models.Activiteit(
+            sbi_code='6202',
+            sbi_omschrijving='Software consultancy',
+            hoofdactiviteit=False,
+        )], acts)

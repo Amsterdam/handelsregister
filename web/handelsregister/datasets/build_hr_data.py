@@ -149,33 +149,45 @@ def _as_communicatiegegevens(m: Union[KvkMaatschappelijkeActiviteit, KvkVestigin
     return [c for c in (cg1, cg2, cg3) if c]
 
 
+def __clean_code(code: Decimal) -> str:
+    result = str(code)
+    if result == '900302':
+        return '9003'
+    elif result == '889922':
+        return '88992'
+    elif result == '620202':
+        return '6202'
+    else:
+        return result
+
+
 def _as_activiteiten(v: KvkVestiging) -> List[Activiteit]:
     a1, a2, a3, a4 = None, None, None, None
     if v.sbicodehoofdactiviteit:
         a1 = Activiteit(
             activiteitsomschrijving=v.omschrijvingactiviteit,
-            sbi_code=str(v.sbicodehoofdactiviteit),
+            sbi_code=__clean_code(v.sbicodehoofdactiviteit),
             sbi_omschrijving=v.sbiomschrijvinghoofdact,
             hoofdactiviteit=True,
         )
 
     if v.sbicodenevenactiviteit1:
         a2 = Activiteit(
-            sbi_code=str(v.sbicodenevenactiviteit1),
+            sbi_code=__clean_code(v.sbicodenevenactiviteit1),
             sbi_omschrijving=v.sbiomschrijvingnevenact1,
             hoofdactiviteit=False,
         )
 
     if v.sbicodenevenactiviteit2:
         a3 = Activiteit(
-            sbi_code=str(v.sbicodenevenactiviteit2),
+            sbi_code=__clean_code(v.sbicodenevenactiviteit2),
             sbi_omschrijving=v.sbiomschrijvingnevenact2,
             hoofdactiviteit=False,
         )
 
     if v.sbicodenevenactiviteit3:
         a4 = Activiteit(
-            sbi_code=str(v.sbicodenevenactiviteit3),
+            sbi_code=__clean_code(v.sbicodenevenactiviteit3),
             sbi_omschrijving=v.sbiomschrijvingnevenact3,
             hoofdactiviteit=False,
         )
