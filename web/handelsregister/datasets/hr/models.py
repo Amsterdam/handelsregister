@@ -109,7 +109,9 @@ class Activiteit(models.Model):
     semantisch gegevensmodel in de officiële catalogus, paragraaf 1.5.
     """
 
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4)
+    id = models.CharField(
+        primary_key=True, max_length=21
+    )
 
     activiteitsomschrijving = models.TextField(
         blank=True, null=True,
@@ -229,7 +231,9 @@ class CommercieleVestiging(models.Model):
     """
     Een classificatie van de Vestiging van de Onderneming.
     """
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4)
+    id = models.CharField(
+        primary_key=True, max_length=20
+    )
     totaal_werkzame_personen = models.IntegerField(
         blank=True, null=True
     )
@@ -244,7 +248,9 @@ class CommercieleVestiging(models.Model):
 
 
 class NietCommercieleVestiging(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4)
+    id = models.CharField(
+        primary_key=True, max_length=20
+    )
     ook_genoemd = models.CharField(max_length=200, null=True, blank=True)
     verkorte_naam = models.CharField(max_length=60, null=True, blank=True)
 

@@ -7,6 +7,8 @@ from datasets import build_hr_data
 from datasets.kvkdump import models as kvk
 from datasets.kvkdump import utils
 
+from .. import models
+
 
 class ImportVestigingTest(TestCase):
     def setUp(self):
@@ -24,7 +26,11 @@ class ImportVestigingTest(TestCase):
             statusobject='Bevraagd',
             machibver=Decimal('0')
         )
+
+    def _convert(self, kvk_vestiging):
         build_hr_data.fill_stelselpedia()
+
+        return models.Vestiging.objects.get(pk=kvk_vestiging.pk)
 
     def test_import_basic_fields(self):
         kvk_vestiging = kvk.KvkVestiging.objects.create(
@@ -41,8 +47,7 @@ class ImportVestigingTest(TestCase):
             totaalwerkzamepersonen=Decimal('0'),
         )
 
-        vestiging = build_hr_data.load_ves_row(kvk_vestiging)
-        vestiging.refresh_from_db()
+        vestiging = self._convert(kvk_vestiging)
 
         self.assertIsNotNone(vestiging)
         self.assertEqual('100000000000000000', vestiging.id)
@@ -69,8 +74,7 @@ class ImportVestigingTest(TestCase):
             soort1='Telefoon',
             toegangscode1=Decimal('31'),
         )
-        vestiging = build_hr_data.load_ves_row(kvk_vestiging)
-        vestiging.refresh_from_db()
+        vestiging = self._convert(kvk_vestiging)
 
         comm = list(vestiging.communicatiegegevens.all())
         self.assertIsNotNone(comm)
@@ -103,8 +107,7 @@ class ImportVestigingTest(TestCase):
             totaalwerkzamepersonen=Decimal('0'),
         )
 
-        vestiging = build_hr_data.load_ves_row(kvk_vestiging)
-        vestiging.refresh_from_db()
+        vestiging = self._convert(kvk_vestiging)
 
         self.assertIsNotNone(vestiging.commerciele_vestiging)
         self.assertEqual(0, vestiging.commerciele_vestiging.totaal_werkzame_personen)
@@ -129,8 +132,7 @@ class ImportVestigingTest(TestCase):
             veshibver=Decimal('0')
         )
 
-        vestiging = build_hr_data.load_ves_row(kvk_vestiging)
-        vestiging.refresh_from_db()
+        vestiging = self._convert(kvk_vestiging)
 
         self.assertEqual('Stichting', vestiging.naam)
         self.assertIsNotNone(vestiging.niet_commerciele_vestiging)
@@ -177,8 +179,7 @@ class ImportVestigingTest(TestCase):
                 adrhibver=Decimal('0')
             ))
 
-        vestiging = build_hr_data.load_ves_row(kvk_vestiging)
-        vestiging.refresh_from_db()
+        vestiging = self._convert(kvk_vestiging)
 
         self.assertIsNotNone(vestiging.postadres)
         self.assertEqual('Postbus 229 5460AE Veghel', vestiging.postadres.volledig_adres)
@@ -204,8 +205,7 @@ class ImportVestigingTest(TestCase):
             statusobject='Bevraagd',
             veshibver=Decimal('0')
         )
-        vestiging = build_hr_data.load_ves_row(kvk_vestiging)
-        vestiging.refresh_from_db()
+        vestiging = self._convert(kvk_vestiging)
 
         activiteiten = list(vestiging.activiteiten.all())
         self.assertNotEqual([], activiteiten)

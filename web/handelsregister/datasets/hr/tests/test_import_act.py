@@ -1,3 +1,4 @@
+import datetime
 from decimal import Decimal
 from typing import List
 
@@ -7,20 +8,48 @@ from django.test import TestCase
 from datasets import build_hr_data
 from datasets.hr import models
 from datasets.kvkdump import models as kvk
-
+from datasets.kvkdump import utils
 
 class ImportActiviteitenTest(TestCase):
+    def setUp(self):
+        utils.generate_schema()
+
     def assertActEqual(self, expected: List[models.Activiteit], given: List[models.Activiteit]):
         expected_dicts = [model_to_dict(m, exclude='id') for m in expected]
         given_dicts = [model_to_dict(m, exclude='id') for m in given]
 
         self.assertListEqual(expected_dicts, given_dicts)
 
+    def _convert(self, kvk_vestiging):
+        kvk_mac = kvk.KvkMaatschappelijkeActiviteit.objects.create(
+            macid=1,
+            indicatieonderneming='Ja',
+            kvknummer='1234567',
+            naam='Willeukeurig',
+            nonmailing='Ja',
+            prsid=Decimal('999999999999999999'),
+            datumaanvang=Decimal('19820930'),
+            laatstbijgewerkt=datetime.datetime(2016, 5, 19, 9, 14, 44, 997537, tzinfo=datetime.timezone.utc),
+            statusobject='Bevraagd',
+            machibver=Decimal('0')
+        )
+
+        kvk_vestiging.vesid = 1
+        kvk_vestiging.maatschappelijke_activiteit_id=1
+        kvk_vestiging.vestigingsnummer='1'
+        kvk_vestiging.veshibver=0
+
+        kvk_vestiging.save()
+        build_hr_data.fill_stelselpedia()
+
+        v = models.Vestiging.objects.get(pk=kvk_vestiging.pk)
+        return list(v.activiteiten.all())
+
     def test_read_empty(self):
         m = kvk.KvkVestiging(
         )
 
-        cgs = build_hr_data._as_activiteiten(m)
+        cgs = self._convert(m)
         self.assertIsNotNone(cgs)
         self.assertListEqual([], cgs)
 
@@ -31,7 +60,7 @@ class ImportActiviteitenTest(TestCase):
             sbiomschrijvinghoofdact='Hotel-restaurants',
         )
 
-        acts = build_hr_data._as_activiteiten(m)
+        acts = self._convert(m)
         self.assertActEqual([(models.Activiteit(
             activiteitsomschrijving='De exploitatie van een hotel, restaurant, bar en vergaderruimtes.',
             sbi_code='55101',
@@ -49,7 +78,7 @@ class ImportActiviteitenTest(TestCase):
             sbiomschrijvingnevenact1='Cafés',
             sbiomschrijvingnevenact2='Verhuur van overige woonruimte',
         )
-        acts = build_hr_data._as_activiteiten(m)
+        acts = self._convert(m)
         self.assertActEqual([models.Activiteit(
             activiteitsomschrijving='De exploitatie van een hotel, restaurant, bar en vergaderruimtes.',
             sbi_code='55101',
@@ -75,7 +104,7 @@ class ImportActiviteitenTest(TestCase):
             sbicodenevenactiviteit2=Decimal('620202'),
             sbiomschrijvingnevenact2='Software consultancy',
         )
-        acts = build_hr_data._as_activiteiten(m)
+        acts = self._convert(m)
         self.assertActEqual([models.Activiteit(
             activiteitsomschrijving='Het schrijven van teksten, notuleren en verslaglegging',
             sbi_code='9003',

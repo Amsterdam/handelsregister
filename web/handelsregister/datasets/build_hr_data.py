@@ -318,13 +318,32 @@ def fill_stelselpedia():
         _converteer_handelsnaam(cursor)
 
         for i in (1, 2, 3):
-            log.info("Converteren communicatie-gegevens-{0}".format(i))
-            _converteer_communicatiegegevens(cursor, i)
+            log.info("Converteren MAC communicatie-gegevens-{0}".format(i))
+            _converteer_mac_communicatiegegevens(cursor, i)
+
+        log.info("Converteren commerciële vestiging")
+        _converteer_commerciele_vestiging(cursor)
+
+        log.info("Converteren niet-commerciële vestiging")
+        _converteer_niet_commerciele_vestiging(cursor)
+
+        log.info("Converteren vestiging")
+        _converteer_vestiging(cursor)
+
+        for i in (1, 2, 3):
+            log.info("Converteren VES communicatie-gegevens-{0}".format(i))
+            _converteer_ves_communicatiegegevens(cursor, i)
 
             # MACbatcher().process_rows()
             # PRSbatcher().process_rows()
             # VESbatcher().process_rows()
             # FunctievervullingBatcher().process_rows()
+
+        log.info("Converteren hoofdactiviteit")
+        _converteer_hoofdactiviteit(cursor)
+        for i in (1, 2, 3):
+            log.info("Converteren nevenactiviteit-{0}".format(i))
+            _converteer_nevenactiviteit(cursor, i)
 
 
 def _converteer_locaties(cursor):
@@ -434,7 +453,15 @@ INSERT INTO hr_handelsnaam (id, handelsnaam, onderneming_id)
         """)
 
 
-def _converteer_communicatiegegevens(cursor, i):
+def _converteer_mac_communicatiegegevens(cursor, i):
+    __converteer_any_communicatiegegevens(cursor, i, 'macid', 'kvkmacm00', 'maatschappelijkeactiviteit')
+
+
+def _converteer_ves_communicatiegegevens(cursor, i):
+    __converteer_any_communicatiegegevens(cursor, i, 'vesid', 'kvkvesm00', 'vestiging')
+
+
+def __converteer_any_communicatiegegevens(cursor, i, id_col, source, target):
     cursor.execute("""
 INSERT INTO hr_communicatiegegevens (
   id,
@@ -445,31 +472,197 @@ INSERT INTO hr_communicatiegegevens (
   soort_communicatie_nummer
 )
   SELECT
-    macid || '1',
-    domeinnaam1,
-    emailadres1,
-    toegangscode1,
-    nummer1,
-    soort1
-  FROM kvkmacm00
-  WHERE domeinnaam1 IS NOT NULL
-        OR emailadres1 IS NOT NULL
-        OR toegangscode1 IS NOT NULL
-        OR nummer1 IS NOT NULL
-        OR soort1 IS NOT NULL
-            """.replace('1', str(i)))
+    {id_col} || '{index}',
+    domeinnaam{index},
+    emailadres{index},
+    toegangscode{index},
+    nummer{index},
+    soort{index}
+  FROM {source}
+  WHERE domeinnaam{index} IS NOT NULL
+        OR emailadres{index} IS NOT NULL
+        OR toegangscode{index} IS NOT NULL
+        OR nummer{index} IS NOT NULL
+        OR soort{index} IS NOT NULL
+            """.format(id_col=id_col, source=source, index=i))
     cursor.execute("""
-INSERT INTO hr_maatschappelijkeactiviteit_communicatiegegevens (
-  maatschappelijkeactiviteit_id,
+INSERT INTO hr_{target}_communicatiegegevens (
+  {target}_id,
   communicatiegegevens_id
 )
   SELECT
-    macid,
-    macid || '1'
-  FROM kvkmacm00
-  WHERE domeinnaam1 IS NOT NULL
-        OR emailadres1 IS NOT NULL
-        OR toegangscode1 IS NOT NULL
-        OR nummer1 IS NOT NULL
-        OR soort1 IS NOT NULL
-            """.replace('1', str(i)))
+    {id_col},
+    {id_col} || '{index}'
+  FROM {source}
+  WHERE domeinnaam{index} IS NOT NULL
+        OR emailadres{index} IS NOT NULL
+        OR toegangscode{index} IS NOT NULL
+        OR nummer{index} IS NOT NULL
+        OR soort{index} IS NOT NULL
+            """.format(id_col=id_col, source=source, target=target, index=i))
+
+
+def _converteer_commerciele_vestiging(cursor):
+    cursor.execute("""
+INSERT INTO hr_commercielevestiging (
+  id,
+  totaal_werkzame_personen,
+  fulltime_werkzame_personen,
+  parttime_werkzame_personen,
+  import_activiteit,
+  export_activiteit
+)
+  SELECT
+    vesid,
+    totaalwerkzamepersonen,
+    fulltimewerkzamepersonen,
+    parttimewerkzamepersonen,
+    CASE importactiviteit
+    WHEN 'Ja'
+      THEN TRUE
+    WHEN 'Nee'
+      THEN FALSE
+    ELSE NULL END,
+    CASE exportactiviteit
+    WHEN 'Ja'
+      THEN TRUE
+    WHEN 'Nee'
+      THEN FALSE
+    ELSE NULL END
+  FROM kvkvesm00
+  WHERE typeringvestiging = 'CVS'
+      """)
+
+
+def _converteer_niet_commerciele_vestiging(cursor):
+    cursor.execute("""
+INSERT INTO hr_nietcommercielevestiging (
+  id,
+  ook_genoemd,
+  verkorte_naam
+)
+  SELECT
+    vesid,
+    ookgenoemd,
+    verkortenaam
+  FROM kvkvesm00
+  WHERE typeringvestiging = 'NCV'
+      """)
+
+
+def _converteer_vestiging(cursor):
+    cursor.execute("""
+INSERT INTO hr_vestiging
+(
+  id,
+  vestigingsnummer,
+  hoofdvestiging,
+  naam,
+  datum_aanvang,
+  datum_einde,
+  datum_voortzetting,
+  maatschappelijke_activiteit_id,
+  commerciele_vestiging_id,
+  niet_commerciele_vestiging_id,
+  bezoekadres_id,
+  postadres_id
+)
+
+  SELECT
+    v.vesid,
+    v.vestigingsnummer,
+    CASE v.indicatiehoofdvestiging
+    WHEN 'Ja'
+      THEN TRUE
+    ELSE FALSE
+    END,
+
+    coalesce(v.naam, v.eerstehandelsnaam),
+    to_date(to_char(v.datumaanvang, '99999999'), 'YYYYMMDD'),
+    to_date(to_char(v.datumeinde, '99999999'), 'YYYYMMDD'),
+    NULL,
+
+    v.macid,
+    CASE v.typeringvestiging
+    WHEN 'CVS'
+      THEN v.vesid
+    ELSE NULL END,
+    CASE v.typeringvestiging
+    WHEN 'NCV'
+      THEN v.vesid
+    ELSE NULL END,
+    b.adrid,
+    p.adrid
+  FROM kvkvesm00 v
+    LEFT JOIN kvkadrm00 p ON p.vesid = v.vesid AND p.typering = 'postLocatie'
+    LEFT JOIN kvkadrm00 b ON b.vesid = v.vesid AND b.typering = 'bezoekLocatie'
+        """)
+
+
+def _converteer_hoofdactiviteit(cursor):
+    cursor.execute("""
+INSERT INTO hr_activiteit (
+  id,
+  activiteitsomschrijving,
+  sbi_code,
+  sbi_omschrijving,
+  hoofdactiviteit
+)
+  SELECT
+    vesid || '0',
+    omschrijvingactiviteit,
+    CASE sbicodehoofdactiviteit
+    WHEN '900302' THEN '9003'
+    WHEN '889922' THEN '88992'
+    WHEN '620202' THEN '6202'
+    ELSE sbicodehoofdactiviteit END ,
+    sbiomschrijvinghoofdact,
+    TRUE
+  FROM kvkvesm00
+  WHERE sbicodehoofdactiviteit IS NOT NULL
+    """)
+    cursor.execute("""
+INSERT INTO hr_vestiging_activiteiten (
+  vestiging_id,
+  activiteit_id
+)
+  SELECT
+    vesid,
+    vesid || '0'
+  FROM kvkvesm00
+  WHERE sbicodehoofdactiviteit IS NOT NULL
+    """)
+
+
+def _converteer_nevenactiviteit(cursor, i):
+    cursor.execute("""
+INSERT INTO hr_activiteit (
+  id,
+  sbi_code,
+  sbi_omschrijving,
+  hoofdactiviteit
+)
+  SELECT
+    vesid || '{index}',
+    CASE sbicodenevenactiviteit{index}
+    WHEN '900302' THEN '9003'
+    WHEN '889922' THEN '88992'
+    WHEN '620202' THEN '6202'
+    ELSE sbicodenevenactiviteit{index} END ,
+    sbiomschrijvingnevenact{index},
+    FALSE
+  FROM kvkvesm00
+  WHERE sbicodenevenactiviteit{index} IS NOT NULL
+    """.format(index=i))
+
+    cursor.execute("""
+INSERT INTO hr_vestiging_activiteiten (
+  vestiging_id,
+  activiteit_id
+)
+  SELECT
+    vesid,
+    vesid || '{index}'
+  FROM kvkvesm00
+  WHERE sbicodenevenactiviteit{index}  IS NOT NULL
+    """.format(index=i))
