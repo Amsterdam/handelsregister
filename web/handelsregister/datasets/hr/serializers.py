@@ -1,5 +1,3 @@
-from rest_framework import fields
-from rest_framework import relations
 from rest_framework import serializers
 
 from datapunt import rest
@@ -14,7 +12,17 @@ class Communicatiegegevens(serializers.ModelSerializer):
         )
 
 
+class Handelsnaam(serializers.ModelSerializer):
+    class Meta:
+        model = models.Handelsnaam
+        exclude = (
+            'id',
+        )
+
+
 class Onderneming(serializers.ModelSerializer):
+    handelsnamen = Handelsnaam(many=True)
+
     class Meta:
         model = models.Onderneming
         exclude = (
@@ -29,12 +37,14 @@ class Locatie(serializers.ModelSerializer):
             'id',
         )
 
+
 class CommercieleVestiging(serializers.ModelSerializer):
     class Meta:
         model = models.CommercieleVestiging
         exclude = (
             'id',
         )
+
 
 class NietCommercieleVestiging(serializers.ModelSerializer):
     class Meta:
@@ -43,12 +53,14 @@ class NietCommercieleVestiging(serializers.ModelSerializer):
             'id',
         )
 
+
 class Activiteit(serializers.ModelSerializer):
     class Meta:
         model = models.Activiteit
         exclude = (
             'id',
         )
+
 
 class MaatschappelijkeActiviteit(rest.HALSerializer):
     dataset = 'hr'
@@ -119,10 +131,7 @@ class VestigingDetail(rest.HALSerializer):
     postadres = Locatie()
     bezoekadres = Locatie()
     activiteiten = Activiteit(many=True)
+    handelsnamen = Handelsnaam(many=True)
 
     class Meta:
         model = models.Vestiging
-
-    def to_representation(self, instance):
-        return super().to_representation(instance)
-
