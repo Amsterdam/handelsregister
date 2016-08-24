@@ -81,10 +81,20 @@ class HALPagination(pagination.PageNumberPagination):
         ]))
 
 
+class DisabledHTMLFilterBackend(filters.DjangoFilterBackend):
+    """
+    See https://github.com/tomchristie/django-rest-framework/issues/3766
+    This prevents DRF from generating the filter dropdowns (which can be HUGE in our case)
+    """
+
+    def to_html(self, request, queryset, view):
+        return ""
+
+
 class AtlasViewSet(DetailSerializerMixin, viewsets.ReadOnlyModelViewSet):
     renderer_classes = DEFAULT_RENDERERS
     pagination_class = HALPagination
-    filter_backends = (filters.DjangoFilterBackend,)
+    filter_backends = (DisabledHTMLFilterBackend, )
 
 
 class RelatedSummaryField(serializers.Field):

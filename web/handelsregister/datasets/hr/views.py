@@ -20,6 +20,7 @@ class MaatschappelijkeActiviteitViewSet(rest.AtlasViewSet):
     queryset = (models.MaatschappelijkeActiviteit.objects.all())
     queryset_detail = (models.MaatschappelijkeActiviteit.objects
                        .select_related('onderneming')
+                       .select_related('hoofdvestiging')
                        .all())
 
     serializer_detail_class = serializers.MaatschappelijkeActiviteitDetail
@@ -59,7 +60,7 @@ class VestigingViewSet(rest.AtlasViewSet):
     serializer_detail_class = serializers.VestigingDetail
     serializer_class = serializers.Vestiging
 
-    filter_fields = ('maatschappelijke_activiteit', )
+    filter_fields = ('maatschappelijke_activiteit',)
 
 
 class FunctievervullingViewSet(rest.AtlasViewSet):
