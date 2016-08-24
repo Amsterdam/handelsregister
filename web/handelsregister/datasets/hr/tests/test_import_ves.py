@@ -232,6 +232,12 @@ class ImportVestigingTest(TestCase):
             vesid=kvk_vestiging.pk,
             veshdnhibver=0
         )
+        kvk.KvkVestigingHandelsnaam.objects.create(
+            veshdnid=2,
+            hdnid=42,
+            vesid=kvk_vestiging.pk,
+            veshdnhibver=0
+        )
 
         vestiging = self._convert(kvk_vestiging)
         handelsnamen = list(vestiging.handelsnamen.all())

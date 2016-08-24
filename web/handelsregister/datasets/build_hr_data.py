@@ -288,9 +288,10 @@ def _converteer_handelsnaam_ves(cursor):
     cursor.execute("""
 INSERT INTO hr_vestiging_handelsnamen(vestiging_id, handelsnaam_id)
   SELECT
-    vesid,
-    veshdnid
-  FROM kvkveshdnm00
+    vh.vesid,
+    h.hdnid
+  FROM kvkveshdnm00 vh LEFT JOIN kvkhdnm00 h ON vh.veshdnid = h.hdnid
+  WHERE h.hdnid IS NOT NULL
     """)
 
 
