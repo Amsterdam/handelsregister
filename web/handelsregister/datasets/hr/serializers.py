@@ -1,4 +1,5 @@
 from rest_framework import fields
+from rest_framework import relations
 from rest_framework import serializers
 
 from datapunt import rest
@@ -102,6 +103,7 @@ class MaatschappelijkeActiviteitDetail(rest.HALSerializer):
     communicatiegegevens = Communicatiegegevens(many=True)
     postadres = Locatie()
     bezoekadres = Locatie()
+    vestigingen = rest.RelatedSummaryField()
 
     class Meta:
         model = models.MaatschappelijkeActiviteit
@@ -120,3 +122,7 @@ class VestigingDetail(rest.HALSerializer):
 
     class Meta:
         model = models.Vestiging
+
+    def to_representation(self, instance):
+        return super().to_representation(instance)
+

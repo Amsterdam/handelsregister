@@ -187,11 +187,6 @@ class MaatschappelijkeActiviteit(models.Model):
         help_text="bezoekadres",
     )
 
-    hoofdvestiging = models.ForeignKey(
-        'Vestiging', related_name='+', blank=True, null=True,
-        help_text="",
-    )
-
     eigenaar = models.ForeignKey(
         'Persoon', blank=True, null=True,
         help_text="",
@@ -203,6 +198,11 @@ class MaatschappelijkeActiviteit(models.Model):
 
     def __str__(self):
         return "{}".format(self.naam)
+
+    @property
+    def hoofdvestiging(self):
+        vestigingen = self.vestigingen.filter(hoofdvestiging=True)
+        return vestigingen[0] if vestigingen else None
 
 
 class Onderneming(models.Model):
@@ -264,7 +264,9 @@ class Vestiging(models.Model):
     )
 
     maatschappelijke_activiteit = models.ForeignKey(
-        'MaatschappelijkeActiviteit'
+        'MaatschappelijkeActiviteit',
+        related_name='vestigingen',
+        db_index=True,
     )
 
     vestigingsnummer = models.CharField(

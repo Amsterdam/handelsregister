@@ -59,6 +59,8 @@ class VestigingViewSet(rest.AtlasViewSet):
     serializer_detail_class = serializers.VestigingDetail
     serializer_class = serializers.Vestiging
 
+    filter_fields = ('maatschappelijke_activiteit', )
+
 
 class FunctievervullingViewSet(rest.AtlasViewSet):
     """
