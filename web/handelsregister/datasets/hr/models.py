@@ -197,14 +197,12 @@ class MaatschappelijkeActiviteit(models.Model):
         'Onderneming', on_delete=models.CASCADE, null=True, blank=True,
         help_text="",
     )
+    hoofdvestiging = models.ForeignKey(
+        'Vestiging', null=True, blank=True,
+    )
 
     def __str__(self):
         return "{}".format(self.naam)
-
-    @property
-    def hoofdvestiging(self):
-        vestigingen = self.vestigingen.filter(hoofdvestiging=True)
-        return vestigingen[0] if vestigingen else None
 
 
 class Onderneming(models.Model):

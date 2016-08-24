@@ -238,3 +238,32 @@ class ImportVestigingTest(TestCase):
         self.assertNotEqual([], handelsnamen)
 
         self.assertListEqual(['Handelsnaam B.V.'], [h.handelsnaam for h in handelsnamen])
+
+    def test_import_hoofdvestiging(self):
+        kvk_vestiging_1 = kvk.KvkVestiging.objects.create(
+            vesid=100000000000000000,
+            maatschappelijke_activiteit_id=999999999999999999,
+            vestigingsnummer='000033333333',
+            eerstehandelsnaam='Onderneming B.V.',
+            typeringvestiging='CVS',
+            statusobject='Bevraagd',
+            veshibver=0,
+            indicatiehoofdvestiging='Nee',
+        )
+        kvk_vestiging_2 = kvk.KvkVestiging.objects.create(
+            vesid=100000000000000001,
+            maatschappelijke_activiteit_id=999999999999999999,
+            vestigingsnummer='000033333334',
+            eerstehandelsnaam='Handelsnaam B.V.',
+            typeringvestiging='CVS',
+            statusobject='Bevraagd',
+            veshibver=0,
+            indicatiehoofdvestiging='Ja',
+        )
+
+        build_hr_data.fill_stelselpedia()
+
+        mac = models.MaatschappelijkeActiviteit.objects.get(pk=999999999999999999)
+        self.assertIsNotNone(mac.hoofdvestiging)
+
+        self.assertEqual('100000000000000001', mac.hoofdvestiging.pk)

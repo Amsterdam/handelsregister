@@ -2,25 +2,17 @@
 From the original dump
 fill the stelselpedia dumps
 """
-import datetime
 import logging
 import time
-from decimal import Decimal
-from typing import List, Union
 
 from django import db
 from django.conf import settings
 from django.db import transaction
 
-from datasets.hr.models import Communicatiegegevens, Locatie, CommercieleVestiging, \
-    NietCommercieleVestiging, Activiteit
 from datasets.hr.models import Functievervulling
 from datasets.hr.models import Persoon
-from datasets.hr.models import Vestiging
-from datasets.kvkdump.models import KvkFunctievervulling, KvkAdres
-from datasets.kvkdump.models import KvkMaatschappelijkeActiviteit
+from datasets.kvkdump.models import KvkFunctievervulling
 from datasets.kvkdump.models import KvkPersoon
-from datasets.kvkdump.models import KvkVestiging
 
 BAG_NUMMERAANDUIDING = "https://api.datapunt.amsterdam.nl/bag/nummeraanduiding/{}/"
 BAG_VERBLIJFSOBJECT = "https://api.datapunt.amsterdam.nl/bag/verblijfsobject/{}/"
@@ -174,6 +166,10 @@ def fill_stelselpedia():
         log.info("Converteren handelsnaam vestiging")
         _converteer_handelsnaam_ves(cursor)
 
+        log.info("Converteren hoofdvestiging")
+        _converteer_hoofdvestiging(cursor)
+
+
 def _converteer_locaties(cursor):
     cursor.execute("""
 INSERT INTO hr_locatie (
@@ -296,6 +292,7 @@ INSERT INTO hr_vestiging_handelsnamen(vestiging_id, handelsnaam_id)
     veshdnid
   FROM kvkveshdnm00
     """)
+
 
 def _converteer_mac_communicatiegegevens(cursor, i):
     __converteer_any_communicatiegegevens(cursor, i, 'macid', 'kvkmacm00', 'maatschappelijkeactiviteit')
@@ -510,3 +507,13 @@ INSERT INTO hr_vestiging_activiteiten (
   FROM kvkvesm00
   WHERE sbicodenevenactiviteit{index}  IS NOT NULL
     """.format(index=i))
+
+
+def _converteer_hoofdvestiging(cursor):
+    cursor.execute("""
+UPDATE hr_maatschappelijkeactiviteit m
+SET hoofdvestiging_id = v.id
+FROM hr_vestiging v
+WHERE v.maatschappelijke_activiteit_id = m.id
+  AND v.hoofdvestiging
+    """)
