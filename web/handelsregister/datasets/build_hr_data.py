@@ -171,6 +171,8 @@ def fill_stelselpedia():
             log.info("Converteren nevenactiviteit-{0}".format(i))
             _converteer_nevenactiviteit(cursor, i)
 
+        log.info("Converteren handelsnaam vestiging")
+        _converteer_handelsnaam_ves(cursor)
 
 def _converteer_locaties(cursor):
     cursor.execute("""
@@ -285,6 +287,15 @@ INSERT INTO hr_onderneming_handelsnamen(onderneming_id, handelsnaam_id)
   FROM kvkhdnm00
     """)
 
+
+def _converteer_handelsnaam_ves(cursor):
+    cursor.execute("""
+INSERT INTO hr_vestiging_handelsnamen(vestiging_id, handelsnaam_id)
+  SELECT
+    vesid,
+    veshdnid
+  FROM kvkveshdnm00
+    """)
 
 def _converteer_mac_communicatiegegevens(cursor, i):
     __converteer_any_communicatiegegevens(cursor, i, 'macid', 'kvkmacm00', 'maatschappelijkeactiviteit')

@@ -15,16 +15,16 @@ class ImportVestigingTest(TestCase):
         utils.generate_schema()
 
         self.kvk_mac = kvk.KvkMaatschappelijkeActiviteit.objects.create(
-            macid=Decimal('999999999999999999'),
+            macid=999999999999999999,
             indicatieonderneming='Ja',
             kvknummer='1234567',
             naam='Willeukeurig',
             nonmailing='Ja',
-            prsid=Decimal('999999999999999999'),
-            datumaanvang=Decimal('19820930'),
+            prsid=999999999999999999,
+            datumaanvang=19820930,
             laatstbijgewerkt=datetime.datetime(2016, 5, 19, 9, 14, 44, 997537, tzinfo=datetime.timezone.utc),
             statusobject='Bevraagd',
-            machibver=Decimal('0')
+            machibver=0
         )
 
     def _convert(self, kvk_vestiging):
@@ -34,17 +34,17 @@ class ImportVestigingTest(TestCase):
 
     def test_import_basic_fields(self):
         kvk_vestiging = kvk.KvkVestiging.objects.create(
-            vesid=Decimal('100000000000000000'),
-            maatschappelijke_activiteit_id=Decimal('999999999999999999'),
+            vesid=100000000000000000,
+            maatschappelijke_activiteit_id=999999999999999999,
             vestigingsnummer='000033333333',
             eerstehandelsnaam='Onderneming B.V.',
             indicatiehoofdvestiging='Ja',
             typeringvestiging='CVS',
             statusobject='Bevraagd',
-            veshibver=Decimal('0'),
-            datumaanvang=Decimal('20160201'),
-            registratietijdstip=Decimal('20160322120335496'),
-            totaalwerkzamepersonen=Decimal('0'),
+            veshibver=0,
+            datumaanvang=20160201,
+            registratietijdstip=20160322120335496,
+            totaalwerkzamepersonen=0,
         )
 
         vestiging = self._convert(kvk_vestiging)
@@ -62,17 +62,17 @@ class ImportVestigingTest(TestCase):
 
     def test_import_communicatie(self):
         kvk_vestiging = kvk.KvkVestiging.objects.create(
-            vesid=Decimal('100000000000000000'),
-            maatschappelijke_activiteit_id=Decimal('999999999999999999'),
+            vesid=100000000000000000,
+            maatschappelijke_activiteit_id=999999999999999999,
             vestigingsnummer='000033333333',
             eerstehandelsnaam='Onderneming B.V.',
             typeringvestiging='CVS',
             statusobject='Bevraagd',
-            veshibver=Decimal('0'),
+            veshibver=0,
 
             nummer1='0206666666',
             soort1='Telefoon',
-            toegangscode1=Decimal('31'),
+            toegangscode1=31,
         )
         vestiging = self._convert(kvk_vestiging)
 
@@ -89,22 +89,22 @@ class ImportVestigingTest(TestCase):
 
     def test_import_commercieel(self):
         kvk_vestiging = kvk.KvkVestiging.objects.create(
-            vesid=Decimal('100000000000000000'),
-            maatschappelijke_activiteit_id=Decimal('999999999999999999'),
+            vesid=100000000000000000,
+            maatschappelijke_activiteit_id=999999999999999999,
             vestigingsnummer='000033333333',
             eerstehandelsnaam='Onderneming B.V.',
             typeringvestiging='CVS',
             statusobject='Bevraagd',
-            veshibver=Decimal('0'),
+            veshibver=0,
             exportactiviteit='Nee',
-            fulltimewerkzamepersonen=Decimal('0'),
+            fulltimewerkzamepersonen=0,
             importactiviteit='Ja',
             omschrijvingactiviteit='Groothandel in bouwmaterialen algemeen assortiment',
-            parttimewerkzamepersonen=Decimal('0'),
-            registratietijdstip=Decimal('20160322120335496'),
-            sbicodehoofdactiviteit=Decimal('46739'),
+            parttimewerkzamepersonen=0,
+            registratietijdstip=20160322120335496,
+            sbicodehoofdactiviteit=46739,
             sbiomschrijvinghoofdact='Groothandel in bouwmaterialen algemeen assortiment',
-            totaalwerkzamepersonen=Decimal('0'),
+            totaalwerkzamepersonen=0,
         )
 
         vestiging = self._convert(kvk_vestiging)
@@ -118,18 +118,18 @@ class ImportVestigingTest(TestCase):
 
     def test_import_niet_commercieel(self):
         kvk_vestiging = kvk.KvkVestiging.objects.create(
-            vesid=Decimal('222222222222222222'),
-            datumaanvang=Decimal('20120701'),
+            vesid=222222222222222222,
+            datumaanvang=20120701,
             indicatiehoofdvestiging='Ja',
-            maatschappelijke_activiteit_id=Decimal('999999999999999999'),
+            maatschappelijke_activiteit_id=999999999999999999,
             naam='Stichting',
             ookgenoemd='Superstichting',
-            registratietijdstip=Decimal('20120716151909809'),
+            registratietijdstip=20120716151909809,
             typeringvestiging='NCV',
             verkortenaam='Sprst',
             vestigingsnummer='000033333333',
             statusobject='Bevraagd',
-            veshibver=Decimal('0')
+            veshibver=0
         )
 
         vestiging = self._convert(kvk_vestiging)
@@ -141,23 +141,23 @@ class ImportVestigingTest(TestCase):
 
     def test_import_adressen(self):
         kvk_vestiging = kvk.KvkVestiging.objects.create(
-            vesid=Decimal('100000000000000000'),
-            maatschappelijke_activiteit_id=Decimal('999999999999999999'),
+            vesid=100000000000000000,
+            maatschappelijke_activiteit_id=999999999999999999,
             vestigingsnummer='000033333333',
             eerstehandelsnaam='Onderneming B.V.',
             typeringvestiging='CVS',
             statusobject='Bevraagd',
-            veshibver=Decimal('0'),
-            datumaanvang=Decimal('20160201'),
-            registratietijdstip=Decimal('20160322120335496'),
-            totaalwerkzamepersonen=Decimal('0'),
+            veshibver=0,
+            datumaanvang=20160201,
+            registratietijdstip=20160322120335496,
+            totaalwerkzamepersonen=0,
         )
 
         kvk_vestiging.adressen.add(
             kvk.KvkAdres.objects.create(
-                adrid=Decimal('100000000001511357'),
+                adrid=100000000001511357,
                 afgeschermd='Nee',
-                huisnummer=Decimal('20'),
+                huisnummer=20,
                 identificatieaoa='0363200000313987',
                 identificatietgo='0363010000855678',
                 plaats='Amsterdam',
@@ -165,18 +165,18 @@ class ImportVestigingTest(TestCase):
                 straatnaam='Vlothavenweg',
                 typering='bezoekLocatie',
                 volledigadres='Vlothavenweg 20 1013BJ Amsterdam',
-                xcoordinaat=Decimal('118678.000'),
-                ycoordinaat=Decimal('490703.000'),
-                adrhibver=Decimal('0')),
+                xcoordinaat=118678.000,
+                ycoordinaat=490703.000,
+                adrhibver=0),
             kvk.KvkAdres.objects.create(
-                adrid=Decimal('100000000001511356'),
+                adrid=100000000001511356,
                 afgeschermd='Nee',
                 plaats='Veghel',
-                postbusnummer=Decimal('229'),
+                postbusnummer=229,
                 postcode='5460AE',
                 typering='postLocatie',
                 volledigadres='Postbus 229 5460AE Veghel',
-                adrhibver=Decimal('0')
+                adrhibver=0
             ))
 
         vestiging = self._convert(kvk_vestiging)
@@ -189,23 +189,52 @@ class ImportVestigingTest(TestCase):
 
     def test_import_activiteiten(self):
         kvk_vestiging = kvk.KvkVestiging.objects.create(
-            vesid=Decimal('100000000001511395'),
-            datumaanvang=Decimal('19910102'),
+            vesid=100000000001511395,
+            datumaanvang=19910102,
             eerstehandelsnaam='Hotel B.V.',
-            maatschappelijke_activiteit_id=Decimal('999999999999999999'),
+            maatschappelijke_activiteit_id=999999999999999999,
             omschrijvingactiviteit='De exploitatie van een hotel, restaurant, bar en vergaderruimtes.',
-            sbicodehoofdactiviteit=Decimal('55101'),
-            sbicodenevenactiviteit1=Decimal('5630'),
-            sbicodenevenactiviteit2=Decimal('68203'),
+            sbicodehoofdactiviteit=55101,
+            sbicodenevenactiviteit1=5630,
+            sbicodenevenactiviteit2=68203,
             sbiomschrijvinghoofdact='Hotel-restaurants',
             sbiomschrijvingnevenact1='Cafés',
             sbiomschrijvingnevenact2='Verhuur van overige woonruimte',
             typeringvestiging='NCV',
             vestigingsnummer='1',
             statusobject='Bevraagd',
-            veshibver=Decimal('0')
+            veshibver=0
         )
         vestiging = self._convert(kvk_vestiging)
 
         activiteiten = list(vestiging.activiteiten.all())
         self.assertNotEqual([], activiteiten)
+
+    def test_import_handelsnaam(self):
+        kvk_vestiging = kvk.KvkVestiging.objects.create(
+            vesid=100000000000000000,
+            maatschappelijke_activiteit_id=999999999999999999,
+            vestigingsnummer='000033333333',
+            eerstehandelsnaam='Onderneming B.V.',
+            typeringvestiging='CVS',
+            statusobject='Bevraagd',
+            veshibver=0,
+        )
+        kvk_handelsnaam = kvk.KvkHandelsnaam.objects.create(
+            hdnid=1,
+            macid_id=999999999999999999,
+            handelsnaam='Handelsnaam B.V.',
+            hdnhibver=0,
+        )
+        kvk.KvkVestigingHandelsnaam.objects.create(
+            veshdnid=1,
+            hdnid=kvk_handelsnaam.pk,
+            vesid=kvk_vestiging.pk,
+            veshdnhibver=0
+        )
+
+        vestiging = self._convert(kvk_vestiging)
+        handelsnamen = list(vestiging.handelsnamen.all())
+        self.assertNotEqual([], handelsnamen)
+
+        self.assertListEqual(['Handelsnaam B.V.'], [h.handelsnaam for h in handelsnamen])

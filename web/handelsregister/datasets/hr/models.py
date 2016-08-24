@@ -321,6 +321,10 @@ class Vestiging(models.Model):
         'Activiteit'
     )
 
+    handelsnamen = models.ManyToManyField(
+        'Handelsnaam'
+    )
+
     def __str__(self):
         return "{}".format(self.naam)
 
