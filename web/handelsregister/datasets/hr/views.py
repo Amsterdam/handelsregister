@@ -56,6 +56,13 @@ class VestigingViewSet(rest.AtlasViewSet):
     """
 
     queryset = models.Vestiging.objects.all()
+    queryset_detail = (models.Vestiging.objects
+                       .select_related('maatschappelijke_activiteit')
+                       .select_related('postadres')
+                       .select_related('bezoekadres')
+                       .select_related('commerciele_vestiging')
+                       .select_related('niet_commerciele_vestiging')
+                       .all())
 
     serializer_detail_class = serializers.VestigingDetail
     serializer_class = serializers.Vestiging
