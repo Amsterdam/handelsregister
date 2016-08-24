@@ -24,7 +24,7 @@ class ImportVestigingTest(TestCase):
             statusobject='Bevraagd',
             machibver=Decimal('0')
         )
-        build_hr_data.load_mac_row(self.kvk_mac)
+        build_hr_data.fill_stelselpedia()
 
     def test_import_basic_fields(self):
         kvk_vestiging = kvk.KvkVestiging.objects.create(

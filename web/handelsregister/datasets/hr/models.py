@@ -413,7 +413,9 @@ class Communicatiegegevens(models.Model):
         (SOORT_COMMUNICATIE_TELEFOON, SOORT_COMMUNICATIE_TELEFOON),
         (SOORT_COMMUNICATIE_FAX, SOORT_COMMUNICATIE_FAX),
     )
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4)
+    id = models.CharField(
+        primary_key=True, max_length=21
+    )
 
     domeinnaam = models.URLField(
         max_length=300, blank=True, null=True, help_text="Het internetadres (URL)"

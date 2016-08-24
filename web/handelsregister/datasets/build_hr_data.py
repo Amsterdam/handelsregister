@@ -12,11 +12,9 @@ from django import db
 from django.conf import settings
 from django.db import transaction
 
-from datasets.hr.models import Communicatiegegevens, Onderneming, Locatie, CommercieleVestiging, \
+from datasets.hr.models import Communicatiegegevens, Locatie, CommercieleVestiging, \
     NietCommercieleVestiging, Activiteit
 from datasets.hr.models import Functievervulling
-from datasets.hr.models import Handelsnaam
-from datasets.hr.models import MaatschappelijkeActiviteit
 from datasets.hr.models import Persoon
 from datasets.hr.models import Vestiging
 from datasets.kvkdump.models import KvkFunctievervulling, KvkAdres
@@ -207,48 +205,6 @@ def _parse_indicatie(s: str) -> bool:
     return bool(s and s.lower() == 'ja')
 
 
-def load_mac_row(m: KvkMaatschappelijkeActiviteit) -> MaatschappelijkeActiviteit:
-    communicatiegegevens = _as_communicatiegegevens(m)
-    for c in communicatiegegevens:
-        c.save()
-
-    mac = MaatschappelijkeActiviteit.objects.create(
-        id=str(m.macid),
-        kvk_nummer=m.kvknummer,
-        naam=m.naam,
-        datum_aanvang=_parse_decimal_date(m.datumaanvang),
-        datum_einde=_parse_decimal_date(m.datumeinde),
-        non_mailing=_parse_indicatie(m.nonmailing),
-    )
-
-    if _parse_indicatie(m.indicatieonderneming):
-        ond = Onderneming.objects.create(
-            id=str(m.macid),
-            totaal_werkzame_personen=m.totaalwerkzamepersonen,
-            fulltime_werkzame_personen=m.fulltimewerkzamepersonen,
-            parttime_werkzame_personen=m.parttimewerkzamepersonen,
-        )
-        mac.onderneming = ond
-
-        for hn in m.handelsnamen.all():
-            Handelsnaam.objects.create(
-                id=hn.hdnid,
-                handelsnaam=hn.handelsnaam,
-                onderneming=ond,
-            )
-
-    for kvk_adres in m.adressen.all():
-        if kvk_adres.typering == 'bezoekLocatie':
-            mac.bezoekadres = _as_adres(kvk_adres)
-
-        if kvk_adres.typering == 'postLocatie':
-            mac.postadres = _as_adres(kvk_adres)
-
-    mac.communicatiegegevens.add(*communicatiegegevens)
-    mac.save()
-    return mac
-
-
 def load_ves_row(v: KvkVestiging) -> Vestiging:
     if False and v.sbicodenevenactiviteit2:
         print(v)
@@ -323,15 +279,6 @@ def load_functievervulling_row(functievervulling_object):
     )
 
 
-class MACbatcher(BatchImport):
-    queryset = (KvkMaatschappelijkeActiviteit.objects
-                .prefetch_related('handelsnamen', 'adressen')
-                .order_by('macid'))
-
-    def process_item(self, item):
-        load_mac_row(item)
-
-
 class VESbatcher(BatchImport):
     queryset = KvkVestiging.objects.order_by('vesid')
 
@@ -357,26 +304,31 @@ def fill_stelselpedia():
     """
     Go through all tables and fill Stelselpedia tables.
     """
-    with db.connection.cursor() as c:
+    with db.connection.cursor() as cursor:
         log.info("Converteren locaties")
-        c.execute(LOAD_LOCATIE)
+        _converteer_locaties(cursor)
 
         log.info("Converteren onderneming")
-        c.execute(LOAD_ONDERNEMING)
+        _converteer_onderneming(cursor)
 
         log.info("Converteren maatschappelijke activiteit")
-        c.execute(LOAD_MAATSCHAPPELIJKE_ACTIVITEIT)
+        _converteer_maatschappelijke_activiteit(cursor)
 
         log.info("Converteren handelsnaam")
-        c.execute(LOAD_HANDELSNAAM)
+        _converteer_handelsnaam(cursor)
 
-        # MACbatcher().process_rows()
-        # PRSbatcher().process_rows()
-        # VESbatcher().process_rows()
-        # FunctievervullingBatcher().process_rows()
+        for i in (1, 2, 3):
+            log.info("Converteren communicatie-gegevens-{0}".format(i))
+            _converteer_communicatiegegevens(cursor, i)
+
+            # MACbatcher().process_rows()
+            # PRSbatcher().process_rows()
+            # VESbatcher().process_rows()
+            # FunctievervullingBatcher().process_rows()
 
 
-LOAD_LOCATIE = """
+def _converteer_locaties(cursor):
+    cursor.execute("""
 INSERT INTO hr_locatie (
   id,
   volledig_adres,
@@ -408,9 +360,11 @@ INSERT INTO hr_locatie (
       land,
       geopunt
     FROM kvkadrm00
-"""
+        """)
 
-LOAD_ONDERNEMING = """
+
+def _converteer_onderneming(cursor):
+    cursor.execute("""
 INSERT INTO hr_onderneming (
   id,
   totaal_werkzame_personen,
@@ -424,9 +378,11 @@ INSERT INTO hr_onderneming (
     parttimewerkzamepersonen
   FROM kvkmacm00
   WHERE indicatieonderneming = 'Ja'
-"""
+        """)
 
-LOAD_MAATSCHAPPELIJKE_ACTIVITEIT = """
+
+def _converteer_maatschappelijke_activiteit(cursor):
+    cursor.execute("""
 INSERT INTO hr_maatschappelijkeactiviteit (
   id,
   naam,
@@ -463,14 +419,57 @@ INSERT INTO hr_maatschappelijkeactiviteit (
     b.adrid
   FROM kvkmacm00 m
     LEFT JOIN kvkadrm00 p ON p.macid = m.macid AND p.typering = 'postLocatie'
-    LEFT JOIN kvkadrm00 b on b.macid = m.macid AND b.typering = 'bezoekLocatie'
-"""
+    LEFT JOIN kvkadrm00 b ON b.macid = m.macid AND b.typering = 'bezoekLocatie'
+        """)
 
-LOAD_HANDELSNAAM = """
+
+def _converteer_handelsnaam(cursor):
+    cursor.execute("""
 INSERT INTO hr_handelsnaam (id, handelsnaam, onderneming_id)
   SELECT
     hdnid,
     handelsnaam,
     macid
   FROM kvkhdnm00
-  """
+        """)
+
+
+def _converteer_communicatiegegevens(cursor, i):
+    cursor.execute("""
+INSERT INTO hr_communicatiegegevens (
+  id,
+  domeinnaam,
+  emailadres,
+  toegangscode,
+  communicatie_nummer,
+  soort_communicatie_nummer
+)
+  SELECT
+    macid || '1',
+    domeinnaam1,
+    emailadres1,
+    toegangscode1,
+    nummer1,
+    soort1
+  FROM kvkmacm00
+  WHERE domeinnaam1 IS NOT NULL
+        OR emailadres1 IS NOT NULL
+        OR toegangscode1 IS NOT NULL
+        OR nummer1 IS NOT NULL
+        OR soort1 IS NOT NULL
+            """.replace('1', str(i)))
+    cursor.execute("""
+INSERT INTO hr_maatschappelijkeactiviteit_communicatiegegevens (
+  maatschappelijkeactiviteit_id,
+  communicatiegegevens_id
+)
+  SELECT
+    macid,
+    macid || '1'
+  FROM kvkmacm00
+  WHERE domeinnaam1 IS NOT NULL
+        OR emailadres1 IS NOT NULL
+        OR toegangscode1 IS NOT NULL
+        OR nummer1 IS NOT NULL
+        OR soort1 IS NOT NULL
+            """.replace('1', str(i)))

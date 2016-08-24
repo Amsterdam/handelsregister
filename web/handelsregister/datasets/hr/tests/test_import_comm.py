@@ -1,25 +1,45 @@
+import datetime
 from typing import List
 
 from django.forms import model_to_dict
 from django.test import TestCase
 
+from django.utils import timezone
+
 from datasets import build_hr_data
 from datasets.hr import models
 from datasets.kvkdump import models as kvk
+from datasets.kvkdump import utils
 
 
 class ImportCommunicatiegegevensTest(TestCase):
+    def setUp(self):
+        utils.generate_schema()
+
     def assertCommEqual(self, expected: List[models.Communicatiegegevens], cgs: List[models.Communicatiegegevens]):
         expected_dicts = [model_to_dict(m, exclude='id') for m in expected]
         given_dicts = [model_to_dict(m, exclude='id') for m in cgs]
 
         self.assertListEqual(expected_dicts, given_dicts)
 
+    def _convert(self, m):
+        m.macid = 1
+        m.prsid = 1
+        m.laatstbijgewerkt = timezone.now()
+        m.statusobject = 'Bevraagd'
+        m.machibver = 0
+        m.save()
+
+        build_hr_data.fill_stelselpedia()
+
+        mac = models.MaatschappelijkeActiviteit.objects.get(pk=1)
+        return list(mac.communicatiegegevens.all())
+
     def test_read_empty(self):
         m = kvk.KvkMaatschappelijkeActiviteit(
         )
 
-        cgs = build_hr_data._as_communicatiegegevens(m)
+        cgs = self._convert(m)
         self.assertIsNotNone(cgs)
         self.assertListEqual([], cgs)
 
@@ -32,7 +52,7 @@ class ImportCommunicatiegegevensTest(TestCase):
             soort1='Telefoon',
         )
 
-        cgs = build_hr_data._as_communicatiegegevens(m)
+        cgs = self._convert(m)
         self.assertCommEqual([(models.Communicatiegegevens(
             domeinnaam='www.domeinnaam.nl',
             emailadres='adres@provider.nl',
@@ -49,7 +69,7 @@ class ImportCommunicatiegegevensTest(TestCase):
             soort1='Telefoon',
         )
 
-        cgs = build_hr_data._as_communicatiegegevens(m)
+        cgs = self._convert(m)
         self.assertCommEqual([models.Communicatiegegevens(
             domeinnaam=None,
             emailadres='adres@provider.nl',
@@ -65,7 +85,7 @@ class ImportCommunicatiegegevensTest(TestCase):
             soort1='Telefoon',
         )
 
-        cgs = build_hr_data._as_communicatiegegevens(m)
+        cgs = self._convert(m)
         self.assertCommEqual([models.Communicatiegegevens(
             domeinnaam=None,
             emailadres=None,
@@ -84,14 +104,14 @@ class ImportCommunicatiegegevensTest(TestCase):
             soort1='Telefoon',
             soort2='Telefoon',
         )
-        cgs = build_hr_data._as_communicatiegegevens(m)
+        cgs = self._convert(m)
         self.assertCommEqual([models.Communicatiegegevens(
             emailadres='email@ergens.nl',
-            toegangscode=31,
+            toegangscode='31',
             communicatie_nummer='0206241111',
             soort_communicatie_nummer='Telefoon',
         ), models.Communicatiegegevens(
-            toegangscode=31,
+            toegangscode='31',
             communicatie_nummer='0612344321',
             soort_communicatie_nummer='Telefoon',
         )], cgs)
@@ -109,7 +129,7 @@ class ImportCommunicatiegegevensTest(TestCase):
             soort2='Telefoon',
             soort3='Fax',
         )
-        cgs = build_hr_data._as_communicatiegegevens(m)
+        cgs = self._convert(m)
         self.assertCommEqual([models.Communicatiegegevens(
             emailadres='datapunt.ois@amsterdam.nl',
             toegangscode='31',
