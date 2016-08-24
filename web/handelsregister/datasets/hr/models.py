@@ -225,6 +225,7 @@ class Onderneming(models.Model):
     parttime_werkzame_personen = models.IntegerField(
         blank=True, null=True
     )
+    handelsnamen = models.ManyToManyField('Handelsnaam')
 
 
 class CommercieleVestiging(models.Model):
@@ -395,7 +396,6 @@ class Handelsnaam(models.Model):
         primary_key=True, max_length=20
     )
     handelsnaam = models.CharField(max_length=500, blank=True, null=True)
-    onderneming = models.ForeignKey('Onderneming', related_name='handelsnamen')
 
     def __str__(self):
         return "{} ({})".format(self.handelsnaam, self.onderneming.kvk_nummer)

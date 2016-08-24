@@ -444,13 +444,20 @@ INSERT INTO hr_maatschappelijkeactiviteit (
 
 def _converteer_handelsnaam(cursor):
     cursor.execute("""
-INSERT INTO hr_handelsnaam (id, handelsnaam, onderneming_id)
+INSERT INTO hr_handelsnaam (id, handelsnaam)
   SELECT
     hdnid,
-    handelsnaam,
-    macid
+    handelsnaam
   FROM kvkhdnm00
         """)
+
+    cursor.execute("""
+INSERT INTO hr_onderneming_handelsnamen(onderneming_id, handelsnaam_id)
+  SELECT
+    macid,
+    hdnid
+  FROM kvkhdnm00
+    """)
 
 
 def _converteer_mac_communicatiegegevens(cursor, i):
