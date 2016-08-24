@@ -8,6 +8,7 @@ import time
 from decimal import Decimal
 from typing import List, Union
 
+from django import db
 from django.conf import settings
 from django.db import transaction
 
@@ -356,7 +357,120 @@ def fill_stelselpedia():
     """
     Go through all tables and fill Stelselpedia tables.
     """
-    MACbatcher().process_rows()
-    PRSbatcher().process_rows()
-    VESbatcher().process_rows()
-    FunctievervullingBatcher().process_rows()
+    with db.connection.cursor() as c:
+        log.info("Converteren locaties")
+        c.execute(LOAD_LOCATIE)
+
+        log.info("Converteren onderneming")
+        c.execute(LOAD_ONDERNEMING)
+
+        log.info("Converteren maatschappelijke activiteit")
+        c.execute(LOAD_MAATSCHAPPELIJKE_ACTIVITEIT)
+
+        log.info("Converteren handelsnaam")
+        c.execute(LOAD_HANDELSNAAM)
+
+        # MACbatcher().process_rows()
+        # PRSbatcher().process_rows()
+        # VESbatcher().process_rows()
+        # FunctievervullingBatcher().process_rows()
+
+
+LOAD_LOCATIE = """
+INSERT INTO hr_locatie (
+  id,
+  volledig_adres,
+  toevoeging_adres,
+  afgeschermd,
+  postbus_nummer,
+  bag_nummeraanduiding,
+  bag_adresseerbaar_object,
+  straat_huisnummer,
+  postcode_woonplaats,
+  regio,
+  land,
+  geometry
+)
+    SELECT
+      adrid,
+      volledigadres,
+      toevoegingadres,
+      CASE afgeschermd
+        WHEN 'Ja' THEN TRUE
+        ELSE FALSE
+      END,
+      postbusnummer,
+      'https://api.datapunt.amsterdam.nl/bag/nummeraanduiding/' || identificatieaoa || '/',
+      'https://api.datapunt.amsterdam.nl/bag/verblijfsobject/' || identificatietgo || '/',
+      straathuisnummer,
+      postcodewoonplaats,
+      regio,
+      land,
+      geopunt
+    FROM kvkadrm00
+"""
+
+LOAD_ONDERNEMING = """
+INSERT INTO hr_onderneming (
+  id,
+  totaal_werkzame_personen,
+  fulltime_werkzame_personen,
+  parttime_werkzame_personen
+)
+  SELECT
+    macid,
+    totaalwerkzamepersonen,
+    fulltimewerkzamepersonen,
+    parttimewerkzamepersonen
+  FROM kvkmacm00
+  WHERE indicatieonderneming = 'Ja'
+"""
+
+LOAD_MAATSCHAPPELIJKE_ACTIVITEIT = """
+INSERT INTO hr_maatschappelijkeactiviteit (
+  id,
+  naam,
+  kvk_nummer,
+  datum_aanvang,
+  datum_einde,
+  incidenteel_uitlenen_arbeidskrachten,
+  non_mailing,
+  onderneming_id,
+  postadres_id,
+  bezoekadres_id
+  --   eigenaar_id, hoofdvestiging_id
+)
+  SELECT
+    m.macid,
+    m.naam,
+    m.kvknummer,
+    to_date(to_char(m.datumaanvang, '99999999'), 'YYYYMMDD'),
+    to_date(to_char(m.datumeinde, '99999999'), 'YYYYMMDD'),
+    NULL,
+    CASE m.nonmailing
+    WHEN 'Ja'
+      THEN TRUE
+    WHEN 'Nee'
+      THEN FALSE
+    ELSE NULL
+    END,
+    CASE m.indicatieonderneming
+    WHEN 'Ja'
+      THEN m.macid
+    ELSE NULL
+    END,
+    p.adrid,
+    b.adrid
+  FROM kvkmacm00 m
+    LEFT JOIN kvkadrm00 p ON p.macid = m.macid AND p.typering = 'postLocatie'
+    LEFT JOIN kvkadrm00 b on b.macid = m.macid AND b.typering = 'bezoekLocatie'
+"""
+
+LOAD_HANDELSNAAM = """
+INSERT INTO hr_handelsnaam (id, handelsnaam, onderneming_id)
+  SELECT
+    hdnid,
+    handelsnaam,
+    macid
+  FROM kvkhdnm00
+  """

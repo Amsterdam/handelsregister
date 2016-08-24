@@ -314,18 +314,6 @@ class Vestiging(models.Model):
         'Activiteit'
     )
 
-    # todo: samenvoeging
-
-    # sbicode_hoofdactiviteit = models.CharField(max_length=20, blank=True, null=True)
-    # sbicode_nevenactiviteit1 = models.CharField(max_length=20, blank=True, null=True)
-    # sbicode_nevenactiviteit2 = models.CharField(max_length=20, blank=True, null=True)
-    # sbicode_nevenactiviteit3 = models.CharField(max_length=20, blank=True, null=True)
-    #
-    # sbi_omschrijving_hoofdact = models.CharField(max_length=180, blank=True, null=True)
-    # sbi_omschrijving_nevenact1 = models.CharField(max_length=180, blank=True, null=True)
-    # sbi_omschrijving_nevenact2 = models.CharField(max_length=180, blank=True, null=True)
-    # sbi_omschrijving_nevenact3 = models.CharField(max_length=180, blank=True, null=True)
-
     def __str__(self):
         return "{}".format(self.naam)
 

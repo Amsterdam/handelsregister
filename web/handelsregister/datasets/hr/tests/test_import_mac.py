@@ -7,11 +7,16 @@ from django.test import TestCase
 from datasets import build_hr_data
 from datasets.kvkdump import models as kvk
 from datasets.kvkdump import utils
+from .. import models
 
 
 class ImportMaatschappelijkeActiviteitTest(TestCase):
     def setUp(self):
         utils.generate_schema()
+
+    def _convert(self, m: kvk.KvkMaatschappelijkeActiviteit) -> models.MaatschappelijkeActiviteit:
+        build_hr_data.fill_stelselpedia()
+        return models.MaatschappelijkeActiviteit.objects.get(pk=m.pk)
 
     def test_import_typical_example(self):
         m = kvk.KvkMaatschappelijkeActiviteit.objects.create(
@@ -32,16 +37,14 @@ class ImportMaatschappelijkeActiviteitTest(TestCase):
             hdnhibver=Decimal('0'),
             macid=m
         )
-        m.refresh_from_db()
-
-        mac = build_hr_data.load_mac_row(m)
+        mac = self._convert(m)
 
         self.assertIsNotNone(mac)
         self.assertListEqual([], list(mac.communicatiegegevens.all()))
         self.assertEqual('100000000000000000', mac.id)
         self.assertEqual('01010101', mac.kvk_nummer)
         self.assertEqual('Handelsregister B.V.', mac.naam)
-        self.assertEqual(datetime.datetime(1982, 9, 30), mac.datum_aanvang)
+        self.assertEqual(datetime.date(1982, 9, 30), mac.datum_aanvang)
         self.assertIsNone(mac.datum_einde)
         self.assertEqual(True, mac.non_mailing)
 
@@ -71,7 +74,7 @@ class ImportMaatschappelijkeActiviteitTest(TestCase):
             machibver=Decimal('0')
         )
 
-        mac = build_hr_data.load_mac_row(m)
+        mac = self._convert(m)
 
         self.assertIsNotNone(mac)
         self.assertIsNotNone(mac.onderneming)
@@ -108,9 +111,7 @@ class ImportMaatschappelijkeActiviteitTest(TestCase):
             adrhibver=Decimal('0'),
             geopunt=Point(119767, 488362, srid=28992))
         )
-        m.refresh_from_db()
-
-        mac = build_hr_data.load_mac_row(m)
+        mac = self._convert(m)
 
         self.assertIsNone(mac.postadres)
         self.assertIsNotNone(mac.bezoekadres)
@@ -169,13 +170,11 @@ class ImportMaatschappelijkeActiviteitTest(TestCase):
             adrhibver=Decimal('0')
         ))
 
-        m.refresh_from_db()
-
-        mac = build_hr_data.load_mac_row(m)
-        mac.refresh_from_db()  # make sure all relations are stored correctly
+        mac = self._convert(m)
 
         self.assertIsNotNone(mac.postadres)
         self.assertEqual('Postbus 36026 1020MA Amsterdam', mac.postadres.volledig_adres)
+        self.assertIsNone(mac.postadres.bag_nummeraanduiding)
 
         self.assertIsNotNone(mac.bezoekadres)
         self.assertEqual('https://api.datapunt.amsterdam.nl/bag/nummeraanduiding/0363200000089973/',
@@ -204,8 +203,7 @@ class ImportMaatschappelijkeActiviteitTest(TestCase):
             adrhibver=Decimal('0')
         ))
 
-        m.refresh_from_db()
-        mac = build_hr_data.load_mac_row(m)
+        mac = self._convert(m)
         adr = mac.postadres
 
         self.assertIsNotNone(adr)
