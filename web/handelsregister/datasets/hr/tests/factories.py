@@ -9,6 +9,7 @@ class MaatschappelijkeActiviteitFactory(factory.DjangoModelFactory):
         model = models.MaatschappelijkeActiviteit
 
     id = fuzzy.FuzzyInteger(low=100000000000000000, high=100000000000000099)
+    kvk_nummer = fuzzy.FuzzyInteger(low=1, high=99999999)
 
 
 class PersoonFactory(factory.DjangoModelFactory):
@@ -24,6 +25,7 @@ class VestigingFactory(factory.DjangoModelFactory):
         model = models.Vestiging
 
     id = fuzzy.FuzzyInteger(low=100000000000000000, high=100000000000000099)
+    vestigingsnummer = fuzzy.FuzzyInteger(low=1, high=9999999)
     hoofdvestiging = fuzzy.FuzzyChoice(choices=[True, False])
     maatschappelijke_activiteit = factory.SubFactory(MaatschappelijkeActiviteitFactory)
 
