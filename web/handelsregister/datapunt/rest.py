@@ -1,12 +1,9 @@
 from collections import OrderedDict
 
-from rest_framework import renderers, serializers
 from rest_framework import pagination, response
+from rest_framework import renderers, serializers
 from rest_framework import viewsets, filters
-
-# from rest_framework.reverse import reverse
 from rest_framework.reverse import reverse
-
 from rest_framework.utils.urls import replace_query_param
 from rest_framework_extensions.mixins import DetailSerializerMixin
 
@@ -32,6 +29,7 @@ class DataSetSerializerMixin(object):
 
 
 class LinksField(serializers.HyperlinkedIdentityField):
+
     def to_representation(self, value):
         request = self.context.get('request')
 
@@ -94,11 +92,10 @@ class DisabledHTMLFilterBackend(filters.DjangoFilterBackend):
 class AtlasViewSet(DetailSerializerMixin, viewsets.ReadOnlyModelViewSet):
     renderer_classes = DEFAULT_RENDERERS
     pagination_class = HALPagination
-    filter_backends = (DisabledHTMLFilterBackend, )
+    filter_backends = (DisabledHTMLFilterBackend,)
 
 
 class RelatedSummaryField(serializers.Field):
-
     def to_representation(self, value):
         count = value.count()
         model_name = value.model.__name__
@@ -115,7 +112,6 @@ class RelatedSummaryField(serializers.Field):
 
 
 class DisplayField(serializers.Field):
-
     def __init__(self, *args, **kwargs):
         kwargs['source'] = '*'
         kwargs['read_only'] = True

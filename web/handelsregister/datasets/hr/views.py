@@ -26,6 +26,8 @@ class MaatschappelijkeActiviteitViewSet(rest.AtlasViewSet):
     serializer_detail_class = serializers.MaatschappelijkeActiviteitDetail
     serializer_class = serializers.MaatschappelijkeActiviteit
 
+    lookup_field = 'kvk_nummer'
+
 
 class PersoonViewSet(rest.AtlasViewSet):
     """
@@ -68,6 +70,7 @@ class VestigingViewSet(rest.AtlasViewSet):
     serializer_class = serializers.Vestiging
 
     filter_fields = ('maatschappelijke_activiteit',)
+    lookup_field = 'vestigingsnummer'
 
 
 class FunctievervullingViewSet(rest.AtlasViewSet):

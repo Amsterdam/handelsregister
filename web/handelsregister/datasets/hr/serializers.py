@@ -69,6 +69,10 @@ class MaatschappelijkeActiviteit(rest.HALSerializer):
 
     class Meta:
         model = models.MaatschappelijkeActiviteit
+        lookup_field = 'kvk_nummer'
+        extra_kwargs = {
+            '_links': {'lookup_field': 'kvk_nummer'}
+        }
         fields = (
             '_links',
             'kvk_nummer',
@@ -92,6 +96,10 @@ class Vestiging(rest.HALSerializer):
 
     class Meta:
         model = models.Vestiging
+        lookup_field = 'vestigingsnummer'
+        extra_kwargs = {
+            '_links': {'lookup_field': 'vestigingsnummer'}
+        }
         fields = (
             '_links',
             '_display',
@@ -119,6 +127,11 @@ class MaatschappelijkeActiviteitDetail(rest.HALSerializer):
 
     class Meta:
         model = models.MaatschappelijkeActiviteit
+        lookup_field = 'kvk_nummer'
+        extra_kwargs = {
+            '_links': {'lookup_field': 'kvk_nummer'},
+            'hoofdvestiging': {'lookup_field': 'vestigingsnummer'},
+        }
 
 
 class VestigingDetail(rest.HALSerializer):
@@ -135,3 +148,8 @@ class VestigingDetail(rest.HALSerializer):
 
     class Meta:
         model = models.Vestiging
+        lookup_field = 'vestigingsnummer'
+        extra_kwargs = {
+            '_links': {'lookup_field': 'vestigingsnummer'},
+            'maatschappelijke_activiteit': {'lookup_field': 'kvk_nummer'},
+        }
