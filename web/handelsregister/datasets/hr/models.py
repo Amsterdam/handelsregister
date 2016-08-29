@@ -1,4 +1,4 @@
-import uuid
+# import uuid
 
 from django.contrib.gis.db import models
 
@@ -13,45 +13,21 @@ class Persoon(models.Model):
     te kunnen communiceren. Iedere in het handelsregister voorkomende {Persoon}
     heeft ofwel een {Eigenaarschap} en/ of minstens een {Functievervulling}
     waarmee de rol van de {Persoon} is vastgelegd.
-    """
 
-    prsid = models.CharField(primary_key=True, max_length=20)
-    rechtsvorm = models.CharField(max_length=50, blank=True, null=True)
-    uitgebreide_rechtsvorm = models.CharField(max_length=240, blank=True, null=True)
-    volledige_naam = models.CharField(max_length=240, blank=True, null=True)
+    Persoon typen:
 
-    def __str__(self):
-        return "{} ({})".format(self.volledige_naam, self.prsid)
-
-
-class NatuurlijkPersoon(models.Model):
-    """
     Natuurlijk Persoon (NPS)
 
-    Een {NatuurlijkPersoon} is een mens. Iedere {NatuurlijkPersoon} heeft ofwel
+    Een NatuurlijkPersoon is een mens. Iedere NatuurlijkPersoon heeft ofwel
     een {Eigenaarschap} ofwel een {Functievervulling} waarbij hij optreedt in
     een relevante rol zoals bestuurder, aandeelhouder of gevolmachtigde.
     Persoonsgegevens zijn alleen authentiek indien de betreffende
-    {NatuurlijkPersoon}:
+    NatuurlijkPersoon:
 
     - een eigenaar is van een eenmanszaak;
     - deelneemt als maat, vennoot of lid van een rederij bij een
-    {Samenwerkingsverband}.
-    """
+      Samenwerkingsverband.
 
-    geboortedatum = models.CharField(max_length=8, blank=True, null=True)
-    geboorteplaats = models.CharField(max_length=240, blank=True, null=True)
-    geboorteland = models.CharField(max_length=50, blank=True, null=True)
-    naam = models.CharField(max_length=600, blank=True, null=True)
-    geslachtsnaam = models.CharField(max_length=240, blank=True, null=True)
-    geslachtsaanduiding = models.CharField(max_length=20, blank=True, null=True)
-
-    def __str__(self):
-        return "{}".format(self.naam)
-
-
-class NietNatuurlijkPersoon(models.Model):
-    """
     Niet-natuurlijk Persoon (NNP)
 
     Een NietNatuurlijkPersoon is een Persoon met rechten en plichten die geen
@@ -60,39 +36,72 @@ class NietNatuurlijkPersoon(models.Model):
     {EenmanszaakMetMeerdereEigenaren} en {RechtspersoonInOprichting} niet als
     {Samenwerkingsverband} geregistreerd. Voor het handelsregister worden deze
     beschouwd als niet-natuurlijke personen.
+
+    NNP subtypen:
+
+        - Buitenlandse Vennootschap (BRV)
+
+            Een BuitenlandseVennootschap is opgericht naar buitenlands recht.
+            In het handelsregister wordt van een {BuitenlandseVennootschap}
+            opgenomen: het registratienummer uit het buitenlands register,
+            de naam van het register en de plaats en land waar het register
+            gehouden wordt.
+
+        - Binnenlandse Niet-natuurlijk Persoon (BNP)
+
+            Een BinnenlandseNietNatuurlijkPersoon is een NietNatuurlijkPersoon
+            die bestaat naar Nederlands recht. Dit zijn alle Nederlandse
+            rechtsvormen behalve de eenmanszaak.
+
     """
 
+    id = models.CharField(primary_key=True, max_length=20)
+    prsid = models.CharField(primary_key=True, max_length=20)
+    rechtsvorm = models.CharField(max_length=50, blank=True, null=True)
+    uitgebreide_rechtsvorm = models.CharField(
+        max_length=240, blank=True, null=True)
+    volledige_naam = models.CharField(max_length=240, blank=True, null=True)
+    voornamen = models.CharField(max_length=240, blank=True, null=True)
 
-class BuitenlandseVennootschap(models.Model):
-    """
-    Buitenlandse Vennootschap (BRV)
+    # natuurlijk persoon
+    geboortedatum = models.CharField(max_length=8, blank=True, null=True)
+    geboorteplaats = models.CharField(max_length=240, blank=True, null=True)
+    geboorteland = models.CharField(max_length=50, blank=True, null=True)
+    naam = models.CharField(max_length=600, blank=True, null=True)
+    geslachtsnaam = models.CharField(max_length=240, blank=True, null=True)
+    geslachtsaanduiding = models.CharField(
+        max_length=20, blank=True, null=True)
 
-    Een BuitenlandseVennootschap is opgericht naar buitenlands recht.
-    In het handelsregister wordt van een {BuitenlandseVennootschap}
-    opgenomen: het registratienummer uit het buitenlands register,
-    de naam van het register en de plaats en land waar het register
-    gehouden wordt.
-    """
+    # BeperkinginRechtshandeling (BIR)
+
+    datum_aanvang = models.DateField(
+        max_length=8, blank=True, null=True,
+        help_text="De datum van aanvang van de MaatschappelijkeActiviteit",
+    )
+    datum_einde = models.DateField(
+        max_length=8, blank=True, null=True,
+        help_text="""
+            De datum van beëindiging van de MaatschappelijkeActiviteit""",
+    )
+
+    soort = models.CharField(max_length=21)
 
 
-class BinnenlandseNietNatuurlijkPersoon(models.Model):
-    """
-    Binnenlandse Niet-natuurlijk Persoon (BNP)
 
-    Een {BinnenlandseNietNatuurlijkPersoon} is een {NietNatuurlijkPersoon} die
-    bestaat naar Nederlands recht. Dit zijn alle Nederlandse rechtsvormen
-    behalve de eenmanszaak.
-    """
+    def __str__(self):
+        return "{} {} {} ({})".format(
+            self.rechtsvorm, self.uitgebreide_rechtsvorm,
+            self.volledige_naam, self.prsid)
 
 
 class Functievervulling(models.Model):
     """
     Functievervulling (FVV)
 
-    Een {FunctieverVulling} is een vervulling door een {Persoon} van een
+    Een FunctieverVulling is een vervulling door een Persoon van een
     functie voor een {Persoon}. Een {Functievervulling} geeft de relatie weer
     van de {Persoon} als functionaris en de {Persoon} als eigenaar van de
-    {Onderneming} of {MaatschappelijkeActiviteit}.
+    Onderneming of MaatschappelijkeActiviteit.
     """
 
     fvvid = models.CharField(primary_key=True, max_length=20)
@@ -115,7 +124,9 @@ class Activiteit(models.Model):
 
     activiteitsomschrijving = models.TextField(
         blank=True, null=True,
-        help_text="De omschrijving van de activiteiten die de Vestiging of Rechtspersoon uitoefent"
+        help_text="""
+            De omschrijving van de activiteiten die de
+            Vestiging of Rechtspersoon uitoefent"""
     )
     sbi_code = models.CharField(
         max_length=5,
@@ -126,7 +137,9 @@ class Activiteit(models.Model):
         help_text="Omschrijving van de activiteit conform de SBI2008"
     )
     hoofdactiviteit = models.BooleanField(
-        help_text="Indicatie die aangeeft welke van de activiteiten de hoofdactiviteit is"
+        help_text="""
+            Indicatie die aangeeft welke van de activiteiten de
+            hoofdactiviteit is"""
     )
 
 
@@ -146,27 +159,34 @@ class MaatschappelijkeActiviteit(models.Model):
 
     naam = models.CharField(
         max_length=600, blank=True, null=True,
-        help_text="De (statutaire) naam of eerste handelsnaam van de inschrijving",
+        help_text="""
+            De (statutaire) naam of eerste handelsnaam van de inschrijving""",
     )
     kvk_nummer = models.CharField(
         unique=True, max_length=8, blank=True, null=True,
-        help_text="Betreft het identificerende gegeven voor de {MaatschappelijkeActiviteit}, het KvK-nummer",
+        help_text="""
+            Betreft het identificerende gegeven
+            voor de MaatschappelijkeActiviteit, het KvK-nummer""",
     )
     datum_aanvang = models.DateField(
         max_length=8, blank=True, null=True,
-        help_text="De datum van aanvang van de {MaatschappelijkeActiviteit}",
+        help_text="De datum van aanvang van de MaatschappelijkeActiviteit",
     )
     datum_einde = models.DateField(
         max_length=8, blank=True, null=True,
-        help_text="De datum van beëindiging van de {MaatschappelijkeActiviteit}",
+        help_text="""
+            De datum van beëindiging van de MaatschappelijkeActiviteit""",
     )
     incidenteel_uitlenen_arbeidskrachten = models.NullBooleanField(
-        help_text="Indicatie die aangeeft of de ondernemer tijdelijk arbeidskrachten ter beschikking stelt en dit "
-                  "niet onderdeel is van zijn 'reguliere' activiteiten.",
+        help_text="""
+            Indicatie die aangeeft of de ondernemer tijdelijk arbeidskrachten
+            ter beschikking stelt en dit niet onderdeel is van zijn
+            'reguliere' activiteiten.""",
     )
     non_mailing = models.NullBooleanField(
-        help_text="Indicator die aangeeft of de inschrijving haar adresgegevens beschikbaar stelt voor "
-                  "mailing-doeleinden.",
+        help_text="""
+            Indicator die aangeeft of de inschrijving haar adresgegevens
+            beschikbaar stelt voor mailing-doeleinden.""",
     )
 
     communicatiegegevens = models.ManyToManyField(
@@ -175,9 +195,11 @@ class MaatschappelijkeActiviteit(models.Model):
     )
     activiteiten = models.ManyToManyField(
         'Activiteit',
-        help_text="De SBI-activiteiten van de MaatschappelijkeActiviteit is het totaal van alle "
-                  "SBI-activiteiten die voorkomen bij de MaatschappelijkeActiviteit behorende "
-                  "NietCommercieleVestigingen en bij de Rechtspersoon",
+        help_text="""
+            De SBI-activiteiten van de MaatschappelijkeActiviteit is het totaal
+            van alle SBI-activiteiten die voorkomen bij de
+            MaatschappelijkeActiviteit behorende " NietCommercieleVestigingen
+            en bij de Rechtspersoon"""
     )
 
     postadres = models.ForeignKey(
@@ -207,10 +229,11 @@ class MaatschappelijkeActiviteit(models.Model):
 
 class Onderneming(models.Model):
     """
-    Van een Onderneming is sprake indien een voldoende zelfstandig optredende organisatorische eenheid van één of
-    meer personen bestaat waarin door voldoende inbreng van arbeid of middelen, ten behoeve van derden diensten of
-    goederen worden geleverd of werken tot stand worden gebracht met het oogmerk daarmee materieel voordeel te
-    behalen.
+    Van een Onderneming is sprake indien een voldoende zelfstandig optredende
+    organisatorische eenheid van één of meer personen bestaat waarin door
+    voldoende inbreng van arbeid of middelen, ten behoeve van derden diensten
+    of goederen worden geleverd of werken tot stand worden gebracht met het
+    oogmerk daarmee materieel voordeel te behalen.
     """
     id = models.CharField(primary_key=True, max_length=20)
 
@@ -363,7 +386,8 @@ class Locatie(models.Model):
     )
 
     straat_huisnummer = models.CharField(max_length=220, blank=True, null=True)
-    postcode_woonplaats = models.CharField(max_length=220, blank=True, null=True)
+    postcode_woonplaats = models.CharField(
+        max_length=220, blank=True, null=True)
     regio = models.CharField(max_length=170, blank=True, null=True)
     land = models.CharField(max_length=50, blank=True, null=True)
 
@@ -426,7 +450,8 @@ class Communicatiegegevens(models.Model):
     )
 
     domeinnaam = models.URLField(
-        max_length=300, blank=True, null=True, help_text="Het internetadres (URL)"
+        max_length=300, blank=True,
+        null=True, help_text="Het internetadres (URL)"
     )
     emailadres = models.EmailField(
         max_length=200, blank=True, null=True,
@@ -435,7 +460,9 @@ class Communicatiegegevens(models.Model):
 
     toegangscode = models.CharField(
         max_length=10, blank=True, null=True,
-        help_text="De internationale toegangscode van het land waarop het nummer (telefoon of fax) betrekking heeft'"
+        help_text="""
+            De internationale toegangscode van het land waarop het nummer
+            (telefoon of fax) betrekking heeft"""
     )
     communicatie_nummer = models.CharField(
         max_length=15, blank=True, null=True,
