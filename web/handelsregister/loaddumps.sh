@@ -14,6 +14,9 @@ psql -d handelsregister -h ${DATABASE_PORT_5432_TCP_ADDR} -U handelsregister -f 
 
 cd /app/unzipped/
 
+# extract gz files if needed
+gunzip *.gz
+
 #Load all sql files
 
 for sql in *.sql; do
