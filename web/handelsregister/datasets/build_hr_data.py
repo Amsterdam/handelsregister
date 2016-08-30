@@ -14,8 +14,6 @@ from datasets.hr.models import Persoon
 from datasets.kvkdump.models import KvkFunctievervulling
 from datasets.kvkdump.models import KvkPersoon
 
-BAG_NUMMERAANDUIDING = "https://api.datapunt.amsterdam.nl/bag/nummeraanduiding/{}/"
-BAG_VERBLIJFSOBJECT = "https://api.datapunt.amsterdam.nl/bag/verblijfsobject/{}/"
 
 log = logging.getLogger(__name__)
 
@@ -123,6 +121,7 @@ def fill_stelselpedia():
     Go through all tables and fill Stelselpedia tables.
     """
     with db.connection.cursor() as cursor:
+
         log.info("Converteren locaties")
         _converteer_locaties(cursor)
 
@@ -152,11 +151,6 @@ def fill_stelselpedia():
             log.info("Converteren VES communicatie-gegevens-{0}".format(i))
             _converteer_ves_communicatiegegevens(cursor, i)
 
-            # MACbatcher().process_rows()
-            # PRSbatcher().process_rows()
-            # VESbatcher().process_rows()
-            # FunctievervullingBatcher().process_rows()
-
         log.info("Converteren hoofdactiviteit")
         _converteer_hoofdactiviteit(cursor)
         for i in (1, 2, 3):
@@ -168,6 +162,9 @@ def fill_stelselpedia():
 
         log.info("Converteren hoofdvestiging")
         _converteer_hoofdvestiging(cursor)
+
+        log.info("Converteren persoon")
+        _converteer_persoon(cursor)
 
 
 def _converteer_locaties(cursor):
@@ -195,8 +192,10 @@ INSERT INTO hr_locatie (
         ELSE FALSE
       END,
       postbusnummer,
-      'https://api.datapunt.amsterdam.nl/bag/nummeraanduiding/' || identificatieaoa || '/',
-      'https://api.datapunt.amsterdam.nl/bag/verblijfsobject/' || identificatietgo || '/',
+      'https://api.datapunt.amsterdam.nl/bag/nummeraanduiding/' ||
+            identificatieaoa || '/',
+      'https://api.datapunt.amsterdam.nl/bag/verblijfsobject/' ||
+            identificatietgo || '/',
       straathuisnummer,
       postcodewoonplaats,
       regio,
@@ -296,14 +295,17 @@ INSERT INTO hr_vestiging_handelsnamen(vestiging_id, handelsnaam_id)
 
 
 def _converteer_mac_communicatiegegevens(cursor, i):
-    __converteer_any_communicatiegegevens(cursor, i, 'macid', 'kvkmacm00', 'maatschappelijkeactiviteit')
+    _converteer_any_communicatiegegevens(
+        cursor, i, 'macid', 'kvkmacm00', 'maatschappelijkeactiviteit')
 
 
 def _converteer_ves_communicatiegegevens(cursor, i):
-    __converteer_any_communicatiegegevens(cursor, i, 'vesid', 'kvkvesm00', 'vestiging')
+    _converteer_any_communicatiegegevens(
+        cursor, i, 'vesid', 'kvkvesm00', 'vestiging')
 
 
-def __converteer_any_communicatiegegevens(cursor, i, id_col, source, target):
+def _converteer_any_communicatiegegevens(
+        cursor, i, id_col, source, target):
     cursor.execute("""
 INSERT INTO hr_communicatiegegevens (
   id,
@@ -517,4 +519,46 @@ SET hoofdvestiging_id = v.id
 FROM hr_vestiging v
 WHERE v.maatschappelijke_activiteit_id = m.id
   AND v.hoofdvestiging
+    """)
+
+
+def _converteer_persoon(cursor):
+    cursor.execute("""
+INSERT INTO hr_persoon (
+    id,
+    typering,
+    rol,
+    rechtsvorm,
+    uitgebreide_rechtsvorm,
+    volledige_naam,
+    soort,
+    reden_insolvatie,
+    rsin,
+    datumuitschrijving,
+    verkortenaam,
+    volledigenaam,
+    nummer,
+    toegangscode,
+    geslachtsnaam,
+    geslachtsaanduiding,
+    voornamen
+) SELECT
+    prsid,
+    typering,
+    rol,
+    persoonsrechtsvorm,
+    uitgebreiderechtsvorm,
+    volledigenaam,
+    soort,
+    redeninsolvatie,
+    rsin,
+    to_date(to_char(datumuitschrijving, '99999999'), 'YYYYMMDD'),
+    verkortenaam,
+    volledigenaam,
+    nummer,
+    toegangscode,
+    geslachtsnaam,
+    geslachtsaanduiding,
+    voornamen
+  FROM kvkprsm00
     """)

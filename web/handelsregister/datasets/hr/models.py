@@ -54,14 +54,29 @@ class Persoon(models.Model):
             rechtsvormen behalve de eenmanszaak.
 
     """
+    type_choices = [
+        ('NPS', 'natuurlijkPersoon'),
+        ('NPR', 'naamPersoon'),
+        ('BVS', 'buitenlandseVennootschap'),
+        ('EMM', 'eenmanszaakMetMeerdereEigenaren'),
+        ('RPS', 'rechtspersoon'),
+        ('RPO', 'rechtspersoonInOprichting'),
+        ('SWV', 'samenwerkingsverband'),
+    ]
 
     id = models.CharField(primary_key=True, max_length=20)
-    prsid = models.CharField(db_index=True, max_length=20)
+
+    rol = models.CharField(max_length=14, blank=True, null=True)
+
     rechtsvorm = models.CharField(max_length=50, blank=True, null=True)
     uitgebreide_rechtsvorm = models.CharField(
         max_length=240, blank=True, null=True)
     volledige_naam = models.CharField(max_length=240, blank=True, null=True)
     voornamen = models.CharField(max_length=240, blank=True, null=True)
+
+    typering = models.CharField(max_length=50, blank=True, null=True)
+
+    reden_insolvatie = models.CharField(max_length=50, blank=True, null=True)
 
     # natuurlijk persoon
     geboortedatum = models.CharField(max_length=8, blank=True, null=True)
@@ -84,7 +99,22 @@ class Persoon(models.Model):
             De datum van beëindiging van de MaatschappelijkeActiviteit""",
     )
 
-    soort = models.CharField(max_length=21)
+    soort = models.CharField(max_length=21, blank=True, null=True)
+
+    rsin = models.CharField(max_length=9, blank=True, null=True)
+    datumuitschrijving = models.DateField(
+        max_length=8, blank=True, null=True,
+        help_text="De datum van aanvang van de MaatschappelijkeActiviteit",
+    )
+
+    #
+    verkortenaam = models.CharField(max_length=60, blank=True, null=True)
+    volledigenaam = models.CharField(max_length=240, blank=True, null=True)
+
+    # communicatie
+    nummer = models.CharField(max_length=15, blank=True, null=True)
+    toegangscode = models.DecimalField(
+        max_digits=4, decimal_places=0, blank=True, null=True)
 
     def __str__(self):
         return "{} {} {} ({})".format(
@@ -97,8 +127,8 @@ class Functievervulling(models.Model):
     Functievervulling (FVV)
 
     Een FunctieverVulling is een vervulling door een Persoon van een
-    functie voor een {Persoon}. Een {Functievervulling} geeft de relatie weer
-    van de {Persoon} als functionaris en de {Persoon} als eigenaar van de
+    functie voor een Persoon. Een Functievervulling geeft de relatie weer
+    van de Persoon als functionaris en de Persoon als eigenaar van de
     Onderneming of MaatschappelijkeActiviteit.
     """
 
