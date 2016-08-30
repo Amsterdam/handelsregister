@@ -56,7 +56,7 @@ class Persoon(models.Model):
     """
 
     id = models.CharField(primary_key=True, max_length=20)
-    prsid = models.CharField(primary_key=True, max_length=20)
+    prsid = models.CharField(db_index=True, max_length=20)
     rechtsvorm = models.CharField(max_length=50, blank=True, null=True)
     uitgebreide_rechtsvorm = models.CharField(
         max_length=240, blank=True, null=True)
@@ -85,8 +85,6 @@ class Persoon(models.Model):
     )
 
     soort = models.CharField(max_length=21)
-
-
 
     def __str__(self):
         return "{} {} {} ({})".format(
