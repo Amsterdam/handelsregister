@@ -163,11 +163,17 @@ def fill_stelselpedia():
         log.info("Converteren hoofdvestiging")
         _converteer_hoofdvestiging(cursor)
 
+
+        log.info("Converteren natuurlijk_persoon")
+        _converteer_natuurlijk_persoon(cursor)
+
         log.info("Converteren persoon")
         _converteer_persoon(cursor)
 
         log.info("Converteren functievervulling")
         _converteer_functievervulling(cursor)
+
+        # update eigenaren...
 
 
 def _converteer_locaties(cursor):
@@ -542,9 +548,8 @@ INSERT INTO hr_persoon (
     volledigenaam,
     nummer,
     toegangscode,
-    geslachtsnaam,
-    geslachtsaanduiding,
-    voornamen
+    faillissement,
+    natuurlijkpersoon_id
 ) SELECT
     prsid,
     typering,
@@ -560,10 +565,40 @@ INSERT INTO hr_persoon (
     volledigenaam,
     nummer,
     toegangscode,
+    CASE faillissement
+        WHEN 'Ja' THEN TRUE
+        ELSE FALSE
+    END,
+    CASE typering
+        WHEN 'natuurlijkPersoon' THEN prsid
+        ELSE null
+    END
+  FROM kvkprsm00
+    """)
+
+
+def _converteer_natuurlijk_persoon(cursor):
+
+    cursor.execute("""
+INSERT INTO hr_natuurlijkpersoon (
+    id,
     geslachtsnaam,
     geslachtsaanduiding,
-    voornamen
-  FROM kvkprsm00
+    voornamen,
+    huwelijksdatum,
+    geboortedatum,
+    geboorteplaats,
+    geboorteland
+) SELECT
+    prsid,
+    geslachtsnaam,
+    geslachtsaanduiding,
+    voornamen,
+    to_date(to_char(huwelijksdatum, '99999999'), 'YYYYMMDD'),
+    to_date(to_char(geboortedatum, '99999999'), 'YYYYMMDD'),
+    geboorteplaats,
+    geboorteland
+  FROM kvkprsm00 WHERE typering = 'natuurlijkPersoon'
     """)
 
 

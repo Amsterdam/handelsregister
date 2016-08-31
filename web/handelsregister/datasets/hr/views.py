@@ -43,7 +43,12 @@ class PersoonViewSet(rest.AtlasViewSet):
 
     queryset = models.Persoon.objects.all()
 
-    serializer_detail_class = serializers.Persoon
+    queryset_detail = (models.Persoon.objects
+                       .select_related('natuurlijkpersoon')
+                       .all())
+
+    serializer_detail_class = serializers.PersoonDetail
+
     serializer_class = serializers.Persoon
 
 

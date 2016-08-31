@@ -69,7 +69,6 @@ class MaatschappelijkeActiviteit(rest.HALSerializer):
 
     class Meta:
         model = models.MaatschappelijkeActiviteit
-
         lookup_field = 'kvk_nummer'
 
         extra_kwargs = {
@@ -91,9 +90,27 @@ class Persoon(rest.HALSerializer):
     class Meta:
         model = models.Persoon
 
+        fields = (
+            '_links',
+            'id',
+            '_display',
+        )
+
+
+class NatuurlijkPersoon(serializers.ModelSerializer):
+
+    class Meta:
+        model = models.NatuurlijkPersoon
+
+        exclude = (
+            'id',
+        )
+
 
 class PersoonDetail(rest.HALSerializer):
-    dataset = 'hr'
+    # dataset = 'hr'
+
+    natuurlijkpersoon = NatuurlijkPersoon()
 
     _display = rest.DisplayField()
 

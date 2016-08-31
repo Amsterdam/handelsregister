@@ -7,12 +7,12 @@ class Persoon(models.Model):
     """
     Persoon (PRS)
 
-    Een {Persoon} is een ieder die rechten en plichten kan hebben. {Persoon}
+    Een {Persoon} is een ieder die rechten en plichten kan hebben. Persoon
     wordt gebruikt als overkoepelend begrip (een verzamelnaam voor
-    {NatuurlijkPersoon}, {NietNatuurlijkPersoon} en {NaamPersoon}) om er over
-    te kunnen communiceren. Iedere in het handelsregister voorkomende {Persoon}
-    heeft ofwel een {Eigenaarschap} en/ of minstens een {Functievervulling}
-    waarmee de rol van de {Persoon} is vastgelegd.
+    NatuurlijkPersoon, NietNatuurlijkPersoon en NaamPersoon) om er over
+    te kunnen communiceren. Iedere in het handelsregister voorkomende Persoon
+    heeft ofwel een Eigenaarschap en/ of minstens een Functievervulling
+    waarmee de rol van de Persoon is vastgelegd.
 
     Persoon typen:
 
@@ -31,10 +31,10 @@ class Persoon(models.Model):
     Niet-natuurlijk Persoon (NNP)
 
     Een NietNatuurlijkPersoon is een Persoon met rechten en plichten die geen
-    {NatuurlijkPersoon} is. De definitie sluit aan bij de definitie in de
+    NatuurlijkPersoon is. De definitie sluit aan bij de definitie in de
     stelselcatalogus. In het handelsregister wordt de
-    {EenmanszaakMetMeerdereEigenaren} en {RechtspersoonInOprichting} niet als
-    {Samenwerkingsverband} geregistreerd. Voor het handelsregister worden deze
+    EenmanszaakMetMeerdereEigenaren en RechtspersoonInOprichting niet als
+    Samenwerkingsverband geregistreerd. Voor het handelsregister worden deze
     beschouwd als niet-natuurlijke personen.
 
     NNP subtypen:
@@ -81,17 +81,12 @@ class Persoon(models.Model):
 
     reden_insolvatie = models.CharField(max_length=50, blank=True, null=True)
 
-    # natuurlijk persoon
-    geboortedatum = models.CharField(max_length=8, blank=True, null=True)
-    geboorteplaats = models.CharField(max_length=240, blank=True, null=True)
-    geboorteland = models.CharField(max_length=50, blank=True, null=True)
-
-    naam = models.CharField(max_length=600, blank=True, null=True)
-    geslachtsnaam = models.CharField(max_length=240, blank=True, null=True)
-    geslachtsaanduiding = models.CharField(
-        max_length=20, blank=True, null=True)
-
     # BeperkinginRechtshandeling (BIR)
+
+    natuurlijkpersoon = models.OneToOneField(
+        'NatuurlijkPersoon', on_delete=models.CASCADE, null=True, blank=True,
+        help_text="niet null bij natuurlijkpersoon",
+    )
 
     datum_aanvang = models.DateField(
         max_length=8, blank=True, null=True,
@@ -113,6 +108,7 @@ class Persoon(models.Model):
     )
 
     #
+    naam = models.CharField(max_length=600, blank=True, null=True)
     verkortenaam = models.CharField(max_length=60, blank=True, null=True)
     volledigenaam = models.CharField(max_length=240, blank=True, null=True)
 
@@ -121,14 +117,43 @@ class Persoon(models.Model):
     toegangscode = models.DecimalField(
         max_digits=4, decimal_places=0, blank=True, null=True)
 
+    faillissement = models.BooleanField()
+
     def __str__(self):
-        display = "{} ({})".format(self.volledige_naam, self.id)
+        display = "{}".format(self.id)
+        if self.volledige_naam:
+            display = "{} - {}".format(display, self.volledige_naam)
         if self.rechtsvorm:
             display = "{} - {}".format(display, self.rechtsvorm)
         if self.uitgebreide_rechtsvorm:
             display = "{} - {}".format(display, self.uitgebreide_rechtsvorm)
 
         return display
+
+
+class NatuurlijkPersoon(models.Model):
+    """
+    Natuurlijk Persoon.
+    """
+    id = models.CharField(primary_key=True, max_length=20)
+
+    geboortedatum = models.CharField(max_length=8, blank=True, null=True)
+    geboorteplaats = models.CharField(max_length=240, blank=True, null=True)
+    geboorteland = models.CharField(max_length=50, blank=True, null=True)
+
+    voornamen = models.CharField(max_length=240, blank=True, null=True)
+    geslachtsnaam = models.CharField(max_length=240, blank=True, null=True)
+    geslachtsaanduiding = models.CharField(
+        max_length=20, blank=True, null=True)
+
+    huwelijksdatum = models.DateField(
+            max_length=8, blank=True, null=True)
+
+    geboortedatum = models.DateField(
+            max_length=8, blank=True, null=True)
+
+    geboorteland = models.CharField(max_length=50, blank=True, null=True)
+    geboorteplaats = models.CharField(max_length=240, blank=True, null=True)
 
 
 class Functievervulling(models.Model):
@@ -265,6 +290,7 @@ class MaatschappelijkeActiviteit(models.Model):
         'Persoon', blank=True, null=True,
         help_text="",
     )
+
     onderneming = models.OneToOneField(
         'Onderneming', on_delete=models.CASCADE, null=True, blank=True,
         help_text="",

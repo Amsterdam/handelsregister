@@ -17,6 +17,7 @@ class PersoonFactory(factory.DjangoModelFactory):
         model = models.Persoon
 
     id = fuzzy.FuzzyInteger(low=100000000000000000, high=100000000000000099)
+    faillissement = False
 
 
 class VestigingFactory(factory.DjangoModelFactory):
