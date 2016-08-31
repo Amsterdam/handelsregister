@@ -17,7 +17,6 @@ class PersoonFactory(factory.DjangoModelFactory):
         model = models.Persoon
 
     id = fuzzy.FuzzyInteger(low=100000000000000000, high=100000000000000099)
-    prsid = fuzzy.FuzzyInteger(low=100000000000000000, high=100000000000000099)
 
 
 class VestigingFactory(factory.DjangoModelFactory):
@@ -35,4 +34,4 @@ class FunctievervullingFactory(factory.DjangoModelFactory):
     class Meta:
         model = models.Functievervulling
 
-    fvvid = fuzzy.FuzzyInteger(low=100000000000000000, high=100000000000000099)
+    id = fuzzy.FuzzyInteger(low=100000000000000000, high=100000000000000099)
