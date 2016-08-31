@@ -166,6 +166,9 @@ def fill_stelselpedia():
         log.info("Converteren persoon")
         _converteer_persoon(cursor)
 
+        log.info("Converteren functievervulling")
+        _converteer_functievervulling(cursor)
+
 
 def _converteer_locaties(cursor):
     cursor.execute("""
@@ -561,4 +564,22 @@ INSERT INTO hr_persoon (
     geslachtsaanduiding,
     voornamen
   FROM kvkprsm00
+    """)
+
+
+def _converteer_functievervulling(cursor):
+    cursor.execute("""
+INSERT INTO hr_functievervulling (
+    id,
+    functietitel,
+    heeft_aansprakelijke_id,
+    is_aansprakelijke_id,
+    soortbevoedheid
+) SELECT
+    ashid,
+    functie,
+    prsidh,
+    prsidi,
+    soort
+  FROM kvkprsashm00
     """)

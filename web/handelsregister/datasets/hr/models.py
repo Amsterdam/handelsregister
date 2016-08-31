@@ -122,9 +122,13 @@ class Persoon(models.Model):
         max_digits=4, decimal_places=0, blank=True, null=True)
 
     def __str__(self):
-        return "{} {} {} ({})".format(
-            self.rechtsvorm, self.uitgebreide_rechtsvorm,
-            self.volledige_naam, self.prsid)
+        display = "{} ({})".format(self.volledige_naam, self.id)
+        if self.rechtsvorm:
+            display = "{} - {}".format(display, self.rechtsvorm)
+        if self.uitgebreide_rechtsvorm:
+            display = "{} - {}".format(display, self.uitgebreide_rechtsvorm)
+
+        return display
 
 
 class Functievervulling(models.Model):
@@ -137,8 +141,21 @@ class Functievervulling(models.Model):
     Onderneming of MaatschappelijkeActiviteit.
     """
 
-    fvvid = models.CharField(primary_key=True, max_length=20)
+    id = models.CharField(primary_key=True, max_length=20)
+
     functietitel = models.CharField(max_length=20)
+
+    heeft_aansprakelijke = models.ForeignKey(
+        'Persoon', related_name='heeft_aansprakelijke', blank=True, null=True,
+        help_text="",
+    )
+
+    is_aansprakelijke = models.ForeignKey(
+        'Persoon', related_name='is_aansprakelijke', blank=True, null=True,
+        help_text="",
+    )
+
+    soortbevoedheid = models.CharField(max_length=20, blank=True, null=True)
 
 
 class Activiteit(models.Model):

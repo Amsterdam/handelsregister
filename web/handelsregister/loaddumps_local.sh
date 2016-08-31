@@ -19,10 +19,10 @@ psql -d handelsregister -h ${DATABASE_PORT_5432_TCP_ADDR} -p ${DATABASE_PORT_543
 cd unzipped/
 
 rm -rf *.sql
-# extract gz files if needed
+# Extract gz files if needed
 gunzip *.gz
 
-#Load all sql files
+# Load all sql files
 
 for sql in *.sql; do
     grep -v OWNER $sql | grep -v search_path | grep -v REVOKE |  \
