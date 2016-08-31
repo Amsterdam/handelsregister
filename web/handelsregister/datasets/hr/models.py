@@ -155,7 +155,7 @@ class Functievervulling(models.Model):
         help_text="",
     )
 
-    soortbevoedheid = models.CharField(max_length=20, blank=True, null=True)
+    soortbevoegdheid = models.CharField(max_length=20, blank=True, null=True)
 
 
 class Activiteit(models.Model):

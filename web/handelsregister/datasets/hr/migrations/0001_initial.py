@@ -52,7 +52,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.CharField(max_length=20, primary_key=True, serialize=False)),
                 ('functietitel', models.CharField(max_length=20)),
-                ('soortbevoedheid', models.CharField(blank=True, max_length=20, null=True)),
+                ('soortbevoegdheid', models.CharField(blank=True, max_length=20, null=True)),
             ],
         ),
         migrations.CreateModel(
