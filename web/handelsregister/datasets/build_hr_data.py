@@ -574,7 +574,7 @@ INSERT INTO hr_functievervulling (
     functietitel,
     heeft_aansprakelijke_id,
     is_aansprakelijke_id,
-    soortbevoedheid
+    soortbevoegdheid
 ) SELECT
     ashid,
     functie,
