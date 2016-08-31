@@ -89,6 +89,15 @@ class Persoon(rest.HALSerializer):
         model = models.Persoon
 
 
+class PersoonDetail(rest.HALSerializer):
+    dataset = 'hr'
+
+    _display = rest.DisplayField()
+
+    class Meta:
+        model = models.Persoon
+
+
 class Vestiging(rest.HALSerializer):
     dataset = 'hr'
 

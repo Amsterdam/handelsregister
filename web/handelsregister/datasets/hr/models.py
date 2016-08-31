@@ -54,14 +54,15 @@ class Persoon(models.Model):
             rechtsvormen behalve de eenmanszaak.
 
     """
+
     type_choices = [
-        ('NPS', 'natuurlijkPersoon'),
-        ('NPR', 'naamPersoon'),
-        ('BVS', 'buitenlandseVennootschap'),
-        ('EMM', 'eenmanszaakMetMeerdereEigenaren'),
-        ('RPS', 'rechtspersoon'),
-        ('RPO', 'rechtspersoonInOprichting'),
-        ('SWV', 'samenwerkingsverband'),
+        ('natuurlijkPersoon', 'natuurlijkPersoon'),
+        ('naamPersoon', 'naamPersoon'),
+        ('buitenlandseVennootschap', 'buitenlandseVennootschap'),
+        ('eenmanszaak', 'eenmanszaakMetMeerdereEigenaren'),
+        ('rechtspersoon', 'rechtspersoon'),
+        ('rechtspersoonInOprichting', 'rechtspersoonInOprichting'),
+        ('samenwerkingsverband', 'samenwerkingsverband'),
     ]
 
     id = models.CharField(primary_key=True, max_length=20)
@@ -71,10 +72,12 @@ class Persoon(models.Model):
     rechtsvorm = models.CharField(max_length=50, blank=True, null=True)
     uitgebreide_rechtsvorm = models.CharField(
         max_length=240, blank=True, null=True)
+
     volledige_naam = models.CharField(max_length=240, blank=True, null=True)
     voornamen = models.CharField(max_length=240, blank=True, null=True)
 
-    typering = models.CharField(max_length=50, blank=True, null=True)
+    typering = models.CharField(
+        max_length=50, blank=True, null=True, choices=type_choices)
 
     reden_insolvatie = models.CharField(max_length=50, blank=True, null=True)
 
@@ -82,6 +85,7 @@ class Persoon(models.Model):
     geboortedatum = models.CharField(max_length=8, blank=True, null=True)
     geboorteplaats = models.CharField(max_length=240, blank=True, null=True)
     geboorteland = models.CharField(max_length=50, blank=True, null=True)
+
     naam = models.CharField(max_length=600, blank=True, null=True)
     geslachtsnaam = models.CharField(max_length=240, blank=True, null=True)
     geslachtsaanduiding = models.CharField(
@@ -93,6 +97,7 @@ class Persoon(models.Model):
         max_length=8, blank=True, null=True,
         help_text="De datum van aanvang van de MaatschappelijkeActiviteit",
     )
+
     datum_einde = models.DateField(
         max_length=8, blank=True, null=True,
         help_text="""
@@ -329,10 +334,13 @@ class Vestiging(models.Model):
         max_length=12, unique=True,
         help_text="Betreft het identificerende gegeven voor de Vestiging"
     )
+
     hoofdvestiging = models.BooleanField()
+
     naam = models.CharField(
         max_length=200, null=True, blank=True,
     )
+
     datum_aanvang = models.DateField(
         null=True, blank=True,
         help_text="De datum van aanvang van de Vestiging"
