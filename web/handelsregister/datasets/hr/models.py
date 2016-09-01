@@ -163,7 +163,7 @@ class NietNatuurlijkPersoon(models.Model):
     """
     id = models.CharField(primary_key=True, max_length=20)
 
-    rsin = models.CharField(max_length=9, blank=True, null=True)
+    rsin = models.CharField(db_index=True, max_length=9, blank=True, null=True)
     verkorte_naam = models.CharField(max_length=60, blank=True, null=True)
     ook_genoemd = models.CharField(max_length=600, blank=True, null=True)
 

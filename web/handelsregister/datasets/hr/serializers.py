@@ -129,7 +129,7 @@ class NatuurlijkPersoon(serializers.ModelSerializer):
 class NietNatuurlijkPersoon(serializers.ModelSerializer):
 
     class Meta:
-        model = models.NatuurlijkPersoon
+        model = models.NietNatuurlijkPersoon
 
         exclude = (
             'id',
