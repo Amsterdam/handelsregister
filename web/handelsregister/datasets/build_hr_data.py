@@ -3,117 +3,11 @@ From the original dump
 fill the stelselpedia dumps
 """
 import logging
-import time
 
 from django import db
-from django.conf import settings
-from django.db import transaction
-
-from datasets.hr.models import Functievervulling
-from datasets.hr.models import Persoon
-from datasets.kvkdump.models import KvkFunctievervulling
-from datasets.kvkdump.models import KvkPersoon
 
 
 log = logging.getLogger(__name__)
-
-
-class BatchImport(object):
-    item_handle = None
-    queryset = None
-    batch_size = 4000
-
-    def batch_qs(self):
-        """
-        Returns a (start, end, total, queryset) tuple
-        for each batch in the given queryset.
-
-        Usage:
-            # Make sure to order your querset!
-            article_qs = Article.objects.order_by('id')
-            for start, end, total, qs in batch_qs(article_qs):
-                print "Now processing %s - %s of %s" % (start + 1, end, total)
-                for article in qs:
-                    print article.body
-        """
-        qs = self.queryset
-
-        batch_size = self.batch_size
-
-        numerator = settings.PARTIAL_IMPORT['numerator']
-        denominator = settings.PARTIAL_IMPORT['denominator']
-
-        log.info("STARTING BATCHER JOB: %s" % (self.__class__.__name__))
-        log.info("PART: %s OF %s" % (numerator + 1, denominator))
-
-        end_part = count = total = qs.count()
-        chunk_size = batch_size
-
-        start_index = 0
-
-        # Do partial import
-        if denominator > 1:
-            chunk_size = int(total / denominator)
-            start_index = numerator * chunk_size
-            end_part = (numerator + 1) * chunk_size
-            total = end_part - start_index
-
-        log.info("START: %s END %s COUNT: %s CHUNK %s TOTAL_COUNT: %s" % (
-            start_index, end_part, chunk_size, batch_size, count))
-
-        # total batches in this (partial) bacth job
-        total_batches = int(chunk_size / batch_size)
-
-        for i, start in enumerate(range(start_index, end_part, batch_size)):
-            end = min(start + batch_size, end_part)
-            t_start = time.time()
-            yield (i + 1, total_batches + 1, start, end, total, qs[start:end])
-            log.info("CHUNK %5s - %-5s  in %.3f seconds" % (
-                start, end, time.time() - t_start))
-
-    def process_rows(self):
-        for job, end_job, start, end, total, qs in self.batch_qs():
-            with transaction.atomic():
-                for item in qs:
-                    self.process_item(item)
-
-    def process_item(self, item):
-        """
-        Handle a single item/row.
-        """
-        raise NotImplementedError()
-
-
-def load_prs_row(prs_object):
-    p = prs_object
-    Persoon.objects.create(
-        prsid=p.prsid,
-        rechtsvorm=p.rechtsvorm,
-        uitgebreide_rechtsvorm=p.uitgebreiderechtsvorm,
-        volledige_naam=p.volledigenaam,
-    )
-
-
-def load_functievervulling_row(functievervulling_object):
-    f = functievervulling_object
-    Functievervulling.objects.create(
-        fvvid=f.ashid,
-        functietitel=f.functie
-    )
-
-
-class PRSbatcher(BatchImport):
-    queryset = KvkPersoon.objects.order_by('prsid')
-
-    def process_item(self, item):
-        load_prs_row(item)
-
-
-class FunctievervullingBatcher(BatchImport):
-    queryset = KvkFunctievervulling.objects.all().order_by('ashid')
-
-    def process_item(self, item):
-        load_functievervulling_row(item)
 
 
 def fill_stelselpedia():

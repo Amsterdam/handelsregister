@@ -114,10 +114,10 @@ class VestigingViewSet(rest.AtlasViewSet):
 
     filtering is possible on:
 
-        'maatschappelijke_activiteit',
-        'nummeraanduiding',
-        'verblijfsobject',
-        'bezoekadres__bag_numid'
+        maatschappelijke_activiteit
+        nummeraanduiding
+        verblijfsobject
+        bezoekadres__bag_numid
 
     """
 

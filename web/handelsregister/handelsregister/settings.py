@@ -11,13 +11,18 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 """
 import re
 import os
+import sys
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
+def _get_docker_host():
+    d_host = os.getenv('DOCKER_HOST', None)
+    if d_host:
+        return re.match(r'tcp://(.*?):\d+', d_host).group(1)
+    return '0.0.0.0'
+
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'not-secret'
@@ -128,6 +133,12 @@ DATABASES = {
 }
 
 
+ELASTIC_SEARCH_HOSTS = ["{}:{}".format(
+    os.getenv('ELASTICSEARCH_PORT_9200_TCP_ADDR', _get_docker_host()),
+    os.getenv('ELASTICSEARCH_PORT_9200_TCP_PORT', 9200))]
+
+
+
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
 
@@ -161,6 +172,20 @@ USE_L10N = True
 USE_TZ = True
 
 DUMP_DIR = 'mks-dump'
+
+TESTING = len(sys.argv) > 1 and sys.argv[1] == 'test'
+
+ELASTIC_INDICES = {
+    'HR': 'handelsregister',
+}
+
+if TESTING:
+    for k, v in ELASTIC_INDICES.items():
+        ELASTIC_INDICES[k] = ELASTIC_INDICES[k] + 'test'
+
+BATCH_SETTINGS = dict(
+    batch_size=4000
+)
 
 
 REST_FRAMEWORK = dict(
@@ -218,5 +243,48 @@ LOGGING = {
             'handlers': ['console'],
             'level': 'ERROR',
         },
+        # Debug all batch jobs
+        'doc': {
+            'handlers': ['console'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+        'index': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+
+        'search': {
+            'handlers': ['console'],
+            'level': 'ERROR',
+            'propagate': False,
+        },
+
+        'elasticsearch': {
+            'handlers': ['console'],
+            'level': 'ERROR',
+            'propagate': False,
+        },
+
+        'urllib3': {
+            'handlers': ['console'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+
+        'urllib3.connectionpool': {
+            'handlers': ['console'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+
+        # Log all unhandled exceptions
+        'django.request': {
+                'handlers': ['console'],
+                'level': 'ERROR',
+                'propagate': False,
+        },
+
     },
 }

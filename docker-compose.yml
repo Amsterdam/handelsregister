@@ -7,6 +7,15 @@ database:
     POSTGRES_DB: handelsregister
     POSTGRES_USER: handelsregister
 
+
+elasticsearch:
+  image: admin.datapunt.amsterdam.nl:5000/atlas/elasticsearch:latest
+  command: elasticsearch -Des.network.host=0.0.0.0
+  ports:
+    - "9200:9200"
+    - "9300:9300"
+
+
 web:
   build: ./web
   ports:

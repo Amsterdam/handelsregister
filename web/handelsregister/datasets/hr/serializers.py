@@ -107,10 +107,21 @@ class NatuurlijkPersoon(serializers.ModelSerializer):
         )
 
 
+class NietNatuurlijkPersoon(serializers.ModelSerializer):
+
+    class Meta:
+        model = models.NatuurlijkPersoon
+
+        exclude = (
+            'id',
+        )
+
+
 class PersoonDetail(rest.HALSerializer):
     # dataset = 'hr'
 
     natuurlijkpersoon = NatuurlijkPersoon()
+    niet_natuurlijkpersoon = NietNatuurlijkPersoon()
 
     _display = rest.DisplayField()
 
