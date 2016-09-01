@@ -18,7 +18,7 @@ class ImportVestigingTest(TestCase):
             macid=999999999999999999,
             indicatieonderneming='Ja',
             kvknummer='1234567',
-            naam='Willeukeurig',
+            naam='Willekeurig',
             nonmailing='Ja',
             prsid=999999999999999999,
             datumaanvang=19820930,

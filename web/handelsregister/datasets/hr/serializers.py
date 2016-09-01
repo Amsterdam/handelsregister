@@ -82,6 +82,25 @@ class MaatschappelijkeActiviteit(rest.HALSerializer):
         )
 
 
+class MaatschappelijkeActiviteitDetail(rest.HALSerializer):
+    dataset = 'hr'
+
+    _display = rest.DisplayField()
+    onderneming = Onderneming()
+    communicatiegegevens = Communicatiegegevens(many=True)
+    postadres = Locatie()
+    bezoekadres = Locatie()
+    vestigingen = rest.RelatedSummaryField()
+
+    class Meta:
+        model = models.MaatschappelijkeActiviteit
+        lookup_field = 'kvk_nummer'
+        extra_kwargs = {
+            '_links': {'lookup_field': 'kvk_nummer'},
+            'hoofdvestiging': {'lookup_field': 'vestigingsnummer'},
+        }
+
+
 class Persoon(rest.HALSerializer):
     dataset = 'hr'
 
@@ -146,34 +165,6 @@ class Vestiging(rest.HALSerializer):
         )
 
 
-class Functievervulling(rest.HALSerializer):
-    dataset = 'hr'
-
-    _display = rest.DisplayField()
-
-    class Meta:
-        model = models.Functievervulling
-
-
-class MaatschappelijkeActiviteitDetail(rest.HALSerializer):
-    dataset = 'hr'
-
-    _display = rest.DisplayField()
-    onderneming = Onderneming()
-    communicatiegegevens = Communicatiegegevens(many=True)
-    postadres = Locatie()
-    bezoekadres = Locatie()
-    vestigingen = rest.RelatedSummaryField()
-
-    class Meta:
-        model = models.MaatschappelijkeActiviteit
-        lookup_field = 'kvk_nummer'
-        extra_kwargs = {
-            '_links': {'lookup_field': 'kvk_nummer'},
-            'hoofdvestiging': {'lookup_field': 'vestigingsnummer'},
-        }
-
-
 class VestigingDetail(rest.HALSerializer):
     dataset = 'hr'
 
@@ -193,3 +184,12 @@ class VestigingDetail(rest.HALSerializer):
             '_links': {'lookup_field': 'vestigingsnummer'},
             'maatschappelijke_activiteit': {'lookup_field': 'kvk_nummer'},
         }
+
+
+class Functievervulling(rest.HALSerializer):
+    dataset = 'hr'
+
+    _display = rest.DisplayField()
+
+    class Meta:
+        model = models.Functievervulling

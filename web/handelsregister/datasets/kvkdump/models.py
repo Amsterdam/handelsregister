@@ -187,7 +187,7 @@ class KvkMaatschappelijkeActiviteit(models.Model):
 
 class KvkFunctievervulling(models.Model):
     """
-    Persoon
+    Functievervulling
     """
     ashid = models.DecimalField(
         primary_key=True, max_digits=18, decimal_places=0)
