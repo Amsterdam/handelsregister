@@ -2,6 +2,12 @@
 
 from datapunt import rest
 
+from django_filters import MethodFilter
+
+from django.db.models import Q
+
+from rest_framework import filters
+
 from . import models
 from . import serializers
 
@@ -28,6 +34,8 @@ class MaatschappelijkeActiviteitViewSet(rest.AtlasViewSet):
 
     lookup_field = 'kvk_nummer'
 
+    filter_fields = ('eigenaar', 'naam')
+
 
 class PersoonViewSet(rest.AtlasViewSet):
     """
@@ -45,11 +53,54 @@ class PersoonViewSet(rest.AtlasViewSet):
 
     queryset_detail = (models.Persoon.objects
                        .select_related('natuurlijkpersoon')
+                       .select_related('niet_natuurlijkpersoon')
                        .all())
 
     serializer_detail_class = serializers.PersoonDetail
 
     serializer_class = serializers.Persoon
+
+    filter_fields = (
+        'typering', 'naam', 'soort',
+        'niet_natuurlijkpersoon__rsin')
+
+
+class VestigingFilter(filters.FilterSet):
+    """
+    Filter on nummeraanduiging and vestigingid
+    """
+
+    nummeraanduiding = MethodFilter(action='nummeraanduiding_filter')
+    verblijfsobject = MethodFilter(action='verblijfsobject_filter')
+
+    class Meta:
+        model = models.Vestiging
+
+        fields = (
+            'maatschappelijke_activiteit',
+            'nummeraanduiding',
+            'verblijfsobject',
+            'bezoekadres__bag_numid')
+
+        order_by = ['naam']
+
+    def nummeraanduiding_filter(self, queryset, value):
+        """
+        Filter Vestiging op nummeraanduiding
+        """
+
+        return queryset.filter(
+            Q(bezoekadres__bag_numid=value) |
+            Q(postadres__bag_numid=value))
+
+    def verblijfsobject_filter(self, queryset, value):
+        """
+        Filter Vestiging op verblijfsobject
+        """
+
+        return queryset.filter(
+            Q(bezoekadres__bag_vbid=value) |
+            Q(postadres__bag_vbid=value))
 
 
 class VestigingViewSet(rest.AtlasViewSet):
@@ -63,6 +114,7 @@ class VestigingViewSet(rest.AtlasViewSet):
     """
 
     queryset = models.Vestiging.objects.all()
+
     queryset_detail = (models.Vestiging.objects
                        .select_related('maatschappelijke_activiteit')
                        .select_related('postadres')
@@ -74,8 +126,11 @@ class VestigingViewSet(rest.AtlasViewSet):
     serializer_detail_class = serializers.VestigingDetail
     serializer_class = serializers.Vestiging
 
-    filter_fields = ('maatschappelijke_activiteit',)
     lookup_field = 'vestigingsnummer'
+
+    ordering_fields = ('naam',)
+
+    filter_class = VestigingFilter
 
 
 class FunctievervullingViewSet(rest.AtlasViewSet):

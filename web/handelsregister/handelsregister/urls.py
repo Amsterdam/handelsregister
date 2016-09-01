@@ -50,8 +50,7 @@ hr_router.register(
     hr_views.PersoonViewSet
 )
 hr_router.register(
-    r'vestiging',
-    hr_views.VestigingViewSet
+    r'vestiging', hr_views.VestigingViewSet
 )
 hr_router.register(
     r'functievervulling',

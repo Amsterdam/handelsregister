@@ -74,7 +74,6 @@ class Persoon(models.Model):
         max_length=240, blank=True, null=True)
 
     volledige_naam = models.CharField(max_length=240, blank=True, null=True)
-    voornamen = models.CharField(max_length=240, blank=True, null=True)
 
     typering = models.CharField(
         max_length=50, blank=True, null=True, choices=type_choices)
@@ -86,6 +85,12 @@ class Persoon(models.Model):
     natuurlijkpersoon = models.OneToOneField(
         'NatuurlijkPersoon', on_delete=models.CASCADE, null=True, blank=True,
         help_text="niet null bij natuurlijkpersoon",
+    )
+
+    niet_natuurlijkpersoon = models.OneToOneField(
+        'NietNatuurlijkPersoon', on_delete=models.CASCADE,
+        null=True, blank=True,
+        help_text="niet null bij niet-natuurlijkpersoon",
     )
 
     datum_aanvang = models.DateField(
@@ -101,16 +106,12 @@ class Persoon(models.Model):
 
     soort = models.CharField(max_length=21, blank=True, null=True)
 
-    rsin = models.CharField(max_length=9, blank=True, null=True)
     datumuitschrijving = models.DateField(
         max_length=8, blank=True, null=True,
         help_text="De datum van aanvang van de MaatschappelijkeActiviteit",
     )
 
-    #
     naam = models.CharField(max_length=600, blank=True, null=True)
-    verkortenaam = models.CharField(max_length=60, blank=True, null=True)
-    volledigenaam = models.CharField(max_length=240, blank=True, null=True)
 
     # communicatie
     nummer = models.CharField(max_length=15, blank=True, null=True)
@@ -154,6 +155,17 @@ class NatuurlijkPersoon(models.Model):
 
     geboorteland = models.CharField(max_length=50, blank=True, null=True)
     geboorteplaats = models.CharField(max_length=240, blank=True, null=True)
+
+
+class NietNatuurlijkPersoon(models.Model):
+    """
+    Niet Natuurlijk Persoon.
+    """
+    id = models.CharField(primary_key=True, max_length=20)
+
+    rsin = models.CharField(max_length=9, blank=True, null=True)
+    verkorte_naam = models.CharField(max_length=60, blank=True, null=True)
+    ook_genoemd = models.CharField(max_length=600, blank=True, null=True)
 
 
 class Functievervulling(models.Model):
@@ -357,10 +369,10 @@ class Vestiging(models.Model):
     """
     Vestiging (VES)
 
-    Een {Vestiging} is gebouw of een complex van gebouwen waar duurzame
-    uitoefening van activiteiten van een {Onderneming} of {Rechtspersoon}
-    plaatsvindt. De vestiging is een combinatie van {Activiteiten} en
-    {Locatie}.
+    Een Vestiging is gebouw of een complex van gebouwen waar duurzame
+    uitoefening van activiteiten van een Onderneming of Rechtspersoon
+    plaatsvindt. De vestiging is een combinatie van Activiteiten en
+    Locatie.
     """
 
     id = models.CharField(
@@ -454,6 +466,11 @@ class Locatie(models.Model):
     postbus_nummer = models.CharField(
         max_length=10, blank=True, null=True,
     )
+
+    bag_numid = models.CharField(
+        max_length=16, db_index=True, blank=True, null=True)
+    bag_vbid = models.CharField(
+        max_length=16, db_index=True, blank=True, null=True)
 
     bag_nummeraanduiding = models.URLField(
         max_length=200, blank=True, null=True,

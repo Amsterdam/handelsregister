@@ -163,9 +163,11 @@ def fill_stelselpedia():
         log.info("Converteren hoofdvestiging")
         _converteer_hoofdvestiging(cursor)
 
-
         log.info("Converteren natuurlijk_persoon")
         _converteer_natuurlijk_persoon(cursor)
+
+        log.info("Converteren NIET natuurlijk_persoon")
+        _converteer_niet_natuurlijk_persoon(cursor)
 
         log.info("Converteren persoon")
         _converteer_persoon(cursor)
@@ -184,6 +186,8 @@ INSERT INTO hr_locatie (
   toevoeging_adres,
   afgeschermd,
   postbus_nummer,
+  bag_numid,
+  bag_vbid,
   bag_nummeraanduiding,
   bag_adresseerbaar_object,
   straat_huisnummer,
@@ -201,6 +205,8 @@ INSERT INTO hr_locatie (
         ELSE FALSE
       END,
       postbusnummer,
+      identificatieaoa,
+      identificatietgo,
       'https://api.datapunt.amsterdam.nl/bag/nummeraanduiding/' ||
             identificatieaoa || '/',
       'https://api.datapunt.amsterdam.nl/bag/verblijfsobject/' ||
@@ -542,14 +548,12 @@ INSERT INTO hr_persoon (
     volledige_naam,
     soort,
     reden_insolvatie,
-    rsin,
     datumuitschrijving,
-    verkortenaam,
-    volledigenaam,
     nummer,
     toegangscode,
     faillissement,
-    natuurlijkpersoon_id
+    natuurlijkpersoon_id,
+    niet_natuurlijkpersoon_id
 ) SELECT
     prsid,
     typering,
@@ -559,10 +563,7 @@ INSERT INTO hr_persoon (
     volledigenaam,
     soort,
     redeninsolvatie,
-    rsin,
     to_date(to_char(datumuitschrijving, '99999999'), 'YYYYMMDD'),
-    verkortenaam,
-    volledigenaam,
     nummer,
     toegangscode,
     CASE faillissement
@@ -571,6 +572,10 @@ INSERT INTO hr_persoon (
     END,
     CASE typering
         WHEN 'natuurlijkPersoon' THEN prsid
+        ELSE null
+    END,
+    CASE typering != 'natuurlijkPersoon'
+        WHEN true THEN prsid
         ELSE null
     END
   FROM kvkprsm00
@@ -599,6 +604,23 @@ INSERT INTO hr_natuurlijkpersoon (
     geboorteplaats,
     geboorteland
   FROM kvkprsm00 WHERE typering = 'natuurlijkPersoon'
+    """)
+
+
+def _converteer_niet_natuurlijk_persoon(cursor):
+
+    cursor.execute("""
+INSERT INTO hr_nietnatuurlijkpersoon (
+    id,
+    rsin,
+    verkorte_naam,
+    ook_genoemd
+) SELECT
+    prsid,
+    rsin,
+    verkortenaam,
+    ookgenoemd
+  FROM kvkprsm00 WHERE typering != 'natuurlijkPersoon'
     """)
 
 
