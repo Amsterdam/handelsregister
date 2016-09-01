@@ -111,6 +111,14 @@ class VestigingViewSet(rest.AtlasViewSet):
     uitoefening van activiteiten van een Onderneming of Rechtspersoon
     plaatsvindt. De vestiging is een combinatie van Activiteiten en
     Locatie.
+
+    filtering is possible on:
+
+        'maatschappelijke_activiteit',
+        'nummeraanduiding',
+        'verblijfsobject',
+        'bezoekadres__bag_numid'
+
     """
 
     queryset = models.Vestiging.objects.all()
