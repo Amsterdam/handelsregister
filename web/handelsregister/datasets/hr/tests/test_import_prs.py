@@ -56,7 +56,7 @@ class ImportPersoonTest(TestCase):
         persoon = self._convert(p)
 
         self.assertIsNotNone(persoon)
-        self.assertEqual('100000000000000000', persoon.id)
+        self.assertEqual(Decimal('100000000000000000'), persoon.id)
         self.assertEqual(False, persoon.faillissement)
         self.assertEqual('BeslotenVennootschap', persoon.rechtsvorm)
         self.assertEqual('000000001', persoon.niet_natuurlijkpersoon.rsin)
@@ -106,7 +106,7 @@ class ImportPersoonTest(TestCase):
         persoon = self._convert(p)
 
         self.assertIsNotNone(persoon)
-        self.assertEqual('200000000000000000', persoon.id)
+        self.assertEqual(Decimal('200000000000000000'), persoon.id)
         self.assertEqual(False, persoon.faillissement)
         self.assertEqual('Eenmanszaak', persoon.rechtsvorm)
         self.assertEqual('natuurlijkPersoon', persoon.typering)

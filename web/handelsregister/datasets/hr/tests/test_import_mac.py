@@ -41,7 +41,7 @@ class ImportMaatschappelijkeActiviteitTest(TestCase):
 
         self.assertIsNotNone(mac)
         self.assertListEqual([], list(mac.communicatiegegevens.all()))
-        self.assertEqual('100000000000000000', mac.id)
+        self.assertEqual(Decimal('100000000000000000'), mac.id)
         self.assertEqual('01010101', mac.kvk_nummer)
         self.assertEqual('Handelsregister B.V.', mac.naam)
         self.assertEqual(datetime.date(1982, 9, 30), mac.datum_aanvang)
