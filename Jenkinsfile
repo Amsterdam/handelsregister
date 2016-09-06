@@ -28,12 +28,7 @@ node {
         sh "docker-compose build"
     }
 
-    stage "Build develop image"
-    tryStep "build", {
-        def image = docker.build("admin.datapunt.amsterdam.nl:5000/datapunt/handelsregister:${env.BUILD_NUMBER}", "web")
-        image.push()
-        image.push("develop")
-    }
+
     stage "Test"
     tryStep "Test",  {
         sh "docker-compose -p handelsregister -f .jenkins/docker-compose.yml build && " +
@@ -43,8 +38,14 @@ node {
 
         sh "docker-compose -p handelsregister -f .jenkins/docker-compose.yml down"
     }
-}
 
+    stage "Build develop image"
+    tryStep "build", {
+        def image = docker.build("admin.datapunt.amsterdam.nl:5000/datapunt/handelsregister:${env.BUILD_NUMBER}", "web")
+        image.push()
+        image.push("develop")
+    }
+}
 
 node {
     stage name: "Deploy to ACC", concurrency: 1
