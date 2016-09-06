@@ -65,7 +65,8 @@ class Persoon(models.Model):
         ('samenwerkingsverband', 'samenwerkingsverband'),
     ]
 
-    id = models.CharField(primary_key=True, max_length=20)
+    id = models.DecimalField(
+        primary_key=True, max_digits=18, decimal_places=0)
 
     rol = models.CharField(max_length=14, blank=True, null=True)
 
@@ -240,9 +241,8 @@ class MaatschappelijkeActiviteit(models.Model):
     uitgeoefend door een NatuurlijkPersoon of een NietNatuurlijkPersoon.
     Een MaatschappelijkeActiviteit kan ook als Onderneming voorkomen.
     """
-    id = models.CharField(
-        primary_key=True, max_length=20
-    )
+    id = models.DecimalField(
+        primary_key=True, max_digits=18, decimal_places=0)
 
     naam = models.CharField(
         max_length=600, blank=True, null=True,
@@ -299,14 +299,21 @@ class MaatschappelijkeActiviteit(models.Model):
     )
 
     eigenaar = models.ForeignKey(
-        'Persoon', blank=True, null=True,
+        'Persoon', related_name="+", blank=True, null=True,
         help_text="",
     )
+
+    # eigenaar zit niet ons systeem
+    # iets met kvk doen?
+    eigenaar_mks_id = models.DecimalField(
+        blank=True, null=True,
+        db_index=True, max_digits=18, decimal_places=0)
 
     onderneming = models.OneToOneField(
         'Onderneming', on_delete=models.CASCADE, null=True, blank=True,
         help_text="",
     )
+
     hoofdvestiging = models.ForeignKey(
         'Vestiging', null=True, blank=True,
     )
@@ -328,12 +335,15 @@ class Onderneming(models.Model):
     totaal_werkzame_personen = models.IntegerField(
         blank=True, null=True
     )
+
     fulltime_werkzame_personen = models.IntegerField(
         blank=True, null=True
     )
+
     parttime_werkzame_personen = models.IntegerField(
         blank=True, null=True
     )
+
     handelsnamen = models.ManyToManyField('Handelsnaam')
 
 

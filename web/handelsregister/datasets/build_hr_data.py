@@ -69,6 +69,13 @@ def fill_stelselpedia():
         log.info("Converteren functievervulling")
         _converteer_functievervulling(cursor)
 
+        log.info("Converteer eigenaren")
+        _converteer_mac_eigenaar_id(cursor)
+
+        # eigenaren zitten niet in zonde export..
+        log.info("Converteer onbekende mac mks eigenaren")
+        _converteer_onbekende_mac_eigenaar_id(cursor)
+
         # update eigenaren...
 
 
@@ -533,4 +540,24 @@ INSERT INTO hr_functievervulling (
     prsidi,
     soort
   FROM kvkprsashm00
+    """)
+
+
+def _converteer_mac_eigenaar_id(cursor):
+    cursor.execute("""
+UPDATE hr_maatschappelijkeactiviteit hrm
+SET eigenaar_id = m.prsid
+FROM kvkmacm00 m
+WHERE m.macid = hrm.id AND EXISTS (
+    select * from hr_persoon WHERE id = m.prsid)
+    """)
+
+
+def _converteer_onbekende_mac_eigenaar_id(cursor):
+    cursor.execute("""
+UPDATE hr_maatschappelijkeactiviteit hrm
+SET eigenaar_mks_id = m.prsid
+FROM kvkmacm00 m
+WHERE m.macid = hrm.id AND NOT EXISTS (
+    select * from hr_persoon WHERE id = m.prsid)
     """)
