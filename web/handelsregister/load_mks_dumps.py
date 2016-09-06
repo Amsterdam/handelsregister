@@ -84,13 +84,13 @@ def get_latest_zipfile():
     time, object_meta_data = zips_sorted_by_time[-1]
 
     # Download the latest data
-    log.info('Downloading: %s %s', time, object_meta_data['name'])
+    zipname = object_meta_data['name'].split('/')[-1]
+    log.info('Downloading: %s %s', time, zipname)
+
     latest_zip = get_store_object(object_meta_data)
 
     # save output to file!
-    with open('data/objectstore.zip', 'wb') as outputzip:
+    with open('data/{}'.format(zipname), 'wb') as outputzip:
         outputzip.write(latest_zip)
-
-
 
 get_latest_zipfile()
