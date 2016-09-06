@@ -20,13 +20,18 @@ class ImportFunctievervullingTest(TestCase):
     def test_import_typical_example(self):
         fvv = kvk.KvkFunctievervulling.objects.create(
             ashid=Decimal('100000000000000000'),
-            prsidh=Decimal('100000000000000000'),
-            prsidi=Decimal('100000000000000000'),
+            functie="GrandPoobah",
+            prsidi=Decimal('200000000000000000'),
+            prsidh=Decimal('300000000000000000'),
+            soort="OnbeperktBevoegd",
             prsashhibver=Decimal('100000000000000000'),
-            functie="Grand Poobah"
-            # ...
         )
         functievervulling = self._convert(fvv)
 
         self.assertIsNotNone(functievervulling)
-				# ...
+        self.assertEqual('100000000000000000', functievervulling.id)
+        self.assertEqual('GrandPoobah', functievervulling.functietitel)
+        self.assertEqual('OnbeperktBevoegd', functievervulling.soortbevoegdheid)
+        self.assertEqual('100000000000000000', functievervulling.id)
+        self.assertEqual('300000000000000000', functievervulling.heeft_aansprakelijke_id)
+        self.assertEqual('100000000000000000', functievervulling.is_aansprakelijke_id)
