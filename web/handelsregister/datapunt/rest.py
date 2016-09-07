@@ -96,6 +96,7 @@ class AtlasViewSet(DetailSerializerMixin, viewsets.ReadOnlyModelViewSet):
 
 
 class RelatedSummaryField(serializers.Field):
+
     def to_representation(self, value):
         count = value.count()
         model_name = value.model.__name__

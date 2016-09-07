@@ -299,7 +299,9 @@ class MaatschappelijkeActiviteit(models.Model):
     )
 
     eigenaar = models.ForeignKey(
-        'Persoon', related_name="+", blank=True, null=True,
+        'Persoon',
+        related_name="maatschappelijke_activiteit",
+        blank=True, null=True,
         help_text="",
     )
 

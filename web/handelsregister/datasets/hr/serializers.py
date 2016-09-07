@@ -3,6 +3,8 @@ from rest_framework import serializers
 from datapunt import rest
 from . import models
 
+from rest_framework.reverse import reverse
+
 
 class Communicatiegegevens(serializers.ModelSerializer):
     class Meta:
@@ -143,10 +145,44 @@ class PersoonDetail(rest.HALSerializer):
     natuurlijkpersoon = NatuurlijkPersoon()
     niet_natuurlijkpersoon = NietNatuurlijkPersoon()
 
+    maatschappelijke_activiteit = serializers.SerializerMethodField()
+
     _display = rest.DisplayField()
 
     class Meta:
         model = models.Persoon
+
+        fields = (
+            'id',
+            '_display',
+            'natuurlijkpersoon',
+            'niet_natuurlijkpersoon',
+            'maatschappelijke_activiteit',
+
+            'rol',
+            'rechtsvorm',
+            'uitgebreide_rechtsvorm',
+            'volledige_naam',
+            'typering',
+            'reden_insolvatie',
+            'datum_aanvang',
+            'datum_einde',
+            'soort',
+            'datumuitschrijving',
+            'nummer',
+            'toegangscode',
+            'faillissement',
+        )
+
+    def get_maatschappelijke_activiteit(self, obj):
+        if obj.rol == 'EIGENAAR':
+            mac = models.MaatschappelijkeActiviteit.objects.get(
+                eigenaar=obj.id)
+            url = reverse(
+                'maatschappelijkeactiviteit-detail',
+                request=self.context['request'],
+                args=[str(mac.kvk_nummer)])
+            return url
 
 
 class Vestiging(rest.HALSerializer):
