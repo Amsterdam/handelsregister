@@ -11,6 +11,8 @@ from rest_framework import filters
 from . import models
 from . import serializers
 
+import requests
+
 
 class MaatschappelijkeActiviteitViewSet(rest.AtlasViewSet):
     """
@@ -72,6 +74,7 @@ class VestigingFilter(filters.FilterSet):
 
     nummeraanduiding = MethodFilter(action='nummeraanduiding_filter')
     verblijfsobject = MethodFilter(action='verblijfsobject_filter')
+    pand = MethodFilter(action='pand_filter')
 
     class Meta:
         model = models.Vestiging
@@ -101,6 +104,45 @@ class VestigingFilter(filters.FilterSet):
         return queryset.filter(
             Q(bezoekadres__bag_vbid=value) |
             Q(postadres__bag_vbid=value))
+
+    def collect_landelijke_ids(self, vbo_ids, value, page):
+        params = {
+            'panden__id': value,
+            'page': page
+        }
+
+        response = requests.get(
+            'https://api.datapunt.amsterdam.nl/bag/verblijfsobject/', params)
+
+        data = response.json()
+
+        for vbo in data.get('results', []):
+            vbo_ids.append(vbo['landelijk_id'])
+
+        if not data:
+            return False
+        if not data.get('_links'):
+            return False
+
+        return data['_links'].get('next', False)
+
+    def pand_filter(self, queryset, value):
+        """
+        Given a pand id pick up all verblijfsobjecten
+        and find all vestigingen.
+        """
+
+        vbo_ids = []
+        more_data = True
+        page = 0
+
+        while more_data:
+            page += 1
+            more_data = self.collect_landelijke_ids(vbo_ids, value, page)
+
+        return queryset.filter(
+            Q(bezoekadres__bag_vbid__in=vbo_ids) |
+            Q(postadres__bag_vbid__in=vbo_ids))
 
 
 class VestigingViewSet(rest.AtlasViewSet):
