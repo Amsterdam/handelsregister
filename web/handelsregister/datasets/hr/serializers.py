@@ -143,6 +143,9 @@ class PersoonDetail(rest.HALSerializer):
     natuurlijkpersoon = NatuurlijkPersoon()
     niet_natuurlijkpersoon = NietNatuurlijkPersoon()
 
+    heeft_aansprakelijke = rest.RelatedSummaryField()
+    is_aansprakelijke = rest.RelatedSummaryField()
+
     _display = rest.DisplayField()
 
     class Meta:
