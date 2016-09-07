@@ -453,7 +453,7 @@ class Vestiging(models.Model):
         elif self.postadres:
             return "post: {} - {}".format(self.bezoekadres, self.naam)
 
-        return self.naam
+        return "{}".format(self.naam)
 
 
 class Locatie(models.Model):
