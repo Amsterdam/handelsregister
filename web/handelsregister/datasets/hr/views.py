@@ -162,9 +162,9 @@ class VestigingViewSet(rest.AtlasViewSet):
         bezoekadres__bag_numid
         pand
 
-    example:
+    Zoeken op landelijk pand id voorbeeld:
 
-    https://api-acc.datapunt.amsterdam.nl/handelsregister/vestiging/?pand=03630013105220
+    [https://api-acc.datapunt.amsterdam.nl/handelsregister/vestiging/?pand=03630013105220](https://api-acc.datapunt.amsterdam.nl/handelsregister/vestiging/?pand=03630013105220)
 
     """
 
