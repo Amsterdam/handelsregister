@@ -32,6 +32,5 @@ class ImportFunctievervullingTest(TestCase):
         self.assertEqual('100000000000000000', functievervulling.id)
         self.assertEqual('GrandPoobah', functievervulling.functietitel)
         self.assertEqual('OnbeperktBevoegd', functievervulling.soortbevoegdheid)
-        self.assertEqual('100000000000000000', functievervulling.id)
-        self.assertEqual('300000000000000000', functievervulling.heeft_aansprakelijke_id)
-        self.assertEqual('100000000000000000', functievervulling.is_aansprakelijke_id)
+        self.assertEqual(Decimal('300000000000000000'), functievervulling.heeft_aansprakelijke_id)
+        self.assertEqual(Decimal('200000000000000000'), functievervulling.is_aansprakelijke_id)

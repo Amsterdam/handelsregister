@@ -190,6 +190,7 @@ BATCH_SETTINGS = dict(
 
 REST_FRAMEWORK = dict(
     PAGE_SIZE=25,
+
     MAX_PAGINATE_BY=100,
     DEFAULT_AUTHENTICATION_CLASSES=(
         'rest_framework.authentication.BasicAuthentication',
@@ -202,7 +203,7 @@ REST_FRAMEWORK = dict(
         'rest_framework.renderers.BrowsableAPIRenderer'
     ),
     DEFAULT_FILTER_BACKENDS=('rest_framework.filters.DjangoFilterBackend',),
-    COERCE_DECIMAL_TO_STRING=False,
+    COERCE_DECIMAL_TO_STRING=True,
 )
 
 # Static files (CSS, JavaScript, Images)

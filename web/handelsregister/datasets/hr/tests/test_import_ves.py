@@ -51,7 +51,7 @@ class ImportVestigingTest(TestCase):
 
         self.assertIsNotNone(vestiging)
         self.assertEqual('100000000000000000', vestiging.id)
-        self.assertEqual('999999999999999999', vestiging.maatschappelijke_activiteit.pk)
+        self.assertEqual(Decimal('999999999999999999'), vestiging.maatschappelijke_activiteit.pk)
         self.assertEqual('000033333333', vestiging.vestigingsnummer)
         self.assertEqual('Onderneming B.V.', vestiging.naam)
 
@@ -62,8 +62,8 @@ class ImportVestigingTest(TestCase):
 
     def test_import_communicatie(self):
         kvk_vestiging = kvk.KvkVestiging.objects.create(
-            vesid=100000000000000000,
-            maatschappelijke_activiteit_id=999999999999999999,
+            vesid=Decimal('100000000000000000'),
+            maatschappelijke_activiteit_id=Decimal('999999999999999999'),
             vestigingsnummer='000033333333',
             eerstehandelsnaam='Onderneming B.V.',
             typeringvestiging='CVS',
