@@ -161,6 +161,9 @@ class PersoonDetail(rest.HALSerializer):
             'niet_natuurlijkpersoon',
             'maatschappelijke_activiteit',
 
+            'is_aansprakelijke',
+            'heeft_aansprakelijke',
+
             'rol',
             'rechtsvorm',
             'uitgebreide_rechtsvorm',
