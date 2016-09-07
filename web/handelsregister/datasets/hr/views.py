@@ -252,3 +252,5 @@ class FunctievervullingViewSet(rest.AtlasViewSet):
 
     serializer_detail_class = serializers.Functievervulling
     serializer_class = serializers.Functievervulling
+
+    filter_fields = ('heeft_aansprakelijke', 'is_aansprakelijke')

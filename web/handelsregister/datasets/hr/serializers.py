@@ -146,6 +146,8 @@ class PersoonDetail(rest.HALSerializer):
     niet_natuurlijkpersoon = NietNatuurlijkPersoon()
 
     maatschappelijke_activiteit = serializers.SerializerMethodField()
+    heeft_aansprakelijke = rest.RelatedSummaryField()
+    is_aansprakelijke = rest.RelatedSummaryField()
 
     _display = rest.DisplayField()
 
