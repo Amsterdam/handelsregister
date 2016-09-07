@@ -160,6 +160,11 @@ class VestigingViewSet(rest.AtlasViewSet):
         nummeraanduiding
         verblijfsobject
         bezoekadres__bag_numid
+        pand
+
+    example:
+
+    https://api-acc.datapunt.amsterdam.nl/handelsregister/vestiging/?pand=03630013105220
 
     """
 
