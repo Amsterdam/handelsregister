@@ -95,6 +95,7 @@ class MaatschappelijkeActiviteitDetail(rest.HALSerializer):
     class Meta:
         model = models.MaatschappelijkeActiviteit
         lookup_field = 'kvk_nummer'
+
         extra_kwargs = {
             '_links': {'lookup_field': 'kvk_nummer'},
             'hoofdvestiging': {'lookup_field': 'vestigingsnummer'},

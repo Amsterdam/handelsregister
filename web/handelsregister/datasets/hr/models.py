@@ -448,7 +448,12 @@ class Vestiging(models.Model):
     )
 
     def __str__(self):
-        return "{}".format(self.naam)
+        if self.bezoekadres:
+            return "{} - {}".format(self.bezoekadres, self.naam)
+        elif self.postadres:
+            return "post: {} - {}".format(self.bezoekadres, self.naam)
+
+        return self.naam
 
 
 class Locatie(models.Model):
@@ -500,7 +505,7 @@ class Locatie(models.Model):
     geometry = models.PointField(srid=28992, blank=True, null=True)
 
     def __str__(self):
-        return "{} ({})".format(self.volledig_adres, self.adid)
+        return "{} ({})".format(self.volledig_adres, self.id)
 
 
 class Handelsnaam(models.Model):
