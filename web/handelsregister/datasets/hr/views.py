@@ -13,6 +13,10 @@ from . import serializers
 
 import requests
 
+import logging
+
+log = logging.getLogger(__name__)
+
 
 class MaatschappelijkeActiviteitViewSet(rest.AtlasViewSet):
     """
@@ -107,36 +111,42 @@ class VestigingFilter(filters.FilterSet):
 
     def collect_landelijke_ids(self, vbo_ids, value, page):
         params = {
-            'panden__id': value,
-            'page': page
+            'page': page,
+            'panden__landelijk_id': value
         }
 
-        response = requests.get(
-            'https://api.datapunt.amsterdam.nl/bag/verblijfsobject/', params)
+        url = "https://api-acc.datapunt.amsterdam.nl/bag/verblijfsobject/"
+        response = requests.get(url, params)
 
         data = response.json()
 
         for vbo in data.get('results', []):
+            log.debug(vbo)
             vbo_ids.append(vbo['landelijk_id'])
 
         if not data:
             return False
         if not data.get('_links'):
             return False
+        if not data['_links'].get('next'):
+            return False
 
-        return data['_links'].get('next', False)
+        return data['_links']['next']['href'] is not None
 
     def pand_filter(self, queryset, value):
         """
         Given a pand id pick up all verblijfsobjecten
         and find all vestigingen.
         """
+        # NOTE how to test this?
 
         vbo_ids = []
         more_data = True
         page = 0
 
-        while more_data:
+        # more then 40 * 25 pages we will not show
+        # just to spare our backend
+        while more_data and page < 40:
             page += 1
             more_data = self.collect_landelijke_ids(vbo_ids, value, page)
 
@@ -162,9 +172,9 @@ class VestigingViewSet(rest.AtlasViewSet):
         bezoekadres__bag_numid
         pand
 
-    Zoeken op landelijk pand id voorbeeld:
+    Zoeken op landelijk pand id van de Waag op de nieuwmarkt voorbeeld:
 
-    [https://api-acc.datapunt.amsterdam.nl/handelsregister/vestiging/?pand=03630013105220](https://api-acc.datapunt.amsterdam.nl/handelsregister/vestiging/?pand=03630013105220)
+    [https://api-acc.datapunt.amsterdam.nl/handelsregister/vestiging/?pand=0363100012171850](https://api-acc.datapunt.amsterdam.nl/handelsregister/vestiging/?pand=0363100012171850)
 
     """
 
