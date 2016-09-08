@@ -2,6 +2,7 @@
 
 from datapunt import rest
 
+from django.conf import settings
 from django_filters import MethodFilter
 
 from django.db.models import Q
@@ -131,7 +132,7 @@ class VestigingFilter(filters.FilterSet):
 
     def _grab_vbo_page(self, vbo_ids, filter_field, value, page):
         """
-        Grab a single filtered vbo page and retun True is there
+        Grab a single filtered vbo page and retun True if there
         is more data
         """
 
@@ -141,7 +142,7 @@ class VestigingFilter(filters.FilterSet):
 
         params[filter_field] = value
 
-        url = "https://api-acc.datapunt.amsterdam.nl/bag/verblijfsobject/"
+        url = settings.VBO_URI
 
         response = requests.get(url, params)
 
@@ -214,8 +215,6 @@ class VestigingViewSet(rest.AtlasViewSet):
     Zoeken op kadastraal object id voorbeeld:
 
     [https://api-acc.datapunt.amsterdam.nl/handelsregister/vestiging/?kadastraal_object=NL.KAD.OnroerendeZaak.11450749270000](https://api-acc.datapunt.amsterdam.nl/handelsregister/vestiging/?kadastraal_object=NL.KAD.OnroerendeZaak.11450749270000)
-
-
     """
 
     queryset = models.Vestiging.objects.all()
