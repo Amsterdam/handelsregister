@@ -139,10 +139,6 @@ class NatuurlijkPersoon(models.Model):
     """
     id = models.CharField(primary_key=True, max_length=20)
 
-    geboortedatum = models.CharField(max_length=8, blank=True, null=True)
-    geboorteplaats = models.CharField(max_length=240, blank=True, null=True)
-    geboorteland = models.CharField(max_length=50, blank=True, null=True)
-
     voornamen = models.CharField(max_length=240, blank=True, null=True)
     geslachtsnaam = models.CharField(max_length=240, blank=True, null=True)
     geslachtsaanduiding = models.CharField(
