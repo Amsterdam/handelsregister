@@ -65,10 +65,16 @@ class Persoon(models.Model):
         ('samenwerkingsverband', 'samenwerkingsverband'),
     ]
 
+    rol_choices = [
+        ('EIGENAAR', 'EIGENAAR'),
+        ('AANSPRAKELIJKE', 'AANSPRAKELIJKE'),
+    ]
+
     id = models.DecimalField(
         primary_key=True, max_digits=18, decimal_places=0)
 
-    rol = models.CharField(max_length=14, blank=True, null=True)
+    rol = models.CharField(
+      max_length=14, blank=True, null=True, choices=rol_choices)
 
     rechtsvorm = models.CharField(max_length=50, blank=True, null=True)
     uitgebreide_rechtsvorm = models.CharField(
@@ -138,10 +144,6 @@ class NatuurlijkPersoon(models.Model):
     Natuurlijk Persoon.
     """
     id = models.CharField(primary_key=True, max_length=20)
-
-    geboortedatum = models.CharField(max_length=8, blank=True, null=True)
-    geboorteplaats = models.CharField(max_length=240, blank=True, null=True)
-    geboorteland = models.CharField(max_length=50, blank=True, null=True)
 
     voornamen = models.CharField(max_length=240, blank=True, null=True)
     geslachtsnaam = models.CharField(max_length=240, blank=True, null=True)
