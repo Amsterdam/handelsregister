@@ -1,14 +1,25 @@
 import os
-from unittest import mock
-
+import logging
 import requests
 
+from unittest import mock
 directory = os.path.dirname(__file__)
 
 
-def _filter_fixtures_get(url, *args, **kwargs):
+log = logging.getLogger(__name__)
 
-    filename = url.split('?')[1]
+
+def _filter_fixtures_get(url, *args, **kwargs):
+    """
+    Derive from parameters of 'request.get'
+    function which json filename
+    we need.
+    """
+
+    for k, v in args[0].items():
+        if '_id' in k:
+            filename = '{}={}'.format(k, v)
+            break
 
     filename += '.json'
 

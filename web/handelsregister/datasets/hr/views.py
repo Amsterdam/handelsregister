@@ -124,7 +124,7 @@ class VestigingFilter(filters.FilterSet):
 
         # more then 40 * 25 pages we will not show
         # just to spare our backend
-        while more_data and page < 40:
+        while more_data and page < 10:
             page += 1
             more_data = self._grab_vbo_page(vbo_ids, filter_field, value, page)
 

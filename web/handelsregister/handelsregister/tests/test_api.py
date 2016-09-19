@@ -81,31 +81,66 @@ class VestingFilterTest(APITestCase):
         self.assertEquals(200, response_p.status_code)
         self.assertEquals(vestigingen_p.count(), data_p['count'])
 
-    #    response = self.client.get(
-    #        '/handelsregister/vestiging/?nummeraanduiding=0363010000758545')
-    #    self.assertEquals(200, response.status_code)
+    def test_filter_vbo_id(self):
 
-    #def test_filter_vbo_id(self):
-    #    response = self.client.get(
-    #        '/handelsregister/vestiging/?verblijfsobject=0363010000758545')
-    #    self.assertEquals(200, response.status_code)
+        vestigingen = models_hr.Vestiging.objects.filter(
+           bezoekadres__bag_vbid=5,
+        )
 
-    #def test_filter_pand_id(self):
-    #    response = self.client.get(
-    #        '/handelsregister/vestiging/?pand=0363010000758545')
-    #    self.assertEquals(200, response.status_code)
-    #    pass
+        response = self.client.get(
+            '/handelsregister/vestiging/?verblijfsobject=0363010000758545')
 
-    #def test_filter_kot_id(self):
-    #    response = self.client.get(
-    #        '/handelsregister/vestiging/?kadastraal_object=0363010000758545')
-    #    self.assertEquals(200, response.status_code)
-    #    pass
+        data = response.json()
+        self.assertEquals(200, response.status_code)
 
-    #def test_unknown_vbo_is_404(self):
-    #    response = self.client.get('/zwaailicht/status_pand/1234/')
-    #    self.assertEquals(200, response.status_code)
+        self.assertEquals(vestigingen.count(), data['count'])
 
-    #def test_known_vbo_unknown_follow_is_200(self):
-    #    response = self.client.get('/zwaailicht/status_pand/0363010001958552/')
-    #    self.assertEquals(200, response.status_code)
+    def test_filter_pand_id(self):
+        """
+        We mock the bag api endpoint request with json fixtures
+        """
+
+        # json contains verblijsfsobjecten with id 4 for given
+        # pand id
+        vestigingen = models_hr.Vestiging.objects.filter(
+           bezoekadres__bag_numid=4,
+        )
+
+        response = self.client.get(
+            '/handelsregister/vestiging/?pand=0363010000758545')
+
+        self.assertEquals(200, response.status_code)
+        data = response.json()
+
+        self.assertEquals(vestigingen.count(), data['count'])
+
+    def test_filter_kot_id(self):
+        """
+        """
+        #
+        vestigingen = models_hr.Vestiging.objects.filter(
+           bezoekadres__bag_numid__in=[1, 2, 'p1'],
+        )
+
+        vestigingen_to_few = models_hr.Vestiging.objects.filter(
+           bezoekadres__bag_numid__in=['p1'],
+        )
+
+        response = self.client.get(
+            '/handelsregister/vestiging/?kadastraal_object=NL.KAD.OnroerendeZaak.11450749270000')
+        self.assertEquals(200, response.status_code)
+
+        data = response.json()
+
+        print(data['count'])
+
+        self.assertEquals(vestigingen.count(), data['count'])
+        self.assertNotEqual(vestigingen_to_few.count(), data['count'])
+
+    def test_unknown_vbo_is_200(self):
+        """
+        """
+        response = self.client.get(
+            '/handelsregister/vestiging/?verblijfsobject=9999')
+
+        self.assertEquals(200, response.status_code)
