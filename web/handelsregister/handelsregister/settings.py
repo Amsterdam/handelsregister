@@ -30,7 +30,8 @@ VBO_URI = "https://api-acc.datapunt.amsterdam.nl/bag/verblijfsobject/"
 SECRET_KEY = 'not-secret'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
+# DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
