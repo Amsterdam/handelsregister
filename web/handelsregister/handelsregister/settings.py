@@ -24,11 +24,14 @@ def _get_docker_host():
     return '0.0.0.0'
 
 
+VBO_URI = "https://api-acc.datapunt.amsterdam.nl/bag/verblijfsobject/"
+
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'not-secret'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
+# DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -273,6 +276,20 @@ LOGGING = {
             'level': 'INFO',
             'propagate': False,
         },
+
+        'factory.containers': {
+            'handlers': ['console'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+
+        'factory.generate': {
+            'handlers': ['console'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+
+
 
         'urllib3.connectionpool': {
             'handlers': ['console'],

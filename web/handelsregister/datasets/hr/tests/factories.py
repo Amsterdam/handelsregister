@@ -31,6 +31,20 @@ class VestigingFactory(factory.DjangoModelFactory):
         MaatschappelijkeActiviteitFactory)
 
 
+class LocatieFactory(factory.DjangoModelFactory):
+
+    class Meta:
+        model = models.Locatie
+
+    id = fuzzy.FuzzyInteger(low=100000000000000000, high=100000000000000099)
+
+    afgeschermd = fuzzy.FuzzyChoice(choices=[True, False])
+
+    bag_numid = 'put_in_fixture_id'
+
+    bag_vbid = 'put_in_fixture_id'
+
+
 class FunctievervullingFactory(factory.DjangoModelFactory):
     class Meta:
         model = models.Functievervulling

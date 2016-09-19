@@ -1,0 +1,115 @@
+{
+    "_links": {
+        "self": {
+            "href": "https://api-acc.datapunt.amsterdam.nl/bag/verblijfsobject/?kadastrale_objecten__id=NL%2eKAD%2eOnroerendeZaak%2e11450749270000&page=1"
+        },
+        "next": {
+            "href": null
+        },
+        "previous": {
+            "href": null
+        }
+    },
+    "count": 9,
+    "results": [
+        {
+            "_links": {
+                "self": {
+                    "href": "https://api-acc.datapunt.amsterdam.nl/bag/verblijfsobject/03630001987628/"
+                }
+            },
+            "_display": "Beursplein 1",
+            "landelijk_id": "1",
+            "id": "03630001987628",
+            "dataset": "bag"
+        },
+        {
+            "_links": {
+                "self": {
+                    "href": "https://api-acc.datapunt.amsterdam.nl/bag/verblijfsobject/03630001987888/"
+                }
+            },
+            "_display": "Beursplein 3",
+            "landelijk_id": "2",
+            "id": "03630001987888",
+            "dataset": "bag"
+        },
+        {
+            "_links": {
+                "self": {
+                    "href": "https://api-acc.datapunt.amsterdam.nl/bag/verblijfsobject/03630001034471/"
+                }
+            },
+            "_display": "Beursstraat 2",
+            "landelijk_id": "p1",
+            "id": "03630001034471",
+            "dataset": "bag"
+        },
+        {
+            "_links": {
+                "self": {
+                    "href": "https://api-acc.datapunt.amsterdam.nl/bag/verblijfsobject/03630001987889/"
+                }
+            },
+            "_display": "Beursstraat 6",
+            "landelijk_id": "0363010001987889",
+            "id": "03630001987889",
+            "dataset": "bag"
+        },
+        {
+            "_links": {
+                "self": {
+                    "href": "https://api-acc.datapunt.amsterdam.nl/bag/verblijfsobject/03630022327221/"
+                }
+            },
+            "_display": "Damrak 213",
+            "landelijk_id": "0363010012076124",
+            "id": "03630022327221",
+            "dataset": "bag"
+        },
+        {
+            "_links": {
+                "self": {
+                    "href": "https://api-acc.datapunt.amsterdam.nl/bag/verblijfsobject/03630022327193/"
+                }
+            },
+            "_display": "Damrak 243",
+            "landelijk_id": "0363010012076107",
+            "id": "03630022327193",
+            "dataset": "bag"
+        },
+        {
+            "_links": {
+                "self": {
+                    "href": "https://api-acc.datapunt.amsterdam.nl/bag/verblijfsobject/03630001987927/"
+                }
+            },
+            "_display": "Oudebrugsteeg 9",
+            "landelijk_id": "0363010001987927",
+            "id": "03630001987927",
+            "dataset": "bag"
+        },
+        {
+            "_links": {
+                "self": {
+                    "href": "https://api-acc.datapunt.amsterdam.nl/bag/verblijfsobject/03630001987901/"
+                }
+            },
+            "_display": "Oudebrugsteeg 11",
+            "landelijk_id": "0363010001987901",
+            "id": "03630001987901",
+            "dataset": "bag"
+        },
+        {
+            "_links": {
+                "self": {
+                    "href": "https://api-acc.datapunt.amsterdam.nl/bag/verblijfsobject/03630001987928/"
+                }
+            },
+            "_display": "Oudebrugsteeg 13",
+            "landelijk_id": "0363010001987928",
+            "id": "03630001987928",
+            "dataset": "bag"
+        }
+    ]
+}

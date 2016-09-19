@@ -30,6 +30,7 @@ importer_mks:
     - database:database
   environment:
     DATABASE_NAME: handelsregister
+    DATABASE_USER: handelsregister
     DATABASE_PASSWORD: insecure
     PGPASSWORD: insecure
     OS_PASSWORD:
