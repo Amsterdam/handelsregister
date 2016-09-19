@@ -175,9 +175,12 @@ class VestigingFilter(filters.FilterSet):
         vbo_ids = self._collect_landelijke_ids(
             'panden__landelijk_id', value)
 
-        return queryset.filter(
-            Q(bezoekadres__bag_vbid__in=vbo_ids) |
-            Q(postadres__bag_vbid__in=vbo_ids))
+        locations = models.Locatie.objects.filter(bag_vbid__in=vbo_ids)
+
+        q1 = queryset.filter(bezoekadres__in=locations)
+        q2 = queryset.filter(postadres__in=locations)
+
+        return q1 | q2
 
     def kot_filter(self, queryset, value):
         """
@@ -186,9 +189,12 @@ class VestigingFilter(filters.FilterSet):
         vbo_ids = self._collect_landelijke_ids(
             'kadastrale_objecten__id', value)
 
-        return queryset.filter(
-            Q(bezoekadres__bag_vbid__in=vbo_ids) |
-            Q(postadres__bag_vbid__in=vbo_ids))
+        locations = models.Locatie.objects.filter(bag_vbid__in=vbo_ids)
+
+        q1 = queryset.filter(bezoekadres__in=locations)
+        q2 = queryset.filter(postadres__in=locations)
+
+        return q1 | q2
 
 
 class VestigingViewSet(rest.AtlasViewSet):

@@ -76,7 +76,7 @@ def fill_stelselpedia():
         log.info("Converteer onbekende mac mks eigenaren")
         _converteer_onbekende_mac_eigenaar_id(cursor)
 
-        # update eigenaren...
+        cursor.execute('VACUUM ANALYZE')
 
 
 def _converteer_locaties(cursor):

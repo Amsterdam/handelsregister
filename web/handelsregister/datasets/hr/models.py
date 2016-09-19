@@ -209,7 +209,7 @@ class Activiteit(models.Model):
     """
 
     id = models.CharField(
-        primary_key=True, max_length=21
+        primary_key=True, max_length=24
     )
 
     activiteitsomschrijving = models.TextField(
@@ -244,7 +244,7 @@ class MaatschappelijkeActiviteit(models.Model):
     Een MaatschappelijkeActiviteit kan ook als Onderneming voorkomen.
     """
     id = models.DecimalField(
-        primary_key=True, max_digits=18, decimal_places=0)
+        primary_key=True, max_digits=25, decimal_places=0)
 
     naam = models.CharField(
         max_length=600, blank=True, null=True,
@@ -311,7 +311,7 @@ class MaatschappelijkeActiviteit(models.Model):
     # iets met kvk doen?
     eigenaar_mks_id = models.DecimalField(
         blank=True, null=True,
-        db_index=True, max_digits=18, decimal_places=0)
+        db_index=True, max_digits=23, decimal_places=0)
 
     onderneming = models.OneToOneField(
         'Onderneming', on_delete=models.CASCADE, null=True, blank=True,
@@ -356,7 +356,7 @@ class CommercieleVestiging(models.Model):
     Een classificatie van de Vestiging van de Onderneming.
     """
     id = models.CharField(
-        primary_key=True, max_length=20
+        primary_key=True, max_length=24
     )
     totaal_werkzame_personen = models.IntegerField(
         blank=True, null=True
@@ -390,7 +390,7 @@ class Vestiging(models.Model):
     """
 
     id = models.CharField(
-        primary_key=True, max_length=20
+        primary_key=True, max_length=25
     )
 
     maatschappelijke_activiteit = models.ForeignKey(
@@ -468,7 +468,7 @@ class Locatie(models.Model):
     """
 
     id = models.CharField(
-        primary_key=True, max_length=18
+        primary_key=True, max_length=22
     )
     volledig_adres = models.CharField(
         max_length=550, blank=True, null=True,
@@ -483,11 +483,13 @@ class Locatie(models.Model):
     )
 
     postbus_nummer = models.CharField(
+        db_index=True,
         max_length=10, blank=True, null=True,
     )
 
     bag_numid = models.CharField(
         max_length=16, db_index=True, blank=True, null=True)
+
     bag_vbid = models.CharField(
         max_length=16, db_index=True, blank=True, null=True)
 
