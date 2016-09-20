@@ -23,7 +23,10 @@ def delete_site(apps, *args, **kwargs):
 
 
 class Migration(migrations.Migration):
-    dependencies = []
+    dependencies = [
+        ('sites', '__first__'),
+        ('hr', '__first__'),
+    ]
 
     operations = [
         # set the site name

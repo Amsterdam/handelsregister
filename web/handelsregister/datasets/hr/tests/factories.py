@@ -11,8 +11,6 @@ class MaatschappelijkeActiviteitFactory(factory.DjangoModelFactory):
     id = fuzzy.FuzzyInteger(low=100000000000000000, high=100000000000000099)
     kvk_nummer = fuzzy.FuzzyInteger(low=1, high=99999999)
 
-    activiteiten = factory.SubFactory()
-
 
 class PersoonFactory(factory.DjangoModelFactory):
     class Meta:
@@ -32,6 +30,17 @@ class VestigingFactory(factory.DjangoModelFactory):
     maatschappelijke_activiteit = factory.SubFactory(
         MaatschappelijkeActiviteitFactory)
 
+    @factory.post_generation
+    def activiteiten(self, create, activiteiten=None, **kwargs):
+        if not create:
+            # Simple build, do nothing.
+            return
+
+        if activiteiten:
+            # A list of groups were passed in, use them
+            for a in activiteiten:
+                self.activiteiten.add(a)
+
 
 class LocatieFactory(factory.DjangoModelFactory):
 
@@ -42,9 +51,8 @@ class LocatieFactory(factory.DjangoModelFactory):
 
     afgeschermd = fuzzy.FuzzyChoice(choices=[True, False])
 
-    bag_numid = 'put_in_fixture_id'
-
-    bag_vbid = 'put_in_fixture_id'
+    bag_numid = fuzzy.FuzzyChoice(choices=[1, 2])  # 'put_in_fixture_id'
+    bag_vbid = fuzzy.FuzzyChoice(choices=[3, 4])  # 'put_in_fixture_id'
 
 
 class Activiteit(factory.DjangoModelFactory):
