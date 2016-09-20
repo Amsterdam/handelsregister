@@ -33,14 +33,14 @@ class Migration(migrations.Migration):
             view_name="geo_hr_vestiging_locaties",
             sql="""
 SELECT
-  vs.id,
-  vs.id as display,
+  ROW_NUMBER() OVER (ORDER BY vs.id ASC) AS id,
+  vs.vestigingsnummer as display,
   a.sbi_code,
   a.activiteitsomschrijving,
   vs.naam,
   loc.geometry as geometrie,
   'handelsregister/vestiging' AS type,
-  site.domain || 'handelsregister/vestiging/' || vs.id || '/' AS uri
+  site.domain || 'handelsregister/vestiging/' || vs.vestigingsnummer || '/' AS uri
 FROM hr_vestiging_activiteiten hr_a
     JOIN hr_vestiging vs
     ON hr_a.vestiging_id = vs.id

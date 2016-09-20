@@ -11,6 +11,8 @@ class MaatschappelijkeActiviteitFactory(factory.DjangoModelFactory):
     id = fuzzy.FuzzyInteger(low=100000000000000000, high=100000000000000099)
     kvk_nummer = fuzzy.FuzzyInteger(low=1, high=99999999)
 
+    activiteiten = factory.SubFactory()
+
 
 class PersoonFactory(factory.DjangoModelFactory):
     class Meta:
@@ -43,6 +45,17 @@ class LocatieFactory(factory.DjangoModelFactory):
     bag_numid = 'put_in_fixture_id'
 
     bag_vbid = 'put_in_fixture_id'
+
+
+class Activiteit(factory.DjangoModelFactory):
+    class Meta:
+        model = models.Activiteit
+
+    id = fuzzy.FuzzyInteger(low=100000000000000000, high=100000000000000099)
+
+    sbi_code = fuzzy.FuzzyInteger(low=10000, high=10099)
+
+    hoofdactiviteit = fuzzy.FuzzyChoice(choices=[True, False])
 
 
 class FunctievervullingFactory(factory.DjangoModelFactory):
