@@ -43,8 +43,8 @@ SELECT
   vs.naam,
   vs.hoofdvestiging,
   CASE vs.bezoekadres_id
-    WHEN null THEN 'true'
-    ELSE 'false'
+    WHEN null THEN true
+    ELSE false
   END as is_bezoekadres,
   loc.geometry as geometrie,
   CAST('handelsregister/vestiging' AS text),
