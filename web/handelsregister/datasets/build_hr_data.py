@@ -6,6 +6,7 @@ import logging
 
 from django import db
 
+from django.conf import settings
 
 log = logging.getLogger(__name__)
 
