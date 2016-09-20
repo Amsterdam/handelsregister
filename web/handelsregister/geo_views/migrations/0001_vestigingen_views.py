@@ -42,7 +42,7 @@ SELECT
   a.activiteitsomschrijving,
   vs.naam,
   loc.geometry as geometrie,
-  'handelsregister/vestiging' AS type,
+  CAST('handelsregister/vestiging' AS text),
   site.domain || 'handelsregister/vestiging/' || vs.vestigingsnummer || '/' AS uri
 FROM hr_vestiging_activiteiten hr_a
     JOIN hr_vestiging vs
