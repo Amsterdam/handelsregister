@@ -45,7 +45,10 @@ PROJECT_APPS = [
     'handelsregister',
     'datasets.kvkdump',
     'datasets.hr',
+    'geo_views',
 ]
+
+DATAPUNT_API_URL = 'https://api.datapunt.amsterdam.nl/'
 
 # Application definition
 INSTALLED_APPS = [
@@ -55,6 +58,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
 
     'django_jenkins',
     'django_extensions',
@@ -70,6 +74,7 @@ INSTALLED_APPS = [
 if DEBUG:
     INSTALLED_APPS += ('debug_toolbar', )
 
+SITE_ID = 1
 
 MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
