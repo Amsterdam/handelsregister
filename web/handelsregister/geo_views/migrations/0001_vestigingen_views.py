@@ -42,10 +42,11 @@ SELECT
   a.activiteitsomschrijving,
   vs.naam,
   vs.hoofdvestiging,
-  CASE vs.bezoekadres_id
-    WHEN null THEN true
-    ELSE false
-  END as is_bezoekadres,
+  CASE
+    WHEN vs.bezoekadres_id NOTNULL THEN 'B'
+    WHEN vs.postadres_id NOTNULL THEN 'P'
+    ELSE 'V'
+  END as locatie_type,
   loc.geometry as geometrie,
   CAST('handelsregister/vestiging' AS text),
   site.domain || 'handelsregister/vestiging/' || vs.vestigingsnummer || '/' AS uri
