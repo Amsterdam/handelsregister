@@ -109,10 +109,12 @@ class VestigingFilter(filters.FilterSet):
         """
         Filter Vestiging op verblijfsobject
         """
+        locations = models.Locatie.objects.filter(bag_vbid=value)
 
-        return queryset.filter(
-            Q(bezoekadres__bag_vbid=value) |
-            Q(postadres__bag_vbid=value))
+        q1 = queryset.filter(bezoekadres__in=locations)
+        q2 = queryset.filter(postadres__in=locations)
+
+        return q1 | q2
 
     def _collect_landelijke_ids(self, filter_field, value):
         """
