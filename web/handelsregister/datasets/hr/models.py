@@ -516,7 +516,7 @@ class Locatie(models.Model):
     regio = models.CharField(max_length=170, blank=True, null=True)
     land = models.CharField(max_length=50, blank=True, null=True)
 
-    geometry = models.PointField(srid=28992, blank=True, null=True)
+    geometrie = models.PointField(srid=28992, blank=True, null=True)
 
     def __str__(self):
         return "{}".format(self.volledig_adres)

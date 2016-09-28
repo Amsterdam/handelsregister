@@ -47,7 +47,7 @@ SELECT
     WHEN vs.postadres_id NOTNULL THEN 'P'
     ELSE 'V'
   END as locatie_type,
-  loc.geometry as geometrie,
+  loc.geometrie as geometrie,
   CAST('handelsregister/vestiging' AS text),
   site.domain || 'handelsregister/vestiging/' || vs.vestigingsnummer || '/' AS uri
 FROM hr_vestiging_activiteiten hr_a
@@ -58,9 +58,9 @@ FROM hr_vestiging_activiteiten hr_a
     JOIN hr_locatie loc
     ON (vs.bezoekadres_id = loc.id
         OR vs.postadres_id = loc.id
-        AND ST_IsValid(loc.geometry)),
+        AND ST_IsValid(loc.geometrie)),
     django_site site
-WHERE loc.geometry != '' AND site.name = 'API Domain'
+WHERE loc.geometrie != '' AND site.name = 'API Domain'
 ORDER BY vs.id
 """
         ),

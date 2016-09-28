@@ -84,7 +84,7 @@ class Migration(migrations.Migration):
                 ('postcode_woonplaats', models.CharField(blank=True, max_length=220, null=True)),
                 ('regio', models.CharField(blank=True, max_length=170, null=True)),
                 ('land', models.CharField(blank=True, max_length=50, null=True)),
-                ('geometry', django.contrib.gis.db.models.fields.PointField(blank=True, null=True, srid=28992)),
+                ('geometrie', django.contrib.gis.db.models.fields.PointField(blank=True, null=True, srid=28992)),
             ],
         ),
         migrations.CreateModel(
