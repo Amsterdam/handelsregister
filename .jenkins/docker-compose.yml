@@ -22,7 +22,7 @@ tests:
     DATABASE_NAME: handelsregister
     DATABASE_USER: handelsregister
     DATABASE_PASSWORD: insecure
-  command: bash -c "/app/docker-wait.sh && python manage.py jenkins --noinput"
+  command: /app/docker-test.sh
 
 importer_mks:
   build: ../web
@@ -35,8 +35,7 @@ importer_mks:
     PGPASSWORD: insecure
     OS_PASSWORD:
   command: >
-    bash -c "/app/docker-wait.sh \
-            && yes \"yes\" | python manage.py migrate \
+    bash -c "/app/docker-migrate.sh \
             && python load_mks_dumps.py \
             && bash -c /app/loaddumps.sh"
 
