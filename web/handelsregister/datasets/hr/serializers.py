@@ -84,6 +84,16 @@ class MaatschappelijkeActiviteit(rest.HALSerializer):
         )
 
 
+class BijzondereRechtsToestand(serializers.ModelSerializer):
+
+        class Meta:
+            model = models.Persoon
+
+            fields = (
+                'faillissement',
+            )
+
+
 class MaatschappelijkeActiviteitDetail(rest.HALSerializer):
     dataset = 'hr'
 
@@ -94,6 +104,8 @@ class MaatschappelijkeActiviteitDetail(rest.HALSerializer):
     bezoekadres = Locatie()
     vestigingen = rest.RelatedSummaryField()
 
+    _bijzondere_rechts_toestand = BijzondereRechtsToestand(source='eigenaar')
+
     class Meta:
         model = models.MaatschappelijkeActiviteit
         lookup_field = 'kvk_nummer'
@@ -102,6 +114,27 @@ class MaatschappelijkeActiviteitDetail(rest.HALSerializer):
             '_links': {'lookup_field': 'kvk_nummer'},
             'hoofdvestiging': {'lookup_field': 'vestigingsnummer'},
         }
+
+        fields = (
+            '_links',
+            '_display',
+            'onderneming',
+            'communicatiegegevens',
+            'postadres',
+            'bezoekadres',
+            'vestigingen',
+            'naam',
+            'kvk_nummer',
+            'datum_aanvang',
+            'datum_einde',
+            'incidenteel_uitlenen_arbeidskrachten',
+            'non_mailing',
+            'eigenaar_mks_id',
+            'eigenaar',
+            'hoofdvestiging',
+            'activiteiten',
+            '_bijzondere_rechts_toestand'
+        )
 
 
 class Persoon(rest.HALSerializer):

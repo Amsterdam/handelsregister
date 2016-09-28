@@ -6,6 +6,7 @@ import logging
 
 from django import db
 
+from django.conf import settings
 
 log = logging.getLogger(__name__)
 
@@ -76,8 +77,6 @@ def fill_stelselpedia():
         log.info("Converteer onbekende mac mks eigenaren")
         _converteer_onbekende_mac_eigenaar_id(cursor)
 
-        # update eigenaren...
-
 
 def _converteer_locaties(cursor):
     cursor.execute("""
@@ -95,7 +94,7 @@ INSERT INTO hr_locatie (
   postcode_woonplaats,
   regio,
   land,
-  geometry
+  geometrie
 )
     SELECT
       adrid,

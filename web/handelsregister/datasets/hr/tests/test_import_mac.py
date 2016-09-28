@@ -130,7 +130,7 @@ class ImportMaatschappelijkeActiviteitTest(TestCase):
         self.assertIsNone(adr.postcode_woonplaats)
         self.assertIsNone(adr.regio)
         self.assertIsNone(adr.land)
-        self.assertEqual(Point(119767, 488362, srid=28992), adr.geometry)
+        self.assertEqual(Point(119767, 488362, srid=28992), adr.geometrie)
 
     def test_import_meerdere_adressen(self):
         m = kvk.KvkMaatschappelijkeActiviteit.objects.create(

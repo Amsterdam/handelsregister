@@ -197,6 +197,11 @@ class Functievervulling(models.Model):
 
     soortbevoegdheid = models.CharField(max_length=20, blank=True, null=True)
 
+    def __str__(self):
+        naam = self.is_aansprakelijke.naam if self.is_aansprakelijke else ''
+        return "{} - {} - {}".format(
+                naam, self.functietitel, self.soortbevoegdheid)
+
 
 class Activiteit(models.Model):
     """
@@ -452,12 +457,15 @@ class Vestiging(models.Model):
     )
 
     def __str__(self):
-        if self.bezoekadres:
-            return "{} - {}".format(self.bezoekadres, self.naam)
-        elif self.postadres:
-            return "post: {} - {}".format(self.bezoekadres, self.naam)
 
-        return "{}".format(self.naam)
+        handelsnaam = "{}".format(self.naam)
+
+        if self.bezoekadres:
+            return "{} - {}".format(handelsnaam, self.bezoekadres)
+        elif self.postadres:
+            return "{} - {} (post)".format(handelsnaam, self.bezoekadres)
+
+        return handelsnaam
 
 
 class Locatie(models.Model):
@@ -483,11 +491,13 @@ class Locatie(models.Model):
     )
 
     postbus_nummer = models.CharField(
+        db_index=True,
         max_length=10, blank=True, null=True,
     )
 
     bag_numid = models.CharField(
         max_length=16, db_index=True, blank=True, null=True)
+
     bag_vbid = models.CharField(
         max_length=16, db_index=True, blank=True, null=True)
 
@@ -506,10 +516,10 @@ class Locatie(models.Model):
     regio = models.CharField(max_length=170, blank=True, null=True)
     land = models.CharField(max_length=50, blank=True, null=True)
 
-    geometry = models.PointField(srid=28992, blank=True, null=True)
+    geometrie = models.PointField(srid=28992, blank=True, null=True)
 
     def __str__(self):
-        return "{} ({})".format(self.volledig_adres, self.id)
+        return "{}".format(self.volledig_adres)
 
 
 class Handelsnaam(models.Model):

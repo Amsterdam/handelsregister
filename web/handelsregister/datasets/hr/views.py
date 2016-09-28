@@ -98,18 +98,23 @@ class VestigingFilter(filters.FilterSet):
         Filter Vestiging op nummeraanduiding
         """
 
-        return queryset.filter(
-            Q(bezoekadres__bag_numid=value) |
-            Q(postadres__bag_numid=value))
+        locations = models.Locatie.objects.filter(bag_numid=value)
+
+        q1 = queryset.filter(bezoekadres__in=locations)
+        q2 = queryset.filter(postadres__in=locations)
+
+        return q1 | q2
 
     def verblijfsobject_filter(self, queryset, value):
         """
         Filter Vestiging op verblijfsobject
         """
+        locations = models.Locatie.objects.filter(bag_vbid=value)
 
-        return queryset.filter(
-            Q(bezoekadres__bag_vbid=value) |
-            Q(postadres__bag_vbid=value))
+        q1 = queryset.filter(bezoekadres__in=locations)
+        q2 = queryset.filter(postadres__in=locations)
+
+        return q1 | q2
 
     def _collect_landelijke_ids(self, filter_field, value):
         """
@@ -175,9 +180,12 @@ class VestigingFilter(filters.FilterSet):
         vbo_ids = self._collect_landelijke_ids(
             'panden__landelijk_id', value)
 
-        return queryset.filter(
-            Q(bezoekadres__bag_vbid__in=vbo_ids) |
-            Q(postadres__bag_vbid__in=vbo_ids))
+        locations = models.Locatie.objects.filter(bag_vbid__in=vbo_ids)
+
+        q1 = queryset.filter(bezoekadres__in=locations)
+        q2 = queryset.filter(postadres__in=locations)
+
+        return q1 | q2
 
     def kot_filter(self, queryset, value):
         """
@@ -186,9 +194,12 @@ class VestigingFilter(filters.FilterSet):
         vbo_ids = self._collect_landelijke_ids(
             'kadastrale_objecten__id', value)
 
-        return queryset.filter(
-            Q(bezoekadres__bag_vbid__in=vbo_ids) |
-            Q(postadres__bag_vbid__in=vbo_ids))
+        locations = models.Locatie.objects.filter(bag_vbid__in=vbo_ids)
+
+        q1 = queryset.filter(bezoekadres__in=locations)
+        q2 = queryset.filter(postadres__in=locations)
+
+        return q1 | q2
 
 
 class VestigingViewSet(rest.AtlasViewSet):
