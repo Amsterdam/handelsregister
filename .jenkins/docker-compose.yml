@@ -16,8 +16,6 @@ tests:
   build: ../web
   links:
     - database:database
-  volumes:
-    - ../reports:/app/reports
   environment:
     DATABASE_NAME: handelsregister
     DATABASE_USER: handelsregister
