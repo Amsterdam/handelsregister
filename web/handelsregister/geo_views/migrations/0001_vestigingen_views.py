@@ -137,7 +137,8 @@ WHERE sbi_code between 561 and 564 OR
         SELECT * FROM geo_hr_vestiging_locaties
         WHERE sbi_code = 68202 OR
         (sbi_code >= 841 and sbi_code <= 842) OR
-        (sbi_code  >= 8420 and sbi_code <= 8430)
+        (sbi_code  >= 8410 and sbi_code < 8420) OR
+        sbi_code in (8424, 8425)
         """
         ),
 
