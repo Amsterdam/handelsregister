@@ -33,4 +33,4 @@ USER datapunt
 
 COPY handelsregister /app/
 
-CMD /app/docker-entrypoint.sh
+CMD ["/app/docker-run.sh"]
