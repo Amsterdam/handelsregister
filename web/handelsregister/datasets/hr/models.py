@@ -198,7 +198,10 @@ class Functievervulling(models.Model):
     soortbevoegdheid = models.CharField(max_length=20, blank=True, null=True)
 
     def __str__(self):
-        naam = self.is_aansprakelijke.naam if self.is_aansprakelijke else ''
+        naam = ''
+        if self.is_aansprakelijke:
+            naam = self.is_aansprakelijke.volledige_naam
+
         return "{} - {} - {}".format(
                 naam, self.functietitel, self.soortbevoegdheid)
 
