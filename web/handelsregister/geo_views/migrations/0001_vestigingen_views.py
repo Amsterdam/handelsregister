@@ -47,7 +47,7 @@ SELECT
     WHEN vs.postadres_id NOTNULL THEN 'P'
     ELSE 'V'
   END as locatie_type,
-  loc.geometry as geometrie,
+  loc.geometrie as geometrie,
   CAST('handelsregister/vestiging' AS text),
   CASE
     WHEN a.sbi_code in ('4120', '42111', '42112', '4212', '4213', '4221', '4222', '4291',
@@ -177,9 +177,9 @@ FROM hr_vestiging_activiteiten hr_a
     JOIN hr_locatie loc
     ON (vs.bezoekadres_id = loc.id
         OR vs.postadres_id = loc.id
-        AND ST_IsValid(loc.geometry)),
+        AND ST_IsValid(loc.geometrie)),
     django_site site
-WHERE loc.geometry != '' AND site.name = 'API Domain'
+WHERE loc.geometrie != '' AND site.name = 'API Domain'
 ORDER BY vs.id
 """
         ),

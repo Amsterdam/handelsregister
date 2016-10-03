@@ -23,7 +23,7 @@ class ViewsTest(TestCase):
         return dict(zip([col[0] for col in cursor.description], result))
 
     def test_vestiging_locaties(self):
-        l = hr_factories.LocatieFactory.create(geometry=point)
+        l = hr_factories.LocatieFactory.create(geometrie=point)
         a1 = hr_factories.Activiteit.create()
         a2 = hr_factories.Activiteit.create()
         v = hr_factories.VestigingFactory.create(

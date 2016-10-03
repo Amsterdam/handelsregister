@@ -94,7 +94,7 @@ INSERT INTO hr_locatie (
   postcode_woonplaats,
   regio,
   land,
-  geometry
+  geometrie
 )
     SELECT
       adrid,
