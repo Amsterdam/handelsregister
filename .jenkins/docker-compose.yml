@@ -66,7 +66,7 @@ db-backup:
                         -Fc \
                         -t hr* \
                         -t kvk* \
-                        -t geo*  \
+                        -T geo*  \
                         -T auth*    \
                         -U handelsregister \
                         -h db -p 5432 \
