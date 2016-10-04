@@ -183,6 +183,7 @@ WHERE loc.geometrie != '' AND site.name = 'API Domain'
 ORDER BY vs.id
 """
         ),
+
         migrate.ManageView(
             view_name="geo_hr_vestiging_locaties_bouw",
             sql="""
@@ -191,18 +192,21 @@ ORDER BY vs.id
         'dak- en overige gespecialiseerde bouw', 'grond, water, wegenbouw',
         'bouw/utiliteitsbouw algemeen / klusbedrijf')"""
         ),
+
         migrate.ManageView(
             view_name="geo_hr_vestiging_locaties_overheid_onderwijs_zorg",
             sql="""
     SELECT * FROM geo_hr_vestiging_locaties
     WHERE sbi_detailgroep in ('onderwijs', 'gezondheids- en welzijnszorg', 'overheid')"""
         ),
+
         migrate.ManageView(
             view_name="geo_hr_vestiging_locaties_productie_installatie_reparatie",
             sql="""
     SELECT * FROM geo_hr_vestiging_locaties
     WHERE sbi_detailgroep in ('installatie (geen bouw)', 'reparatie (geen bouw)', 'productie')"""
         ),
+
         migrate.ManageView(
             view_name="geo_hr_vestiging_locaties_zakelijke_dienstverlening",
             sql="""

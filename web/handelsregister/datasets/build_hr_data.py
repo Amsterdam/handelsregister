@@ -17,66 +17,68 @@ def fill_stelselpedia():
     """
     with db.connection.cursor() as cursor:
 
-        log.info("Converteren locaties")
-        _converteer_locaties(cursor)
+        #log.info("Converteren locaties")
+        #_converteer_locaties(cursor)
 
-        log.info("Converteren onderneming")
-        _converteer_onderneming(cursor)
+        #log.info("Converteren onderneming")
+        #_converteer_onderneming(cursor)
 
-        log.info("Converteren maatschappelijke activiteit")
-        _converteer_maatschappelijke_activiteit(cursor)
+        #log.info("Converteren maatschappelijke activiteit")
+        #_converteer_maatschappelijke_activiteit(cursor)
 
-        log.info("Converteren handelsnaam")
-        _converteer_handelsnaam(cursor)
+        #log.info("Converteren handelsnaam")
+        #_converteer_handelsnaam(cursor)
 
-        for i in (1, 2, 3):
-            log.info("Converteren MAC communicatie-gegevens-{0}".format(i))
-            _converteer_mac_communicatiegegevens(cursor, i)
+        #for i in (1, 2, 3):
+        #    log.info("Converteren MAC communicatie-gegevens-{0}".format(i))
+        #    _converteer_mac_communicatiegegevens(cursor, i)
 
-        log.info("Converteren commerciële vestiging")
-        _converteer_commerciele_vestiging(cursor)
+        #log.info("Converteren commerciële vestiging")
+        #_converteer_commerciele_vestiging(cursor)
 
-        log.info("Converteren niet-commerciële vestiging")
-        _converteer_niet_commerciele_vestiging(cursor)
+        #log.info("Converteren niet-commerciële vestiging")
+        #_converteer_niet_commerciele_vestiging(cursor)
 
-        log.info("Converteren vestiging")
-        _converteer_vestiging(cursor)
+        #log.info("Converteren vestiging")
+        #_converteer_vestiging(cursor)
 
-        for i in (1, 2, 3):
-            log.info("Converteren VES communicatie-gegevens-{0}".format(i))
-            _converteer_ves_communicatiegegevens(cursor, i)
+        #for i in (1, 2, 3):
+        #    log.info("Converteren VES communicatie-gegevens-{0}".format(i))
+        #    _converteer_ves_communicatiegegevens(cursor, i)
 
-        log.info("Converteren hoofdactiviteit")
-        _converteer_hoofdactiviteit(cursor)
-        for i in (1, 2, 3):
-            log.info("Converteren nevenactiviteit-{0}".format(i))
-            _converteer_nevenactiviteit(cursor, i)
+        #log.info("Converteren hoofdactiviteit")
+        #_converteer_hoofdactiviteit(cursor)
+        #for i in (1, 2, 3):
+        #    log.info("Converteren nevenactiviteit-{0}".format(i))
+        #    _converteer_nevenactiviteit(cursor, i)
 
-        log.info("Converteren handelsnaam vestiging")
-        _converteer_handelsnaam_ves(cursor)
+        #log.info("Converteren handelsnaam vestiging")
+        #_converteer_handelsnaam_ves(cursor)
 
-        log.info("Converteren hoofdvestiging")
-        _converteer_hoofdvestiging(cursor)
+        #log.info("Converteren hoofdvestiging")
+        #_converteer_hoofdvestiging(cursor)
 
-        log.info("Converteren natuurlijk_persoon")
-        _converteer_natuurlijk_persoon(cursor)
+        #log.info("Converteren natuurlijk_persoon")
+        #_converteer_natuurlijk_persoon(cursor)
 
-        log.info("Converteren NIET natuurlijk_persoon")
-        _converteer_niet_natuurlijk_persoon(cursor)
+        #log.info("Converteren NIET natuurlijk_persoon")
+        #_converteer_niet_natuurlijk_persoon(cursor)
 
-        log.info("Converteren persoon")
-        _converteer_persoon(cursor)
+        #log.info("Converteren persoon")
+        #_converteer_persoon(cursor)
 
-        log.info("Converteren functievervulling")
-        _converteer_functievervulling(cursor)
+        #log.info("Converteren functievervulling")
+        #_converteer_functievervulling(cursor)
 
-        log.info("Converteer eigenaren")
-        _converteer_mac_eigenaar_id(cursor)
+        #log.info("Converteer eigenaren")
+        #_converteer_mac_eigenaar_id(cursor)
 
         # eigenaren zitten niet in zonde export..
-        log.info("Converteer onbekende mac mks eigenaren")
-        _converteer_onbekende_mac_eigenaar_id(cursor)
+        #log.info("Converteer onbekende mac mks eigenaren")
+        #_converteer_onbekende_mac_eigenaar_id(cursor)
 
+        # bouw de hr_geo_table
+        _build_joined_geo_table(cursor)
 
 def _converteer_locaties(cursor):
     cursor.execute("""
@@ -560,3 +562,22 @@ FROM kvkmacm00 m
 WHERE m.macid = hrm.id AND NOT EXISTS (
     select * from hr_persoon WHERE id = m.prsid)
     """)
+
+
+def _build_joined_geo_table(cursor):
+    cursor.execute("""
+SELECT
+  ROW_NUMBER() OVER (ORDER BY vs.id ASC) AS id,
+  vs.vestigingsnummer as display,
+  a.sbi_code,
+  a.activiteitsomschrijving,
+  vs.naam,
+  vs.hoofdvestiging,
+  CASE
+    WHEN vs.bezoekadres_id NOTNULL THEN 'B'
+    WHEN vs.postadres_id NOTNULL THEN 'P'
+    ELSE 'V'
+  END as locatie_type,
+  loc.geometrie as geometrie,
+
+""")
