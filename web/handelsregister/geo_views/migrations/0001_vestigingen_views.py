@@ -47,7 +47,7 @@ SELECT
     WHEN vs.postadres_id NOTNULL THEN 'P'
     ELSE 'V'
   END as locatie_type,
-  loc.geometry as geometrie,
+  loc.geometrie as geometrie,
   CAST('handelsregister/vestiging' AS text),
   CASE
     WHEN a.sbi_code in ('4120', '42111', '42112', '4212', '4213', '4221', '4222', '4291',
@@ -177,7 +177,7 @@ FROM hr_vestiging_activiteiten hr_a
     JOIN hr_locatie loc
     ON (vs.bezoekadres_id = loc.id
         OR vs.postadres_id = loc.id)
-        AND ST_IsValid(loc.geometry),
+        AND ST_IsValid(loc.geometrie),
     django_site site
 WHERE site.name = 'API Domain'
 """
@@ -196,7 +196,7 @@ WHERE site.name = 'API Domain'
     WHEN vs.postadres_id NOTNULL THEN 'P'
     ELSE 'V'
   END as locatie_type,
-  loc.geometry as geometrie,
+  loc.geometrie as geometrie,
   CAST('handelsregister/vestiging' AS text),
   CASE
     WHEN a.sbi_code in ('4120', '42111', '42112', '4212', '4213', '4221', '4222', '4291',
@@ -221,7 +221,7 @@ FROM hr_vestiging_activiteiten hr_a
     JOIN hr_locatie loc
     ON (vs.bezoekadres_id = loc.id
         OR vs.postadres_id = loc.id)
-        AND ST_IsValid(loc.geometry),
+        AND ST_IsValid(loc.geometrie),
     django_site site
 WHERE site.name = 'API Domain'
 """
@@ -240,7 +240,7 @@ SELECT ROW_NUMBER() OVER (ORDER BY vs.id ASC) AS id,
     WHEN vs.postadres_id NOTNULL THEN 'P'
     ELSE 'V'
   END as locatie_type,
-  loc.geometry as geometrie,
+  loc.geometrie as geometrie,
   CAST('handelsregister/vestiging' AS text),
   CASE
     WHEN a.sbi_code in ('85201', '85202', '85203', '85311', '85312', '85313', '85314', '85321', '85322', '85323', '8541',
@@ -266,7 +266,7 @@ FROM hr_vestiging_activiteiten hr_a
     JOIN hr_locatie loc
     ON (vs.bezoekadres_id = loc.id
         OR vs.postadres_id = loc.id)
-        AND ST_IsValid(loc.geometry),
+        AND ST_IsValid(loc.geometrie),
     django_site site
 WHERE site.name = 'API Domain'
 """
@@ -285,7 +285,7 @@ SELECT ROW_NUMBER() OVER (ORDER BY vs.id ASC) AS id,
     WHEN vs.postadres_id NOTNULL THEN 'P'
     ELSE 'V'
   END as locatie_type,
-  loc.geometry as geometrie,
+  loc.geometrie as geometrie,
   CAST('handelsregister/vestiging' AS text),
   CASE
 WHEN a.sbi_code in ('7810', '78201', '78202', '78203', '7830') THEN 'arbeidsbemiddeling, uitzendbureaus, uitleenbureaus'
@@ -317,7 +317,7 @@ FROM hr_vestiging_activiteiten hr_a
     JOIN hr_locatie loc
     ON (vs.bezoekadres_id = loc.id
         OR vs.postadres_id = loc.id)
-        AND ST_IsValid(loc.geometry),
+        AND ST_IsValid(loc.geometrie),
     django_site site
 WHERE site.name = 'API Domain'
 """
@@ -336,7 +336,7 @@ SELECT ROW_NUMBER() OVER (ORDER BY vs.id ASC) AS id,
     WHEN vs.postadres_id NOTNULL THEN 'P'
     ELSE 'V'
   END as locatie_type,
-  loc.geometry as geometrie,
+  loc.geometrie as geometrie,
   CAST('handelsregister/vestiging' AS text),
   CASE
     WHEN a.sbi_code in ('4910', '4920', '4931', '4932', '49391', '49392', '49393', '4941', '4942',
@@ -400,7 +400,7 @@ FROM hr_vestiging_activiteiten hr_a
     JOIN hr_locatie loc
     ON (vs.bezoekadres_id = loc.id
         OR vs.postadres_id = loc.id)
-        AND ST_IsValid(loc.geometry),
+        AND ST_IsValid(loc.geometrie),
     django_site site
 WHERE site.name = 'API Domain'
 """
@@ -419,7 +419,7 @@ SELECT ROW_NUMBER() OVER (ORDER BY vs.id ASC) AS id,
     WHEN vs.postadres_id NOTNULL THEN 'P'
     ELSE 'V'
   END as locatie_type,
-  loc.geometry as geometrie,
+  loc.geometrie as geometrie,
   CAST('handelsregister/vestiging' AS text),
   CASE
     WHEN a.sbi_code in ('0111', '0113', '0116', '0119') THEN 'teelt eenjarige gewassen'
@@ -439,7 +439,7 @@ FROM hr_vestiging_activiteiten hr_a
     JOIN hr_locatie loc
     ON (vs.bezoekadres_id = loc.id
         OR vs.postadres_id = loc.id)
-        AND ST_IsValid(loc.geometry),
+        AND ST_IsValid(loc.geometrie),
     django_site site
 WHERE site.name = 'API Domain'
 """
@@ -458,7 +458,7 @@ SELECT ROW_NUMBER() OVER (ORDER BY vs.id ASC) AS id,
     WHEN vs.postadres_id NOTNULL THEN 'P'
     ELSE 'V'
   END as locatie_type,
-  loc.geometry as geometrie,
+  loc.geometrie as geometrie,
   CAST('handelsregister/vestiging' AS text),
   CASE
     WHEN a.sbi_code = '9604' THEN 'sauna, solaria'
@@ -477,7 +477,7 @@ FROM hr_vestiging_activiteiten hr_a
     JOIN hr_locatie loc
     ON (vs.bezoekadres_id = loc.id
         OR vs.postadres_id = loc.id)
-        AND ST_IsValid(loc.geometry),
+        AND ST_IsValid(loc.geometrie),
     django_site site
 WHERE site.name = 'API Domain'
 """
@@ -496,7 +496,7 @@ SELECT ROW_NUMBER() OVER (ORDER BY vs.id ASC) AS id,
     WHEN vs.postadres_id NOTNULL THEN 'P'
     ELSE 'V'
   END as locatie_type,
-  loc.geometry as geometrie,
+  loc.geometrie as geometrie,
   CAST('handelsregister/vestiging' AS text),
   CASE
     WHEN a.sbi_code in ('6201', '6202', '6203', '6209') THEN 'activiteiten op het gebied van ict'
@@ -516,7 +516,7 @@ FROM hr_vestiging_activiteiten hr_a
     JOIN hr_locatie loc
     ON (vs.bezoekadres_id = loc.id
         OR vs.postadres_id = loc.id)
-        AND ST_IsValid(loc.geometry),
+        AND ST_IsValid(loc.geometrie),
     django_site site
 WHERE site.name = 'API Domain'
 """
@@ -535,7 +535,7 @@ SELECT ROW_NUMBER() OVER (ORDER BY vs.id ASC) AS id,
     WHEN vs.postadres_id NOTNULL THEN 'P'
     ELSE 'V'
   END as locatie_type,
-  loc.geometry as geometrie,
+  loc.geometrie as geometrie,
   CAST('handelsregister/vestiging' AS text),
   CASE
     WHEN a.sbi_code in ('93111', '93112', '93113', '93119', '93121', '93122', '93123', '93124',
@@ -560,7 +560,7 @@ FROM hr_vestiging_activiteiten hr_a
     JOIN hr_locatie loc
     ON (vs.bezoekadres_id = loc.id
         OR vs.postadres_id = loc.id)
-        AND ST_IsValid(loc.geometry),
+        AND ST_IsValid(loc.geometrie),
     django_site site
 WHERE site.name = 'API Domain'
 """
@@ -579,7 +579,7 @@ SELECT ROW_NUMBER() OVER (ORDER BY vs.id ASC) AS id,
     WHEN vs.postadres_id NOTNULL THEN 'P'
     ELSE 'V'
   END as locatie_type,
-  loc.geometry as geometrie,
+  loc.geometrie as geometrie,
   CAST('handelsregister/vestiging' AS text),
   CASE
     WHEN a.sbi_code in ('6810', '68201', '68202', '68203', '68204', '6831', '6832')
@@ -607,7 +607,7 @@ FROM hr_vestiging_activiteiten hr_a
     JOIN hr_locatie loc
     ON (vs.bezoekadres_id = loc.id
         OR vs.postadres_id = loc.id)
-        AND ST_IsValid(loc.geometry),
+        AND ST_IsValid(loc.geometrie),
     django_site site
 WHERE site.name = 'API Domain'
 """
@@ -626,7 +626,7 @@ SELECT ROW_NUMBER() OVER (ORDER BY vs.id ASC) AS id,
     WHEN vs.postadres_id NOTNULL THEN 'P'
     ELSE 'V'
   END as locatie_type,
-  loc.geometry as geometrie,
+  loc.geometrie as geometrie,
   CAST('handelsregister/vestiging' AS text),
   CASE
     WHEN a.sbi_code in ('94911', '94919', '9492', '94993', '94996') THEN 'idieële organisaties'
@@ -653,7 +653,7 @@ FROM hr_vestiging_activiteiten hr_a
     JOIN hr_locatie loc
     ON (vs.bezoekadres_id = loc.id
         OR vs.postadres_id = loc.id)
-        AND ST_IsValid(loc.geometry),
+        AND ST_IsValid(loc.geometrie),
     django_site site
 WHERE site.name = 'API Domain'
 """
@@ -672,7 +672,7 @@ SELECT ROW_NUMBER() OVER (ORDER BY vs.id ASC) AS id,
     WHEN vs.postadres_id NOTNULL THEN 'P'
     ELSE 'V'
   END as locatie_type,
-  loc.geometry as geometrie,
+  loc.geometrie as geometrie,
   CAST('handelsregister/vestiging' AS text),
   CASE
     WHEN a.sbi_code = '55101' THEN 'hotel-restaurant'
@@ -693,7 +693,7 @@ FROM hr_vestiging_activiteiten hr_a
     JOIN hr_locatie loc
     ON (vs.bezoekadres_id = loc.id
         OR vs.postadres_id = loc.id)
-        AND ST_IsValid(loc.geometry),
+        AND ST_IsValid(loc.geometrie),
     django_site site
 WHERE site.name = 'API Domain'
 """
