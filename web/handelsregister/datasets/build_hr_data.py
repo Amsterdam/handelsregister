@@ -75,6 +75,12 @@ def fill_stelselpedia():
         log.info("Converteer onbekende mac mks eigenaren")
         _converteer_onbekende_mac_eigenaar_id(cursor)
 
+        build_geo_table()
+
+
+def build_geo_table():
+
+    with db.connection.cursor() as cursor:
         # bouw de hr_geo_table
         log.info("Bouw geo tabel vestigingen")
         _build_joined_geo_table(cursor)

@@ -26,6 +26,7 @@ class Migration(migrations.Migration):
     dependencies = [
         ('sites', '__first__'),
         ('hr', '__first__'),
+        ('hr', '0002_geovestigingen'),
     ]
 
     operations = [

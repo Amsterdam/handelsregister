@@ -3,6 +3,9 @@ from django.db import connection
 from django.contrib.gis.geos import Point
 from django.test import TestCase
 
+
+from datasets import build_hr_data
+
 from datasets.hr.tests import factories as hr_factories
 
 from django.conf import settings
@@ -26,11 +29,14 @@ class ViewsTest(TestCase):
         l = hr_factories.LocatieFactory.create(geometrie=point)
         a1 = hr_factories.Activiteit.create()
         a2 = hr_factories.Activiteit.create()
+
         v = hr_factories.VestigingFactory.create(
             bezoekadres=l,
             activiteiten=[a1, a2],
             vestigingsnummer=99
         )
+
+        build_hr_data.build_geo_table()
 
         row = self.get_row('geo_hr_vestiging_locaties')
 
