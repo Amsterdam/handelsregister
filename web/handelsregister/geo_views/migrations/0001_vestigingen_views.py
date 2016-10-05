@@ -63,26 +63,37 @@ WHERE hr_geovestigingen.sbi_detail_group in (
         'overheid')
 """
         ),
-
+        
         migrate.ManageView(
             view_name="geo_hr_vestiging_locaties_productie_installatie_reparatie",
             sql="""
 SELECT * FROM hr_geovestigingen
 WHERE hr_geovestigingen.sbi_detail_group in (
-        'arbeidsbemiddeling, uitzendbureaus, uitleenbureaus',
-        'overige zakelijke dienstverlening',
-        'reclame en marktonderzoek',
-        'interieurarchitecten',
-        'managementadvies, economisch advies',
-        'technisch ontwerp, advies, keuring/research',
-        'design',
-        'public relationsbureaus',
-        'advocaten rechtskundige diensten, notarissen',
-        'architecten',
-        'accountancy, administratie')
+        'installatie (geen bouw)',
+        'reparatie (geen bouw)',
+        'productie')
 """
         ),
 
+        migrate.ManageView(
+            view_name="geo_hr_vestiging_locaties_zakelijke_dienstverlening",
+            sql="""
+    SELECT * FROM hr_geovestigingen
+    WHERE hr_geovestigingen.sbi_detail_group in (
+            'arbeidsbemiddeling, uitzendbureaus, uitleenbureaus',
+            'overige zakelijke dienstverlening',
+            'reclame en marktonderzoek',
+            'interieurarchitecten',
+            'managementadvies, economisch advies',
+            'technisch ontwerp, advies, keuring/research',
+            'design',
+            'public relationsbureaus',
+            'advocaten rechtskundige diensten, notarissen',
+            'architecten',
+            'accountancy, administratie')
+    """
+        ),
+    
         migrate.ManageView(
             view_name="geo_hr_vestiging_locaties_handel_vervoer_opslag",
             sql="""
@@ -169,7 +180,6 @@ WHERE hr_geovestigingen.sbi_detail_group in (
     'hobbyclubs')
 """
         ),
-
         migrate.ManageView(
             view_name="geo_hr_vestiging_locaties_horeca",
             sql="""
