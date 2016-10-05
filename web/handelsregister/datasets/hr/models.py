@@ -198,7 +198,10 @@ class Functievervulling(models.Model):
     soortbevoegdheid = models.CharField(max_length=20, blank=True, null=True)
 
     def __str__(self):
-        naam = self.is_aansprakelijke.naam if self.is_aansprakelijke else ''
+        naam = ''
+        if self.is_aansprakelijke:
+            naam = self.is_aansprakelijke.volledige_naam
+
         return "{} - {} - {}".format(
                 naam, self.functietitel, self.soortbevoegdheid)
 
@@ -570,6 +573,7 @@ class Communicatiegegevens(models.Model):
         (SOORT_COMMUNICATIE_TELEFOON, SOORT_COMMUNICATIE_TELEFOON),
         (SOORT_COMMUNICATIE_FAX, SOORT_COMMUNICATIE_FAX),
     )
+
     id = models.CharField(
         primary_key=True, max_length=21
     )
@@ -621,3 +625,63 @@ class Kapitaal(models.Model):
     het gestorte deel daarvan, onderverdeeld naar soort indien er verschillende
     soorten aandelen zijn.
     """
+
+
+class GeoVestigingen(models.Model):
+    """
+    geo table of joined tables to make mapserver lighning speed
+    """
+
+    # NOTE merdere activiteiten per vestigings nummer mogelijk
+    vestigingsnummer = models.CharField(
+        max_length=12, db_index=True,
+        help_text="Betreft het identificerende gegeven voor de Vestiging"
+    )
+
+    sbi_code_int = models.IntegerField(
+        db_index=True,
+        help_text="De codering van de activiteit conform de SBI2008"
+    )
+
+    sbi_code = models.CharField(
+        db_index=True,
+        max_length=5,
+        help_text="De codering van de activiteit conform de SBI2008"
+    )
+
+    activiteitsomschrijving = models.TextField(
+        blank=True, null=True,
+        help_text="""
+            De omschrijving van de activiteiten die de
+            Vestiging of Rechtspersoon uitoefent"""
+    )
+
+    subtype = models.CharField(
+        db_index=True,
+        max_length=200, null=True, blank=True,
+    )
+
+    naam = models.CharField(
+        max_length=200, null=True, blank=True,
+    )
+
+    uri = models.CharField(
+        max_length=200, null=True, blank=True,
+    )
+
+    hoofdvestiging = models.BooleanField()
+
+    locatie_type = models.CharField(
+        max_length=1, blank=True, null=True,
+        choices=[
+            ('B', 'Bezoek'),
+            ('P', 'Post'),
+            ('V', 'Vestiging')])
+
+    geometrie = models.PointField(srid=28992, blank=True, null=True)
+
+    sbi_detail_group = models.CharField(
+        db_index=True,
+        max_length=200,
+        help_text="De codering van de activiteit conform de SBI2008"
+    )

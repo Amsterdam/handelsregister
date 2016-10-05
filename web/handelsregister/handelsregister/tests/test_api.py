@@ -132,8 +132,6 @@ class VestingFilterTest(APITestCase):
 
         data = response.json()
 
-        print(data['count'])
-
         self.assertEquals(vestigingen.count(), data['count'])
         self.assertNotEqual(vestigingen_to_few.count(), data['count'])
 

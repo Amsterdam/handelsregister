@@ -26,6 +26,7 @@ class Migration(migrations.Migration):
     dependencies = [
         ('sites', '__first__'),
         ('hr', '__first__'),
+        ('hr', '0002_geovestigingen'),
     ]
 
     operations = [
@@ -34,112 +35,154 @@ class Migration(migrations.Migration):
         # create the hr views
         migrate.ManageView(
             view_name="geo_hr_vestiging_locaties",
+            sql="""SELECT * FROM hr_geovestigingen"""
+        ),
+
+        migrate.ManageView(
+            view_name="geo_hr_vestiging_locaties_bouw",
             sql="""
-SELECT
-  ROW_NUMBER() OVER (ORDER BY vs.id ASC) AS id,
-  vs.vestigingsnummer as display,
-  CAST(a.sbi_code AS INTEGER),
-  a.activiteitsomschrijving,
-  vs.naam,
-  vs.hoofdvestiging,
-  CASE
-    WHEN vs.bezoekadres_id NOTNULL THEN 'B'
-    WHEN vs.postadres_id NOTNULL THEN 'P'
-    ELSE 'V'
-  END as locatie_type,
-  loc.geometrie as geometrie,
-  CAST('handelsregister/vestiging' AS text),
-  site.domain || 'handelsregister/vestiging/' || vs.vestigingsnummer || '/' AS uri
-FROM hr_vestiging_activiteiten hr_a
-    JOIN hr_vestiging vs
-    ON hr_a.vestiging_id = vs.id
-    JOIN hr_activiteit a
-    ON a.id = hr_a.activiteit_id
-    JOIN hr_locatie loc
-    ON (vs.bezoekadres_id = loc.id
-        OR vs.postadres_id = loc.id
-        AND ST_IsValid(loc.geometrie)),
-    django_site site
-WHERE loc.geometrie != '' AND site.name = 'API Domain'
-ORDER BY vs.id
+SELECT * FROM hr_geovestigingen
+WHERE hr_geovestigingen.sbi_detail_group in (
+        'bouw/utiliteitsbouw algemeen / klusbedrijf',
+        'bouw overig',
+        'bouwinstallatie',
+        'afwerking van gebouwen',
+        'dak- en overige gespecialiseerde bouw',
+        'grond, water, wegenbouw',
+        'bouw/utiliteitsbouw algemeen / klusbedrijf')
+"""
+        ),
+
+        migrate.ManageView(
+            view_name="geo_hr_vestiging_locaties_overheid_onderwijs_zorg",
+            sql="""
+SELECT * FROM hr_geovestigingen
+WHERE hr_geovestigingen.sbi_detail_group in (
+        'onderwijs',
+        'gezondheids- en welzijnszorg',
+        'overheid')
+"""
+        ),
+
+        migrate.ManageView(
+            view_name="geo_hr_vestiging_locaties_productie_installatie_reparatie",
+            sql="""
+SELECT * FROM hr_geovestigingen
+WHERE hr_geovestigingen.sbi_detail_group in (
+        'arbeidsbemiddeling, uitzendbureaus, uitleenbureaus',
+        'overige zakelijke dienstverlening',
+        'reclame en marktonderzoek',
+        'interieurarchitecten',
+        'managementadvies, economisch advies',
+        'technisch ontwerp, advies, keuring/research',
+        'design',
+        'public relationsbureaus',
+        'advocaten rechtskundige diensten, notarissen',
+        'architecten',
+        'accountancy, administratie')
+"""
+        ),
+
+        migrate.ManageView(
+            view_name="geo_hr_vestiging_locaties_handel_vervoer_opslag",
+            sql="""
+SELECT * FROM hr_geovestigingen
+WHERE hr_geovestigingen.sbi_detail_group in (
+        'vervoer',
+        'detailhandel (verkoop aan consumenten, niet zelf vervaardigd)',
+        'handelsbemiddeling (tussenpersoon, verkoopt niet zelf)',
+        'opslag',
+        'dienstverlening vervoer',
+        'handel en reparatie van auto s',
+        'groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)'
+        )
+"""
+        ),
+
+        migrate.ManageView(
+            view_name="geo_hr_vestiging_locaties_landbouw",
+            sql="""
+SELECT * FROM hr_geovestigingen
+WHERE hr_geovestigingen.sbi_detail_group in (
+        'teelt eenjarige gewassen',
+        'gemengd bedrijf',
+        'teelt sierplanten',
+        'dienstverlening voor de land/tuinbouw',
+        'teelt meerjarige gewassen',
+        'fokken, houden dieren')
+"""
+        ),
+
+        migrate.ManageView(
+            view_name="geo_hr_vestiging_locaties_persoonlijke_dienstverlening",
+            sql="""
+SELECT * FROM hr_geovestigingen
+WHERE hr_geovestigingen.sbi_detail_group in (
+        'sauna, solaria',
+        'schoonheidsverzorging',
+        'uitvaart, crematoria',
+        'overige dienstverlening',
+        'kappers')
 """
         ),
         migrate.ManageView(
+            view_name="geo_hr_vestiging_locaties_informatie_telecommunicatie",
+            sql="""
+SELECT * FROM hr_geovestigingen
+WHERE hr_geovestigingen.sbi_detail_group in (
+    'activiteiten op het gebied van ict',
+    'activiteiten  op gebied van film, tv, radio, audio',
+    'telecommunicatie',
+    'uitgeverijen')
+"""
+        ),
+        migrate.ManageView(
+            view_name="geo_hr_vestiging_locaties_cultuur_sport_recreatie",
+            sql="""
+SELECT * FROM hr_geovestigingen
+WHERE hr_geovestigingen.sbi_detail_group in (
+        'sport',
+        'musea, bibliotheken, kunstuitleen',
+        'kunst',
+        'recreatie')
+"""
+        ),
+        migrate.ManageView(
+            view_name="geo_hr_vestiging_locaties_financiele_dienstverlening_verhuur",
+            sql="""
+SELECT * FROM hr_geovestigingen
+WHERE hr_geovestigingen.sbi_detail_group in (
+        'verhuur van- en beheer/handel in onroerend goed',
+        'verhuur van roerende goederen',
+        'holdings',
+        'financiële dienstverlening en verzekeringen')
+"""
+        ),
+        migrate.ManageView(
+            view_name="geo_hr_vestiging_locaties_overige",
+            sql="""
+SELECT * FROM hr_geovestigingen
+WHERE hr_geovestigingen.sbi_detail_group in (
+    'idieële organisaties',
+    'belangenorganisaties',
+    'overige',
+    'hobbyclubs')
+"""
+        ),
+
+        migrate.ManageView(
             view_name="geo_hr_vestiging_locaties_horeca",
             sql="""
-SELECT * FROM geo_hr_vestiging_locaties
-WHERE sbi_code between 561 and 564 OR
-      sbi_code between 5610 and 5640 OR
-      sbi_code between 56100 and 56400"""
-        ),
-        migrate.ManageView(
-            view_name="geo_hr_vestiging_locaties_hotels",
-            sql="""
-        SELECT * FROM geo_hr_vestiging_locaties
-        WHERE sbi_code between 551 and 553 OR
-              sbi_code between 5510 and 5530 OR
-              sbi_code between 55100 and 55300 OR
-              sbi_code = 559 OR sbi_code = 5590"""
-        ),
-        migrate.ManageView(
-            view_name="geo_hr_vestiging_locaties_onderwijs",
-            sql="""
-    SELECT * FROM geo_hr_vestiging_locaties
-    WHERE sbi_code between 852 and 856 OR
-          sbi_code between 8520 and 8560 OR
-          sbi_code between 85200 and 85600"""
-        ),
-        migrate.ManageView(
-            view_name="geo_hr_vestiging_locaties_kinderopvang",
-            sql="""
-    SELECT * FROM geo_hr_vestiging_locaties
-    WHERE sbi_code = 8891 OR
-          sbi_code between 88911 and 88912"""
-        ),
-        migrate.ManageView(
-            view_name="geo_hr_vestiging_locaties_cultuur",
-            sql="""
-        SELECT * FROM geo_hr_vestiging_locaties
-        WHERE sbi_code = 900 OR
-              sbi_code between 9000 and 9109 OR
-              sbi_code between 90000 and 91090"""
-        ),
-        migrate.ManageView(
-            view_name="geo_hr_vestiging_locaties_religies",
-            sql="""
-        SELECT * FROM geo_hr_vestiging_locaties
-        WHERE sbi_code >= 94911 and sbi_code <= 94920"""
-        ),
-        migrate.ManageView(
-            view_name="geo_hr_vestiging_locaties_sport",
-            sql="""
-    SELECT * FROM geo_hr_vestiging_locaties
-    WHERE sbi_code = 931 OR
-          (sbi_code >= 9310 and sbi_code < 9320) OR
-          (sbi_code >= 93100 and sbi_code < 93200)"""
-        ),
-        migrate.ManageView(
-            view_name="geo_hr_vestiging_locaties_zorg",
-            sql="""
-    SELECT * FROM geo_hr_vestiging_locaties
-    WHERE
-          sbi_code between 861 AND 882 OR
-          sbi_code between 8610 AND 8820 OR
-          sbi_code between 86100 and 88200 OR
-          sbi_code between 88911 and 88912 OR
-          sbi_code = 8899 OR
-          sbi_code = 88991
-          """
-        ),
-        migrate.ManageView(
-            view_name="geo_hr_vestiging_locaties_gemeente",
-            sql="""
-        SELECT * FROM geo_hr_vestiging_locaties
-        WHERE sbi_code = 68202 OR
-        (sbi_code >= 841 and sbi_code <= 842) OR
-        (sbi_code  >= 8410 and sbi_code < 8420) OR
-        sbi_code in (8424, 8425)
-        """
+SELECT * FROM hr_geovestigingen
+WHERE hr_geovestigingen.sbi_detail_group in (
+    'hotel-restaurant',
+    'overige horeca',
+    'kantine, catering',
+    'cafetaria, snackbar, ijssalon',
+    'café',
+    'hotel, pension',
+    'restaurant, café-restaurant')
+"""
         ),
 
     ]
