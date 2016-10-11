@@ -695,11 +695,11 @@ INSERT INTO hr_geovestigingen (
       THEN 'verhuur van- en beheer/handel in onroerend goed'
     WHEN a.sbi_code in ('77111', '77112', '7712', '7721', '7722', '77291', '77292', '77299',
     '7731', '7732', '7733', '7734', '7735', '77391', '77399', '7740') THEN 'verhuur van roerende goederen'
-    WHEN a.sbi_code in ('6420', '70102') THEN 'holdings'
+    WHEN a.sbi_code = '70102' THEN 'holdings (geen financiële)'
     WHEN a.sbi_code in ('6411', '64191', '64192', '64193', '64194', '6420', '64301', '64302',
     '64303', '6491', '64921', '64922', '64923', '64924', '6499', '65111', '65112', '65113', '6512',
     '6520', '65301', '65302', '65303', '65309', '6611', '6612', '66191', '66192', '66193', '6621',
-    '6622', '66291', '66292', '66293', '66299', '6630') THEN 'financiële dienstverlening en verzekeringen'
+    '6622', '66291', '66292', '66293', '66299', '6630') THEN 'holdings, financiële dienstverlening en verzekeringen'
     WHEN a.sbi_code in ('94911', '94919', '9492', '94993', '94996') THEN 'idieële organisaties'
     WHEN a.sbi_code in ('9411', '9412', '9420', '94997') THEN 'belangenorganisaties'
     WHEN a.sbi_code in ('0170', '0210', '0220', '0240', '0311', '0312', '0321', '0322',
