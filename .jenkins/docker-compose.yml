@@ -5,12 +5,12 @@ database:
     POSTGRES_PASSWORD: insecure
     POSTGRES_USER: handelsregister
 
-elasticsearch:
-  image: build.datapunt.amsterdam.nl:5000/atlas/elasticsearch
-  volumes:
-    - ./backups/elasticsearch:/tmp/backups
-  user: root
-  command: /usr/share/elasticsearch/bin/elasticsearch -Des.insecure.allow.root=true -Des.network.host=0.0.0.0 -Des.path.repo=/tmp
+#elasticsearch:
+#  image: build.datapunt.amsterdam.nl:5000/atlas/elasticsearch
+#  volumes:
+#    - ./backups/elasticsearch:/tmp/backups
+#  user: root
+#  command: /usr/share/elasticsearch/bin/elasticsearch -Des.insecure.allow.root=true -Des.network.host=0.0.0.0 -Des.path.repo=/tmp
 
 tests:
   build: ../web
@@ -37,11 +37,25 @@ importer_mks:
             && python load_mks_dumps.py \
             && bash -c /app/loaddumps.sh"
 
+bag_vbo_import:
+  image: build.datapunt.amsterdam.nl:5000/atlas/postgres
+  links:
+    - database:db
+  command: >
+    bash -c "echo db:5432:handelsregister:handelsregister:insecure >> ~/.pgpass \
+            && echo db:5432:atlas:handelsregister:insecure >> ~/.pgpass \
+            && chmod 0600 ~/.pgpass \
+            && echo copying bag vbo geo -> hr_geovbo tabel\
+            && psql -U handelsregister -h db atlas -c  \
+                '\copy (SELECT id, landelijk_id, geometrie from bag_verblijfsobject) TO STDOUT' \
+            | psql -U handelsregister -h db handelsregister -c \
+                '\copy hr_geovbo (id, bag_vbid, geometrie) FROM STDIN'"
+
 importer:
   build: ../web
   links:
     - database:database
-    - elasticsearch:elasticsearch
+    #- elasticsearch:elasticsearch
   environment:
     DATABASE_NAME: handelsregister
     DATABASE_PASSWORD: insecure

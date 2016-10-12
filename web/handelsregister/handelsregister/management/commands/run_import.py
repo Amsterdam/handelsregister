@@ -26,26 +26,18 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument(
-            '--partial',
-            action='store',
-            dest='partial_index',
-            default=0,
-            help='Build X/Y parts 1/3, 2/3, 3/3 1/1000')
+            '--bag',
+            action='store_true',
+            dest='bag',
+            default=False,
+            help='Fill hr_baggeo table')
 
-    def set_partial_config(self, options):
-        """
-        Do partial configuration
-        """
-        if options['partial_index']:
-            numerator, denominator = options['partial_index'].split('/')
-
-            numerator = int(numerator) - 1
-            denominator = int(denominator)
-
-            assert(numerator <= denominator)
-
-            settings.PARTIAL_IMPORT['numerator'] = numerator
-            settings.PARTIAL_IMPORT['denominator'] = denominator
+        parser.add_argument(
+            '--geovestigingen',
+            action='store_true',
+            dest='geo_vest',
+            default=False,
+            help='Fill hr_geovestigingen table')
 
     def handle(self, *args, **options):
         """
@@ -53,6 +45,11 @@ class Command(BaseCommand):
         """
         log.info('Handelsregister import started')
 
-        self.set_partial_config(options)
-
-        build_hr_data.fill_stelselpedia()
+        if options['bag']:
+            build_hr_data.fill_bag()
+        elif options['geo_vest']:
+            build_hr_data.fill_geo_table()
+        else:
+            build_hr_data.fill_stelselpedia()
+            build_hr_data.fill_bag()
+            build_hr_data.fill_geo_table()

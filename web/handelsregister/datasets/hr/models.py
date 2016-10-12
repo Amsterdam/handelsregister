@@ -685,3 +685,13 @@ class GeoVestigingen(models.Model):
         max_length=200,
         help_text="De codering van de activiteit conform de SBI2008"
     )
+
+
+class GeoVBO(models.Model):
+
+    id = models.CharField(max_length=14, primary_key=True)
+
+    bag_vbid = models.CharField(
+        max_length=16, db_index=True, blank=True, null=True)
+
+    geometrie = models.PointField(srid=28992, blank=True, null=True)

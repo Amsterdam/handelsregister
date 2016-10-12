@@ -75,15 +75,20 @@ def fill_stelselpedia():
         log.info("Converteer onbekende mac mks eigenaren")
         _converteer_onbekende_mac_eigenaar_id(cursor)
 
-        build_geo_table()
 
-
-def build_geo_table():
+def fill_geo_table():
 
     with db.connection.cursor() as cursor:
         # bouw de hr_geo_table
         log.info("Bouw geo tabel vestigingen")
         _build_joined_geo_table(cursor)
+
+
+def fill_bag():
+
+    with db.connection.cursor() as cursor:
+        log.info("VUL geo tabel locaties met bag geometrie")
+        _update_geo_table_with_bag(cursor)
 
 
 def _converteer_locaties(cursor):
@@ -570,6 +575,15 @@ WHERE m.macid = hrm.id AND NOT EXISTS (
     """)
 
 
+def _update_geo_table_with_bag(cursor):
+    cursor.execute("""
+UPDATE hr_locatie loc
+    SET geometrie = bag.geometrie
+FROM hr_geovbo bag
+WHERE bag.bag_vbid = loc.bag_vbid
+    """)
+
+
 def _build_joined_geo_table(cursor):
     cursor.execute("""
 INSERT INTO hr_geovestigingen (
@@ -729,5 +743,4 @@ INSERT INTO hr_geovestigingen (
         AND ST_IsValid(loc.geometrie),
     django_site site
   WHERE site.name = 'API Domain'
-
 """)
