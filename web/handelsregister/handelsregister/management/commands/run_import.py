@@ -1,9 +1,10 @@
 # import sys
 
 from django.core.management import BaseCommand
-from django.conf import settings
 
 from datasets import build_hr_data
+
+from datasets.hr import improve_location_with_search
 
 import logging
 
@@ -39,6 +40,13 @@ class Command(BaseCommand):
             default=False,
             help='Fill hr_geovestigingen table')
 
+        parser.add_argument(
+            '--search',
+            action='store_true',
+            dest='searchapi',
+            default=False,
+            help='Fill hr_geovestigingen with search api')
+
     def handle(self, *args, **options):
         """
         validate and execute import task
@@ -49,6 +57,8 @@ class Command(BaseCommand):
             build_hr_data.fill_bag()
         elif options['geo_vest']:
             build_hr_data.fill_geo_table()
+        elif options['searchapi']:
+            improve_location_with_search.guess()
         else:
             build_hr_data.fill_stelselpedia()
             build_hr_data.fill_bag()

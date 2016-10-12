@@ -33,9 +33,9 @@ gemeenten = [
 
 
 copy_sql_with_sbi = \
-    "\Copy ({}) TO 'hr_ves_{}_sbi.csv' WITH DELIMITER ',' CSV HEADER\n"
+    "\Copy ({}) TO 'csv/hr_ves_{}_sbi.csv' WITH DELIMITER ',' CSV HEADER\n"
 
-copy_sql = "\Copy ({}) TO 'hr_ves_{}.csv' WITH DELIMITER ',' CSV HEADER\n"
+copy_sql = "\Copy ({}) TO 'csv/hr_ves_{}.csv' WITH DELIMITER ',' CSV HEADER\n"
 
 select_sql_sbi = """
 SELECT
