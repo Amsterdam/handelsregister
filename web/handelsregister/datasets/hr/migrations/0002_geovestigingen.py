@@ -10,6 +10,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('hr', '0001_initial'),
+        ('sites', '0002_alter_domain_unique'),
     ]
 
     operations = [
