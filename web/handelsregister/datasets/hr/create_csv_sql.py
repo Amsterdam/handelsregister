@@ -10,13 +10,26 @@
 """
 
 gemeenten = [
-    'Amsterdam',
-    'Amstelveen',
-    'Diemen',
-    'Landsmeer',
-    'Oostzaan',
-    'Zaandam',
-    'Schiphol']
+  'Amsterdam',
+  'Amstelveen',
+  'Diemen',
+  'Ouder-Amstel',
+  'Landsmeer',
+  'Oostzaan',
+  'Waterland',
+  'Haarlemmerliede',
+  'Haarlemmermeer',
+  'Weesp',
+  'Gooise Meren',
+  'De Ronde Venen',
+  'Purmerend',
+  'Wormerland',
+  'Velsen',
+  'Haarlem',
+  'Aalsmeer',
+  'Stichtse Vecht',
+  'Wijdemeren'
+]
 
 
 copy_sql_with_sbi = \
@@ -109,6 +122,7 @@ with open(sql_file_name, 'w') as target_file:
         # make a copy statement
         statement = copy_sql.format(one_line, city)
         # add line to results
+        copy_lines.append('\echo {}'.format(city))
         copy_lines.append(statement)
 
     # write sql all lines to file

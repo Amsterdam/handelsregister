@@ -36,7 +36,7 @@ class ViewsTest(TestCase):
             vestigingsnummer=99
         )
 
-        build_hr_data.build_geo_table()
+        build_hr_data.fill_geo_table()
 
         row = self.get_row('geo_hr_vestiging_locaties')
 
