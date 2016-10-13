@@ -278,7 +278,7 @@ LOGGING = {
 
         'urllib3': {
             'handlers': ['console'],
-            'level': 'INFO',
+            'level': 'ERROR',
             'propagate': False,
         },
 
@@ -294,11 +294,9 @@ LOGGING = {
             'propagate': False,
         },
 
-
-
-        'urllib3.connectionpool': {
+        'requests.packages.urllib3.connectionpool': {
             'handlers': ['console'],
-            'level': 'INFO',
+            'level': 'ERROR',
             'propagate': False,
         },
 
