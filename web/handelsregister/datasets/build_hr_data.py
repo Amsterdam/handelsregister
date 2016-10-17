@@ -91,6 +91,13 @@ def fill_location_with_bag():
         _update_location_table_with_bag(cursor)
 
 
+def clear_autocorrect():
+    with db.connection.cursor() as cursor:
+        log.info("VUL geo tabel locaties met bag geometrie")
+        _clear_autocorrected_results(cursor)
+
+
+
 def _converteer_locaties(cursor):
     cursor.execute("""
 INSERT INTO hr_locatie (
@@ -582,6 +589,17 @@ UPDATE hr_locatie loc
 FROM hr_geovbo bag
 WHERE bag.bag_vbid = loc.bag_vbid
     """)
+
+
+def _clear_autocorrected_results(cursor):
+    cursor.execute("""
+UPDATE hr_locatie
+    SET geometrie = null,
+        correctie = null,
+        bag_vbid = null
+WHERE correctie is not null
+    """)
+
 
 
 def _build_joined_geo_table(cursor):
