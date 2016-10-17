@@ -63,7 +63,7 @@ importer:
     - ./data:/app/data
   command: >
     bash -c "/app/docker-wait.sh \
-            && python manage.py run_import
+            && python manage.py run_import \
             && python manage.py run_import --search"
 
 db-backup:

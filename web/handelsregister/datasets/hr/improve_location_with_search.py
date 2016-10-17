@@ -195,8 +195,6 @@ def get_best_search_response(
         parameters = {'q': '{} {}'.format(straatnaam, nummer)}
         data = get_response(parameters)
 
-    # print(data)
-
     if data.get('results'):
         return data
 
@@ -242,7 +240,6 @@ def determine_rd_coordinates(
             # The first point is enough
             break
 
-    # print(rds)
     if rds_bagid:
         save_corrected_geo_infomation(
             loc, point, bag_id, straatnaam, nummer, toevoeging)
