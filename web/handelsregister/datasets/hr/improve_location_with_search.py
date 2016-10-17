@@ -38,20 +38,23 @@ wtflog = logging.getLogger('onbekent')
 bag_error = logging.getLogger('bagerror')
 
 if settings.DEBUG:
-    handler = logging.FileHandler('correcties.csv')
-    handler2 = logging.FileHandler('onbekent.csv')
-    handler3 = logging.FileHandler('bagerrors.csv')
 
-    formatter = logging.Formatter('%(message)s')
-    handler.setFormatter(formatter)
+    csvfiles = [
+        (correctielog, 'correcties.csv'),
+        (wtflog, 'onbekent.csv'),
+        (bag_error, 'bagerrors.csv')
+    ]
+    for csvlogger, csvf in csvfiles:
+        handler = logging.FileHandler(csvf)
+        handler.setLevel(logging.DEBUG)
+        formatter = logging.Formatter('%(message)s')
+        handler.setFormatter(formatter)
+        csvlogger.addHandler(handler)
 
-    correctielog.addHandler(handler)
-    wtflog.addHandler(handler2)
-    bag_error.addHandler(handler3)
-
-correctielog.setLevel(logging.DEBUG)
-wtflog.setLevel(logging.DEBUG)
-bag_error.setLevel(logging.DEBUG)
+    # Disable logging on screen
+    # correctielog.setLevel(logging.CRITICAL)
+    # wtflog.setLevel(logging.CRITICAL)
+    # bag_error.setLevel(logging.CRITICAL)
 
 search_adres_url = 'https://api-acc.datapunt.amsterdam.nl/search/adres/'
 
