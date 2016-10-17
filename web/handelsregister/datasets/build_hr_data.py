@@ -84,11 +84,11 @@ def fill_geo_table():
         _build_joined_geo_table(cursor)
 
 
-def fill_bag():
+def fill_location_with_bag():
 
     with db.connection.cursor() as cursor:
         log.info("VUL geo tabel locaties met bag geometrie")
-        _update_geo_table_with_bag(cursor)
+        _update_location_table_with_bag(cursor)
 
 
 def _converteer_locaties(cursor):
@@ -575,7 +575,7 @@ WHERE m.macid = hrm.id AND NOT EXISTS (
     """)
 
 
-def _update_geo_table_with_bag(cursor):
+def _update_location_table_with_bag(cursor):
     cursor.execute("""
 UPDATE hr_locatie loc
     SET geometrie = bag.geometrie

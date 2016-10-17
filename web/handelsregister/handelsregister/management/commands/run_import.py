@@ -53,7 +53,7 @@ class Command(BaseCommand):
         log.info('Handelsregister import started')
 
         if options['bag']:
-            build_hr_data.fill_bag()
+            build_hr_data.fill_location_with_bag()
         elif options['geo_vest']:
             build_hr_data.fill_geo_table()
         elif options['searchapi']:
@@ -61,5 +61,7 @@ class Command(BaseCommand):
             improve_location_with_search.guess()
         else:
             build_hr_data.fill_stelselpedia()
-            build_hr_data.fill_bag()
+            # now update mks locations with bag locations
+            build_hr_data.fill_location_with_bag()
+            # now create a bag view
             build_hr_data.fill_geo_table()
