@@ -9,6 +9,8 @@ import logging
 import time
 import requests
 
+from django.conf import settings
+
 import gevent
 from gevent.queue import Queue
 from gevent.queue import JoinableQueue
@@ -32,21 +34,20 @@ STATS = dict(
 log = logging.getLogger(__name__)
 # corrections log
 correctielog = logging.getLogger('correcties')
-
-# wtf logging
 wtflog = logging.getLogger('onbekent')
 bag_error = logging.getLogger('bagerror')
 
-handler = logging.FileHandler('correcties.csv')
-handler2 = logging.FileHandler('onbekent.csv')
-handler3 = logging.FileHandler('bagerrors.csv')
+if settings.DEBUG:
+    handler = logging.FileHandler('correcties.csv')
+    handler2 = logging.FileHandler('onbekent.csv')
+    handler3 = logging.FileHandler('bagerrors.csv')
 
-formatter = logging.Formatter('%(message)s')
-handler.setFormatter(formatter)
+    formatter = logging.Formatter('%(message)s')
+    handler.setFormatter(formatter)
 
-correctielog.addHandler(handler)
-wtflog.addHandler(handler2)
-bag_error.addHandler(handler3)
+    correctielog.addHandler(handler)
+    wtflog.addHandler(handler2)
+    bag_error.addHandler(handler3)
 
 correctielog.setLevel(logging.DEBUG)
 wtflog.setLevel(logging.DEBUG)
@@ -350,6 +351,7 @@ def guess():
 
         gevent.joinall([
             gevent.spawn(improve_locations, qs),
+            gevent.spawn(async_determine_rd_coordinates),
             gevent.spawn(async_determine_rd_coordinates),
             gevent.spawn(async_determine_rd_coordinates),
             gevent.spawn(async_determine_rd_coordinates),

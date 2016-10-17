@@ -31,7 +31,7 @@ SECRET_KEY = 'not-secret'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
-DEBUG = True
+# DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
