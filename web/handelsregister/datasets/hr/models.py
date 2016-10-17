@@ -521,6 +521,9 @@ class Locatie(models.Model):
 
     geometrie = models.PointField(srid=28992, blank=True, null=True)
 
+    # is this field corrected by search?
+    correctie = models.NullBooleanField()
+
     def __str__(self):
         return "{}".format(self.volledig_adres)
 

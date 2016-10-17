@@ -1,4 +1,7 @@
-
+"""
+With the datapunt search api we can greatly improve
+location quality of the datasets
+"""
 from django.contrib.gis.geos import GEOSGeometry
 
 from .models import Locatie
@@ -29,41 +32,45 @@ correctielog = logging.getLogger('correcties')
 
 # wtf logging
 wtflog = logging.getLogger('onbekent')
+bag_error = logging.getLogger('bagerror')
 
 handler = logging.FileHandler('correcties.csv')
 handler2 = logging.FileHandler('onbekent.csv')
+handler3 = logging.FileHandler('bagerrors.csv')
 
 formatter = logging.Formatter('%(message)s')
 handler.setFormatter(formatter)
 
 correctielog.addHandler(handler)
 wtflog.addHandler(handler2)
+bag_error.addHandler(handler3)
 
 correctielog.setLevel(logging.DEBUG)
 wtflog.setLevel(logging.DEBUG)
 
 search_adres_url = 'https://api-acc.datapunt.amsterdam.nl/search/adres/'
 
+
 gemeenten = [
-  'Amsterdam',
-  'Amstelveen',
-  'Diemen',
-  'Ouder-Amstel',
-  'Landsmeer',
-  'Oostzaan',
-  'Waterland',
-  'Haarlemmerliede',
-  'Haarlemmermeer',
-  'Weesp',
-  'Gooise Meren',
-  'De Ronde Venen',
-  'Purmerend',
-  'Wormerland',
-  'Velsen',
-  'Haarlem',
-  'Aalsmeer',
-  'Stichtse Vecht',
-  'Wijdemeren'
+    'Amsterdam',
+    'Amstelveen',
+    'Diemen',
+    'Ouder-Amstel',
+    'Landsmeer',
+    'Oostzaan',
+    'Waterland',
+    'Haarlemmerliede',
+    'Haarlemmermeer',
+    'Weesp',
+    'Gooise Meren',
+    'De Ronde Venen',
+    'Purmerend',
+    'Wormerland',
+    'Velsen',
+    'Haarlem',
+    'Aalsmeer',
+    'Stichtse Vecht',
+    'Wijdemeren'
 ]
 
 REPLACE_TABLE = "".maketrans(
@@ -126,9 +133,38 @@ def is_straat_huisnummer(query_string, tokens):
         return i
 
 
-def determine_rd_coordinates(loc, query_string, tokens, straatnaam, nummer):
+def get_details_for_vbo(num):
+
+    details_url = num['_links']['self']['href']
+    details_request = requests.get(details_url)
+    details = details_request.json()
+
+    if details_request.status_code == 404:
+        bag_error.debug(details_url)
+        return None, None
+
+    point = details['geometrie']
+
+    # determine bag_id
+    for key in ['verblijfsobjectidentificatie',
+                'ligplaatsidentificatie',
+                'standplaatsindentificatie']:
+        bag_id = details.get(key)
+        if bag_id:
+            break
+
+    return point, bag_id
+
+
+def determine_rd_coordinates(
+        loc, query_string, tokens,
+        straatnaam, nummer, toevoeging):
     """
-    Send requests to atlas.
+    Send adres requests to atlas to determine geo point and
+    landelijk bag id of items
+
+    If there is more then one hit try get more exact match
+    with a search complete with 'toevoeging'
     """
     parameters = {
         'q': '{} {}'.format(straatnaam, nummer)
@@ -139,39 +175,28 @@ def determine_rd_coordinates(loc, query_string, tokens, straatnaam, nummer):
     data = response.json()
 
     if not data['results']:
-        wtflog.debug('{} {}'.format(loc.id, query_string))
+        wtflog.debug('{}, {}, {}, {}'.format(
+            loc.id, straatnaam, nummer, query_string))
+        loc.correctie = False
+        loc.save()
         return None, None
 
-    rds = []
+    rds_bagid = []
 
+    # only do results with only 1 result?
     for num in data['results']:
-        # print(num['centroid'])
-        try:
-            details = num['_links']['self']['href']
-            details = requests.get(details).json()
-            point = details['geometrie']
-        except:
-            log.debug(num)
-            continue
-
-        for key in ['verblijfsobjectidentificatie',
-                    'ligplaatsidentificatie',
-                    'standplaatsindentificatie']:
-            bag_id = details.get(key)
-            if bag_id:
-                break
-
-        # print(point)
-        # print(bag_id)
-        rds.append((point, bag_id))
-        # the first point is enough
-        break
+        point, bag_id = get_details_for_vbo(num)
+        if point:
+            rds_bagid.append((point, bag_id))
+            # The first point is enough
+            break
 
     # print(rds)
-    if rds:
-        return rds[0]
+    if rds_bagid:
+        return rds_bagid[0]
     else:
-        print(data['results'])
+        return [None, None]
+        log.debug('Point/Bagid missing:', query_string)
 
 
 def normalize_geo(point):
@@ -191,6 +216,29 @@ def normalize_geo(point):
         # return GEOSGeometry(json.dumps(point))
 
 
+def save_corrected_geo_infomation(loc, point, bag_id, straat, nummer):
+    """
+    New data is found save it
+    """
+    loc.geometrie = normalize_geo(point)
+    # should we add bag_id?
+    loc.bag_vbid = bag_id
+    loc.correctie = True
+
+    correctielog.debug('{}, {} {}, {}, {}, {}'.format(
+        loc.id,
+        straat, nummer, bag_id,
+        loc.geometrie[0],
+        loc.geometrie[1],
+    ))
+
+    # save the new location
+    loc.save()
+
+    # update the stats
+    STATS['correcties'] += 1
+
+
 def improve_locations(qs):
 
     log.debug('missing geo {}'.format(qs.count()))
@@ -201,6 +249,8 @@ def improve_locations(qs):
 
         # skip postbus items
         if addr.startswith('Postbus'):
+            loc.correctie = False
+            loc.save()
             continue
 
         query_string, tokens = clean_tokenize(addr)
@@ -208,35 +258,23 @@ def improve_locations(qs):
 
         straat = " ".join(tokens[:i])
         nummer = tokens[i]
+        toevoeging = tokens[i+1]
 
+        # find rd coordinate and bag_id
         point, bag_id = determine_rd_coordinates(
-            loc, query_string, tokens, straat, nummer)
+            loc, query_string, tokens,
+            straat, nummer, toevoeging)
 
         # search gave us some rd coordinates...
         if point:
-            loc.geometrie = normalize_geo(point)
-            # should we add bag_id?
-            loc.bag_vbid = bag_id
+            save_corrected_geo_infomation(
+                loc, point, bag_id, straat, nummer)
 
-            correctielog.debug('{}, {} {}, {}, {}, {}'.format(
-                loc.id,
-                straat, nummer, bag_id,
-                loc.geometrie[0],
-                loc.geometrie[1],
-            ))
-
-            # save the new location
-            loc.save()
-
-            # update the stats
-            STATS['correcties'] += 1
-
-            if li % 100 == 0:
-                log.debug('\n\n {} of {} - {} % \n'.format(
-                     li,
-                     STATS['total'],
-                     float(li) // STATS['total']
-                ))
+        # log progress
+        if li % 100 == 0:
+            log.debug('\n\n {} of {} - {} % \n'.format(
+                      li, STATS['total'],
+                      float(li) // STATS['total']))
 
 
 def guess():
@@ -247,7 +285,8 @@ def guess():
     for gemeente in gemeenten:
         qs = Locatie.objects\
             .filter(geometrie__isnull=True) \
-            .filter(volledig_adres__contains=gemeente)
+            .filter(volledig_adres__contains=gemeente) \
+            .filter(correctie__isnull=True)
 
         count = qs.count()
         STATS['total'] = count

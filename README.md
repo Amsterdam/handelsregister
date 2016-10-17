@@ -38,29 +38,36 @@ Import the atlas geo data
 Load latest data from the object store
 create data folder and set the object store password
 
-    python load_mks_dumps.py
+    python get_mks_dumps.py
+
+Load the sql dump into the database
+
+    ./loaddumps_local.sh
 
 Copy geodata from atlas into handelsregister database
 NOTE: do not put newlines in here
 
     psql -h 127.0.0.1 -p 5406 -U handelsregister atlas -c '\copy (SELECT id, landelijk_id, geometrie from bag_verblijfsobject) TO STDOUT' | psql -h 127.0.0.1 -p 5406 -U handelsregister handelsregister -c '\copy hr_geovbo (id, bag_vbid, geometrie) FROM STDIN'
 
-Build data for the api and mapserver
+Now we are ready in create the Handelsregister (hr) databases
+for the api and geoviews for mapserver
 
 	./handelsregister/manage.py run_import
 
-To see the various options for partial imports, execute:
+To see the various options for imports, execute:
 
 	./handelsregister/manage.py run_import --help
 
+To fix missing location geodata with the search api
+for some locations we have only an adress 
+
+	./handelsregister/manage.py run_import --search
 
 Import Quickstart
 -----------------
+    Download a prepared database..
 
     docker-compose exec database update-handelsregister.sh
-    ./web/handelsregister/manage.py migrate hr zero
-    ./web/handelsregister/manage.py migrate hr
-    ./web/handelsregister/manage.py run_import
 
 
 The API should now be available on http://localhost:8100/handelsregister

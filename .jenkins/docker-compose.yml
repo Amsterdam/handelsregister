@@ -34,7 +34,7 @@ importer_mks:
     OS_PASSWORD:
   command: >
     bash -c "/app/docker-migrate.sh \
-            && python load_mks_dumps.py \
+            && python get_mks_dumps.py \
             && bash -c /app/loaddumps.sh"
 
 bag_vbo_import:
