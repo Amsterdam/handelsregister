@@ -4,7 +4,6 @@ from django.core.management import BaseCommand
 
 from datasets import build_hr_data
 
-from datasets.hr import improve_location_with_search
 
 import logging
 
@@ -58,6 +57,7 @@ class Command(BaseCommand):
         elif options['geo_vest']:
             build_hr_data.fill_geo_table()
         elif options['searchapi']:
+            from datasets.hr import improve_location_with_search
             improve_location_with_search.guess()
         else:
             build_hr_data.fill_stelselpedia()
