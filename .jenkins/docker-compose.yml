@@ -65,8 +65,8 @@ importer:
     DATABASE_USER: handelsregister
     DATABASE_PASSWORD: insecure
     PGPASSWORD: insecure
-  volumes:
-    - ./data:/app/data
+  #volumes:
+  #  - ./data:/app/data
   command: >
     bash -c "/app/docker-import.sh"
 
