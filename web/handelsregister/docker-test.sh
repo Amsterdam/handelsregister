@@ -5,4 +5,4 @@ set -e   # stop on any error
 
 source docker-wait.sh
 
-python /app/manage.py tests
+python /app/manage.py test
