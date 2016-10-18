@@ -64,7 +64,7 @@ importer:
   command: >
     bash -c "/app/docker-wait.sh \
             && python manage.py run_import \
-            && python manage.py run_import --search"
+            && python manage.py run_import --geovestigingen"
 
 db-backup:
   image: build.datapunt.amsterdam.nl:5000/atlas/postgres

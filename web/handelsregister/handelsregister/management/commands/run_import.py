@@ -53,13 +53,6 @@ class Command(BaseCommand):
             default=False,
             help='Clear hr_locate from search api results')
 
-        parser.add_argument(
-            '--buildgeo',
-            action='store_true',
-            dest='buildgeo',
-            default=False,
-            help='Build the geotable for mapserver')
-
     def handle(self, *args, **options):
         """
         validate and execute import task
@@ -74,10 +67,6 @@ class Command(BaseCommand):
             improve_location_with_search.guess()
         elif options['clearsearch']:
             build_hr_data.clear_autocorrect()
-        elif options['buildgeo']:
-            # if search is done and bag_id and geos is updated
-            # then build the geo_table
-            build_hr_data.fill_geo_table()
         else:
             # convert mks dump
             build_hr_data.fill_stelselpedia()

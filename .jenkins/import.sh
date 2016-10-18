@@ -14,8 +14,6 @@ trap 'dc kill ; dc rm -f' EXIT
 rm -rf ${DIR}/backups
 mkdir -p ${DIR}/backups
 
-# load atlas / bag database
-
 dc build --pull
 
 dc up -d database

@@ -8,14 +8,14 @@ source docker-wait.sh
 
 echo 'unzipping latest kvk dump files'
 
-unzip $(ls -Art data/*.zip | tail -n 1) -d /app/unzipped/
+unzip -o $(ls -Art data/*.zip | tail -n 1) -d /app/unzipped/
 
 psql -d handelsregister -h ${DATABASE_PORT_5432_TCP_ADDR} -U handelsregister -f dropallkvk.sql
 
 cd /app/unzipped/
 
 # extract gz files if needed
-gunzip *.gz
+gunzip -f *.gz
 
 #Load all sql files
 
