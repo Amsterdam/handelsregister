@@ -23,8 +23,12 @@ dc run --rm tests
 # load latest bag into database
 # dc exec -T database update-atlas.sh
 
+echo "create hr api database"
 # create the hr_data
 dc run --rm importer
 
+echo "create hr dump"
 # run the backup shizzle
 dc run --rm db-backup
+
+

@@ -60,7 +60,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
 
-    'django_jenkins',
     'django_extensions',
 
     'django.contrib.gis',
@@ -252,6 +251,7 @@ LOGGING = {
             'handlers': ['console'],
             'level': 'ERROR',
         },
+
         # Debug all batch jobs
         'doc': {
             'handlers': ['console'],
