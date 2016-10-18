@@ -14,7 +14,6 @@ echo 'Store mks dumps in database'
 source loaddumps.sh
 
 echo 'Copy bag geometrie naar hg_geobag'
-
 echo database:5432:handelsregister:handelsregister:insecure >> ~/.pgpass
 echo database:5432:atlas:handelsregister:insecure >> ~/.pgpass
 chmod 0600 ~/.pgpass
@@ -30,7 +29,7 @@ psql -U handelsregister -h database atlas -c  \
 python /app/manage.py run_import
 
 # autocorrect locations fields with search resultaten
-python /app/manage.py run_import --search || echo "Search failed continuing"
+python /app/manage.py run_import --search || echo "Search failed continuing anyway"
 
 # create geoviews
 python /app/manage.py run_import --geovestigingen
