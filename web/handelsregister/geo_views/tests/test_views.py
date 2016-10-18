@@ -6,9 +6,11 @@ from django.test import TestCase
 
 from datasets import build_hr_data
 
+from datasets.hr import models
 from datasets.hr.tests import factories as hr_factories
 
 from django.conf import settings
+
 
 point = Point(0.0, 1.1)
 
@@ -45,3 +47,15 @@ class ViewsTest(TestCase):
         self.assertEqual(
             row['uri'],
             '{}handelsregister/vestiging/{}/'.format(URL, v.vestigingsnummer))
+
+    def test_more_locaties(self):
+
+        vestigingen = hr_factories.create_x_vestigingen()
+
+        build_hr_data.fill_geo_table()
+
+        # vestigingen hebben een post en een bezoek adres
+        # dus 2 * de entries in de geo_table
+        self.assertEqual(
+            2 * len(vestigingen),
+            models.GeoVestigingen.objects.all().count())

@@ -4,7 +4,6 @@ import random
 # django
 from rest_framework.test import APITestCase
 
-
 # Project
 from datasets.hr.tests import factories as factories_hr
 from datasets.hr import models as models_hr
@@ -21,31 +20,7 @@ class VestingFilterTest(APITestCase):
         For x bag panden
         """
 
-        self.vestigingen = []
-
-        mac = factories_hr.MaatschappelijkeActiviteitFactory.create()
-
-        for i in range(5):
-
-            loc_b = factories_hr.LocatieFactory.create(
-                    id='{}{}'.format('b', i),
-                    bag_numid=i,
-                    bag_vbid=i
-            )
-            loc_p = factories_hr.LocatieFactory.create(
-                    id=i*100+1,
-                    bag_numid='p{}'.format(i),
-                    bag_vbid='p{}'.format(i)
-            )
-
-            for v in range(random.randint(0, 10)):
-                ves = factories_hr.VestigingFactory.create(
-                    id='{}-{}'.format(i, v),
-                    bezoekadres=loc_b,
-                    postadres=loc_p,
-                    maatschappelijke_activiteit=mac
-                )
-                self.vestigingen.append(ves)
+        self.vestigingen = factories_hr.create_x_vestigingen()
 
     def test_simple_response(self):
         """

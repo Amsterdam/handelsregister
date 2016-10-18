@@ -75,8 +75,11 @@ class Command(BaseCommand):
         elif options['clearsearch']:
             build_hr_data.clear_autocorrect()
         elif options['buildgeo']:
+            # if search is done and bag_id and geos is updated
+            # then build the geo_table
             build_hr_data.fill_geo_table()
         else:
+            # convert mks dump
             build_hr_data.fill_stelselpedia()
             # now update mks locations with bag locations
             build_hr_data.fill_location_with_bag()
