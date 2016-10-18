@@ -23,8 +23,6 @@ psql -U handelsregister -h database atlas -c  \
 | psql -U handelsregister -h database handelsregister -c \
 '\copy hr_geovbo (id, bag_vbid, geometrie) FROM STDIN'
 
-
-
 # add health check?
 python /app/manage.py run_import
 

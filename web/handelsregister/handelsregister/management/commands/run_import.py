@@ -73,4 +73,5 @@ class Command(BaseCommand):
             build_hr_data.fill_stelselpedia()
             # now update mks locations with bag locations
             build_hr_data.fill_location_with_bag()
+            log.info('hr_geovestigingen %s', models.GeoVestigingen.objects.count())
             assert models.GeoVestigingen.objects.count() > 200.000
