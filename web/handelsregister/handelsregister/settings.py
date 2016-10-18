@@ -108,7 +108,7 @@ WSGI_APPLICATION = 'handelsregister.wsgi.application'
 
 
 def get_docker_host():
-    """
+    """Find the local docker-deamon
     """
     d_host = os.getenv('DOCKER_HOST', None)
     if d_host:
@@ -143,7 +143,6 @@ DATABASES = {
 ELASTIC_SEARCH_HOSTS = ["{}:{}".format(
     os.getenv('ELASTICSEARCH_PORT_9200_TCP_ADDR', _get_docker_host()),
     os.getenv('ELASTICSEARCH_PORT_9200_TCP_PORT', 9200))]
-
 
 
 # Password validation
@@ -302,9 +301,9 @@ LOGGING = {
 
         # Log all unhandled exceptions
         'django.request': {
-                'handlers': ['console'],
-                'level': 'ERROR',
-                'propagate': False,
+            'handlers': ['console'],
+            'level': 'ERROR',
+            'propagate': False,
         },
 
     },

@@ -4,6 +4,7 @@ from django.core.management import BaseCommand
 
 from datasets import build_hr_data
 from datasets.hr import improve_location_with_search
+from datasets.hr import models
 
 import logging
 
@@ -72,3 +73,4 @@ class Command(BaseCommand):
             build_hr_data.fill_stelselpedia()
             # now update mks locations with bag locations
             build_hr_data.fill_location_with_bag()
+            assert models.GeoVestigingen.objects.count() > 200.000
