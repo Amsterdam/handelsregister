@@ -22,34 +22,36 @@ tests:
     DATABASE_PASSWORD: insecure
   command: /app/docker-test.sh
 
-importer_mks:
-  build: ../web
-  links:
-    - database:database
-  environment:
-    DATABASE_NAME: handelsregister
-    DATABASE_USER: handelsregister
-    DATABASE_PASSWORD: insecure
-    PGPASSWORD: insecure
-    OS_PASSWORD:
-  command: >
-    bash -c "/app/docker-migrate.sh \
-            && python get_mks_dumps.py \
-            && bash -c /app/loaddumps.sh"
+#importer_mks:
+#  build: ../web
+#  links:
+#    - database:database
+#  environment:
+#    DATABASE_NAME: handelsregister
+#    DATABASE_USER: handelsregister
+#    DATABASE_PASSWORD: insecure
+#    PGPASSWORD: insecure
+#    OS_PASSWORD:
+#  command: >
+#    bash -c "/app/docker-migrate.sh \
+#            && python get_mks_dumps.py \
+#            && bash -c /app/loaddumps.sh"
 
-bag_vbo_import:
-  image: build.datapunt.amsterdam.nl:5000/atlas/postgres
-  links:
-    - database:db
-  command: >
-    bash -c "echo db:5432:handelsregister:handelsregister:insecure >> ~/.pgpass \
-            && echo db:5432:atlas:handelsregister:insecure >> ~/.pgpass \
-            && chmod 0600 ~/.pgpass \
-            && echo copying bag vbo geo -> hr_geovbo tabel\
-            && psql -U handelsregister -h db atlas -c  \
-                '\copy (SELECT id, landelijk_id, geometrie from bag_verblijfsobject) TO STDOUT' \
-            | psql -U handelsregister -h db handelsregister -c \
-                '\copy hr_geovbo (id, bag_vbid, geometrie) FROM STDIN'"
+#bag_vbo_import:
+#  image: build.datapunt.amsterdam.nl:5000/atlas/postgres
+#  links:
+#    - database:db
+#  command: >
+#    bash -c "echo db:5432:handelsregister:handelsregister:insecure >> ~/.pgpass \
+#            && echo db:5432:atlas:handelsregister:insecure >> ~/.pgpass \
+#            && chmod 0600 ~/.pgpass \
+#            && echo copying bag vbo geo -> hr_geovbo tabel\
+#            && psql -U handelsregister -h db atlas -c  \
+#                '\copy (SELECT id, landelijk_id, geometrie from bag_verblijfsobject) TO STDOUT' \
+#            | psql -U handelsregister -h db handelsregister -c \
+#                '\copy hr_geovbo (id, bag_vbid, geometrie) FROM STDIN'"
+#
+
 
 importer:
   build: ../web
@@ -59,12 +61,14 @@ importer:
   environment:
     DATABASE_NAME: handelsregister
     DATABASE_PASSWORD: insecure
+    OS_PASSWORD:
+    DATABASE_USER: handelsregister
+    DATABASE_PASSWORD: insecure
+    PGPASSWORD: insecure
   volumes:
     - ./data:/app/data
   command: >
-    bash -c "/app/docker-wait.sh \
-            && python manage.py run_import \
-            && python manage.py run_import --geovestigingen"
+    bash -c "/app/docker-import.sh"
 
 db-backup:
   image: build.datapunt.amsterdam.nl:5000/atlas/postgres

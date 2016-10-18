@@ -18,14 +18,10 @@ dc build --pull
 
 dc up -d database
 
-# load latest mks dump into database
-dc run --rm importer_mks
+dc run --rm tests
 
 # load latest bag into database
-dc exec -T database update-atlas.sh
-
-echo 'Copy bag geometrie naar hg_geobag'
-dc run --rm bag_vbo_import
+# dc exec -T database update-atlas.sh
 
 # create the hr_data
 dc run --rm importer

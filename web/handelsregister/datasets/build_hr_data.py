@@ -76,13 +76,6 @@ def fill_stelselpedia():
         _converteer_onbekende_mac_eigenaar_id(cursor)
 
 
-def fill_geo_table():
-
-    with db.connection.cursor() as cursor:
-        # bouw de hr_geo_table
-        log.info("Bouw geo tabel vestigingen")
-        _build_joined_geo_table(cursor)
-
 
 def fill_location_with_bag():
 
@@ -90,6 +83,13 @@ def fill_location_with_bag():
         log.info("VUL geo tabel locaties met bag geometrie")
         _update_location_table_with_bag(cursor)
 
+
+def fill_geo_table():
+
+    with db.connection.cursor() as cursor:
+        # bouw de hr_geo_table
+        log.info("Bouw geo tabel vestigingen")
+        _build_joined_geo_table(cursor)
 
 def clear_autocorrect():
     with db.connection.cursor() as cursor:
