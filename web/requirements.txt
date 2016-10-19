@@ -30,3 +30,5 @@ python-swiftclient==3.0.0
 elasticsearch-dsl==2.1.0
 gevent==1.1.2
 greenlet==0.4.10
+grequests==0.3.0
+

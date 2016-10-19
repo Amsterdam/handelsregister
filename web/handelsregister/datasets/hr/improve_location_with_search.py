@@ -7,7 +7,10 @@ import json
 import string
 import logging
 import time
-import requests
+
+from requests import Session
+
+import grequests
 
 from django.conf import settings
 from django.contrib.gis.geos import GEOSGeometry
@@ -56,11 +59,11 @@ class CSVLOGHANDLER():
                 formatter = logging.Formatter('%(message)s')
                 handler.setFormatter(formatter)
                 csvlogger.addHandler(handler)
-
+        else:
             # Disable logging on screen
-            # correctielog.setLevel(logging.CRITICAL)
-            # wtflog.setLevel(logging.CRITICAL)
-            # bag_error.setLevel(logging.CRITICAL)
+            self.correctie.setLevel(logging.CRITICAL)
+            self.wtf.setLevel(logging.CRITICAL)
+            self.bag_error.setLevel(logging.CRITICAL)
 
 CSV = CSVLOGHANDLER()
 
@@ -151,32 +154,47 @@ def is_straat_huisnummer(tokens):
         return i
 
 
-def get_response(parameters):
-    """
-    Actualy do the http api search call
-    """
-    # log.debug(parameters)
-    response = requests.get(SEARCH_ADRES_URL, parameters)
-    # Do something with the result count?
-    return response.json()
-
 
 class SearchTask():
-    """All data relavant for async search instance
+    """
+    All data relevant for async search instance
+    We get raw 'volledig_adres' and try to ind
+
     """
 
     def __init__(self, locatieobject, query_string, straatnaam,
                  nummer, toevoeging):
 
         self.locatie = locatieobject
+        # originele input
         self.query_string = query_string
+        # found straatnaam
         self.straatnaam = straatnaam
+        # found huisnummer
         self.nummer = nummer
+        # found toevoeging
         self.toevoeging = toevoeging
+        # no search hit found then try without tovoeging
         self.use_toevoeging = True
 
+        # corrected bag_id for this
         self.bag_id = None
+        # corrected geometrie
         self.geometrie = None
+        # http session
+        self.session = Session()
+
+    def get_response(self, parameters):
+        """
+        Actualy do the http api search call
+        """
+        # parameters = {'q': self.get_q()}
+        async_r = grequests.get(SEARCH_ADRES_URL, params=parameters, session=self.session)
+        # send a request and wait for results
+        gevent.spawn(async_r.send).join()
+        # Do something with the result count?
+        return async_r.response.json()
+
 
     def determine_rd_coordinates(self):
         """
@@ -225,13 +243,13 @@ class SearchTask():
 
         # First with toevoeging
         parameters_toevoeging = {'q': self.get_q()}
-        data = get_response(parameters_toevoeging)
+        data = self.get_response(parameters_toevoeging)
         # Als niets is gevonden dan zonder toevoeging
         if not data:
             # poging zonder toevoeging
             self.use_toevoeging = False
             parameters = {'q': self.get_q()}
-            data = get_response(parameters)
+            data = self.get_response(parameters)
 
         if data and data.get('results'):
             return data
@@ -256,7 +274,9 @@ class SearchTask():
         """
 
         details_url = num['_links']['self']['href']
-        details_request = requests.get(details_url)
+        details_request = grequests.get(details_url, session=self.session)
+        gevent.spawn(details_request.send).join()
+        details_request = details_request.response
         details = details_request.json()
 
         if details_request.status_code == 404:
@@ -338,9 +358,10 @@ def normalize_geo(point):
         return p.json
 
 
-def improve_locations(all_invalid_locations):
+def create_improve_locations_tasks(all_invalid_locations):
     """
     For all items found in qs. Improve the location
+    and start tasks
     """
 
     log.debug('Finding incomplete adresses...')
@@ -386,18 +407,19 @@ def guess():
     for gemeente in GEMEENTEN:
         invalid_locations = Locatie.objects\
             .filter(geometrie__isnull=True) \
-            .filter(volledig_adres__contains=gemeente) \
-            .filter(correctie__isnull=True)
+            .filter(volledig_adres__endswith=gemeente) \
+            .filter(correctie__isnull=True) \
 
         log.debug('Finding incomplete adresses...')
 
         count = invalid_locations.count()
         STATS['total'] = count
-        print('\n Processing gemeente {} \n'.format(count))
+        print('\n Processing gemeente {} {} \n'.format(gemeente, count))
 
-        jobs = [gevent.spawn(improve_locations, invalid_locations)]
+        jobs = [gevent.spawn(
+            create_improve_locations_tasks, invalid_locations[:100])]
 
-        for x in range(10):
+        for _ in range(12):
             jobs.append(
                 gevent.spawn(async_determine_rd_coordinates))
 
@@ -405,6 +427,15 @@ def guess():
         # wait untill search queue is empty
 
         print(STATS['correcties'])
+        STATS[gemeente] = STATS['correcties']
+
+        log.debug('\nCorrecties %s Duration %i seconds\n',
+            STATS['correcties'], time.time() - STATS['start'])
+
         STATS['correcties'] = 0
-        print(time.time() - STATS['start'])
-        break
+
+    for gemeente in GEMEENTEN:
+        log.debug('%s - correcties: %s', gemeente, STATS[gemeente])
+
+    total_seconds = time.time() - STATS['start']
+    log.debug('\nTotal Duration %i m: %i\n', total_seconds / 60.0, total_seconds % 60)
