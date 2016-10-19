@@ -120,24 +120,31 @@ def create_x_vestigingen(x=5):
 
 
 def create_search_test_locaties():
+    """
+    Create some test data for the location search completer
+    """
 
-        # locatie zonder geo maar met
-        # adres en geo in fixture
-        loc_1 = LocatieFactory.create(
-            id='{}{}'.format('b', 1),
-            bag_numid=None,
-            bag_vbid=None,
-            geometrie=None
-        )
+    # locatie zonder geo maar met
+    # adres en geo in fixture
+    loc_1 = LocatieFactory.create(
+        id='{}{}'.format('b', 1),
+        bag_numid=None,
+        bag_vbid=None,
+        geometrie=None,
+        correctie=None,
+        volledig_adres='ikbestaniet 10, 1013AW, Amsterdam'
+    )
 
-        # locatie zonder geo en geen adres
-        # in atlas fixture
-        loc_2 = LocatieFactory.create(
-            id=2*100+1,
-            bag_numid=None,
-            bag_vbid=None,
-            geometrie=None
+    # locatie zonder geo en geen adres
+    # in atlas fixture
+    loc_2 = LocatieFactory.create(
+        id=2*100+1,
+        bag_numid=None,
+        bag_vbid=None,
+        geometrie=None,
+        correctie=None,
+        volledig_adres='ikbestawel 10 A, 1013AW, Amsterdam'
 
-        )
+    )
 
-        return [loc_1, loc_2]
+    return [loc_1, loc_2]

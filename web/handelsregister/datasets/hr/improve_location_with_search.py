@@ -193,6 +193,12 @@ class SearchTask():
         # send a request and wait for results
         gevent.spawn(async_r.send).join()
         # Do something with the result count?
+
+        if not async_r.response:
+            return {}
+        elif async_r.response.status_code == 404:
+            return {}
+
         return async_r.response.json()
 
 
@@ -234,6 +240,8 @@ class SearchTask():
             return '{} {} {}'.format(
                 self.straatnaam,
                 self.nummer, self.toevoeging)
+
+        return '{} {}'.format(self.straatnaam, self.nummer)
 
     def get_best_search_response(self):
         """
@@ -277,11 +285,12 @@ class SearchTask():
         details_request = grequests.get(details_url, session=self.session)
         gevent.spawn(details_request.send).join()
         details_request = details_request.response
-        details = details_request.json()
 
         if details_request.status_code == 404:
             CSV.bag_error.debug("%s, %s", self.get_q(), details_url)
             return None, None
+
+        details = details_request.json()
 
         point = details['geometrie']
 
@@ -354,8 +363,8 @@ def normalize_geo(point):
         return GEOSGeometry(json.dumps(point))
     elif point['type'] == 'Polygon':
         # create centroid from polygon (ligplaats)
-        p = GEOSGeometry(json.dumps(point)).centroid
-        return p.json
+        centroid_p = GEOSGeometry(json.dumps(point)).centroid
+        return centroid_p.json
 
 
 def create_improve_locations_tasks(all_invalid_locations):
@@ -399,20 +408,36 @@ def create_improve_locations_tasks(all_invalid_locations):
         index += 1
 
 
+def create_qs_of_invalid_locations(gemeente):
+    """
+    Create a qs of invalid locations.
+
+    - Invalid are locations with no geomatrie,
+    - Having an adres withing 'gemeente'
+    - No correction has been attempted
+    """
+
+    return Locatie.objects\
+            .filter(geometrie__isnull=True) \
+            .filter(volledig_adres__endswith=gemeente) \
+            .filter(correctie__isnull=True)
+
+
 def guess():
     """
     Do an search on street housenumber part of volledig adres and try to
     find geo_point
     """
-    for gemeente in GEMEENTEN:
-        invalid_locations = Locatie.objects\
-            .filter(geometrie__isnull=True) \
-            .filter(volledig_adres__endswith=gemeente) \
-            .filter(correctie__isnull=True) \
+    log.debug('Start Finding and correcting incomplete adresses...')
 
-        log.debug('Finding incomplete adresses...')
+    for gemeente in GEMEENTEN:
+        invalid_locations = create_qs_of_invalid_locations(gemeente)
 
         count = invalid_locations.count()
+
+        if count == 0:
+            continue
+
         STATS['total'] = count
         print('\n Processing gemeente {} {} \n'.format(gemeente, count))
 
@@ -423,18 +448,22 @@ def guess():
             jobs.append(
                 gevent.spawn(async_determine_rd_coordinates))
 
+        # waint untill all search tasks are done
         gevent.joinall(jobs)
-        # wait untill search queue is empty
 
-        print(STATS['correcties'])
+        # store corrections for each gemeente
         STATS[gemeente] = STATS['correcties']
 
         log.debug('\nCorrecties %s Duration %i seconds\n',
-            STATS['correcties'], time.time() - STATS['start'])
+                  STATS['correcties'], time.time() - STATS['start'])
 
+        # reset correcties count
         STATS['correcties'] = 0
 
+    # log end result
     for gemeente in GEMEENTEN:
+        if not gemeente in STATS:
+            continue
         log.debug('%s - correcties: %s', gemeente, STATS[gemeente])
 
     total_seconds = time.time() - STATS['start']
