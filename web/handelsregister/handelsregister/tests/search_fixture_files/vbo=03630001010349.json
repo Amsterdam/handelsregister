@@ -1,0 +1,163 @@
+{
+    "_links": {
+        "self": {
+            "href": "https://api-acc.datapunt.amsterdam.nl/bag/verblijfsobject/03630001010349/"
+        }
+    },
+    "_display": "Silodam 340",
+    "sleutelverzendend": "03630001010349",
+    "verblijfsobjectidentificatie": "0363010001010349",
+    "date_modified": "2016-10-17T23:00:23.240698Z",
+    "document_mutatie": "2010-09-09",
+    "document_nummer": "GV00000406",
+    "begin_geldigheid": "2010-09-09",
+    "einde_geldigheid": null,
+    "mutatie_gebruiker": "DBI",
+    "status": {
+        "code": "21",
+        "omschrijving": "Verblijfsobject in gebruik"
+    },
+    "bron": null,
+    "geometrie": {
+        "type": "Point",
+        "coordinates": [
+            121185.0,
+            489525.0
+        ]
+    },
+    "gebruiksdoel": {
+        "omschrijving": "BEST-woning",
+        "code": "1010"
+    },
+    "oppervlakte": 84,
+    "bouwlaag_toegang": 5,
+    "status_coordinaat": {
+        "omschrijving": "Definitief punt",
+        "code": "DEF"
+    },
+    "verhuurbare_eenheden": null,
+    "bouwlagen": 1,
+    "type_woonobject": {
+        "omschrijving": "Meergezinswoning",
+        "code": "M"
+    },
+    "woningvoorraad": true,
+    "aantal_kamers": 2,
+    "reden_afvoer": null,
+    "reden_opvoer": null,
+    "eigendomsverhouding": {
+        "code": "02",
+        "omschrijving": "Eigendom"
+    },
+    "financieringswijze": {
+        "code": "500",
+        "omschrijving": "Ongesubsidieerde bouw (500)"
+    },
+    "gebruik": {
+        "code": "1800",
+        "omschrijving": "woning"
+    },
+    "ligging": {
+        "code": "04",
+        "omschrijving": "Hoekgebouw"
+    },
+    "locatie_ingang": null,
+    "toegang": {
+        "code": "04",
+        "omschrijving": "Galerij + lift (04)"
+    },
+    "hoofdadres": {
+        "_links": {
+            "self": {
+                "href": "https://api-acc.datapunt.amsterdam.nl/bag/nummeraanduiding/03630000488519/"
+            }
+        },
+        "_display": "Silodam 340",
+        "landelijk_id": "0363200000488519",
+        "hoofdadres": true,
+        "dataset": "bag"
+    },
+    "adressen": {
+        "href": "https://api-acc.datapunt.amsterdam.nl/bag/nummeraanduiding/?verblijfsobject=03630001010349",
+        "count": 1
+    },
+    "buurt": {
+        "_links": {
+            "self": {
+                "href": "https://api-acc.datapunt.amsterdam.nl/gebieden/buurt/03630000000541/"
+            }
+        },
+        "_display": "Houthavens Oost (E12b)",
+        "code": "12b",
+        "naam": "Houthavens Oost",
+        "dataset": "gebieden"
+    },
+    "panden": {
+        "href": "https://api-acc.datapunt.amsterdam.nl/bag/pand/?verblijfsobjecten__id=03630001010349",
+        "count": 1
+    },
+    "kadastrale_objecten": {
+        "href": "https://api-acc.datapunt.amsterdam.nl/brk/object/?verblijfsobjecten__id=03630001010349",
+        "count": 1
+    },
+    "rechten": {
+        "href": "https://api-acc.datapunt.amsterdam.nl/brk/zakelijk-recht/?verblijfsobjecten__id=03630001010349",
+        "count": 2
+    },
+    "beperkingen": {
+        "href": "https://api-acc.datapunt.amsterdam.nl/wkpb/beperking/?verblijfsobjecten__id=03630001010349",
+        "count": 1
+    },
+    "bouwblok": {
+        "_links": {
+            "self": {
+                "href": "https://api-acc.datapunt.amsterdam.nl/gebieden/bouwblok/03630012099023/"
+            }
+        },
+        "_display": "CG19",
+        "id": "03630012099023",
+        "dataset": "gebieden"
+    },
+    "_buurtcombinatie": {
+        "_links": {
+            "self": {
+                "href": "https://api-acc.datapunt.amsterdam.nl/gebieden/buurtcombinatie/3630012052093/"
+            }
+        },
+        "_display": "Houthavens (12)",
+        "naam": "Houthavens",
+        "dataset": "gebieden"
+    },
+    "_stadsdeel": {
+        "_links": {
+            "self": {
+                "href": "https://api-acc.datapunt.amsterdam.nl/gebieden/stadsdeel/03630011872036/"
+            }
+        },
+        "_display": "West",
+        "code": "E",
+        "naam": "West",
+        "dataset": "gebieden"
+    },
+    "_gemeente": {
+        "_links": {
+            "self": {
+                "href": "https://api-acc.datapunt.amsterdam.nl/brk/gemeente/03630000000000/"
+            }
+        },
+        "_display": "Amsterdam",
+        "code": "0363",
+        "dataset": "bag"
+    },
+    "_woonplaats": {
+        "_links": {
+            "self": {
+                "href": "https://api-acc.datapunt.amsterdam.nl/bag/woonplaats/03630022796658/"
+            }
+        },
+        "_display": "Amsterdam",
+        "landelijk_id": "3594",
+        "dataset": "bag"
+    },
+    "dataset": "bag"
+}
