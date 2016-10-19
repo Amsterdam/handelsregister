@@ -31,11 +31,11 @@ Make sure your database is up to date
 	./handelsregister/manage.py migrate
 
 
-Import the atlas geo data
+Import the latest BAG geo data
 
     docker-compose exec database update-atlas.sh
 
-Load latest data from the object store
+Load latest makelaarsuite data from the object store
 create data folder and set the object store password
 
     python get_mks_dumps.py
@@ -59,9 +59,14 @@ To see the various options for imports, execute:
 	./handelsregister/manage.py run_import --help
 
 To fix missing location geodata with the search api
-for some locations we have only an adress 
+for some locations we have only an adress
 
 	./handelsregister/manage.py run_import --search
+
+Finally build the geodataview
+
+	./handelsregister/manage.py run_import --geovestigingen
+
 
 Import Quickstart
 -----------------

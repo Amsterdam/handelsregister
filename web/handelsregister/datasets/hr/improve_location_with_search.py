@@ -444,7 +444,7 @@ def guess():
         jobs = [gevent.spawn(
             create_improve_locations_tasks, invalid_locations)]
 
-        for _ in range(12):
+        for _ in range(18):
             jobs.append(
                 gevent.spawn(async_determine_rd_coordinates))
 
