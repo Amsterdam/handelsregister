@@ -72,6 +72,9 @@ class Command(BaseCommand):
             # convert mks dump
             build_hr_data.fill_stelselpedia()
             # now update mks locations with bag locations
+            # check if bag data is correctly loaded
+            # we need bag data to correct missing geometry data
+            assert models.GeoVBO.objects.count() > 10000
             build_hr_data.fill_location_with_bag()
             log.info('hr_geovestigingen %s', models.Locatie.objects.count())
             assert models.GeoVestigingen.objects.count() == 0

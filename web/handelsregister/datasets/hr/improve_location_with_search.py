@@ -417,7 +417,7 @@ def guess():
         print('\n Processing gemeente {} {} \n'.format(gemeente, count))
 
         jobs = [gevent.spawn(
-            create_improve_locations_tasks, invalid_locations[:100])]
+            create_improve_locations_tasks, invalid_locations)]
 
         for _ in range(12):
             jobs.append(
