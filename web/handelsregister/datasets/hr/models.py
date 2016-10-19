@@ -2,6 +2,8 @@
 
 from django.contrib.gis.db import models
 
+import re
+
 
 class Persoon(models.Model):
     """
@@ -462,11 +464,17 @@ class Vestiging(models.Model):
     def __str__(self):
 
         handelsnaam = "{}".format(self.naam)
+        adres = None
 
         if self.bezoekadres:
-            return "{} - {}".format(handelsnaam, self.bezoekadres)
+            adres = self.bezoekadres.volledig_adres
         elif self.postadres:
-            return "{} - {} (post)".format(handelsnaam, self.bezoekadres)
+            adres = "{} (post)".format(self.postadres.volledig_adres)
+
+        if adres:
+            # remove postcode
+            clean_adres = re.sub("\d\d\d\d[A-Z][A-Z]", "", adres, count=1)
+            return "{} {}".format(handelsnaam, clean_adres)
 
         return handelsnaam
 
