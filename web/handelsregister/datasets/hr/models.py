@@ -470,11 +470,11 @@ class Vestiging(models.Model):
             adres = self.bezoekadres.volledig_adres
         elif self.postadres:
             adres = "{} (post)".format(self.postadres.volledig_adres)
-
+        # !! NOTE this should be done in the frontend IMHO.
         if adres:
             # remove postcode
             clean_adres = re.sub("\d\d\d\d[A-Z][A-Z]", "", adres, count=1)
-            return "{} {}".format(handelsnaam, clean_adres)
+            return "{} - {}".format(handelsnaam, clean_adres)
 
         return handelsnaam
 
