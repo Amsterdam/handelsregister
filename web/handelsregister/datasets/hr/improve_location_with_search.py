@@ -29,7 +29,7 @@ SEARCHES_QUEUE = JoinableQueue(maxsize=500)
 STATS = dict(
     start=time.time(),
     correcties=0,
-    onbekent=0
+    onbekend=0
 )
 
 
@@ -42,7 +42,7 @@ class CSVLOGHANDLER():
     """
     # corrections log
     correctie = logging.getLogger('correcties')
-    wtf = logging.getLogger('onbekent')
+    wtf = logging.getLogger('onbekend')
     bag_error = logging.getLogger('bagerror')
 
     def __init__(self):
@@ -50,7 +50,7 @@ class CSVLOGHANDLER():
 
             csvfiles = [
                 (self.correctie, 'correcties.csv'),
-                (self.wtf, 'onbekent.csv'),
+                (self.wtf, 'onbekend.csv'),
                 (self.bag_error, 'bagerrors.csv')
             ]
             for csvlogger, csvf in csvfiles:
@@ -417,7 +417,7 @@ def create_qs_of_invalid_locations(gemeente):
     - No correction has been attempted
     """
 
-    return Locatie.objects\
+    return Locatie.objects \
             .filter(geometrie__isnull=True) \
             .filter(volledig_adres__endswith=gemeente) \
             .filter(correctie__isnull=True)

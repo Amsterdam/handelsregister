@@ -1,16 +1,8 @@
-
 database:
   image: build.datapunt.amsterdam.nl:5000/atlas/postgres
   environment:
     POSTGRES_PASSWORD: insecure
     POSTGRES_USER: handelsregister
-
-#elasticsearch:
-#  image: build.datapunt.amsterdam.nl:5000/atlas/elasticsearch
-#  volumes:
-#    - ./backups/elasticsearch:/tmp/backups
-#  user: root
-#  command: /usr/share/elasticsearch/bin/elasticsearch -Des.insecure.allow.root=true -Des.network.host=0.0.0.0 -Des.path.repo=/tmp
 
 tests:
   build: ../web
@@ -27,7 +19,6 @@ importer:
   build: ../web
   links:
     - database:database
-    #- elasticsearch:elasticsearch
   environment:
     DATABASE_NAME: handelsregister
     DATABASE_PASSWORD: insecure
@@ -35,8 +26,6 @@ importer:
     DATABASE_USER: handelsregister
     DATABASE_PASSWORD: insecure
     PGPASSWORD: insecure
-  #volumes:
-  #  - ./data:/app/data
   command: >
     bash -c "/app/docker-import.sh"
 
