@@ -463,6 +463,7 @@ class Vestiging(models.Model):
 
     def __str__(self):
 
+
         handelsnaam = "{}".format(self.naam)
         adres = None
 
@@ -529,8 +530,16 @@ class Locatie(models.Model):
 
     geometrie = models.PointField(srid=28992, blank=True, null=True)
 
-    # is this field corrected by search?
+    # Is this field corrected by search?
     correctie = models.NullBooleanField()
+    # Last updated  (by search)
+    updated_at = models.DateTimeField(auto_now=True)
+    # QS string used to fix the search data
+    query_string = models.CharField(
+        db_index=True,
+        max_length=180, blank=True, null=True,
+    )
+    # Last Updated at
 
     def __str__(self):
         return "{}".format(self.volledig_adres)
