@@ -1,20 +1,15 @@
 # Create your views here.
 
-from datapunt import rest
-
-from django.conf import settings
-from django_filters import MethodFilter
-
-from django.db.models import Q
-
-from rest_framework import filters
-
-from . import models
-from . import serializers
+import logging
 
 import requests
+from django.conf import settings
+from django_filters import *
+from rest_framework import filters
 
-import logging
+from datapunt import rest
+from . import models
+from . import serializers
 
 log = logging.getLogger(__name__)
 
@@ -91,8 +86,6 @@ class VestigingFilter(filters.FilterSet):
             'verblijfsobject',
             'bezoekadres__bag_numid')
 
-        order_by = ['naam']
-
     def nummeraanduiding_filter(self, queryset, value):
         """
         Filter Vestiging op nummeraanduiding
@@ -141,11 +134,7 @@ class VestigingFilter(filters.FilterSet):
         is more data
         """
 
-        params = {
-            'page': page
-        }
-
-        params[filter_field] = value
+        params = {'page': page, filter_field: value}
 
         url = settings.VBO_URI
 

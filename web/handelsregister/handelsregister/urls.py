@@ -28,8 +28,8 @@ class HandelsregisterRouter(routers.DefaultRouter):
     waaronder ondernemingen en vestigingen, en legt vast hoe deze zich
     onderling verhouden.
     """
-    def get_api_root_view(self):
-        view = super().get_api_root_view()
+    def get_api_root_view(self, **kwargs):
+        view = super().get_api_root_view(**kwargs)
         cls = view.cls
 
         class Handelsregister(cls):
@@ -41,21 +41,14 @@ class HandelsregisterRouter(routers.DefaultRouter):
 
 hr_router = HandelsregisterRouter()
 
-hr_router.register(
-    r'maatschappelijkeactiviteit',
-    hr_views.MaatschappelijkeActiviteitViewSet
-)
-hr_router.register(
-    r'persoon',
-    hr_views.PersoonViewSet
-)
-hr_router.register(
-    r'vestiging', hr_views.VestigingViewSet
-)
-hr_router.register(
-    r'functievervulling',
-    hr_views.FunctievervullingViewSet
-)
+hr_router.register(r'maatschappelijkeactiviteit',
+                   hr_views.MaatschappelijkeActiviteitViewSet)
+hr_router.register(r'persoon',
+                   hr_views.PersoonViewSet)
+hr_router.register(r'vestiging',
+                   hr_views.VestigingViewSet)
+hr_router.register(r'functievervulling',
+                   hr_views.FunctievervullingViewSet)
 
 urlpatterns = [
     url(r'^status/', include('health.urls', namespace='health')),

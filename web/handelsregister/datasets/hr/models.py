@@ -1,8 +1,8 @@
 # import uuid
 
-from django.contrib.gis.db import models
-
 import re
+
+from django.contrib.gis.db import models
 
 
 class Persoon(models.Model):
@@ -76,7 +76,7 @@ class Persoon(models.Model):
         primary_key=True, max_digits=18, decimal_places=0)
 
     rol = models.CharField(
-      max_length=14, blank=True, null=True, choices=rol_choices)
+        max_length=14, blank=True, null=True, choices=rol_choices)
 
     rechtsvorm = models.CharField(max_length=50, blank=True, null=True)
     uitgebreide_rechtsvorm = models.CharField(
@@ -153,10 +153,10 @@ class NatuurlijkPersoon(models.Model):
         max_length=20, blank=True, null=True)
 
     huwelijksdatum = models.DateField(
-            max_length=8, blank=True, null=True)
+        max_length=8, blank=True, null=True)
 
     geboortedatum = models.DateField(
-            max_length=8, blank=True, null=True)
+        max_length=8, blank=True, null=True)
 
     geboorteland = models.CharField(max_length=50, blank=True, null=True)
     geboorteplaats = models.CharField(max_length=240, blank=True, null=True)
@@ -205,7 +205,7 @@ class Functievervulling(models.Model):
             naam = self.is_aansprakelijke.volledige_naam
 
         return "{} - {} - {}".format(
-                naam, self.functietitel, self.soortbevoegdheid)
+            naam, self.functietitel, self.soortbevoegdheid)
 
 
 class Activiteit(models.Model):
@@ -399,9 +399,7 @@ class Vestiging(models.Model):
     Locatie.
     """
 
-    id = models.CharField(
-        primary_key=True, max_length=20
-    )
+    id = models.CharField(primary_key=True, max_length=20)
 
     maatschappelijke_activiteit = models.ForeignKey(
         'MaatschappelijkeActiviteit',
@@ -416,9 +414,7 @@ class Vestiging(models.Model):
 
     hoofdvestiging = models.BooleanField()
 
-    naam = models.CharField(
-        max_length=200, null=True, blank=True,
-    )
+    naam = models.CharField(max_length=200, null=True, blank=True)
 
     datum_aanvang = models.DateField(
         null=True, blank=True,
@@ -442,24 +438,19 @@ class Vestiging(models.Model):
     )
     bezoekadres = models.ForeignKey(
         'Locatie', related_name="+", blank=True, null=True,
-        help_text="bezoekadres",
-    )
+        help_text="bezoekadres")
+
     commerciele_vestiging = models.OneToOneField(
         'CommercieleVestiging',
-        on_delete=models.CASCADE, null=True, blank=True,
-    )
+        on_delete=models.CASCADE, null=True, blank=True)
+
     niet_commerciele_vestiging = models.OneToOneField(
         'NietCommercieleVestiging',
-        on_delete=models.CASCADE, null=True, blank=True,
-    )
+        on_delete=models.CASCADE, null=True, blank=True)
 
-    activiteiten = models.ManyToManyField(
-        'Activiteit'
-    )
+    activiteiten = models.ManyToManyField('Activiteit')
 
-    handelsnamen = models.ManyToManyField(
-        'Handelsnaam'
-    )
+    handelsnamen = models.ManyToManyField('Handelsnaam')
 
     def __str__(self):
 
@@ -709,7 +700,6 @@ class GeoVestigingen(models.Model):
 
 
 class GeoVBO(models.Model):
-
     id = models.CharField(max_length=14, primary_key=True)
 
     bag_numid = models.CharField(
