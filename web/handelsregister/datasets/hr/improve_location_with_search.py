@@ -522,7 +522,7 @@ def create_qs_of_invalid_locations(gemeente):
     - No correction has been attempted
     """
 
-    return Locatie.objects\
+    return Locatie.objects \
             .filter(geometrie__isnull=True) \
             .filter(volledig_adres__endswith=gemeente) \
             .filter(correctie__isnull=True)
