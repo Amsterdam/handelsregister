@@ -530,10 +530,12 @@ class Locatie(models.Model):
 
     geometrie = models.PointField(srid=28992, blank=True, null=True)
 
+    # Auto fix related
+
     # Is this field corrected by search?
     correctie = models.NullBooleanField()
     # Last updated  (by search)
-    updated_at = models.DateTimeField(auto_now=True)
+    updated_at = models.DateTimeField(auto_now=True, null=True)
     # QS string used to fix the search data
     query_string = models.CharField(
         db_index=True,
