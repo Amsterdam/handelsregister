@@ -532,7 +532,7 @@ class Locatie(models.Model):
 
     # Auto fix related
 
-    # Is this field corrected by search?
+    # Indication if corrected by auto search
     correctie = models.NullBooleanField()
     # Last updated  (by search)
     updated_at = models.DateTimeField(auto_now=True, null=True)
@@ -541,7 +541,6 @@ class Locatie(models.Model):
         db_index=True,
         max_length=180, blank=True, null=True,
     )
-    # Last Updated at
 
     def __str__(self):
         return "{}".format(self.volledig_adres)
@@ -712,6 +711,9 @@ class GeoVestigingen(models.Model):
 class GeoVBO(models.Model):
 
     id = models.CharField(max_length=14, primary_key=True)
+
+    bag_numid = models.CharField(
+        max_length=16, db_index=True, blank=True, null=True)
 
     bag_vbid = models.CharField(
         max_length=16, db_index=True, blank=True, null=True)

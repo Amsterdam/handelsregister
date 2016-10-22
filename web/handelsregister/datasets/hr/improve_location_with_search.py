@@ -2,9 +2,11 @@
 With the datapunt search api we can greatly improve
 location quality of the datasets
 """
+import datetime
 import re
 import json
 import string
+import sys
 import logging
 import time
 
@@ -29,23 +31,40 @@ SEARCHES_QUEUE = JoinableQueue(maxsize=500)
 STATS = dict(
     start=time.time(),
     correcties=0,
-    onbekend=0
+    onbekend=0,
+    total=0,
+    reqs=0
 )
 
 # the amount of concurrent workers that do requests
 # to the search api
-WORKERS = 1
+WORKERS = 38
+
+NUM_URL = "https://api.datapunt.amsterdam.nl/bag/nummeraanduiding/{}/"
+VBO_URL = "https://api.datapunt.amsterdam.nl/bag/verblijfsobject/{}/"
+
+
+def req_counter():
+    """
+    Get an indication of the request per second
+    """
+    interval = 3.0
+    while True:
+        start = STATS['correcties']
+        gevent.sleep(interval)
+        diff = STATS['correcties'] - start + 0.001
+        speed = '%.2f' % (diff // interval)
+        STATS['reqs'] = speed
+        seconds_left = STATS['total'] // speed
+        STATS['left'] = datetime.timedelta(seconds=seconds_left)
+
+gevent.spawn(req_counter)
 
 
 class CSVLOGHANDLER():
     """
-    set up some loggin of our corrections
-    normal log
-    log corrected output to a csv file
-
+    set up some logging
     """
-    # corrections log
-    correctie = logging.getLogger('correcties')
     wtf = logging.getLogger('onbekend')
     bag_error = logging.getLogger('bagerror')
 
@@ -53,7 +72,6 @@ class CSVLOGHANDLER():
         if settings.DEBUG:
 
             csvfiles = [
-                (self.correctie, 'correcties.csv'),
                 (self.wtf, 'onbekend.csv'),
                 (self.bag_error, 'bagerrors.csv')
             ]
@@ -65,7 +83,6 @@ class CSVLOGHANDLER():
                 csvlogger.addHandler(handler)
         else:
             # Disable logging on screen
-            self.correctie.setLevel(logging.CRITICAL)
             self.wtf.setLevel(logging.CRITICAL)
             self.bag_error.setLevel(logging.CRITICAL)
 
@@ -104,7 +121,6 @@ def first_house_number(input_tokens):
     """Find the index of the first number in the token string."""
 
     for i, token in enumerate(input_tokens):
-        # skip (1e , 2e, 3e blabla street)
         if i and token.isdigit():
             return i, token
 
@@ -132,6 +148,7 @@ def alternative_qs(query_string):
             alternatives.append(qs_new)
 
     return alternatives
+
 
 def clean_tokenize(query_string):
     """
@@ -191,7 +208,7 @@ class SearchTask():
     """
 
     def __init__(self, locatieobject, query_string, straatnaam,
-                 nummer, toevoeging):
+                 nummers, toevoegingen, postcode):
 
         self.locatie = locatieobject
         # originele input
@@ -199,11 +216,10 @@ class SearchTask():
         # found straatnaam
         self.straatnaam = straatnaam
         # found huisnummer
-        self.nummer = nummer
+        self.nummers = nummers
         # found toevoeging
-        self.toevoeging = toevoeging
-        # no search hit found then try without tovoeging
-        self.use_toevoeging = True
+        self.toevoegingen = toevoegingen
+        self.postcode = postcode
 
         # corrected bag_id for this
         self.bag_id = None
@@ -217,7 +233,8 @@ class SearchTask():
         Actualy do the http api search call
         """
         # parameters = {'q': self.get_q()}
-        async_r = grequests.get(SEARCH_ADRES_URL, params=parameters, session=self.session)
+        async_r = grequests.get(
+            SEARCH_ADRES_URL, params=parameters, session=self.session)
         # send a request and wait for results
         gevent.spawn(async_r.send).join()
         # Do something with the result count?
@@ -230,57 +247,47 @@ class SearchTask():
 
         return async_r.response.json()
 
-
     def determine_rd_coordinates(self):
         """
         Send adres requests to atlas to determine geo point and
         landelijk bag id of items
 
         If there is more then one hit try get more exact match
-        with a search complete with 'toevoeging'
+        with a search complete with 'toevoegingen'
         """
 
         data = self.get_exact_search_response()
-        self.locatie.refresh_from_db()
-
-        # check if locatie is already fixed.
-        if self.locatie.correctie is True:
-            return
 
         if not data:
             # nothing found return
+            # is already logged.
             return
 
         rds_bagid = []
 
-        # We Only do results with 1 result.
+        # We Only deal with first results.
         num = data['results'][0]
-        point, bag_id = self.get_details_for_vbo(num)
+        # TODO Get and check POSTCODE from nummer aanduiding!
+        point, bag_id, num_id = self.get_details_for_vbo(num)
+
         if point:
             rds_bagid.append((point, bag_id))
             # The first point is enough
         if rds_bagid:
-            self.save_corrected_geo_infomation(point, bag_id)
+            self.save_corrected_geo_infomation(point, bag_id, num_id)
         else:
             log.debug('Point/Bagid missing: %s', self.get_q())
             return
 
-    def get_q(self):
+    def get_q(self, toevoeging, nummer=None):
         """
         Create query string for search
         """
-        if self.use_toevoeging:
-            return '{} {} {}'.format(
-                self.straatnaam,
-                self.nummer, self.toevoeging)
+        if not nummer:
+            nummer = self.nummers[0]
 
-        return '{} {}'.format(self.straatnaam, self.nummer)
-
-    def do_geo_fix(self, data):
-        """
-        Do a geometrie fix
-        """
-        pass
+        return '{} {} {}'.format(
+            self.straatnaam, nummer, toevoeging)
 
     def get_exact_search_response(self):
         """
@@ -290,28 +297,22 @@ class SearchTask():
         """
 
         # First with toevoeging
-        parameters_toevoeging = {'q': self.get_q()}
-        data = self.get_response(parameters_toevoeging)
+        for nummer in self.nummers:
+            for t in self.toevoegingen:
+                qs_try = self.get_q(t, nummer=nummer)
+                parameters_toevoeging = {'q': qs_try}
+                data = self.get_response(parameters_toevoeging)
 
-        # Only if we are realy sure we return data
-        if data and data.get('results') and data['count'] == 1:
-            return data
-
-        if data and data.get('results'):
-            self.do_geo_fix(data)
-            return []
-
-        self.locatie.refresh_from_db()
-        # Check if locatie is already fixed.
-        if self.locatie.correctie is True:
-            # already fixed!
-            return []
+                # Only if we are realy sure we return data
+                # FIXME postcode check!
+                if data and data.get('results') and data['count'] == 1:
+                    self.used_query_string = qs_try
+                    return data
 
         # Correctie failed
         # save and log empty result result
         self.locatie.correctie = False
         self.locatie.save()
-
         self.log_wtf_loc()
 
         return []
@@ -324,9 +325,11 @@ class SearchTask():
             '%s, %s, %s, %s, %s',
             self.locatie.id,
             self.straatnaam,
-            self.nummer,
-            self.toevoeging,
+            self.nummers,
+            self.toevoegingen,
             self.query_string)
+
+        STATS['onbekend'] += 1
 
     def get_details_for_vbo(self, num):
         """
@@ -345,6 +348,9 @@ class SearchTask():
         details = details_request.json()
 
         point = details['geometrie']
+        num_id = None
+        if details['hoofdadres']:
+            num_id = details['hoofdadres'].get("landelijk_id")
 
         # determine bag_id
         for key in ['verblijfsobjectidentificatie',
@@ -353,42 +359,46 @@ class SearchTask():
             bag_id = details.get(key)
             if bag_id:
                 break
+        return point, bag_id, num_id
 
-        return point, bag_id
-
-    def save_corrected_geo_infomation(self, point, bag_id):
+    def save_corrected_geo_infomation(self, point, bag_id, num_id):
         """
         New adition location data is found, save it
         """
         geometrie = normalize_geo(point)
         self.locatie.geometrie = geometrie
-
         self.geometrie = geometrie
 
         # we found a probably correct bag_id.
         # this is not 100% sure.
-        # this is not 100% sure should we add bag_id?
-        # how to handle this
         self.locatie.bag_vbid = bag_id
+        self.locatie.bag_numid = num_id
+        self.locatie.bag_nummeraanduiding = NUM_URL.format(num_id)
+        self.locatie.bag_adresseerbaar_object = VBO_URL.format(bag_id)
+
         self.bag_id = bag_id
 
         locatie = self.locatie
         # we succesfull did a correction
         locatie.correctie = True
-
-        logmessage = '{}, {}, {}'.format(
-            locatie.id,
-            self.get_q(),
-            bag_id,
-        )
-        CSV.correctie.debug(logmessage)
+        locatie.query_string = self.used_query_string
 
         # save the new location
         locatie.save()
 
         # update the stats
         STATS['correcties'] += 1
+        status_line = 'totaal %s correcties: %s  onbekend: %s  req/s %s \r'
 
+        if settings.DEBUG:
+            complete_status_line = status_line % (
+                STATS['total'],
+                STATS['correcties'],
+                STATS['onbekend'],
+                STATS['reqs']
+            )
+            sys.stdout.write(complete_status_line)
+            sys.stdout.flush()
 
 
 def async_determine_rd_coordinates():
@@ -417,22 +427,28 @@ def normalize_geo(point):
         return centroid_p.json
 
 
-def normalize_toevoeging(toevoeging):
+BEGANE_GROND = set(['H', 1, 'A', 'O'])
+
+
+def normalize_toevoeging(toevoeging=""):
     """
-    fix toevoeging indicaties
+    zoek toevoeging indicaties
+    en alle alternativen
     """
     toevoeging = toevoeging.lower()
 
-    alternativen = [toevoeging]
+    # De toevoeging zelf en leeg zijn het alternatief
+    alternativen = [toevoeging, ""]
 
-    begane_grond = ['H', 1, 'A', 'O']
+    begane_grond = BEGANE_GROND
+
     mapping = {
-        '1hg': [1],
-        '2hg': [2],
-        '3hg': [3],
+        '1hg': [1, 2],
+        '2hg': [2, 3],
+        '3hg': [3, 4],
         'iii': [3],
         'ii': [2],
-        'A': begane_grond,
+        'a': begane_grond,
         'bg': begane_grond,
         'i': begane_grond,
         'huis': begane_grond,
@@ -445,7 +461,7 @@ def normalize_toevoeging(toevoeging):
     if toevoeging in mapping:
         alternativen.extend(mapping[toevoeging])
 
-    return alternativen
+    return set(alternativen) | set(begane_grond)
 
 
 def create_improve_locations_tasks(all_invalid_locations):
@@ -461,13 +477,8 @@ def create_improve_locations_tasks(all_invalid_locations):
 
         addr = loc.volledig_adres
 
-        # skip postbus items
-        if addr.startswith('Postbus'):
-            loc.correctie = False
-            loc.save()
-            continue
-
-        # figure out with adresses could be alternative
+        # figure out with adresses / streetnames
+        # could be alternative
         for alternative_addr in alternative_qs(addr):
             create_search_for_addr(loc, alternative_addr)
 
@@ -479,6 +490,20 @@ def create_improve_locations_tasks(all_invalid_locations):
         index += 1
 
 
+def dubbele_nummer_check(nummer, toevoeging):
+    """
+    straat 345 - 347
+
+    Hiervoor zouden we naar 2! locaties moeten zoeken
+    """
+
+    # neven adres?
+    if toevoeging and toevoeging.isdigit():
+        if abs(int(nummer) - int(toevoeging)) < 3:
+            nummer2 = toevoeging
+            return nummer2
+
+
 def create_search_for_addr(loc, addr):
     """
     Create search tasks for specific adres
@@ -486,9 +511,19 @@ def create_search_for_addr(loc, addr):
     query_string, tokens = clean_tokenize(addr)
     i = is_straat_huisnummer(tokens)
 
+    toevoeging = None
+
+    postcode = re.search("\d\d\d\d[A-Z][A-Z]", addr)
+
+    if postcode:
+        postcode = postcode.group()
+    else:
+        log.error(addr)
+
     straat = " ".join(tokens[:i])
     nummer = tokens[i]
-    toevoeging = [""]
+
+    toevoegingen = []  # List with possible options
 
     if not straat:
         loc.correctie = False
@@ -498,19 +533,25 @@ def create_search_for_addr(loc, addr):
 
     if len(tokens) > i:
         toevoeging = tokens[i+1]
-        # fix common toevoeging mistakes
-        toevoeging = normalize_toevoeging(toevoeging)
-        # print(toevoeging)
+        if toevoeging and postcode and postcode.startswith(toevoeging):
+            toevoeging = ""
+        # FIX common toevoeging mistakes
+        toevoegingen = normalize_toevoeging(toevoeging)
 
     # add search tasks to queue
     while SEARCHES_QUEUE.full():
         gevent.sleep(2.3)
 
-    for try_t in toevoeging:
-        SEARCHES_QUEUE.put((loc, query_string, straat, nummer, try_t))
+    huisnummers = [nummer]
+    nummer2 = dubbele_nummer_check(nummer, toevoeging)
+    if nummer2:
+        huisnummers.append(nummer2)
+        toevoegingen = toevoegingen | BEGANE_GROND
 
-    # search also with empty toevoeging
-    SEARCHES_QUEUE.put((loc, query_string, straat, nummer, ''))
+    search_data = [loc, query_string,
+                   straat, huisnummers, toevoegingen, postcode]
+
+    SEARCHES_QUEUE.put(search_data)
 
 
 def create_qs_of_invalid_locations(gemeente):
@@ -523,9 +564,11 @@ def create_qs_of_invalid_locations(gemeente):
     """
 
     return Locatie.objects \
-            .filter(geometrie__isnull=True) \
-            .filter(volledig_adres__endswith=gemeente) \
-            .filter(correctie__isnull=True)
+        .filter(geometrie__isnull=True) \
+        .filter(bag_vbid__isnull=True) \
+        .filter(volledig_adres__endswith=gemeente) \
+        .exclude(volledig_adres__startswith='Postbus') \
+        .filter(correctie__isnull=True)
 
 
 def guess():
@@ -544,7 +587,8 @@ def guess():
             continue
 
         STATS['total'] = count
-        print('\n Processing gemeente {} {} \n'.format(gemeente, count))
+        STATS['onbekend'] = 0
+        log.debug('\n Processing gemeente {} {} \n'.format(gemeente, count))
 
         jobs = [gevent.spawn(
             create_improve_locations_tasks, invalid_locations)]
@@ -567,9 +611,10 @@ def guess():
 
     # log end result
     for gemeente in GEMEENTEN:
-        if not gemeente in STATS:
+        if gemeente not in STATS:
             continue
         log.debug('%s - correcties: %s', gemeente, STATS[gemeente])
 
     total_seconds = time.time() - STATS['start']
-    log.debug('\nTotal Duration %i m: %i\n', total_seconds / 60.0, total_seconds % 60)
+    log.debug('\nTotal Duration %i m: %i\n',
+              total_seconds / 60.0, total_seconds % 60)

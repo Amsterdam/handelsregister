@@ -31,11 +31,11 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument(
-            '--bag',
+            '--bagfix',
             action='store_true',
             dest='bag',
             default=False,
-            help='Fill hr_baggeo table')
+            help='Fill hr_locatie with hr_baggeo table')
 
         parser.add_argument(
             '--geovestigingen',
@@ -65,6 +65,11 @@ class Command(BaseCommand):
             default=False,
             help='print location stats')
 
+    def bag_check(self):
+        if models.GeoVBO.objects.count() < 10000:
+            raise ValueError(
+                'Import bag data with "copy_bagvbo_to_hr(local).sh"')
+
     def handle(self, *args, **options):
         """
         validate and execute import task
@@ -72,30 +77,31 @@ class Command(BaseCommand):
         LOG.info('Handelsregister import started')
 
         if options['bag']:
+            # load bag data in GeoVBO with
+            # copy_bag_to_hr script
+            self.bag_check()
             build_hr_data.fill_location_with_bag()
+            location_stats.log_rapport_counts()
         elif options['geo_vest']:
             build_hr_data.fill_geo_table()
+            location_stats.log_rapport_counts()
         elif options['searchapi']:
-            ves_counts = location_stats.vestiging_stats()
-            before = ves_counts[-1]
             improve_location_with_search.guess()
-            ves_counts2 = location_stats.vestiging_stats()
-            after = ves_counts2[-1]
-            LOG.debug("Missing Before %s After %s", before, after)
+            location_stats.log_rapport_counts()
         elif options['clearsearch']:
             build_hr_data.clear_autocorrect()
         elif options['stats']:
-            location_stats.location_stats()
-            location_stats.vestiging_stats()
-            location_stats.mac_stats()
+            location_stats.log_rapport_counts()
         else:
             # convert mks dump
             build_hr_data.fill_stelselpedia()
+            location_stats.log_rapport_counts()
             # now update mks locations with bag locations
             # check if bag data is correctly loaded
             # we need bag data to correct missing geometry data
-            assert models.GeoVBO.objects.count() > 10000
+            self.bag_check()
             build_hr_data.fill_location_with_bag()
             LOG.info('hr_geovestigingen %s', models.Locatie.objects.count())
             assert models.GeoVestigingen.objects.count() == 0
             assert models.Locatie.objects.count() > 200000
+            location_stats.log_rapport_counts()

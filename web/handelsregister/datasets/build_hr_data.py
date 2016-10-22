@@ -91,11 +91,11 @@ def fill_geo_table():
         log.info("Bouw geo tabel vestigingen")
         _build_joined_geo_table(cursor)
 
+
 def clear_autocorrect():
     with db.connection.cursor() as cursor:
-        log.info("VUL geo tabel locaties met bag geometrie")
+        log.info("Empty geo tabel locaties van autocorrect: bag geometrie")
         _clear_autocorrected_results(cursor)
-
 
 
 def _converteer_locaties(cursor):
@@ -596,10 +596,10 @@ def _clear_autocorrected_results(cursor):
 UPDATE hr_locatie
     SET geometrie = null,
         correctie = null,
-        bag_vbid = null
+        bag_vbid = null,
+        bag_numid = null
 WHERE correctie is not null
     """)
-
 
 
 def _build_joined_geo_table(cursor):

@@ -21,10 +21,9 @@ importer:
     - database:database
   environment:
     DATABASE_NAME: handelsregister
-    DATABASE_PASSWORD: insecure
-    OS_PASSWORD:
     DATABASE_USER: handelsregister
     DATABASE_PASSWORD: insecure
+    OS_PASSWORD:
     PGPASSWORD: insecure
   command: >
     bash -c "/app/docker-import.sh"

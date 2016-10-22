@@ -31,5 +31,3 @@ dc run --rm importer
 echo "create hr dump"
 # run the backup shizzle
 dc run --rm db-backup
-
-
