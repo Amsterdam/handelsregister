@@ -14,9 +14,10 @@ echo 'Store mks dumps in database'
 source loaddumps.sh
 
 echo 'Copy bag geometrie naar hg_geobag'
-source /app/copy_bagvbo_to_hr.sh
 
-# add health check?
+source copy_bagvbo_to_hr.sh
+
+# load mks data into HR models
 python /app/manage.py run_import
 
 # autocorrect locations fields with search resultaten

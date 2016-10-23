@@ -28,3 +28,6 @@ for sql in *.sql; do
     sed 's/igp_sw44z0001_cmg_owner\.//' | \
     psql -v ON_ERROR_STOP=1 -d handelsregister -h ${DATABASE_PORT_5432_TCP_ADDR} -U handelsregister
 done
+
+# PUT BAVK WD! ^*&^*^
+cd /app/

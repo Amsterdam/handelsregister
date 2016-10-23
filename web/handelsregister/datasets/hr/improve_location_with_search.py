@@ -472,7 +472,7 @@ def create_improve_locations_tasks(all_invalid_locations):
     """
 
     log.debug('Finding incomplete adresses...')
-    index = 0
+
     for loc in all_invalid_locations.iterator():
 
         addr = loc.volledig_adres
@@ -481,13 +481,6 @@ def create_improve_locations_tasks(all_invalid_locations):
         # could be alternative
         for alternative_addr in alternative_qs(addr):
             create_search_for_addr(loc, alternative_addr)
-
-        # log progress
-        if index % 100 == 0:
-            percentage = (float(index) // STATS['total']) * 100
-            log.debug('%s of %s - %.2f %%', index, STATS['total'], percentage)
-
-        index += 1
 
 
 def dubbele_nummer_check(nummer, toevoeging):
