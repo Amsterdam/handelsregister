@@ -3,12 +3,12 @@
 set -u
 set -e
 
-chmod 0600 .pgpass
-
-echo copying bag vbo/numid geo -> hr_geovbo tabel
-echo database:5432:handelsregister:handelsregister:insecure >> ~/.pgpass
-echo database:5432:atlas:handelsregister:insecure >> ~/.pgpass
-chmod 0600 ~/.pgpass
+#chmod 0600 .pgpass
+#
+#echo copying bag vbo/numid geo -> hr_geovbo tabel
+#echo database:5432:handelsregister:handelsregister:insecure >> ~/.pgpass
+#echo database:5432:atlas:handelsregister:insecure >> ~/.pgpass
+#chmod 0600 ~/.pgpass
 
 echo copying bag vbo geo -> hr_geovbo tabel
 
