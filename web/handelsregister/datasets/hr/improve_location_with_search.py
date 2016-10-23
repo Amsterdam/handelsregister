@@ -33,7 +33,8 @@ STATS = dict(
     correcties=0,
     onbekend=0,
     total=0,
-    reqs=0
+    reqs=0,
+    left=0,
 )
 
 # the amount of concurrent workers that do requests
@@ -42,6 +43,18 @@ WORKERS = 38
 
 NUM_URL = "https://api.datapunt.amsterdam.nl/bag/nummeraanduiding/{}/"
 VBO_URL = "https://api.datapunt.amsterdam.nl/bag/verblijfsobject/{}/"
+
+
+def make_status_line():
+    status_line = 'All %s fixed: %s  ?: %s  req/s %s  left: %s \r'
+    complete_status_line = status_line % (
+        STATS['total'],
+        STATS['correcties'],
+        STATS['onbekend'],
+        STATS['reqs'],
+        STATS['left']
+    )
+    return complete_status_line
 
 
 def req_counter():
@@ -53,10 +66,11 @@ def req_counter():
         start = STATS['correcties']
         gevent.sleep(interval)
         diff = STATS['correcties'] - start + 0.001
-        speed = '%.2f' % (diff // interval)
-        STATS['reqs'] = speed
+        speed = (diff // interval)
+        STATS['reqs'] = '%.2f' % speed
         seconds_left = STATS['total'] // speed
         STATS['left'] = datetime.timedelta(seconds=seconds_left)
+        log.info(make_status_line())
 
 gevent.spawn(req_counter)
 
@@ -388,16 +402,9 @@ class SearchTask():
 
         # update the stats
         STATS['correcties'] += 1
-        status_line = 'totaal %s correcties: %s  onbekend: %s  req/s %s \r'
 
         if settings.DEBUG:
-            complete_status_line = status_line % (
-                STATS['total'],
-                STATS['correcties'],
-                STATS['onbekend'],
-                STATS['reqs']
-            )
-            sys.stdout.write(complete_status_line)
+            sys.stdout.write(make_status_line())
             sys.stdout.flush()
 
 

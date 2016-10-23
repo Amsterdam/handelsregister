@@ -603,6 +603,7 @@ WHERE correctie is not null
 
 
 def _build_joined_geo_table(cursor):
+    cursor.execute("TRUNCATE TABLE hr_geovestigingen")
     cursor.execute("""
 INSERT INTO hr_geovestigingen (
     vestigingsnummer,

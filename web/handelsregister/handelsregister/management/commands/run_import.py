@@ -94,12 +94,12 @@ class Command(BaseCommand):
             location_stats.log_rapport_counts()
         else:
             # convert mks dump
+            self.bag_check()
             build_hr_data.fill_stelselpedia()
             location_stats.log_rapport_counts()
             # now update mks locations with bag locations
             # check if bag data is correctly loaded
             # we need bag data to correct missing geometry data
-            self.bag_check()
             build_hr_data.fill_location_with_bag()
             LOG.info('hr_geovestigingen %s', models.Locatie.objects.count())
             assert models.GeoVestigingen.objects.count() == 0

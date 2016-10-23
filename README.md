@@ -47,25 +47,25 @@ Load the sql dump into the database
 Copy geodata from atlas into handelsregister database
 NOTE: do not put newlines in here
 
-    psql -h 127.0.0.1 -p 5406 -U handelsregister atlas -c '\copy (SELECT id, landelijk_id, geometrie from bag_verblijfsobject) TO STDOUT' | psql -h 127.0.0.1 -p 5406 -U handelsregister handelsregister -c '\copy hr_geovbo (id, bag_vbid, geometrie) FROM STDIN'
+    ./copy_bagvbo_hr_local.sh
 
 Now we are ready in create the Handelsregister (hr) databases
 for the api and geoviews for mapserver
 
-	./handelsregister/manage.py run_import
+    ./handelsregister/manage.py run_import
 
 To see the various options for imports, execute:
 
-	./handelsregister/manage.py run_import --help
+    ./handelsregister/manage.py run_import --help
 
 To fix missing location geodata with the search api
 for some locations we have only an adress
 
-	./handelsregister/manage.py run_import --search
+    ./handelsregister/manage.py run_import --search
 
 Finally build the geodataview
 
-	./handelsregister/manage.py run_import --geovestigingen
+    ./handelsregister/manage.py run_import --geovestigingen
 
 
 Import Quickstart
