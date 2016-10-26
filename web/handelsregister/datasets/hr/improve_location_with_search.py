@@ -39,7 +39,7 @@ STATS = dict(
 
 # the amount of concurrent workers that do requests
 # to the search api
-WORKERS = 38
+WORKERS = 25
 
 NUM_URL = "https://api.datapunt.amsterdam.nl/bag/nummeraanduiding/{}/"
 VBO_URL = "https://api.datapunt.amsterdam.nl/bag/verblijfsobject/{}/"
