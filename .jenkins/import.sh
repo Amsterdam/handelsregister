@@ -22,7 +22,7 @@ dc run --rm tests
 
 # load latest bag into database
 echo "load latest bag database"
-dc exec -T database update-atlas.sh
+dc exec -T database update-db.sh atlas
 
 echo "create hr api database"
 # create the hr_data

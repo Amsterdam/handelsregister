@@ -33,7 +33,7 @@ Make sure your database is up to date
 
 Import the latest BAG geo data
 
-    docker-compose exec database update-atlas.sh
+    docker-compose exec database update-db.sh atlas
 
 Load latest makelaarsuite data from the object store
 create data folder and set the object store password
@@ -72,7 +72,7 @@ Import Quickstart
 -----------------
     Download a prepared database..
 
-    docker-compose exec database update-handelsregister.sh
+    docker-compose exec database update-db.sh handelsregister
 
 
 The API should now be available on http://localhost:8100/handelsregister
