@@ -65,6 +65,10 @@ def vestiging_stats():
             OR "hr_vestiging"."postadres_id"="hr_locatie"."id" ''',
         ])
 
+    ves_locaties_bezoek = all_locations.extra(
+        tables=['hr_vestiging'],
+        where=['''"hr_vestiging"."bezoekadres_id"="hr_locatie"."id"'''])
+
     ves_postbus = ves_locaties.filter(
         volledig_adres__startswith="Postbus")
 
@@ -87,6 +91,7 @@ def vestiging_stats():
 
     jobs = [
         gevent.spawn(ves_locaties.count),
+        gevent.spawn(ves_locaties_bezoek.count),
         gevent.spawn(ves_postbus.count),
         gevent.spawn(missing_ves_locaties.count),
         gevent.spawn(ves_loc_bag_id.count),
@@ -195,7 +200,8 @@ def log_rapport_counts():
 
 
     Totaal Vestiging locaties    %s
-    waarvan postbus              %s
+    Totaal Vestiging bezoek      %s
+    Totaal postbus               %s
 
     zonder geometrie             %s
     zonder geo maar met bag id   %s
@@ -216,7 +222,6 @@ def log_rapport_counts():
 
     Totaal voor op de kaart      %s
     zonder sbi                   %s
-
 
 
              """, *count_lines)

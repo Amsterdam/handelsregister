@@ -22,6 +22,7 @@ web:
     - "8102:8000"
   links:
     - database:database
+    - elasticsearch:elasticsearch
   volumes:
     - $PWD/data:/app/data
   environment:

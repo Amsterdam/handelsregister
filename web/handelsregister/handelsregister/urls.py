@@ -17,6 +17,7 @@ from django.conf.urls import url, include
 from rest_framework import routers
 
 from datasets.hr import views as hr_views
+from search import views as search_views
 
 
 class HandelsregisterRouter(routers.DefaultRouter):
@@ -56,6 +57,20 @@ hr_router.register(
     r'functievervulling',
     hr_views.FunctievervullingViewSet
 )
+
+
+hr_router.register(
+    r'typeahead', search_views.TypeaheadViewSet, base_name='typeahead')
+
+# Alias voor nummeraanduiding
+hr_router.register(
+    r'search/vestiging',
+    search_views.SearchVestigingViewSet, base_name='search/vestiging')
+hr_router.register(
+    r'search/maatschappelijkeactiviteit',
+    search_views.SearchMacViewSet,
+    base_name='search/maatschappelijkeactiviteit')
+
 
 urlpatterns = [
     url(r'^status/', include('health.urls', namespace='health')),

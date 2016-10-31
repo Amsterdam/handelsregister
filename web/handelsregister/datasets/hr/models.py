@@ -292,6 +292,7 @@ class MaatschappelijkeActiviteit(models.Model):
         'Communicatiegegevens',
         help_text="Afgeleid van communicatiegegevens van inschrijving",
     )
+
     activiteiten = models.ManyToManyField(
         'Activiteit',
         help_text="""
@@ -462,7 +463,6 @@ class Vestiging(models.Model):
     )
 
     def __str__(self):
-
 
         handelsnaam = "{}".format(self.naam)
         adres = None
