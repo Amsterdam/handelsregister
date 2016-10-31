@@ -14,6 +14,8 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import url, include
+from django.conf import settings
+from django.contrib import admin
 from rest_framework import routers
 
 from datasets.hr import views as hr_views
@@ -29,8 +31,8 @@ class HandelsregisterRouter(routers.DefaultRouter):
     waaronder ondernemingen en vestigingen, en legt vast hoe deze zich
     onderling verhouden.
     """
-    def get_api_root_view(self):
-        view = super().get_api_root_view()
+    def get_api_root_view(self, **kwargs):
+        view = super().get_api_root_view(**kwargs)
         cls = view.cls
 
         class Handelsregister(cls):
@@ -74,5 +76,11 @@ hr_router.register(
 
 urlpatterns = [
     url(r'^status/', include('health.urls', namespace='health')),
-    url(r'^handelsregister/', include(hr_router.urls))
+    url(r'^handelsregister/', include(hr_router.urls)),
 ]
+
+if settings.DEBUG:
+    urlpatterns.extend([
+        url('^admin/', admin.site.urls),
+        url(r'^explorer/', include('explorer.urls')),
+    ])
