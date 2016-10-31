@@ -12,7 +12,7 @@ class MaatschappelijkeActiviteitFactory(factory.DjangoModelFactory):
     class Meta:
         model = models.MaatschappelijkeActiviteit
 
-    id = fuzzy.FuzzyInteger(low=100000000000000000, high=100000000000000099)
+    id = fuzzy.FuzzyInteger(low=100000000000000000, high=100000000000000999)
     kvk_nummer = fuzzy.FuzzyInteger(low=1, high=99999999)
 
 
