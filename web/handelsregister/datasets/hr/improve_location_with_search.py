@@ -88,6 +88,7 @@ class CSVLOGHANDLER():
                 (self.wtf, 'onbekend.csv'),
                 (self.bag_error, 'bagerrors.csv')
             ]
+
             for csvlogger, csvf in csvfiles:
                 handler = logging.FileHandler(csvf)
                 handler.setLevel(logging.DEBUG)
