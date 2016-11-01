@@ -1,17 +1,17 @@
-from django.db import connection
-from django.test import TestCase
+import jsonpickle
 from django.contrib.gis.geos import Point
+from django.test import TestCase
+
 from datasets import build_hr_data, build_ds_data
 from datasets.hr import models
 from datasets.hr.tests import factories as hr_factories
-import jsonpickle
 
 point = Point(0.0, 1.1)
 
-class ImportDataselectieTest(TestCase):
 
+class ImportDataselectieTest(TestCase):
     def get_row(self, key):
-        r = models.DataSelectie.objects.filter(id = key).get()
+        r = models.DataSelectie.objects.filter(id=key).get()
         self.assertIsNotNone(r)
         return r
 
