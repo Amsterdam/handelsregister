@@ -82,21 +82,7 @@ class CSVLOGHANDLER():
     bag_error = logging.getLogger('bagerror')
 
     def __init__(self):
-        if settings.DEBUG:
-
-            csvfiles = [
-                (self.wtf, 'onbekend.csv'),
-                (self.bag_error, 'bagerrors.csv')
-            ]
-
-            for csvlogger, csvf in csvfiles:
-                handler = logging.FileHandler(csvf)
-                handler.setLevel(logging.DEBUG)
-                formatter = logging.Formatter('%(message)s')
-                handler.setFormatter(formatter)
-                csvlogger.addHandler(handler)
-        else:
-            # Disable logging on screen
+        if not settings.DEBUG:
             self.wtf.setLevel(logging.CRITICAL)
             self.bag_error.setLevel(logging.CRITICAL)
 

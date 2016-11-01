@@ -32,9 +32,7 @@ CSB_SEARCH = 'http://sbi.cbs.nl/cbs.typeermodule.typeerservicewebapi/api/SBISear
 insecure_key = 'insecure'
 SECRET_KEY = os.getenv('HANDELSREGISTER_SECRET_KEY', insecure_key)
 
-# DEBUG = SECRET_KEY == insecure_key
-
-DEBUG = False
+DEBUG = SECRET_KEY == insecure_key
 
 ALLOWED_HOSTS = ['*']
 
