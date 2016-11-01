@@ -1,5 +1,5 @@
 
-import random
+import logging
 
 # django
 from rest_framework.test import APITestCase
@@ -8,6 +8,8 @@ from rest_framework.test import APITestCase
 from datasets.hr.tests import factories as factories_hr
 from datasets.hr import models as models_hr
 from .fixtures import patch_filter_requests
+
+LOG = logging.getLogger(__name__)
 
 
 @patch_filter_requests
@@ -91,22 +93,32 @@ class VestingFilterTest(APITestCase):
 
     def test_filter_kot_id(self):
         """
+        We created some vbo's in setup using fixtures
+        The vbo's we can now find/filter in the fixtures
+        A reqest for vbo's id's is done to kot api in the filter.
+        The returend id's should be found
         """
-        #
+        # vestigingen filter which should be in fixture response
+        # of kot. minimal 3 max 30
         vestigingen = models_hr.Vestiging.objects.filter(
-           bezoekadres__bag_numid__in=[1, 2, 'p1'],
+           bezoekadres__bag_numid__in=[1, 2, 'p1']
         )
 
+        # minimal 1 max 10
         vestigingen_to_few = models_hr.Vestiging.objects.filter(
-           bezoekadres__bag_numid__in=['p1'],
+           bezoekadres__bag_numid__in=['p1']
         )
 
+        # Trigger a filter request with kot object id
         response = self.client.get(
             '/handelsregister/vestiging/?kadastraal_object=NL.KAD.OnroerendeZaak.11450749270000')
+
         self.assertEquals(200, response.status_code)
 
         data = response.json()
 
+        # We should be able to find all vestigingen
+        # using 1, 2 and p1 location
         self.assertEquals(vestigingen.count(), data['count'])
         self.assertNotEqual(vestigingen_to_few.count(), data['count'])
 
@@ -117,3 +129,7 @@ class VestingFilterTest(APITestCase):
             '/handelsregister/vestiging/?verblijfsobject=9999')
 
         self.assertEquals(200, response.status_code)
+
+    def test_dataselectie_filter(self):
+        response = self.client.get(
+            '/handelsregister/dataselectie/?sbi_code=1073')

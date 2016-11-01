@@ -259,6 +259,7 @@ class VestigingDetail(rest.HALSerializer):
             '_links': {'lookup_field': 'vestigingsnummer'},
             'maatschappelijke_activiteit': {'lookup_field': 'kvk_nummer'},
         }
+        fields = '__all__'
 
 
 class Functievervulling(rest.HALSerializer):
@@ -268,3 +269,4 @@ class Functievervulling(rest.HALSerializer):
 
     class Meta:
         model = models.Functievervulling
+        fields = '__all__'

@@ -14,12 +14,15 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import url, include
+from django.conf import settings
+from django.contrib import admin
 from rest_framework import routers, views, reverse, renderers, schemas, response
 from rest_framework.decorators import api_view, renderer_classes
 from rest_framework_swagger.renderers import OpenAPIRenderer
 from rest_framework_swagger.renderers import SwaggerUIRenderer
 
 from datasets.hr import views as hr_views
+from search import views as search_views
 
 
 class HandelsregisterRouter(routers.DefaultRouter):
@@ -53,6 +56,18 @@ hr_router.register(r'vestiging',
 hr_router.register(r'functievervulling',
                    hr_views.FunctievervullingViewSet)
 
+hr_router.register(
+    r'typeahead', search_views.TypeaheadViewSet, base_name='typeahead')
+
+# Alias voor nummeraanduiding
+hr_router.register(
+    r'search/vestiging',
+    search_views.SearchVestigingViewSet, base_name='search/vestiging')
+hr_router.register(
+    r'search/maatschappelijkeactiviteit',
+    search_views.SearchMacViewSet,
+    base_name='search/maatschappelijkeactiviteit')
+
 @api_view()
 @renderer_classes(
     [SwaggerUIRenderer, OpenAPIRenderer, renderers.CoreJSONRenderer])
@@ -60,8 +75,15 @@ def schema_view(request):
     generator = schemas.SchemaGenerator(title='Handelsregister API')
     return response.Response(generator.get_schema(request=request))
 
+
 urlpatterns = [
     url(r'^status/', include('health.urls', namespace='health')),
     url(r'^handelsregister/', include(hr_router.urls)),
     url('^handelsregister/docs/$', schema_view),
 ]
+
+if settings.DEBUG:
+    urlpatterns.extend([
+        url('^admin/', admin.site.urls),
+        url(r'^explorer/', include('explorer.urls')),
+    ])

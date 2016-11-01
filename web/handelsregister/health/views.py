@@ -44,7 +44,7 @@ def health(request):
 def check_data(request):
     # check bag
     try:
-        assert model.objects.count() > 10
+        assert model.objects.count() > 1000
     except:
         log.exception("No HR data found")
         return HttpResponse(

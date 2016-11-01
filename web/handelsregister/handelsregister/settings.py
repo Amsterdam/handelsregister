@@ -25,6 +25,8 @@ def _get_docker_host():
 
 
 VBO_URI = "https://api-acc.datapunt.amsterdam.nl/bag/verblijfsobject/"
+CBS_URI = 'http://sbi.cbs.nl/cbs.typeermodule.typeerservicewebapi/api/sbianswer/getNextQuestion/{}'
+CSB_SEARCH = 'http://sbi.cbs.nl/cbs.typeermodule.typeerservicewebapi/api/SBISearch/search/{}'
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'not-secret'
@@ -71,7 +73,8 @@ INSTALLED_APPS = [
 ] + PROJECT_APPS
 
 if DEBUG:
-    INSTALLED_APPS += ('debug_toolbar', )
+    INSTALLED_APPS += (
+        'debug_toolbar', 'explorer')
 
 SITE_ID = 1
 
@@ -81,10 +84,11 @@ MIDDLEWARE_CLASSES = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
 
 ROOT_URLCONF = 'handelsregister.urls'
 
@@ -208,7 +212,11 @@ REST_FRAMEWORK = dict(
         'rest_framework.renderers.JSONRenderer',
         'rest_framework.renderers.BrowsableAPIRenderer'
     ),
-    DEFAULT_FILTER_BACKENDS=('rest_framework.filters.DjangoFilterBackend',),
+    DEFAULT_FILTER_BACKENDS=(
+        'rest_framework.filters.DjangoFilterBackend',
+        'rest_framework.filters.OrderingFilter',
+
+        ),
     COERCE_DECIMAL_TO_STRING=True,
 )
 

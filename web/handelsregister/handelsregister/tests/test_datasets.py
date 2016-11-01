@@ -19,7 +19,8 @@ class BrowseDatasetsTestCase(APITestCase):
     ]
 
     def setUp(self):
-        factories_hr.MaatschappelijkeActiviteitFactory.create()
+        factories_hr.MaatschappelijkeActiviteitFactory.create(
+            id=900000000000000000)
         factories_hr.PersoonFactory.create()
         factories_hr.VestigingFactory.create()
         factories_hr.FunctievervullingFactory.create()

@@ -32,15 +32,16 @@ STATS = dict(
     start=time.time(),
     correcties=0,
     onbekend=0,
-    total=0,
+    total=50, #prevent by zero errors
     reqs=0,
     left=0,
 )
 
 # the amount of concurrent workers that do requests
 # to the search api
-WORKERS = 38
+WORKERS = 25
 
+SEARCH_ADRES_URL = 'https://api.datapunt.amsterdam.nl/search/adres/'
 NUM_URL = "https://api.datapunt.amsterdam.nl/bag/nummeraanduiding/{}/"
 VBO_URL = "https://api.datapunt.amsterdam.nl/bag/verblijfsobject/{}/"
 
@@ -68,11 +69,10 @@ def req_counter():
         diff = STATS['correcties'] - start + 0.001
         speed = (diff // interval)
         STATS['reqs'] = '%.2f' % speed
-        seconds_left = STATS['total'] // speed
+        seconds_left = (STATS['total'] + 1) // speed
         STATS['left'] = datetime.timedelta(seconds=seconds_left)
         log.info(make_status_line())
 
-gevent.spawn(req_counter)
 
 
 class CSVLOGHANDLER():
@@ -102,7 +102,6 @@ class CSVLOGHANDLER():
 
 CSV = CSVLOGHANDLER()
 
-SEARCH_ADRES_URL = 'https://api-acc.datapunt.amsterdam.nl/search/adres/'
 
 
 GEMEENTEN = [
@@ -577,6 +576,7 @@ def guess():
     find geo_point
     """
     log.debug('Start Finding and correcting incomplete adresses...')
+    gevent.spawn(req_counter)
 
     for gemeente in GEMEENTEN:
         invalid_locations = create_qs_of_invalid_locations(gemeente)
@@ -586,7 +586,8 @@ def guess():
         if count == 0:
             continue
 
-        STATS['total'] = count
+        STATS['total'] = count + 1  # prevent devide by zero errors
+
         STATS['onbekend'] = 0
         log.debug('\n Processing gemeente {} {} \n'.format(gemeente, count))
 

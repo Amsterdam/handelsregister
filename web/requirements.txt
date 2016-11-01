@@ -57,3 +57,4 @@ tqdm==4.9.0
 uritemplate==3.0.0
 urllib3==1.18.1
 wrapt==1.10.8
+jsonpickle==0.9.3
