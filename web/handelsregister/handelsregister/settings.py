@@ -29,11 +29,10 @@ CBS_URI = 'http://sbi.cbs.nl/cbs.typeermodule.typeerservicewebapi/api/sbianswer/
 CSB_SEARCH = 'http://sbi.cbs.nl/cbs.typeermodule.typeerservicewebapi/api/SBISearch/search/{}'
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'not-secret'
+insecure_key = 'insecure'
+SECRET_KEY = os.getenv('HANDELSREGISTER_SECRET_KEY', insecure_key)
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-# DEBUG = True
+DEBUG = SECRET_KEY == insecure_key
 
 ALLOWED_HOSTS = ['*']
 
@@ -67,8 +66,7 @@ INSTALLED_APPS = [
     'django.contrib.gis',
     'rest_framework',
     'rest_framework_gis',
-
-    # 'rest_framework_swagger',
+    'rest_framework_swagger',
 
 ] + PROJECT_APPS
 
