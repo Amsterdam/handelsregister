@@ -578,7 +578,7 @@ def guess():
     find geo_point
     """
     log.debug('Start Finding and correcting incomplete adresses...')
-    gevent.spawn(req_counter)
+    status_job = gevent.spawn(req_counter)
 
     for gemeente in GEMEENTEN:
         invalid_locations = create_qs_of_invalid_locations(gemeente)
@@ -612,6 +612,7 @@ def guess():
         # reset correcties count
         STATS['correcties'] = 0
 
+    status_job.kill()
     # log end result
     for gemeente in GEMEENTEN:
         if gemeente not in STATS:
