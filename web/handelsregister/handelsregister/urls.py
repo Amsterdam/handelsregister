@@ -14,7 +14,10 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import url, include
-from rest_framework import routers
+from rest_framework import routers, views, reverse, renderers, schemas, response
+from rest_framework.decorators import api_view, renderer_classes
+from rest_framework_swagger.renderers import OpenAPIRenderer
+from rest_framework_swagger.renderers import SwaggerUIRenderer
 
 from datasets.hr import views as hr_views
 
@@ -50,7 +53,15 @@ hr_router.register(r'vestiging',
 hr_router.register(r'functievervulling',
                    hr_views.FunctievervullingViewSet)
 
+@api_view()
+@renderer_classes(
+    [SwaggerUIRenderer, OpenAPIRenderer, renderers.CoreJSONRenderer])
+def schema_view(request):
+    generator = schemas.SchemaGenerator(title='Handelsregister API')
+    return response.Response(generator.get_schema(request=request))
+
 urlpatterns = [
     url(r'^status/', include('health.urls', namespace='health')),
-    url(r'^handelsregister/', include(hr_router.urls))
+    url(r'^handelsregister/', include(hr_router.urls)),
+    url('^handelsregister/docs/$', schema_view),
 ]
