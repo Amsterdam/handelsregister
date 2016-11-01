@@ -733,7 +733,7 @@ class GeoVBO(models.Model):
 
 class DataSelectie(models.Model):
 
-    vestiging_id = models.CharField(
+    id = models.CharField(
         max_length = 20,
         primary_key=True)
 
@@ -783,13 +783,6 @@ class DataSelectieView(models.Model):
         'Locatie', related_name="+", blank=True, null=True,
         help_text="bezoekadres",
     )
-    #
-    # vestiging = models.ForeignKey(
-    #     'SbicodesPerVestiging',
-    #     related_name='sbi_codes',
-    #     unique=True,
-    #     primary_key=True
-    # )
 
     geometrie = models.PointField(
         srid=28992,
@@ -882,7 +875,7 @@ class BetrokkenPersonen(models.Model):
     )
 
     vestiging_id = models.ForeignKey(DataSelectie,
-        to_field="vestiging_id",
+        to_field="id",
         db_column="vestiging_id",
         blank=True,
         null=True,
@@ -934,12 +927,3 @@ class BetrokkenPersonen(models.Model):
         null=True,
         help_text="Bevoegdheid van de functionaris"
     )
-    # def __getstate__(self):
-    #     state = self.__dict__.copy()
-    #     for s_name in state.keys():
-    #         if s_name[1] == '_' or s_name[:3] == 'py/':
-    #             del state[s_name]
-    #     return state
-    #
-    # def __setstate__(self, state):
-    #     self.__dict__.update(state)
