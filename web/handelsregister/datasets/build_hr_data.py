@@ -76,16 +76,13 @@ def fill_stelselpedia():
         _converteer_onbekende_mac_eigenaar_id(cursor)
 
 
-
 def fill_location_with_bag():
-
     with db.connection.cursor() as cursor:
         log.info("VUL geo tabel locaties met bag geometrie")
         _update_location_table_with_bag(cursor)
 
 
 def fill_geo_table():
-
     with db.connection.cursor() as cursor:
         # bouw de hr_geo_table
         log.info("Bouw geo tabel vestigingen")
@@ -492,18 +489,17 @@ INSERT INTO hr_persoon (
     END,
     CASE typering
         WHEN 'natuurlijkPersoon' THEN prsid
-        ELSE null
+        ELSE NULL
     END,
     CASE typering != 'natuurlijkPersoon'
-        WHEN true THEN prsid
-        ELSE null
+        WHEN TRUE THEN prsid
+        ELSE NULL
     END
   FROM kvkprsm00
     """)
 
 
 def _converteer_natuurlijk_persoon(cursor):
-
     cursor.execute("""
 INSERT INTO hr_natuurlijkpersoon (
     id,
@@ -528,7 +524,6 @@ INSERT INTO hr_natuurlijkpersoon (
 
 
 def _converteer_niet_natuurlijk_persoon(cursor):
-
     cursor.execute("""
 INSERT INTO hr_nietnatuurlijkpersoon (
     id,
@@ -568,7 +563,7 @@ UPDATE hr_maatschappelijkeactiviteit hrm
 SET eigenaar_id = m.prsid
 FROM kvkmacm00 m
 WHERE m.macid = hrm.id AND EXISTS (
-    select * from hr_persoon WHERE id = m.prsid)
+    SELECT * FROM hr_persoon WHERE id = m.prsid)
     """)
 
 
@@ -578,7 +573,7 @@ UPDATE hr_maatschappelijkeactiviteit hrm
 SET eigenaar_mks_id = m.prsid
 FROM kvkmacm00 m
 WHERE m.macid = hrm.id AND NOT EXISTS (
-    select * from hr_persoon WHERE id = m.prsid)
+    SELECT * FROM hr_persoon WHERE id = m.prsid)
     """)
 
 
@@ -594,11 +589,11 @@ WHERE bag.bag_vbid = loc.bag_vbid
 def _clear_autocorrected_results(cursor):
     cursor.execute("""
 UPDATE hr_locatie
-    SET geometrie = null,
-        correctie = null,
-        bag_vbid = null,
-        bag_numid = null
-WHERE correctie is not null
+    SET geometrie = NULL,
+        correctie = NULL,
+        bag_vbid = NULL,
+        bag_numid = NULL
+WHERE correctie IS NOT NULL
     """)
 
 

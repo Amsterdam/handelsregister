@@ -1,7 +1,8 @@
 # Create your views here.
 
-from datapunt import rest
+import logging
 
+import requests
 from django.conf import settings
 from django_filters import MethodFilter
 
@@ -9,12 +10,9 @@ from django.db.models import Q
 
 from django_filters.rest_framework import FilterSet
 
+from datapunt import rest
 from . import models
 from . import serializers
-
-import requests
-
-import logging
 
 log = logging.getLogger(__name__)
 
@@ -139,11 +137,7 @@ class VestigingFilter(FilterSet):
         is more data
         """
 
-        params = {
-            'page': page
-        }
-
-        params[filter_field] = value
+        params = {'page': page, filter_field: value}
 
         url = settings.VBO_URI
 

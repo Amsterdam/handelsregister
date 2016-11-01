@@ -1,4 +1,3 @@
-import datetime
 from decimal import Decimal
 
 from django.test import TestCase
@@ -13,46 +12,50 @@ class ImportFunctievervullingTest(TestCase):
     def setUp(self):
         utils.generate_schema()
 
-    def _convert(self, fvv: kvk.KvkFunctievervulling) -> models.Functievervulling:
+    @staticmethod
+    def _convert(fvv: kvk.KvkFunctievervulling) -> models.Functievervulling:
         build_hr_data.fill_stelselpedia()
-        return models.Functievervulling.objects.get(pk=fvv.pk)
+        return models.Functievervulling.objects.get(id=fvv.ashid)
 
     def test_import_typical_example(self):
-        prs1 = kvk.KvkPersoon.objects.create(
+        kvk.KvkPersoon.objects.get_or_create(
             prsid=Decimal('200000000000000000'),
             prshibver=Decimal('100000000000000000'),
-				    faillissement='Nee',
-				    naam='Testpersoon 1 B.V.',
-				    persoonsrechtsvorm='BeslotenVennootschap',
-				    rsin='000000001',
-				    typering='rechtspersoon',
-				    uitgebreiderechtsvorm='BeslotenVennootschap',
-				    verkortenaam='Testpersoon 1 Verkort B.V.',
-				    volledigenaam='Testpersoon 1 Volledig B.V.',
-				    rol='EIGENAAR'
+            faillissement='Nee',
+            naam='Testpersoon 1 B.V.',
+            persoonsrechtsvorm='BeslotenVennootschap',
+            rsin='000000001',
+            typering='rechtspersoon',
+            uitgebreiderechtsvorm='BeslotenVennootschap',
+            verkortenaam='Testpersoon 1 Verkort B.V.',
+            volledigenaam='Testpersoon 1 Volledig B.V.',
+            rol='EIGENAAR'
         )
-        prs2 = kvk.KvkPersoon.objects.create(
+
+        kvk.KvkPersoon.objects.get_or_create(
             prsid=Decimal('300000000000000000'),
             prshibver=Decimal('100000000000000000'),
-				    faillissement='Nee',
-				    naam='Testpersoon 2 B.V.',
-				    persoonsrechtsvorm='BeslotenVennootschap',
-				    rsin='000000001',
-				    typering='rechtspersoon',
-				    uitgebreiderechtsvorm='BeslotenVennootschap',
-				    verkortenaam='Testpersoon 2 Verkort B.V.',
-				    volledigenaam='Testpersoon 2 Volledig B.V.',
-				    rol='EIGENAAR'
+            faillissement='Nee',
+            naam='Testpersoon 2 B.V.',
+            persoonsrechtsvorm='BeslotenVennootschap',
+            rsin='000000001',
+            typering='rechtspersoon',
+            uitgebreiderechtsvorm='BeslotenVennootschap',
+            verkortenaam='Testpersoon 2 Verkort B.V.',
+            volledigenaam='Testpersoon 2 Volledig B.V.',
+            rol='EIGENAAR'
         )
-        fvv = kvk.KvkFunctievervulling.objects.create(
+
+        fvv2 = kvk.KvkFunctievervulling.objects.get_or_create(
             ashid=Decimal('100000000000000000'),
             functie="GrandPoobah",
             prsidi=Decimal('200000000000000000'),
             prsidh=Decimal('300000000000000000'),
             soort="OnbeperktBevoegd",
-            prsashhibver=Decimal('100000000000000000'),
-        )
-        functievervulling = self._convert(fvv)
+            prsashhibver=Decimal('100000000000000000')
+        )[0]
+
+        functievervulling = self._convert(fvv2)
 
         self.assertIsNotNone(functievervulling)
         self.assertEqual('100000000000000000', functievervulling.id)
@@ -62,29 +65,29 @@ class ImportFunctievervullingTest(TestCase):
         self.assertEqual(Decimal('200000000000000000'), functievervulling.is_aansprakelijke.id)
 
     def test_import_missing_related(self):
-        prs1 = kvk.KvkPersoon.objects.create(
+        kvk.KvkPersoon.objects.create(
             prsid=Decimal('200000000000000000'),
             prshibver=Decimal('100000000000000000'),
-				    faillissement='Nee',
-				    naam='Testpersoon 1 B.V.',
-				    persoonsrechtsvorm='BeslotenVennootschap',
-				    rsin='000000001',
-				    typering='rechtspersoon',
-				    uitgebreiderechtsvorm='BeslotenVennootschap',
-				    verkortenaam='Testpersoon Verkort B.V.',
-				    volledigenaam='Testpersoon Volledig B.V.',
-				    rol='EIGENAAR'
+            faillissement='Nee',
+            naam='Testpersoon 1 B.V.',
+            persoonsrechtsvorm='BeslotenVennootschap',
+            rsin='000000001',
+            typering='rechtspersoon',
+            uitgebreiderechtsvorm='BeslotenVennootschap',
+            verkortenaam='Testpersoon Verkort B.V.',
+            volledigenaam='Testpersoon Volledig B.V.',
+            rol='EIGENAAR'
         )
-        fvv = kvk.KvkFunctievervulling.objects.create(
+
+        fvv1 = kvk.KvkFunctievervulling.objects.create(
             ashid=Decimal('100000000000000000'),
             functie="GrandPoobah",
             prsidi=Decimal('200000000000000000'),
-            prsidh=Decimal('300000000000000000'),
             soort="OnbeperktBevoegd",
-            prsashhibver=Decimal('100000000000000000'),
+            prsashhibver=Decimal('100000000000000000')
         )
-        functievervulling = self._convert(fvv)
+
+        functievervulling = self._convert(fvv1)
 
         self.assertIsNotNone(functievervulling)
         self.assertEqual(Decimal('200000000000000000'), functievervulling.is_aansprakelijke.id)
-        self.assertRaises(models.Persoon.DoesNotExist, lambda: functievervulling.heeft_aansprakelijke)
