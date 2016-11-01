@@ -343,7 +343,7 @@ class SearchTask():
         gevent.spawn(details_request.send).join()
         details_request = details_request.response
 
-        if details_request.status_code == 404:
+        if not details_request or details_request.status_code == 404:
             CSV.bag_error.debug("%s, %s", self.get_q(), details_url)
             return None, None
 
@@ -587,8 +587,10 @@ def guess():
             jobs.append(
                 gevent.spawn(async_determine_rd_coordinates))
 
-        # waint untill all search tasks are done
-        gevent.joinall(jobs)
+        with gevent.Timeout(3600, False):
+            # waint untill all search tasks are done
+            # but no longer than an hour
+            gevent.joinall(jobs)
 
         # store corrections for each gemeente
         STATS[gemeente] = STATS['correcties']
