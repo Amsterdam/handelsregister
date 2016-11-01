@@ -104,12 +104,14 @@ class SBIcatFactory(factory.DjangoModelFactory):
 
     sbi_code = '1073'
     sub_sub_categorie = 'bla'
-    scat  = factory.SubFactory(SBISubcatFactory)
+    scat = factory.SubFactory(SBISubcatFactory)
 
 
 def create_x_vestigingen(x=5):
     """
     Create some valid vestigingen with geo-location and sbi_codes
+
+    RANDOM
     """
 
     vestigingen = []
@@ -136,7 +138,7 @@ def create_x_vestigingen(x=5):
                 geometrie=point
         )
 
-        for v in range(random.randint(0, 10)):
+        for v in range(random.randint(1, 10)):
             ves = VestigingFactory.create(
                 id='{}-{}'.format(i, v),
                 bezoekadres=loc_b,
@@ -151,17 +153,22 @@ def create_x_vestigingen(x=5):
 
 
 def create_dataselectie_set():
+
+    # THIS IS A RANDOM AMOUNT
     create_x_vestigingen(x=5)
+
     macs = models.MaatschappelijkeActiviteit.objects.all()
     persoon = PersoonFactory.create()
     persoon.natuurlijkpersoon = NatuurlijkePersoon.create()
 
-    vestigingen = models.Vestiging.objects.all()
+    models.Vestiging.objects.all()
+
     for m in macs:
         m.eigenaar = persoon
         m.save()
 
     return persoon
+
 
 def create_search_test_locaties():
     """

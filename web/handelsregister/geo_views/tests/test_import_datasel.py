@@ -23,7 +23,8 @@ class ImportDataselectieTest(TestCase):
 
         build_ds_data._build_joined_ds_table()
 
-        row = self.get_row('3-2')
+        # this one is always there
+        row = self.get_row('1-1')
 
         # ??
         jsonapi = jsonpickle.decode(row.api_json)
