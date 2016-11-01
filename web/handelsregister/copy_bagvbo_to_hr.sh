@@ -7,7 +7,10 @@ set -e
 #
 echo database:5432:handelsregister:handelsregister:insecure >> ~/.pgpass
 echo database:5432:atlas:handelsregister:insecure >> ~/.pgpass
+
 chmod 0600 ~/.pgpass
+
+cat ~/.pgpass
 
 echo copying bag vbo geo -> hr_geovbo tabel
 
