@@ -8,7 +8,7 @@ from collections import defaultdict
 from urllib.parse import quote, urlparse
 
 from django.conf import settings
-from django.contrib.gis.geos import Point
+# from django.contrib.gis.geos import Point
 from elasticsearch import Elasticsearch
 from elasticsearch.exceptions import TransportError
 from elasticsearch_dsl import Search
@@ -16,19 +16,71 @@ from rest_framework import viewsets, metadata
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 
-#from datasets.hr import queries as vesQ
-#from datasets.hr import queries as macQ
+from search.queries import vestiging_query
+from search.queries import mac_query
 
 
-from datasets.elk.input_analyzer import InputQAnalyzer
+from search.input_analyzer import InputQAnalyzer
 
-log = logging.getLogger(__name__)
+log = logging.getLogger('search')
 
-
-_subtype_mapping = {
-    'vestiging': 'Vestigingen',
-    'maatschappelijke activiteit': 'Maatschappelijke activiteit'
+_details = {
+    'vestiging': 'vestiging-detail',
+    'maatschappelijke_activiteit': 'maatschappelijkeactiviteit-detail',
 }
+
+
+_type_mapping = {
+    'vestiging': 'Vestigingen',
+    'maatschappelijke_activiteit': 'Maatschappelijke activiteiten'
+}
+
+
+_autocomplete_group_order = [
+    'Maatschappelijke activiteiten',
+    'Vestigingen'
+]
+
+
+_autocomplete_group_sizes = {
+    'Maatschappelijke activiteiten': 5,
+    'Vestigingen': 10
+
+}
+
+
+def get_links(view_name, kwargs=None, request=None):
+    result = OrderedDict([
+        ('self', dict(
+            href=reverse(view_name, kwargs=kwargs, request=request)
+        ))
+    ])
+
+    return result
+
+
+def _get_url(request, hit):
+    """
+    Given an elk hit determine the uri for each hit
+    """
+
+    doc_type, id = hit.meta.doc_type, hit.meta.id
+
+    if doc_type == 'vestiging':
+        return get_links(
+            view_name=_details[doc_type],
+            kwargs={'vestigingsnummer': id}, request=request)
+
+    if doc_type == 'maatschappelijke_activiteit':
+        return get_links(
+            view_name=_details[doc_type],
+            kwargs={'kvk_nummer': hit.kvk_nummer}, request=request)
+
+    return {
+        'self': {
+            'href': '/{}/{}/notworking'.format(doc_type, id)
+        }
+    }
 
 
 class QueryMetadata(metadata.SimpleMetadata):
@@ -70,7 +122,10 @@ class TypeaheadViewSet(viewsets.ViewSet):
         """provide autocomplete suggestions"""
 
         analyzer = InputQAnalyzer(query_string)
-        query_components = [vesQ(analyzer), macQ(analyzer)]
+        query_components = [
+            vestiging_query(analyzer),
+            mac_query(analyzer)
+        ]
 
         result_data = []
 
@@ -87,7 +142,7 @@ class TypeaheadViewSet(viewsets.ViewSet):
                 result = search.execute(ignore_cache=ignore_cache)
             except:
                 log.exception('FAILED ELK SEARCH: %s',
-                              json.dumps(search.to_dict()))
+                              json.dumps(search.to_dict(), indent=2))
                 continue
 
             # Get the datas!
@@ -95,11 +150,11 @@ class TypeaheadViewSet(viewsets.ViewSet):
 
         return result_data
 
-    #def _get_uri(self, request, hit):
-    #    # Retrieves the uri part for an item
-    #    url = _get_url(request, hit)['self']['href']
-    #    uri = urlparse(url).path[1:]
-    #    return uri
+    def _get_uri(self, request, hit):
+        # Retrieves the uri part for an item
+        url = _get_url(request, hit)['self']['href']
+        uri = urlparse(url).path[1:]
+        return uri
 
     def _group_elk_results(self, request, results):
         """
@@ -109,10 +164,10 @@ class TypeaheadViewSet(viewsets.ViewSet):
         result_groups = defaultdict(list)
 
         for hit in flat_results:
-            group = _subtype_mapping[hit.subtype]
+            group = _type_mapping[hit.meta.doc_type]
             result_groups[group].append({
                 '_display': hit._display,
-                #'uri': self._get_uri(request, hit)
+                'uri': self._get_uri(request, hit)
             })
 
         return result_groups
@@ -306,15 +361,15 @@ class SearchVestigingViewSet(SearchViewSet):
     vestiging objects that match the elastic search query.
     """
 
-    url_name = 'search/vestiging'
+    url_name = 'search/vestiging-list'
 
     def search_query(self, client, analyzer: InputQAnalyzer) -> Search:
         """
         Execute search on Subject
         """
-        search = vesQ.vestiging_query(analyzer)\
+        search = vestiging_query(analyzer)\
             .to_elasticsearch_object(client)
-        return search.filter('terms', subtype=['vestiging'])
+        return search.filter('terms', _type=['vestiging'])
 
 
 class SearchMacViewSet(SearchViewSet):
@@ -323,12 +378,12 @@ class SearchMacViewSet(SearchViewSet):
     maatschappelijke activiteit objects that match the elastic search query.
     """
 
-    url_name = 'search/maatschappelijkeactiviteit'
+    url_name = 'search/maatschappelijke_activiteit-list'
 
     def search_query(self, client, analyzer: InputQAnalyzer) -> Search:
         """
         Execute search on Subject
         """
-        search = macQ.mac_query(analyzer)\
+        search = mac_query(analyzer)\
             .to_elasticsearch_object(client)
         return search.filter('terms', subtype=['maatschappelijke activiteit'])

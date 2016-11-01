@@ -8,10 +8,11 @@ import jsonpickle
 
 point = Point(0.0, 1.1)
 
+
 class ImportDataselectieTest(TestCase):
 
     def get_row(self, key):
-        r = models.DataSelectie.objects.filter(id = key).get()
+        r = models.DataSelectie.objects.filter(vestiging_id=key).get()
         self.assertIsNotNone(r)
         return r
 
@@ -24,5 +25,6 @@ class ImportDataselectieTest(TestCase):
 
         row = self.get_row('3-2')
 
+        # ??
         jsonapi = jsonpickle.decode(row.api_json)
         self.assertIsInstance(jsonapi, models.DataSelectieView)

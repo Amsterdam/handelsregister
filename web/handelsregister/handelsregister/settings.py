@@ -254,6 +254,10 @@ LOGGING = {
 
 
     'loggers': {
+        'django.db': {
+            'handlers': ['console'],
+            'level': 'ERROR',
+        },
         'django': {
             'handlers': ['console'],
             'level': 'ERROR',

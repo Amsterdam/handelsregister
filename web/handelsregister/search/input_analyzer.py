@@ -23,8 +23,24 @@ class InputQAnalyzer(object):
         self._tokens = re.findall('[^0-9 ]+|\\d+', self._cleaned_query)
         self._token_count = len(self._tokens)
 
-        self._huisnummer_index = None
-        for i, token in enumerate(self._tokens[1:]):
-            if token.isdigit():
-                self._huisnummer_index = i + 1
-                break
+    def get_id(self) -> str:
+        """
+        We expect only digits
+        """
+
+        if not self._token_count or self._token_count > 1:
+            return ""
+
+        first = self._tokens[0]
+
+        if first.isdigit():
+            return first
+
+        return ""
+
+    def get_handelsnaam(self) -> str:
+        """
+        Get the querystring
+        """
+        # could be anything...
+        return self._cleaned_query

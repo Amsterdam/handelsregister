@@ -5,7 +5,7 @@ import time
 from django.core.management import BaseCommand
 from django.conf import settings
 
-from datasets import build_elk_index
+from search import build_index
 
 import logging
 
@@ -19,12 +19,12 @@ class Command(BaseCommand):
     ordered = ['mac', 'ves']
 
     index_tasks = {
-        'mac': [build_elk_index.index_mac_docs],
-        'ves': [build_elk_index.index_ves_docs],
+        'mac': [build_index.index_mac_docs],
+        'ves': [build_index.index_ves_docs],
     }
 
     delete_tasks = {
-        'mac': [build_elk_index.delete_hr_docs],
+        'mac': [build_index.delete_hr_docs],
         'ves': [],
     }
 

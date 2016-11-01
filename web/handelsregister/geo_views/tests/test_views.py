@@ -29,8 +29,8 @@ class ViewsTest(TestCase):
     def test_vestiging_locaties(self):
         l = hr_factories.LocatieFactory.create(geometrie=point)
         hr_factories.SBIcatFactory.create()
-        a1 = hr_factories.Activiteit.create()
-        a2 = hr_factories.Activiteit.create()
+        a1 = hr_factories.Activiteit.create(id='987')
+        a2 = hr_factories.Activiteit.create(id='986')
 
         v = hr_factories.VestigingFactory.create(
             bezoekadres=l,

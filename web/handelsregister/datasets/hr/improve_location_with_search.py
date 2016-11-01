@@ -32,7 +32,7 @@ STATS = dict(
     start=time.time(),
     correcties=0,
     onbekend=0,
-    total=50, #prevent by zero errors
+    total=50,  # prevent by zero errors
     reqs=0,
     left=0,
 )
@@ -67,12 +67,11 @@ def req_counter():
         start = STATS['correcties']
         gevent.sleep(interval)
         diff = STATS['correcties'] - start + 0.001
-        speed = (diff // interval)
+        speed = (diff // interval) + 1
         STATS['reqs'] = '%.2f' % speed
-        seconds_left = (STATS['total'] + 1) // speed
+        seconds_left = abs(STATS['total'] + 1) // speed
         STATS['left'] = datetime.timedelta(seconds=seconds_left)
         log.info(make_status_line())
-
 
 
 class CSVLOGHANDLER():
@@ -103,27 +102,30 @@ class CSVLOGHANDLER():
 CSV = CSVLOGHANDLER()
 
 
+# we corrigeren alleen voor Amsterdam.
+# search doet nog geen postcode controle
+# of woonplaats controle bij een suggestie.
 
 GEMEENTEN = [
     'Amsterdam',
-    'Amstelveen',
-    'Diemen',
-    'Ouder-Amstel',
-    'Landsmeer',
-    'Oostzaan',
-    'Waterland',
-    'Haarlemmerliede',
-    'Haarlemmermeer',
-    'Weesp',
-    'Gooise Meren',
-    'De Ronde Venen',
-    'Purmerend',
-    'Wormerland',
-    'Velsen',
-    'Haarlem',
-    'Aalsmeer',
-    'Stichtse Vecht',
-    'Wijdemeren'
+    # 'Amstelveen',
+    # 'Diemen',
+    # 'Ouder-Amstel',
+    # 'Landsmeer',
+    # 'Oostzaan',
+    # 'Waterland',
+    # 'Haarlemmerliede',
+    # 'Haarlemmermeer',
+    # 'Weesp',
+    # 'Gooise Meren',
+    # 'De Ronde Venen',
+    # 'Purmerend',
+    # 'Wormerland',
+    # 'Velsen',
+    # 'Haarlem',
+    # 'Aalsmeer',
+    # 'Stichtse Vecht',
+    # 'Wijdemeren'
 ]
 
 REPLACE_TABLE = "".maketrans(
