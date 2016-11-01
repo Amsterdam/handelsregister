@@ -425,6 +425,7 @@ class Vestiging(models.Model):
         null=True, blank=True,
         help_text="De datum van aanvang van de Vestiging"
     )
+
     datum_einde = models.DateField(
         null=True, blank=True,
         help_text="De datum van beëindiging van de Vestiging"

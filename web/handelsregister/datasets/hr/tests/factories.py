@@ -79,7 +79,7 @@ class FunctievervullingFactory(factory.DjangoModelFactory):
 
 def create_x_vestigingen(x=5):
     """
-    Create some valid vestigingen with location and sbi_code
+    Create some valid vestigingen with geo-location and sbi_codes
     """
 
     vestigingen = []
@@ -88,7 +88,7 @@ def create_x_vestigingen(x=5):
 
     a1 = Activiteit.create(sbi_code='94992')
 
-    point= Point(121944.32, 487722.88)
+    point = Point(121944.32, 487722.88)
 
     for i in range(x):
 
@@ -114,6 +114,7 @@ def create_x_vestigingen(x=5):
                 activiteiten=[a1],
                 maatschappelijke_activiteit=mac
             )
+
             vestigingen.append(ves)
 
     return vestigingen

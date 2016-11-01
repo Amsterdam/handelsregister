@@ -7,7 +7,7 @@ from django_filters import MethodFilter
 
 from django.db.models import Q
 
-from rest_framework import filters
+from django_filters.rest_framework import FilterSet
 
 from . import models
 from . import serializers
@@ -72,7 +72,7 @@ class PersoonViewSet(rest.AtlasViewSet):
         'niet_natuurlijkpersoon__rsin')
 
 
-class VestigingFilter(filters.FilterSet):
+class VestigingFilter(FilterSet):
     """
     Filter on nummeraanduiging and vestigingid
     """
@@ -90,8 +90,6 @@ class VestigingFilter(filters.FilterSet):
             'nummeraanduiding',
             'verblijfsobject',
             'bezoekadres__bag_numid')
-
-        order_by = ['naam']
 
     def nummeraanduiding_filter(self, queryset, value):
         """
@@ -118,9 +116,9 @@ class VestigingFilter(filters.FilterSet):
 
     def _collect_landelijke_ids(self, filter_field, value):
         """
-        Collect all 'landelijk_ids' for verblijfsobjecten fiven
+        Collect all 'landelijk_ids' for verblijfsobjecten given
         a filter_field (panden__landelijk_id, kadastrale_objecten__id)
-        by doing request to the bag api
+        by doing a request to the bag api
         """
 
         vbo_ids = []
@@ -191,6 +189,7 @@ class VestigingFilter(filters.FilterSet):
         """
         Given a kadastraal object find all
         """
+
         vbo_ids = self._collect_landelijke_ids(
             'kadastrale_objecten__id', value)
 
@@ -243,7 +242,9 @@ class VestigingViewSet(rest.AtlasViewSet):
 
     lookup_field = 'vestigingsnummer'
 
-    ordering_fields = ('naam',)
+    ordering_fields = '__all__'
+
+    ordering = ('naam',)
 
     filter_class = VestigingFilter
 
