@@ -129,3 +129,7 @@ class VestingFilterTest(APITestCase):
             '/handelsregister/vestiging/?verblijfsobject=9999')
 
         self.assertEquals(200, response.status_code)
+
+    def test_dataselectie_filter(self):
+        response = self.client.get(
+            '/handelsregister/dataselectie/?sbi_code=1073')

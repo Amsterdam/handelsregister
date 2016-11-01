@@ -3,7 +3,6 @@ from django.db import connection
 from django.contrib.gis.geos import Point
 from django.test import TestCase
 
-
 from datasets import build_hr_data
 
 from datasets.hr import models
@@ -29,6 +28,7 @@ class ViewsTest(TestCase):
 
     def test_vestiging_locaties(self):
         l = hr_factories.LocatieFactory.create(geometrie=point)
+        hr_factories.SBIcatFactory.create()
         a1 = hr_factories.Activiteit.create()
         a2 = hr_factories.Activiteit.create()
 

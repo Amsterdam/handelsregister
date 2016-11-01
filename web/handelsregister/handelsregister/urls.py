@@ -60,7 +60,6 @@ hr_router.register(
     hr_views.FunctievervullingViewSet
 )
 
-
 hr_router.register(
     r'typeahead', search_views.TypeaheadViewSet, base_name='typeahead')
 

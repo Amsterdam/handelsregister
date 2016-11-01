@@ -25,6 +25,8 @@ def _get_docker_host():
 
 
 VBO_URI = "https://api-acc.datapunt.amsterdam.nl/bag/verblijfsobject/"
+CBS_URI = 'http://sbi.cbs.nl/cbs.typeermodule.typeerservicewebapi/api/sbianswer/getNextQuestion/{}'
+CSB_SEARCH = 'http://sbi.cbs.nl/cbs.typeermodule.typeerservicewebapi/api/SBISearch/search/{}'
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'not-secret'

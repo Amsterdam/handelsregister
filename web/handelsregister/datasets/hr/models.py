@@ -1,7 +1,7 @@
 # import uuid
 
 from django.contrib.gis.db import models
-
+from django.contrib.postgres.fields import JSONField
 import re
 
 
@@ -649,9 +649,26 @@ class Kapitaal(models.Model):
     """
 
 
+class CBS_sbi_hoofdcat(models.Model):
+    hcat = models.CharField(max_length=20, primary_key=True)
+    hoofdcategorie = models.CharField(max_length=140, blank=False, null=False)
+
+
+class CBS_sbi_subcat(models.Model):
+    scat = models.CharField(max_length=20, primary_key=True)
+    subcategorie = models.CharField(max_length=140, blank=False, null=False)
+    hcat = models.ForeignKey(CBS_sbi_hoofdcat, on_delete=models.CASCADE)
+
+
+class CBS_sbicodes(models.Model):
+    sbi_code = models.CharField(max_length=14, primary_key=True)
+    scat = models.ForeignKey(CBS_sbi_subcat, on_delete=models.CASCADE)
+    sub_sub_categorie = models.CharField(max_length=140, blank=False, null=False)
+
+
 class GeoVestigingen(models.Model):
     """
-    geo table of joined tables to make mapserver lighning speed
+    geo table of joined tables to make mapserver lightning speed
     """
 
     # NOTE merdere activiteiten per vestigings nummer mogelijk
@@ -704,7 +721,7 @@ class GeoVestigingen(models.Model):
 
     sbi_detail_group = models.CharField(
         db_index=True,
-        max_length=200,
+        max_length=200, null=True, blank=True,
         help_text="De codering van de activiteit conform de SBI2008"
     )
 
@@ -720,3 +737,217 @@ class GeoVBO(models.Model):
         max_length=16, db_index=True, blank=True, null=True)
 
     geometrie = models.PointField(srid=28992, blank=True, null=True)
+
+
+class DataSelectie(models.Model):
+
+    vestiging_id = models.CharField(
+        max_length = 20,
+        primary_key=True)
+
+    api_json = JSONField()
+
+
+# SQL VIEWS ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+class DataSelectieView(models.Model):
+
+    class Meta:
+        db_table = 'hr_dataselectieview'
+        managed = False
+
+
+    vestigingsnummer = models.CharField(
+        max_length=12, db_index=True,
+        help_text="Betreft het identificerende gegeven voor de Vestiging"
+    )
+
+    vestiging_id = models.CharField(
+        max_length = 20)
+
+    naam = models.CharField(
+        max_length=200, null=True, blank=True,
+    )
+
+    uri = models.CharField(
+        max_length=200, null=True, blank=True,
+    )
+
+    hoofdvestiging = models.BooleanField()
+
+    locatie_type = models.CharField(
+        max_length=1, blank=True, null=True,
+        choices=[
+            ('B', 'Bezoek'),
+            ('P', 'Post'),
+            ('V', 'Vestiging')])
+
+    postadres = models.ForeignKey(
+        'Locatie', related_name="+", blank=True, null=True,
+        help_text="postadres",
+    )
+    bezoekadres = models.ForeignKey(
+        'Locatie', related_name="+", blank=True, null=True,
+        help_text="bezoekadres",
+    )
+    #
+    # vestiging = models.ForeignKey(
+    #     'SbicodesPerVestiging',
+    #     related_name='sbi_codes',
+    #     unique=True,
+    #     primary_key=True
+    # )
+
+    geometrie = models.PointField(
+        srid=28992,
+        blank=True,
+        null=True)
+
+    kvk_nummer = models.CharField(
+        max_length=8,
+        blank=True,
+        null=True,
+        help_text="Kvk nummer"
+    )
+
+    datum_aanvang = models.DateField(
+        blank=True,
+        null=True,
+        help_text="Datum inschrijving kvk"
+    )
+
+    datum_einde = models.DateField(
+        blank=True,
+        null=True,
+        help_text="Datum einde inschrijving kvk"
+    )
+
+    handelsnaam = models.CharField(
+        max_length=500,
+        blank=True,
+        null=True,
+        help_text="Eerste Handelsnaam"
+    )
+
+
+class SbicodesPerVestiging(models.Model):
+
+    class Meta:
+        db_table = 'hr_sbicodes_per_vestiging'
+        managed = False
+
+    vestiging = models.ForeignKey(DataSelectie,
+        # related_name = 'sbi_codes',
+        on_delete=models.DO_NOTHING)
+
+    sbi_code = models.CharField(
+        max_length=5,
+        help_text="De codering van de activiteit conform de SBI2008"
+    )
+
+    subcategorie = models.CharField(
+        db_index=True,
+        max_length=200,
+        help_text="De codering van de activiteit conform de SBI2008"
+    )
+    hcat  = models.CharField(
+        max_length=10,
+        help_text="SBI Hoofd categorie code"
+    )
+
+    scat  = models.CharField(
+        max_length=20,
+        help_text="SBI Sub categorie code"
+    )
+
+    hoofdcategorie  = models.CharField(
+        max_length=140,
+        help_text="SBI Hoofd categorie omschrijving"
+    )
+
+    sub_sub_categorie = models.CharField(
+        max_length=140,
+        help_text="SBI Sub categorie omschrijving"
+    )
+
+
+class BetrokkenPersonen(models.Model):
+
+    class Meta:
+        db_table = 'hr_betrokken_personen'
+        managed = False
+
+    mac_naam = models.CharField(
+        max_length=600,
+        help_text='Maatschappelijke activiteit naam')
+
+    kvk_nummer = models.CharField(
+        max_length=8,
+        blank=True,
+        null=True,
+        help_text="Kvk nummer"
+    )
+
+    vestiging_id = models.ForeignKey(DataSelectie,
+        to_field="vestiging_id",
+        db_column="vestiging_id",
+        blank=True,
+        null=True,
+        help_text="Vestiging nummer",
+        on_delete = models.DO_NOTHING
+    )
+
+    persoons_id = models.IntegerField(
+        null=True)
+
+    rol = models.CharField(
+        max_length=14,
+        blank=True,
+        null=True,
+        help_text="Rol"
+    )
+
+    naam = models.CharField(
+        max_length=600,
+        blank=True,
+        null=True,
+        help_text="Persoonsnaam (handelsregister terminologie)"
+    )
+
+    rechtsvorm = models.CharField(
+        max_length=50,
+        blank=True,
+        null=True,
+        help_text="Rechtsvorm"
+    )
+
+    functietitel = models.CharField(
+        max_length=20,
+        blank=True,
+        null=True,
+        help_text="Titel van de functionaris"
+    )
+
+    soortbevoegdheid = models.CharField(
+        max_length=20,
+        blank=True,
+        null=True,
+        help_text="Bevoegdheid van de functionaris"
+    )
+
+    bevoegde_naam = models.CharField(
+        max_length=240,
+        blank=True,
+        null=True,
+        help_text="Bevoegdheid van de functionaris"
+    )
+    # def __getstate__(self):
+    #     state = self.__dict__.copy()
+    #     for s_name in state.keys():
+    #         if s_name[1] == '_' or s_name[:3] == 'py/':
+    #             del state[s_name]
+    #     return state
+    #
+    # def __setstate__(self, state):
+    #     self.__dict__.update(state)

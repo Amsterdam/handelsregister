@@ -2,18 +2,19 @@ import factory
 import random
 
 from django.contrib.gis.geos import Point
+from django import db
 
 from factory import fuzzy
 
 from .. import models
 
 
-class MaatschappelijkeActiviteitFactory(factory.DjangoModelFactory):
+class NatuurlijkePersoon(factory.DjangoModelFactory):
     class Meta:
-        model = models.MaatschappelijkeActiviteit
+        model = models.NatuurlijkPersoon
 
-    id = fuzzy.FuzzyInteger(low=100000000000000000, high=100000000000000999)
-    kvk_nummer = fuzzy.FuzzyInteger(low=1, high=99999999)
+    id = fuzzy.FuzzyInteger(low=10000000000000, high=10000000000099)
+    voornamen = 'piet'
 
 
 class PersoonFactory(factory.DjangoModelFactory):
@@ -22,6 +23,14 @@ class PersoonFactory(factory.DjangoModelFactory):
 
     id = fuzzy.FuzzyInteger(low=100000000000000000, high=100000000000000099)
     faillissement = False
+
+
+class MaatschappelijkeActiviteitFactory(factory.DjangoModelFactory):
+    class Meta:
+        model = models.MaatschappelijkeActiviteit
+
+    id = fuzzy.FuzzyInteger(low=100000000000000000, high=100000000000000099)
+    kvk_nummer = fuzzy.FuzzyInteger(low=1, high=99999999)
 
 
 class VestigingFactory(factory.DjangoModelFactory):
@@ -64,8 +73,7 @@ class Activiteit(factory.DjangoModelFactory):
         model = models.Activiteit
 
     id = fuzzy.FuzzyInteger(low=100000000000000000, high=100000000000000099)
-
-    sbi_code = fuzzy.FuzzyInteger(low=10000, high=10099)
+    sbi_code = '1073'
 
     hoofdactiviteit = fuzzy.FuzzyChoice(choices=[True, False])
 
@@ -76,6 +84,28 @@ class FunctievervullingFactory(factory.DjangoModelFactory):
 
     id = fuzzy.FuzzyInteger(low=100000000000000000, high=100000000000000099)
 
+class SBIHoofdcatFactory(factory.DjangoModelFactory):
+    class Meta:
+        model = models.CBS_sbi_hoofdcat
+    hcat = 'jan'
+    hoofdcategorie = 'sub bla'
+
+class SBISubcatFactory(factory.DjangoModelFactory):
+    class Meta:
+        model = models.CBS_sbi_subcat
+
+    scat = 'piet'
+    hcat = factory.SubFactory(SBIHoofdcatFactory)
+    subcategorie = 'sub bla'
+
+class SBIcatFactory(factory.DjangoModelFactory):
+    class Meta:
+        model = models.CBS_sbicodes
+
+    sbi_code = '1073'
+    sub_sub_categorie = 'bla'
+    scat  = factory.SubFactory(SBISubcatFactory)
+
 
 def create_x_vestigingen(x=5):
     """
@@ -85,8 +115,8 @@ def create_x_vestigingen(x=5):
     vestigingen = []
 
     mac = MaatschappelijkeActiviteitFactory.create()
-
-    a1 = Activiteit.create(sbi_code='94992')
+    SBIcatFactory.create()
+    a1 = Activiteit.create(sbi_code='1073')
 
     point = Point(121944.32, 487722.88)
 
@@ -119,6 +149,19 @@ def create_x_vestigingen(x=5):
 
     return vestigingen
 
+
+def create_dataselectie_set():
+    create_x_vestigingen(x=5)
+    macs = models.MaatschappelijkeActiviteit.objects.all()
+    persoon = PersoonFactory.create()
+    persoon.natuurlijkpersoon = NatuurlijkePersoon.create()
+
+    vestigingen = models.Vestiging.objects.all()
+    for m in macs:
+        m.eigenaar = persoon
+        m.save()
+
+    return persoon
 
 def create_search_test_locaties():
     """
