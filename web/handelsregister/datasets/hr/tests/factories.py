@@ -2,7 +2,6 @@ import factory
 import random
 
 from django.contrib.gis.geos import Point
-from django import db
 
 from factory import fuzzy
 
@@ -84,11 +83,13 @@ class FunctievervullingFactory(factory.DjangoModelFactory):
 
     id = fuzzy.FuzzyInteger(low=100000000000000000, high=100000000000000099)
 
+
 class SBIHoofdcatFactory(factory.DjangoModelFactory):
     class Meta:
         model = models.CBS_sbi_hoofdcat
     hcat = 'jan'
     hoofdcategorie = 'sub bla'
+
 
 class SBISubcatFactory(factory.DjangoModelFactory):
     class Meta:
@@ -97,6 +98,7 @@ class SBISubcatFactory(factory.DjangoModelFactory):
     scat = 'piet'
     hcat = factory.SubFactory(SBIHoofdcatFactory)
     subcategorie = 'sub bla'
+
 
 class SBIcatFactory(factory.DjangoModelFactory):
     class Meta:
