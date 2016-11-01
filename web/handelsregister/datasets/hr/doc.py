@@ -2,11 +2,11 @@
 Elasticsearch index document defenitions
 """
 import logging
-import json
+# import json
 
 from django.conf import settings
 
-from datasets.elk import analyzers
+from search import analyzers
 
 import elasticsearch_dsl as es
 

@@ -10,6 +10,7 @@ point = Point(0.0, 1.1)
 
 
 class ImportDataselectieTest(TestCase):
+
     def get_row(self, key):
         r = models.DataSelectie.objects.filter(id=key).get()
         self.assertIsNotNone(r)
@@ -24,5 +25,6 @@ class ImportDataselectieTest(TestCase):
 
         row = self.get_row('3-2')
 
+        # ??
         jsonapi = jsonpickle.decode(row.api_json)
         self.assertIsInstance(jsonapi, models.DataSelectieView)

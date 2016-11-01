@@ -45,6 +45,25 @@ class HandelsregisterRouter(routers.DefaultRouter):
         return Handelsregister.as_view()
 
 
+class SearchRouter(routers.DefaultRouter):
+    """
+    Search
+
+    End point for different search uris, offering data not directly reflected
+    in the models
+    """
+
+    def get_api_root_view(self, **kwargs):
+        view = super().get_api_root_view(**kwargs)
+        cls = view.cls
+
+        class Search(cls):
+            pass
+
+        Search.__doc__ = self.__doc__
+        return Search.as_view()
+
+
 hr_router = HandelsregisterRouter()
 
 hr_router.register(r'maatschappelijkeactiviteit',
@@ -56,17 +75,20 @@ hr_router.register(r'vestiging',
 hr_router.register(r'functievervulling',
                    hr_views.FunctievervullingViewSet)
 
-hr_router.register(
+search = SearchRouter()
+
+
+search.register(
     r'typeahead', search_views.TypeaheadViewSet, base_name='typeahead')
 
 # Alias voor nummeraanduiding
-hr_router.register(
-    r'search/vestiging',
+search.register(
+    r'vestiging',
     search_views.SearchVestigingViewSet, base_name='search/vestiging')
-hr_router.register(
-    r'search/maatschappelijkeactiviteit',
+search.register(
+    r'maatschappelijkeactiviteit',
     search_views.SearchMacViewSet,
-    base_name='search/maatschappelijkeactiviteit')
+    base_name='search/maatschappelijke_activiteit')
 
 @api_view()
 @renderer_classes(
@@ -78,12 +100,15 @@ def schema_view(request):
 
 urlpatterns = [
     url(r'^status/', include('health.urls', namespace='health')),
+    url(r'^handelsregister/search/', include(search.urls)),
     url(r'^handelsregister/', include(hr_router.urls)),
     url('^handelsregister/docs/$', schema_view),
 ]
 
 if settings.DEBUG:
+    import debug_toolbar
     urlpatterns.extend([
-        url('^admin/', admin.site.urls),
+        url(r'^__debug__/', include(debug_toolbar.urls)),
+        url(r'^admin/', admin.site.urls),
         url(r'^explorer/', include('explorer.urls')),
     ])

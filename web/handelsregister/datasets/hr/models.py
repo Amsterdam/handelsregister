@@ -2,9 +2,6 @@
 
 from django.contrib.gis.db import models
 from django.contrib.postgres.fields import JSONField
-import re
-
-from django.contrib.gis.db import models
 
 
 class Persoon(models.Model):
@@ -456,20 +453,24 @@ class Vestiging(models.Model):
 
     handelsnamen = models.ManyToManyField('Handelsnaam')
 
-    def __str__(self):
-
-        handelsnaam = "{}".format(self.naam)
+    @property
+    def _volledig_adres(self):
         adres = None
 
         if self.bezoekadres:
             adres = self.bezoekadres.volledig_adres
         elif self.postadres:
             adres = "{} (post)".format(self.postadres.volledig_adres)
-        # !! NOTE this should be done in the frontend IMHO.
+
+        return adres
+
+    def __str__(self):
+
+        handelsnaam = "{}".format(self.naam)
+        adres = self._volledig_adres
+
         if adres:
-            # remove postcode
-            clean_adres = re.sub("\d\d\d\d[A-Z][A-Z]", "", adres, count=1)
-            return "{} - {}".format(handelsnaam, clean_adres)
+            return "{} - {}".format(handelsnaam, adres)
 
         return handelsnaam
 
@@ -656,7 +657,8 @@ class CBS_sbi_subcat(models.Model):
 class CBS_sbicodes(models.Model):
     sbi_code = models.CharField(max_length=14, primary_key=True)
     scat = models.ForeignKey(CBS_sbi_subcat, on_delete=models.CASCADE)
-    sub_sub_categorie = models.CharField(max_length=140, blank=False, null=False)
+    sub_sub_categorie = models.CharField(
+        max_length=140, blank=False, null=False)
 
 
 class GeoVestigingen(models.Model):
@@ -734,7 +736,7 @@ class GeoVBO(models.Model):
 class DataSelectie(models.Model):
 
     id = models.CharField(
-        max_length = 20,
+        max_length=20,
         primary_key=True)
 
     api_json = JSONField()
@@ -749,14 +751,12 @@ class DataSelectieView(models.Model):
         db_table = 'hr_dataselectieview'
         managed = False
 
-
     vestigingsnummer = models.CharField(
         max_length=12, db_index=True,
         help_text="Betreft het identificerende gegeven voor de Vestiging"
     )
 
-    vestiging_id = models.CharField(
-        max_length = 20)
+    vestiging_id = models.CharField(max_length=20)
 
     naam = models.CharField(
         max_length=200, null=True, blank=True,
@@ -822,7 +822,8 @@ class SbicodesPerVestiging(models.Model):
         db_table = 'hr_sbicodes_per_vestiging'
         managed = False
 
-    vestiging = models.ForeignKey(DataSelectie,
+    vestiging = models.ForeignKey(
+        DataSelectie,
         # related_name = 'sbi_codes',
         on_delete=models.DO_NOTHING)
 
@@ -836,17 +837,17 @@ class SbicodesPerVestiging(models.Model):
         max_length=200,
         help_text="De codering van de activiteit conform de SBI2008"
     )
-    hcat  = models.CharField(
+    hcat = models.CharField(
         max_length=10,
         help_text="SBI Hoofd categorie code"
     )
 
-    scat  = models.CharField(
+    scat = models.CharField(
         max_length=20,
         help_text="SBI Sub categorie code"
     )
 
-    hoofdcategorie  = models.CharField(
+    hoofdcategorie = models.CharField(
         max_length=140,
         help_text="SBI Hoofd categorie omschrijving"
     )
@@ -874,13 +875,14 @@ class BetrokkenPersonen(models.Model):
         help_text="Kvk nummer"
     )
 
-    vestiging_id = models.ForeignKey(DataSelectie,
+    vestiging_id = models.ForeignKey(
+        DataSelectie,
         to_field="id",
         db_column="vestiging_id",
         blank=True,
         null=True,
         help_text="Vestiging nummer",
-        on_delete = models.DO_NOTHING
+        on_delete=models.DO_NOTHING
     )
 
     persoons_id = models.IntegerField(
@@ -927,3 +929,13 @@ class BetrokkenPersonen(models.Model):
         null=True,
         help_text="Bevoegdheid van de functionaris"
     )
+
+    # def __getstate__(self):
+    #     state = self.__dict__.copy()
+    #     for s_name in state.keys():
+    #         if s_name[1] == '_' or s_name[:3] == 'py/':
+    #             del state[s_name]
+    #     return state
+    #
+    # def __setstate__(self, state):
+    #     self.__dict__.update(state)
