@@ -78,7 +78,7 @@ if DEBUG:
 
 SITE_ID = 1
 
-MIDDLEWARE_CLASSES = [
+MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -87,6 +87,7 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 
@@ -199,7 +200,7 @@ BATCH_SETTINGS = dict(
 
 
 REST_FRAMEWORK = dict(
-    PAGE_SIZE=25,
+    PAGE_SIZE=100,
 
     MAX_PAGINATE_BY=100,
     DEFAULT_AUTHENTICATION_CLASSES=(
@@ -214,7 +215,7 @@ REST_FRAMEWORK = dict(
     ),
     DEFAULT_FILTER_BACKENDS=(
         'rest_framework.filters.DjangoFilterBackend',
-        'rest_framework.filters.OrderingFilter',
+        # 'rest_framework.filters.OrderingFilter',
 
         ),
     COERCE_DECIMAL_TO_STRING=True,

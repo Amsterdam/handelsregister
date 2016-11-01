@@ -106,7 +106,9 @@ urlpatterns = [
 ]
 
 if settings.DEBUG:
+    import debug_toolbar
     urlpatterns.extend([
+        url(r'^__debug__/', include(debug_toolbar.urls)),
         url(r'^admin/', admin.site.urls),
         url(r'^explorer/', include('explorer.urls')),
     ])

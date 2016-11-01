@@ -234,6 +234,7 @@ class Vestiging(rest.HALSerializer):
         extra_kwargs = {
             '_links': {'lookup_field': 'vestigingsnummer'}
         }
+
         fields = (
             '_links',
             '_display',
@@ -263,6 +264,20 @@ class VestigingDetail(rest.HALSerializer):
 
 
 class Functievervulling(rest.HALSerializer):
+    dataset = 'hr'
+
+    _display = rest.DisplayField()
+
+    class Meta:
+        model = models.Functievervulling
+
+        fields = (
+            '_links',
+            '_display',
+        )
+
+
+class FunctievervullingDetail(rest.HALSerializer):
     dataset = 'hr'
 
     _display = rest.DisplayField()
