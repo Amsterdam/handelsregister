@@ -26,7 +26,6 @@ web:
   volumes:
     - $PWD/data:/app/data
   environment:
-    SECRET_KEY: hoi
     DATABASE_NAME: handelsregister
     DATABASE_USER: handelsregister
     DATABASE_PASSWORD: insecure
