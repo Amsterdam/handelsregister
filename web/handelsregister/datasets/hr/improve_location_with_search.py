@@ -41,9 +41,9 @@ STATS = dict(
 # to the search api
 WORKERS = 25
 
-SEARCH_ADRES_URL = 'https://api.datapunt.amsterdam.nl/search/adres/'
-NUM_URL = "https://api.datapunt.amsterdam.nl/bag/nummeraanduiding/{}/"
-VBO_URL = "https://api.datapunt.amsterdam.nl/bag/verblijfsobject/{}/"
+SEARCH_ADRES_URL = 'https://api-acc.datapunt.amsterdam.nl/search/adres/'
+NUM_URL = "https://api-acc.datapunt.amsterdam.nl/bag/nummeraanduiding/{}/"
+VBO_URL = "https://api-acc.datapunt.amsterdam.nl/bag/verblijfsobject/{}/"
 
 
 def make_status_line():
