@@ -78,7 +78,9 @@ hr_router.register(r'functievervulling',
 
 search = SearchRouter()
 
-search.register(
+typeahead = SearchRouter()
+
+typeahead.register(
     r'typeahead', search_views.TypeaheadViewSet, base_name='typeahead')
 
 # Alias voor nummeraanduiding
@@ -90,21 +92,32 @@ search.register(
     search_views.SearchMacViewSet,
     base_name='search/maatschappelijke_activiteit')
 
+grouped_url_patterns = {
+    'base_patterns': [
+        url(r'^status/', include('health.urls', namespace='health')),
+    ],
+    'hr_patterns': [
+        url(r'^handelsregister/', include(hr_router.urls)),
+        url(r'^handelsregister/search/', include(search.urls)),
+    ],
+    'typeahead_patterns': [
+        url(r'^handelsregister/typeahead/', include(typeahead.urls)),
+    ],
+}
+
 
 @api_view()
 @renderer_classes(
     [SwaggerUIRenderer, OpenAPIRenderer, renderers.CoreJSONRenderer])
-def schema_view(request):
+def hr_schema_view(request):
     generator = schemas.SchemaGenerator(title='Handelsregister API')
     return response.Response(generator.get_schema(request=request))
 
 
 urlpatterns = [
-    url(r'^status/', include('health.urls', namespace='health')),
-    url(r'^handelsregister/search/', include(search.urls)),
-    url(r'^handelsregister/', include(hr_router.urls)),
-    url('^handelsregister/docs/api-docs/$', schema_view),
-]
+                  url('^handelsregister/docs/api-docs/$', hr_schema_view),
+              ] + [url for pattern_list in grouped_url_patterns.values()
+                   for url in pattern_list]
 
 if settings.DEBUG:
     import debug_toolbar
