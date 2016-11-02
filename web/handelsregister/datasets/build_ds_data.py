@@ -2,9 +2,10 @@
 import logging
 import jsonpickle
 from django import db
-from datasets.hr.models import DataSelectie, DataSelectieView, SbicodesPerVestiging, BetrokkenPersonen, NatuurlijkPersoon
+from datasets.hr.models import DataSelectie, DataSelectieView, SbicodesPerVestiging, BetrokkenPersonen
 
 log = logging.getLogger(__name__)
+
 
 def _build_joined_ds_table():
     """
