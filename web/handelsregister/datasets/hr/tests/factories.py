@@ -104,7 +104,7 @@ class SBIcatFactory(factory.DjangoModelFactory):
     class Meta:
         model = models.CBS_sbicodes
 
-    sbi_code = fuzzy.FuzzyInteger(low=20000, high=40099)
+    sbi_code = '1073'
     sub_sub_categorie = 'bla'
     scat = factory.SubFactory(SBISubcatFactory)
 
@@ -119,7 +119,7 @@ def create_x_vestigingen(x=5):
     vestigingen = []
 
     mac = MaatschappelijkeActiviteitFactory.create()
-    # SBIcatFactory.create()
+    SBIcatFactory.create()
     a1 = Activiteit.create(sbi_code='1073')
 
     point = Point(121944.32, 487722.88)
