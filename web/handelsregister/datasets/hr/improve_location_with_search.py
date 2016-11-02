@@ -82,20 +82,7 @@ class CSVLOGHANDLER():
     bag_error = logging.getLogger('bagerror')
 
     def __init__(self):
-        if settings.DEBUG:
-
-            csvfiles = [
-                (self.wtf, 'onbekend.csv'),
-                (self.bag_error, 'bagerrors.csv')
-            ]
-            for csvlogger, csvf in csvfiles:
-                handler = logging.FileHandler(csvf)
-                handler.setLevel(logging.DEBUG)
-                formatter = logging.Formatter('%(message)s')
-                handler.setFormatter(formatter)
-                csvlogger.addHandler(handler)
-        else:
-            # Disable logging on screen
+        if not settings.DEBUG:
             self.wtf.setLevel(logging.CRITICAL)
             self.bag_error.setLevel(logging.CRITICAL)
 
@@ -356,7 +343,7 @@ class SearchTask():
         gevent.spawn(details_request.send).join()
         details_request = details_request.response
 
-        if details_request.status_code == 404:
+        if not details_request or details_request.status_code == 404:
             CSV.bag_error.debug("%s, %s", self.get_q(), details_url)
             return None, None
 
@@ -578,7 +565,7 @@ def guess():
     find geo_point
     """
     log.debug('Start Finding and correcting incomplete adresses...')
-    gevent.spawn(req_counter)
+    status_job = gevent.spawn(req_counter)
 
     for gemeente in GEMEENTEN:
         invalid_locations = create_qs_of_invalid_locations(gemeente)
@@ -600,8 +587,10 @@ def guess():
             jobs.append(
                 gevent.spawn(async_determine_rd_coordinates))
 
-        # waint untill all search tasks are done
-        gevent.joinall(jobs)
+        with gevent.Timeout(3600, False):
+            # waint untill all search tasks are done
+            # but no longer than an hour
+            gevent.joinall(jobs)
 
         # store corrections for each gemeente
         STATS[gemeente] = STATS['correcties']
@@ -612,6 +601,7 @@ def guess():
         # reset correcties count
         STATS['correcties'] = 0
 
+    status_job.kill()
     # log end result
     for gemeente in GEMEENTEN:
         if gemeente not in STATS:

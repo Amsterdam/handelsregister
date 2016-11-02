@@ -13,12 +13,13 @@ from . import models
 
 LOG = logging.getLogger(__name__)
 
+tmp_json = '/tmp/stats.json'
 # keep track of counts
 STATS = []
 
 # load historic counts
-if os.path.exists('stats.json'):
-    with open('stats.json', 'r') as stats:
+if os.path.exists(tmp_json):
+    with open(tmp_json, 'r') as stats:
         STATS = json.load(stats)
 
 
@@ -173,7 +174,7 @@ def log_rapport_counts():
         STATS.pop(0)
 
     # update stats with latest status
-    with open('stats.json', 'w') as thefile:
+    with open(tmp_json, 'w') as thefile:
         json.dump(STATS, thefile)
 
     header = ""

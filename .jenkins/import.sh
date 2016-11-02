@@ -11,6 +11,9 @@ dc() {
 
 trap 'dc kill ; dc rm -f' EXIT
 
+echo "Do we have OS password?"
+echo $OS_PASSWORD
+
 rm -rf ${DIR}/backups
 mkdir -p ${DIR}/backups
 
