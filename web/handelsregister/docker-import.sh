@@ -23,8 +23,11 @@ python /app/manage.py run_import
 # autocorrect locations fields with search resultaten
 python /app/manage.py run_import --search || echo "Search failed, continuing anyway"
 
-# create geoviews
-python /app/manage.py run_import --cbs_sbi
+# import sbicodes
+python /app/manage.py run_import --cbs_sbi || echo "Search failed, continuing anyway"
 
 # create geoviews
 python /app/manage.py run_import --geovestigingen
+
+# create dataselectie export
+python /app/manage.py run_import --dataselectie

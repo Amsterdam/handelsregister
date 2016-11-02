@@ -598,6 +598,10 @@ WHERE correctie IS NOT NULL
 
 
 def _build_joined_geo_table(cursor):
+    cursor.execute("SELECT COUNT(*) from hr_cbs_sbicodes")
+    r = cursor.fetchone()
+    assert(r[0] > 0)
+
     cursor.execute("TRUNCATE TABLE hr_geovestigingen")
     cursor.execute("""
 INSERT INTO hr_geovestigingen (
