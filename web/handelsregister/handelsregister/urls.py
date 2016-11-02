@@ -13,10 +13,10 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url, include
 from django.conf import settings
+from django.conf.urls import url, include
 from django.contrib import admin
-from rest_framework import routers, views, reverse, renderers, schemas, response
+from rest_framework import routers, renderers, schemas, response
 from rest_framework.decorators import api_view, renderer_classes
 from rest_framework_swagger.renderers import OpenAPIRenderer
 from rest_framework_swagger.renderers import SwaggerUIRenderer
@@ -34,6 +34,7 @@ class HandelsregisterRouter(routers.DefaultRouter):
     waaronder ondernemingen en vestigingen, en legt vast hoe deze zich
     onderling verhouden.
     """
+
     def get_api_root_view(self, **kwargs):
         view = super().get_api_root_view(**kwargs)
         cls = view.cls
@@ -77,7 +78,6 @@ hr_router.register(r'functievervulling',
 
 search = SearchRouter()
 
-
 search.register(
     r'typeahead', search_views.TypeaheadViewSet, base_name='typeahead')
 
@@ -89,6 +89,7 @@ search.register(
     r'maatschappelijkeactiviteit',
     search_views.SearchMacViewSet,
     base_name='search/maatschappelijke_activiteit')
+
 
 @api_view()
 @renderer_classes(
@@ -102,11 +103,12 @@ urlpatterns = [
     url(r'^status/', include('health.urls', namespace='health')),
     url(r'^handelsregister/search/', include(search.urls)),
     url(r'^handelsregister/', include(hr_router.urls)),
-    url('^handelsregister/docs/$', schema_view),
+    url('^handelsregister/docs/api-docs/$', schema_view),
 ]
 
 if settings.DEBUG:
     import debug_toolbar
+
     urlpatterns.extend([
         url(r'^__debug__/', include(debug_toolbar.urls)),
         url(r'^admin/', admin.site.urls),
