@@ -29,8 +29,8 @@ class RandomShitTest(APITestCase):
         random stuff that crashes search / inspired by smoke tests
         """
         search_endpoints = [
+            '/handelsregister/typeahead/',
             '/handelsregister/search/vestiging/',
-            '/handelsregister/search/typeahead/',
             '/handelsregister/search/maatschappelijkeactiviteit/',
         ]
 
