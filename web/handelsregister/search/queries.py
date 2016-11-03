@@ -93,8 +93,11 @@ def vestiging_query(analyzer: InputQAnalyzer) -> ElasticQueryWrapper:
     return ElasticQueryWrapper(
         query=Q(
             'bool',
+            must=[
+                Q('term', _type='vestiging'),
+            ],
             should=[
-                Q('match', vestigingsnummer=vesid),
+                Q('prefix', vestigingsnummer=vesid),
                 Q('match_phrase', naam=handelsnaam),
                 Q('match', naam=handelsnaam)],
             minimum_should_match=1),
@@ -112,14 +115,16 @@ def mac_query(analyzer: InputQAnalyzer) -> ElasticQueryWrapper:
     handelsnaam = analyzer.get_handelsnaam()
 
     # straatnaam huisnummer??
-
     sort_fields = ['_score']
 
     return ElasticQueryWrapper(
         query=Q(
             'bool',
+            must=[
+                Q('term', _type='maatschappelijke_activiteit'),
+            ],
             should=[
-                Q('match', kvk_nummer=macid),
+                Q('prefix', kvk_nummer=macid),
                 Q('match_phrase', naam=handelsnaam),
                 Q('match', naam=handelsnaam)],
             minimum_should_match=1),
