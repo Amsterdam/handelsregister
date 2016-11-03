@@ -87,25 +87,25 @@ class FunctievervullingFactory(factory.DjangoModelFactory):
 class SBIHoofdcatFactory(factory.DjangoModelFactory):
     class Meta:
         model = models.CBS_sbi_hoofdcat
-    hcat = 'jan'
-    hoofdcategorie = 'sub bla'
+    hcat = fuzzy.FuzzyInteger(low=100, high=109)
+    hoofdcategorie = fuzzy.FuzzyText(prefix='hfdcat')
 
 
 class SBISubcatFactory(factory.DjangoModelFactory):
     class Meta:
         model = models.CBS_sbi_subcat
 
-    scat = 'piet'
+    scat = fuzzy.FuzzyInteger(low=1000, high=1009)
     hcat = factory.SubFactory(SBIHoofdcatFactory)
-    subcategorie = 'sub bla'
+    subcategorie = fuzzy.FuzzyText(prefix='subcat')
 
 
 class SBIcatFactory(factory.DjangoModelFactory):
     class Meta:
         model = models.CBS_sbicodes
 
-    sbi_code = '1073'
-    sub_sub_categorie = 'bla'
+    sbi_code = fuzzy.FuzzyInteger(low=10000, high=10009)
+    sub_sub_categorie = fuzzy.FuzzyText(prefix='sbi')
     scat = factory.SubFactory(SBISubcatFactory)
 
 
@@ -119,7 +119,6 @@ def create_x_vestigingen(x=5):
     vestigingen = []
 
     mac = MaatschappelijkeActiviteitFactory.create()
-    SBIcatFactory.create()
     a1 = Activiteit.create(sbi_code='1073')
 
     point = Point(121944.32, 487722.88)
@@ -158,6 +157,7 @@ def create_dataselectie_set():
 
     # THIS IS A RANDOM AMOUNT
     create_x_vestigingen(x=5)
+
 
     macs = models.MaatschappelijkeActiviteit.objects.all()
     persoon = PersoonFactory.create()

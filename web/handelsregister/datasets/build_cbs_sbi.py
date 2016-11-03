@@ -7,6 +7,7 @@ import logging
 from django import db
 from django.conf import settings
 import requests
+import json
 import time
 from datasets.hr.models import CBS_sbicodes, CBS_sbi_hoofdcat, CBS_sbi_subcat
 log = logging.getLogger(__name__)
@@ -87,8 +88,27 @@ def _process_category_data(category_data, hcat):
 def _check_download_complete():
 
     if CBS_sbi_hoofdcat.objects.count() == 0:
-        from subprocess import call
-        call('datasets/restore_cbs.sh')
+        _restore_json('./datasets/kvkdump/fixture_files/hcat.json', CBS_sbi_hoofdcat, 'hcat')
+        _restore_json('./datasets/kvkdump/fixture_files/scat.json', CBS_sbi_subcat, 'scat', 'hcat')
+        _restore_json('./datasets/kvkdump/fixture_files/sbicodes.json', CBS_sbicodes, 'sbi_code', 'scat')
+
+def _restore_json(filename, modelname, pkname='id', reference_field=None):
+    indata = []
+    with open(filename, 'r') as injson:
+        indata = json.loads(injson.read())
+
+    for rows in indata:
+        newrow = modelname()
+        for key, value in rows.items():
+            if key == 'pk':
+                setattr(newrow, pkname, value)
+            elif key == 'fields':
+                for fldname, fldvalue in value.items():
+                    if fldname == reference_field:
+                        fldname += '_id'
+                    setattr(newrow, fldname, fldvalue)
+        newrow.save()
+
 
 
 def cbsbi_table():

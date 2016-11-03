@@ -1,10 +1,11 @@
-from django.test import TestCase
+from rest_framework.test import APITestCase
 from django import db
 from datasets import build_cbs_sbi
 from ..models import CBS_sbi_hoofdcat, CBS_sbi_subcat, CBS_sbicodes
+from .fixtures import patch_cbs_requests
 
-
-class ImportCSBTest(TestCase):
+@patch_cbs_requests
+class ImportCSBTest(APITestCase):
 
     def test_cbs_import(self):
 
@@ -15,9 +16,9 @@ class ImportCSBTest(TestCase):
         hoofdcatnr = CBS_sbi_hoofdcat.objects.count()
         subcatnr = CBS_sbi_subcat.objects.count()
         sbinr = CBS_sbicodes.objects.count()
-        self.assertGreater(hoofdcatnr, 11)
-        self.assertGreater(subcatnr, 12)
-        self.assertGreater(sbinr, 12)
+        self.assertEqual(hoofdcatnr, 12)
+        self.assertEqual(subcatnr, 7)
+        self.assertEqual(sbinr, 109)
 
         with db.connection.cursor() as cursor:
             cursor.execute("""COMMIT""")
