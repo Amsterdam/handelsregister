@@ -20,7 +20,8 @@ def _clear_cbsbi_table():
     with db.connection.cursor() as cursor:
         cursor.execute("""TRUNCATE TABLE hr_cbs_sbi_hoofdcat CASCADE""")
 
-def _requestExec(req_parameter):
+
+def _request_exec(req_parameter):
     data = None
     try:
         data = requests.get(req_parameter)
@@ -41,7 +42,7 @@ def _fill_cbsbi_table():
     code = 'start/0'
     vraag_url = settings.CBS_URI
 
-    data = _requestExec(vraag_url.format(code))
+    data = _request_exec(vraag_url.format(code))
     if data:
         _process_data_from_cbs(data, vraag_url)
         log.info("Vullen sbi codes voltooid")
@@ -55,7 +56,7 @@ def _process_data_from_cbs(data, vraag_url):
         next_url = vraag_url.format(antwoord['Value'])
         next_url += '/1'
 
-        category_data = _requestExec(next_url)
+        category_data = _request_exec(next_url)
         if category_data:
 
             _process_category_data(category_data, hcat)
@@ -73,14 +74,18 @@ def _process_category_data(category_data, hcat):
         scat.save()
 
         search_url_k = search_url.format(sub_category_antwoord['Value'])
-        category_codes = _requestExec(search_url_k)
+        category_codes = _request_exec(search_url_k)
         if category_codes:
 
             time.sleep(0.1)
 
             for item in category_codes.json():
+            # Met overige in horeca komen ook de andere categorieen mee!
+            # Negeer daarom select op al aangemaakt!!
+                if not item or CBS_sbicodes.objects.filter(sbi_code=item['Code']).count():
+                    continue
                 cbsbi = CBS_sbicodes(sbi_code=item['Code'],
-                                     scat=scat,
+                                     scat_id=scat.scat,
                                      sub_sub_categorie=item['Title'])
                 cbsbi.save()
 
@@ -88,12 +93,16 @@ def _process_category_data(category_data, hcat):
 def _check_download_complete():
 
     if CBS_sbi_hoofdcat.objects.count() == 0:
-        _restore_json('./datasets/kvkdump/fixture_files/hcat.json', CBS_sbi_hoofdcat, 'hcat')
-        _restore_json('./datasets/kvkdump/fixture_files/scat.json', CBS_sbi_subcat, 'scat', 'hcat')
-        _restore_json('./datasets/kvkdump/fixture_files/sbicodes.json', CBS_sbicodes, 'sbi_code', 'scat')
+        restore_cbs_sbi()
+
+
+def restore_cbs_sbi():
+    _restore_json('./datasets/kvkdump/fixture_files/hcat.json', CBS_sbi_hoofdcat, 'hcat')
+    _restore_json('./datasets/kvkdump/fixture_files/scat.json', CBS_sbi_subcat, 'scat', 'hcat')
+    _restore_json('./datasets/kvkdump/fixture_files/sbicodes.json', CBS_sbicodes, 'sbi_code', 'scat')
+
 
 def _restore_json(filename, modelname, pkname='id', reference_field=None):
-    indata = []
     with open(filename, 'r') as injson:
         indata = json.loads(injson.read())
 
@@ -108,7 +117,6 @@ def _restore_json(filename, modelname, pkname='id', reference_field=None):
                         fldname += '_id'
                     setattr(newrow, fldname, fldvalue)
         newrow.save()
-
 
 
 def cbsbi_table():

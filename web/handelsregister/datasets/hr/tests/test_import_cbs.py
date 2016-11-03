@@ -4,13 +4,12 @@ from datasets import build_cbs_sbi
 from ..models import CBS_sbi_hoofdcat, CBS_sbi_subcat, CBS_sbicodes
 from .fixtures import patch_cbs_requests
 
-@patch_cbs_requests
+#@patch_cbs_requests
 class ImportCSBTest(APITestCase):
 
     def test_cbs_import(self):
 
         build_cbs_sbi._clear_cbsbi_table()
-
         build_cbs_sbi._fill_cbsbi_table()
 
         hoofdcatnr = CBS_sbi_hoofdcat.objects.count()
