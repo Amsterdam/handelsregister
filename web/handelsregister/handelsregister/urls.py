@@ -101,7 +101,7 @@ grouped_url_patterns = {
         url(r'^handelsregister/search/', include(search.urls)),
     ],
     'typeahead_patterns': [
-        url(r'^handelsregister/typeahead/', include(typeahead.urls)),
+        url(r'^handelsregister/', include(typeahead.urls)),
     ],
 }
 

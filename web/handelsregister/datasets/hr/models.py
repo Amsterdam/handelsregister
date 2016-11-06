@@ -875,10 +875,20 @@ class BetrokkenPersonen(models.Model):
         help_text="Kvk nummer"
     )
 
-    vestiging_id = models.ForeignKey(
+    vestiging = models.ForeignKey(
         DataSelectie,
         to_field="id",
         db_column="vestiging_id",
+        blank=True,
+        null=True,
+        help_text="Vestiging id",
+        on_delete=models.DO_NOTHING
+    )
+
+    vestigingnr = models.ForeignKey(
+        GeoVestigingen,
+        to_field="vestigingsnummer",
+        db_column="vestigingsnummer",
         blank=True,
         null=True,
         help_text="Vestiging nummer",
@@ -929,13 +939,3 @@ class BetrokkenPersonen(models.Model):
         null=True,
         help_text="Bevoegdheid van de functionaris"
     )
-
-    # def __getstate__(self):
-    #     state = self.__dict__.copy()
-    #     for s_name in state.keys():
-    #         if s_name[1] == '_' or s_name[:3] == 'py/':
-    #             del state[s_name]
-    #     return state
-    #
-    # def __setstate__(self, state):
-    #     self.__dict__.update(state)

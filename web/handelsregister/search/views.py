@@ -122,6 +122,7 @@ class TypeaheadViewSet(viewsets.ViewSet):
         """provide autocomplete suggestions"""
 
         analyzer = InputQAnalyzer(query_string)
+
         query_components = [
             vestiging_query(analyzer),
             mac_query(analyzer)
@@ -202,15 +203,9 @@ class TypeaheadViewSet(viewsets.ViewSet):
 
     def list(self, request):
         """
-        returns result options
-        ---
-        parameters:
-            - name: q
-              description: givven search q give Result suggestions
-              required: true
-              type: string
-              paramType: query
+        Returns matching result options
         """
+
         if 'q' not in request.query_params:
             return Response([])
 
@@ -275,15 +270,6 @@ class SearchViewSet(viewsets.ViewSet):
     def list(self, request, *args, **kwargs):
         """
         Create a response list
-
-        ---
-        parameters:
-            - name: q
-              description: Zoek op kadastraal object
-              required: true
-              type: string
-              paramType: query
-
         """
 
         if 'q' not in request.query_params:
@@ -326,12 +312,16 @@ class SearchViewSet(viewsets.ViewSet):
             # https://github.com/elastic/elasticsearch/issues/11340#issuecomment-105433439
             return Response([])
 
+        # log.exception(json.dumps(search.to_dict(), indent=4))
+
         response = OrderedDict()
 
         self._set_followup_url(request, result, end, response, query, page)
 
         count = result.hits.total
-        response['count_hits'] = count
+
+        # log.exception(count)
+
         response['count'] = count
 
         response['results'] = [self.normalize_hit(h, request)
@@ -384,6 +374,5 @@ class SearchMacViewSet(SearchViewSet):
         """
         Execute search on Subject
         """
-        search = mac_query(analyzer)\
-            .to_elasticsearch_object(client)
-        return search.filter('terms', subtype=['maatschappelijke activiteit'])
+        search = mac_query(analyzer).to_elasticsearch_object(client)
+        return search

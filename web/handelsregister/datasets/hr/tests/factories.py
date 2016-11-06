@@ -1,6 +1,7 @@
 import factory
 import random
-
+from datetime import datetime
+import pytz
 from django.contrib.gis.geos import Point
 
 from factory import fuzzy
@@ -31,6 +32,7 @@ class MaatschappelijkeActiviteitFactory(factory.DjangoModelFactory):
 
     id = fuzzy.FuzzyInteger(low=100000000000000000, high=100000000000000099)
     kvk_nummer = fuzzy.FuzzyInteger(low=1, high=99999999)
+    datum_aanvang = fuzzy.FuzzyDateTime(datetime(1987,2,4, tzinfo=pytz.utc))
 
 
 class VestigingFactory(factory.DjangoModelFactory):

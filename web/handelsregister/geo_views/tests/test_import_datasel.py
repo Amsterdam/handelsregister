@@ -1,13 +1,9 @@
-import jsonpickle
-from django.test import TestCase
-from django.contrib.gis.geos import Point
+import rapidjson
 from django.test import TestCase
 
 from datasets import build_hr_data, build_ds_data
 from datasets.hr import models
 from datasets.hr.tests import factories as hr_factories
-
-point = Point(0.0, 1.1)
 
 
 class ImportDataselectieTest(TestCase):
@@ -29,5 +25,5 @@ class ImportDataselectieTest(TestCase):
         # this one is always there
         row = self.get_row('0-0')
 
-        jsonapi = jsonpickle.decode(row.api_json)
+        jsonapi = rapidjson.loads(row.api_json)
         self.assertIsInstance(jsonapi, models.DataSelectieView)

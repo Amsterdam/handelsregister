@@ -104,9 +104,9 @@ class Command(BaseCommand):
         elif options['cbs_sbi']:
             build_cbs_sbi.cbsbi_table()
         elif options['dataselectie']:
-            import cProfile
-            import re
-            cProfile.runctx('build_ds_data._build_joined_ds_table()', globals(), locals(), '/tmp/statsds_data')
+            build_ds_data._build_joined_ds_table()
+            # import cProfile
+            # cProfile.runctx('build_ds_data._build_joined_ds_table()', globals(), locals(), '/tmp/statsds_data')
         elif options['searchapi']:
             improve_location_with_search.guess()
             location_stats.log_rapport_counts()
