@@ -5,7 +5,6 @@ from django.test import TestCase
 
 from datasets import build_hr_data, build_ds_data
 from datasets.hr import models
-from datasets.kvkdump.build_cbs_sbi import factories as hr_factories
 from datasets.hr.tests import factories as hr_factories
 
 point = Point(0.0, 1.1)
@@ -13,10 +12,11 @@ point = Point(0.0, 1.1)
 
 class ImportDataselectieTest(TestCase):
 
-    def get_row(self, key):
-        r = models.DataSelectie.objects.filter(id=key).get()
-        self.assertIsNotNone(r)
-        return r
+    def get_row(self, key=None):
+        if key:
+            r = models.DataSelectie.objects.filter(id=key).get()
+            self.assertIsNotNone(r)
+            return r
 
     def test_datasel_import(self):
 
@@ -29,6 +29,5 @@ class ImportDataselectieTest(TestCase):
         # this one is always there
         row = self.get_row('0-0')
 
-        # ??
         jsonapi = jsonpickle.decode(row.api_json)
         self.assertIsInstance(jsonapi, models.DataSelectieView)

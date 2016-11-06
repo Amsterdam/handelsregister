@@ -21,9 +21,7 @@ def _build_joined_ds_table():
     with db.connection.cursor() as cursor:
         cursor.execute("TRUNCATE TABLE hr_dataselectie")
     log.info('START opbouw dataselectie api als json')
-    for vestiging_data in DataSelectieView.objects.\
-                prefetch_related('postadres_id').\
-                prefetch_related('bezoekadres_id').all():
+    for vestiging_data in DataSelectieView.objects.all():
         vestiging_data.sbi_codes = SbicodesPerVestiging.objects.filter(vestiging_id=vestiging_data.vestiging_id).all()
         if len(vestiging_data.sbi_codes):
             vestiging_data.betrokkenen = BetrokkenPersonen.objects.\

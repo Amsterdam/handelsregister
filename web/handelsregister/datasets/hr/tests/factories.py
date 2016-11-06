@@ -7,6 +7,7 @@ from factory import fuzzy
 
 from .. import models
 
+from datasets.build_cbs_sbi import restore_cbs_sbi
 
 class NatuurlijkePersoon(factory.DjangoModelFactory):
     class Meta:
@@ -119,7 +120,9 @@ def create_x_vestigingen(x=5):
     vestigingen = []
 
     mac = MaatschappelijkeActiviteitFactory.create()
-    a1 = Activiteit.create(sbi_code='1073')
+    a1 = Activiteit.create()
+    a2 = Activiteit.create()
+    a3 = Activiteit.create()
 
     point = Point(121944.32, 487722.88)
 
@@ -144,7 +147,7 @@ def create_x_vestigingen(x=5):
                 id='{}-{}'.format(i, v),
                 bezoekadres=loc_b,
                 postadres=loc_p,
-                activiteiten=[a1],
+                activiteiten=[a1, a2, a3],
                 maatschappelijke_activiteit=mac
             )
 
@@ -154,10 +157,11 @@ def create_x_vestigingen(x=5):
 
 
 def create_dataselectie_set():
+    
+    restore_cbs_sbi()
 
     # THIS IS A RANDOM AMOUNT
     create_x_vestigingen(x=5)
-
 
     macs = models.MaatschappelijkeActiviteit.objects.all()
     persoon = PersoonFactory.create()
@@ -168,6 +172,13 @@ def create_dataselectie_set():
     for m in macs:
         m.eigenaar = persoon
         m.save()
+        
+    sbicodes = models.CBS_sbicodes.objects.all()
+    acnrs = models.Activiteit.objects.count() - 1
+    for idx, ac in enumerate(models.Activiteit.objects.all()[:acnrs]):
+        if idx < len(sbicodes):
+            ac.sbi_code = sbicodes[idx].sbi_code
+            ac.save()
 
     return persoon
 
