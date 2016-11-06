@@ -10,6 +10,8 @@ import sys
 import logging
 import time
 
+from collections import OrderedDict
+
 from requests import Session
 
 import grequests
@@ -27,6 +29,9 @@ log = logging.getLogger(__name__)
 
 SEARCHES_QUEUE = JoinableQueue(maxsize=500)
 
+# TO see step by step what search does.
+SLOW = False
+#SLOW = True
 
 STATS = dict(
     start=time.time(),
@@ -39,7 +44,9 @@ STATS = dict(
 
 # the amount of concurrent workers that do requests
 # to the search api
-WORKERS = 25
+WORKERS = 15
+if SLOW:
+    WORKERS = 1  # 25
 
 SEARCH_ADRES_URL = 'https://api-acc.datapunt.amsterdam.nl/search/adres/'
 NUM_URL = "https://api-acc.datapunt.amsterdam.nl/bag/nummeraanduiding/{}/"
@@ -63,6 +70,9 @@ def req_counter():
     Get an indication of the request per second
     """
     interval = 3.0
+    if SLOW:
+        interval = 30
+
     while True:
         start = STATS['correcties']
         gevent.sleep(interval)
@@ -238,10 +248,15 @@ class SearchTask():
         async_r = grequests.get(
             SEARCH_ADRES_URL, params=parameters, session=self.session)
         # send a request and wait for results
-        gevent.spawn(async_r.send).join()
+
+        job = gevent.spawn(async_r.send)
+        job.join()
         # Do something with the result count?
 
-        if not async_r.response:
+        async_r = job.value
+
+        if not async_r:
+            log.debug('no response')
             return {}
         elif async_r.response.status_code == 404:
             log.error(parameters)
@@ -281,15 +296,37 @@ class SearchTask():
             log.debug('Point/Bagid missing: %s', self.get_q())
             return
 
-    def get_q(self, toevoeging, nummer=None):
+    def get_q(self, toevoeging, nummer=None, postcode=None):
         """
         Create query string for search
         """
         if not nummer:
             nummer = self.nummers[0]
 
+        if postcode:
+            return '{} {} {}'.format(
+                 self.postcode, nummer, toevoeging)
+
         return '{} {} {}'.format(
             self.straatnaam, nummer, toevoeging)
+
+    def do_one_hit(self, qs_try):
+        # straat/postcode huisnummer toevoeging
+        parameters_toevoeging = {'q': qs_try}
+
+        data = self.get_response(parameters_toevoeging)
+
+        # Only if we are realy sure we return data
+        # FIXME postcode check!
+        if SLOW:
+            count = 0
+            if data:
+                count = data.get('count', 0)
+            log.debug('q=%s hits=%s', qs_try, count)
+
+        if data and data.get('results') and data['count'] == 1:
+            self.used_query_string = qs_try
+            return data
 
     def get_exact_search_response(self):
         """
@@ -297,18 +334,30 @@ class SearchTask():
         find exact search result with
         only one result so we have an exact match
         """
+        data = None
 
         # First with toevoeging
         for nummer in self.nummers:
             for t in self.toevoegingen:
-                qs_try = self.get_q(t, nummer=nummer)
-                parameters_toevoeging = {'q': qs_try}
-                data = self.get_response(parameters_toevoeging)
 
-                # Only if we are realy sure we return data
-                # FIXME postcode check!
-                if data and data.get('results') and data['count'] == 1:
-                    self.used_query_string = qs_try
+                if self.postcode:
+                    # postcode nummmer toevoeging
+                    qs_try = self.get_q(
+                        t, nummer=nummer, postcode=self.postcode)
+                    data = self.do_one_hit(qs_try)
+
+                if SLOW:
+                    gevent.sleep(0.5)
+
+                if not data:
+                    # straatnaam nummer toevoeging
+                    qs_try = self.get_q(t, nummer=nummer)
+                    data = self.do_one_hit(qs_try)
+
+                if SLOW:
+                    gevent.sleep(0.5)
+
+                if data:
                     return data
 
         # Correctie failed
@@ -324,9 +373,10 @@ class SearchTask():
         nothing found
         """
         CSV.wtf.debug(
-            '%s, %s, %s, %s, %s',
+            '%s, %s, %s, %s, %s, %s',
             self.locatie.id,
             self.straatnaam,
+            self.postcode,
             self.nummers,
             self.toevoegingen,
             self.query_string)
@@ -425,15 +475,20 @@ def normalize_geo(point):
 BEGANE_GROND = set(['H', 1, 'A', 'O'])
 
 
-def normalize_toevoeging(toevoeging=""):
+def normalize_toevoeging(toevoegingen=[""]):
     """
     zoek toevoeging indicaties
     en alle alternativen
     """
-    toevoeging = toevoeging.lower()
 
-    # De toevoeging zelf en leeg zijn het alternatief
-    alternativen = [toevoeging, ""]
+    toevoegingen = [t.lower() for t in toevoegingen]
+    alternatieven = ["".join(toevoegingen)]
+
+    # generete from specific to less specific alternatives for
+    # toevoegingen
+    for i in reversed(range(len(toevoegingen))):
+        optie = "".join(toevoegingen[:i])
+        alternatieven.append(optie)
 
     begane_grond = BEGANE_GROND
 
@@ -443,20 +498,26 @@ def normalize_toevoeging(toevoeging=""):
         '3hg': [3, 4],
         'iii': [3],
         'ii': [2],
-        'a': begane_grond,
-        'bg': begane_grond,
         'i': begane_grond,
+        'a': begane_grond,
+        'b': [1, 2],
+        'bg': begane_grond,
         'huis': begane_grond,
         'hs': begane_grond,
         'sous': begane_grond,
         'bel': begane_grond,
         'parterre': begane_grond
     }
+    for toevoeging in list(alternatieven):
+        if toevoeging in mapping:
+            alternatieven.extend(mapping[toevoeging])
 
-    if toevoeging in mapping:
-        alternativen.extend(mapping[toevoeging])
-
-    return set(alternativen) | set(begane_grond)
+    # Empty toevoeging should always be an option
+    alternatieven.append("")
+    # Begane grond as last resort
+    alternatieven.extend(begane_grond)
+    # Return unique ordered items list
+    return list(OrderedDict.fromkeys(alternatieven))
 
 
 def create_improve_locations_tasks(all_invalid_locations):
@@ -492,6 +553,23 @@ def dubbele_nummer_check(nummer, toevoeging):
             return nummer2
 
 
+def determine_postcode_index(tokens, postcode):
+    """
+    postcode is in the tokens.
+    """
+    #log.debug(tokens)
+    #log.debug(postcode)
+
+    if not postcode:
+        return len(tokens)
+
+    number = postcode[:4]
+
+    for idx, t in enumerate(tokens):
+        if t == number:
+            return idx
+
+
 def create_search_for_addr(loc, addr):
     """
     Create search tasks for specific adres
@@ -520,21 +598,24 @@ def create_search_for_addr(loc, addr):
         return
 
     if len(tokens) > i:
-        toevoeging = tokens[i+1]
-        if toevoeging and postcode and postcode.startswith(toevoeging):
-            toevoeging = ""
+        idx = determine_postcode_index(tokens, postcode)
+        toevoegingen = tokens[i+1:idx]
+        #log.debug('toevoegingen: %s', toevoegingen)
         # FIX common toevoeging mistakes
-        toevoegingen = normalize_toevoeging(toevoeging)
+        toevoegingen = normalize_toevoeging(toevoegingen)
+        #log.debug('toevoegingen2: %s', toevoegingen)
 
     # add search tasks to queue
     while SEARCHES_QUEUE.full():
         gevent.sleep(2.3)
 
     huisnummers = [nummer]
+
     nummer2 = dubbele_nummer_check(nummer, toevoeging)
+
     if nummer2:
         huisnummers.append(nummer2)
-        toevoegingen = toevoegingen | BEGANE_GROND
+        toevoegingen = toevoegingen or BEGANE_GROND
 
     search_data = [loc, query_string,
                    straat, huisnummers, toevoegingen, postcode]
