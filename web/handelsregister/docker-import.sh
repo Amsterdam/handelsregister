@@ -30,4 +30,4 @@ python /app/manage.py run_import --cbs_sbi || echo "Search failed, continuing an
 python /app/manage.py run_import --geovestigingen
 
 # create dataselectie export
-python /app/manage.py run_import --dataselectie
+#python /app/manage.py run_import --dataselectie
