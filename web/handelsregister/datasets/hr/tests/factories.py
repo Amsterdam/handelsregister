@@ -90,7 +90,7 @@ class FunctievervullingFactory(factory.DjangoModelFactory):
 
     id = fuzzy.FuzzyInteger(low=100000000000000000, high=100000000000000099)
     is_aansprakelijke = factory.SubFactory(PersoonFactory)
-    heeft_aansprakelijke = fuzzy.FuzzyInteger(low=10000000000000, high=10000000000099)
+    heeft_aansprakelijke = factory.SubFactory(PersoonFactory)
 
 
 class SBIHoofdcatFactory(factory.DjangoModelFactory):
