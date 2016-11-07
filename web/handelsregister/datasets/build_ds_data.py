@@ -59,7 +59,10 @@ def _build_joined_ds_table():
                                             'scat': subcat.scat}
 
     betrokken_per_vestiging = BetrokkenPersonen.objects.order_by('vestigingsnummer').iterator()
-    betrokken = next(betrokken_per_vestiging)
+    try:
+        betrokken = next(betrokken_per_vestiging)
+    except StopIteration:
+        betrokken = None
 
     log.info('START opbouw dataselectie api als json')
     by_vestiging = groupby(GeoVestigingen.objects.order_by('vestigingsnummer'),
@@ -86,7 +89,7 @@ def _build_joined_ds_table():
         if len(vst_sbi):
             vestiging_dict['betrokkenen'] = vst_betr = []
             first = True
-            while betrokken.vestigingsnummer <= vestigingsnummer:
+            while betrokken and betrokken.vestigingsnummer <= vestigingsnummer:
                 if betrokken.vestigingsnummer == vestigingsnummer:
                     vst_betr.append(to_dict(betrokken, BETROKKENEN_FIELDS))
                     if first:
@@ -96,6 +99,7 @@ def _build_joined_ds_table():
                 try:
                     betrokken = next(betrokken_per_vestiging)
                 except StopIteration:
+                    betrokken = None
                     break
             ds = DataSelectie(vestigingsnummer, rapidjson.dumps(vestiging_dict))
             ds.save()

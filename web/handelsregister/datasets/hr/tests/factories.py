@@ -15,7 +15,7 @@ class NatuurlijkePersoonFactory(factory.DjangoModelFactory):
         model = models.NatuurlijkPersoon
 
     id = fuzzy.FuzzyInteger(low=10000000000000, high=10000000000099)
-    voornamen = 'piet'
+    voornamen = fuzzy.FuzzyText('voornaam')
 
 
 class PersoonFactory(factory.DjangoModelFactory):
@@ -127,6 +127,7 @@ def create_x_vestigingen(x=5):
 
     vestigingen = []
 
+    restore_cbs_sbi()           # required to allow for build of geo_vestiging
     mac = MaatschappelijkeActiviteitFactory.create()
     a1 = Activiteit.create()
     a2 = Activiteit.create()
@@ -155,7 +156,7 @@ def create_x_vestigingen(x=5):
                 id='{}-{}'.format(i, v),
                 bezoekadres=loc_b,
                 postadres=loc_p,
-                activiteiten=[a1, a2, a3],
+                activiteiten=[a1],
                 maatschappelijke_activiteit=mac
             )
 
@@ -166,8 +167,6 @@ def create_x_vestigingen(x=5):
 
 def create_dataselectie_set():
     
-    restore_cbs_sbi()
-
     # THIS IS A RANDOM AMOUNT
     create_x_vestigingen(x=5)
 
@@ -181,8 +180,6 @@ def create_dataselectie_set():
         elif idx < len(fv):
             m.eigenaar = fv[idx]
             m.save()
-
-
 
     sbicodes = models.CBS_sbicodes.objects.all()
     acnrs = models.Activiteit.objects.count() - 1

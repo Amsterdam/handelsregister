@@ -18,6 +18,9 @@ URL = settings.DATAPUNT_API_URL
 
 class ViewsTest(TestCase):
 
+    def setUp(self):
+        hr_factories.restore_cbs_sbi()
+
     def get_row(self, view_name):
         cursor = connection.cursor()
         cursor.execute("SELECT * FROM " + str(view_name) + " LIMIT 1")
