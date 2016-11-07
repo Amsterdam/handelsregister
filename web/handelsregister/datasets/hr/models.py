@@ -720,6 +720,14 @@ class GeoVestigingen(models.Model):
         help_text="De codering van de activiteit conform de SBI2008"
     )
 
+    postadres = models.ForeignKey(
+        'Locatie', related_name="+", blank=True, null=True,
+        help_text="postadres")
+
+    bezoekadres = models.ForeignKey(
+        'Locatie', related_name="+", blank=True, null=True,
+        help_text="bezoekadres")
+
 
 class GeoVBO(models.Model):
     id = models.CharField(max_length=14, primary_key=True)
@@ -885,14 +893,9 @@ class BetrokkenPersonen(models.Model):
         on_delete=models.DO_NOTHING
     )
 
-    vestigingnr = models.ForeignKey(
-        GeoVestigingen,
-        to_field="vestigingsnummer",
-        db_column="vestigingsnummer",
-        blank=True,
-        null=True,
-        help_text="Vestiging nummer",
-        on_delete=models.DO_NOTHING
+    vestigingsnummer = models.CharField(
+        max_length=12, unique=True,
+        help_text="Betreft het identificerende gegeven voor de Vestiging"
     )
 
     persoons_id = models.IntegerField(
@@ -938,4 +941,15 @@ class BetrokkenPersonen(models.Model):
         blank=True,
         null=True,
         help_text="Bevoegdheid van de functionaris"
+    )
+
+    datum_aanvang = models.DateField(
+        max_length=8, blank=True, null=True,
+        help_text="De datum van aanvang van de MaatschappelijkeActiviteit",
+    )
+
+    datum_einde = models.DateField(
+        max_length=8, blank=True, null=True,
+        help_text="""
+            De datum van beëindiging van de MaatschappelijkeActiviteit""",
     )

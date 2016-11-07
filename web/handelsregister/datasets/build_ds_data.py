@@ -12,8 +12,13 @@ log = logging.getLogger(__name__)
 VESTIGING_FIELDS = ('vestigingsnummer', 'naam', 'uri', 'hoofdvestiging',
                     'locatie_type', 'geometrie')
 
-BETROKKENEN_FIELDS = ('mac_naam', 'kvk_nummer', 'rol', 'naam', 'rechtsvorm', 'functietitel',
+BETROKKENEN_FIELDS = ('mac_naam', 'rol', 'naam', 'rechtsvorm', 'functietitel',
                       'soortbevoegdheid', 'bevoegde_naam')
+
+MAATSCHAPPELIJKE_ACT_FIELDS = ('kvk_nummer', 'datum_aanvang', 'datum_einde')
+
+LOCATIE_FIELDS = ('bag_nummeraanduiding', 'bag_adresseerbaar_object', 'straat_huisnummer',
+                    'postcode_woonplaats', 'postbus_nummer', 'toevoeging_adres', 'volledig_adres')
 
 def to_dict(data: object, fields: tuple) -> dict:
     result_dict = {}
@@ -35,8 +40,6 @@ def _build_joined_ds_table():
 
     Vervolgens wordt in dataselectie deze file gelezen en worden de search keys opgenomen in elastic, waardoor
     die doorzoekbaar wordt in dataselectie.
-    :param cursor:
-    :return:
     """
 
     with db.connection.cursor() as cursor:
@@ -54,11 +57,13 @@ def _build_joined_ds_table():
                                             'sub_sub_categorie': sbi.sub_sub_categorie,
                                             'hcat': hoofdcat.hcat,
                                             'scat': subcat.scat}
-    
-        
+
+    betrokken_per_vestiging = BetrokkenPersonen.objects.order_by('vestigingsnummer').iterator()
+    betrokken = next(betrokken_per_vestiging)
+
     log.info('START opbouw dataselectie api als json')
     by_vestiging = groupby(GeoVestigingen.objects.order_by('vestigingsnummer'),
-        lambda row: row.vestigingsnummer)
+            lambda row: row.vestigingsnummer)
     for vestigingsnummer, vest_data in by_vestiging:
         first = True
         vestiging_dict = {}
@@ -66,24 +71,34 @@ def _build_joined_ds_table():
         for sbi_repeat in vest_data:
             if first:
                 vestiging_dict = to_dict(sbi_repeat, VESTIGING_FIELDS)
-                first = False
-            log.info('vestiging gelezen')
+                if sbi_repeat.bezoekadres and sbi_repeat.bezoekadres.bag_nummeraanduiding:
+                    vestiging_dict['bezoekadres'] = to_dict(sbi_repeat.bezoekadres, LOCATIE_FIELDS)
+                else:
+                    vestiging_dict['bezoekadres'] = None
+                if sbi_repeat.postadres and sbi_repeat.bezoekadres.bag_nummeraanduiding:
+                    vestiging_dict['postadres'] = to_dict(sbi_repeat.bezoekadres, LOCATIE_FIELDS)
+                else:
+                    vestiging_dict['postadres'] = None
+
+            first = False
             vst_sbi.append(sbi_values[sbi_repeat.sbi_code])
             
-        log.info('sbi_codes per vestiging gelezen')
         if len(vst_sbi):
             vestiging_dict['betrokkenen'] = vst_betr = []
-            for betrokken in BetrokkenPersonen.objects.\
-                filter(vestiging_id=vestigingsnummer).all():
-                vst_betr.append(to_dict(betrokken, BETROKKENEN_FIELDS))
-            log.info('Betrokkenen gelezen')
-            vestiging_json = rapidjson.dumps(vestiging_dict)
-            log.info('json pickle gedaan')
-            ds = DataSelectie(vestigingsnummer, vestiging_json)
+            first = True
+            while betrokken.vestigingsnummer <= vestigingsnummer:
+                if betrokken.vestigingsnummer == vestigingsnummer:
+                    vst_betr.append(to_dict(betrokken, BETROKKENEN_FIELDS))
+                    if first:
+                        mac_dict = to_dict(betrokken, MAATSCHAPPELIJKE_ACT_FIELDS)
+                        vestiging_dict.update(mac_dict)
+                        first = False
+                try:
+                    betrokken = next(betrokken_per_vestiging)
+                except StopIteration:
+                    break
+            ds = DataSelectie(vestigingsnummer, rapidjson.dumps(vestiging_dict))
             ds.save()
-            log.info('geschreven')
         else:
             log.error('Vestiging %s %s zonder sbi code' % (vestigingsnummer, sbi_repeat.naam))
     log.info('opbouw dataselectie api als json VOLTOOID')
-
-

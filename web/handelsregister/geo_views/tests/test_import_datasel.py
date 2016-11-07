@@ -4,13 +4,14 @@ from django.test import TestCase
 from datasets import build_hr_data, build_ds_data
 from datasets.hr import models
 from datasets.hr.tests import factories as hr_factories
+from rest_framework.test import APITestCase
 
 
 class ImportDataselectieTest(TestCase):
 
     def get_row(self, key=None):
         if key:
-            r = models.DataSelectie.objects.filter(id=key).get()
+            r = models.DataSelectie.objects.get(key)
             self.assertIsNotNone(r)
             return r
 
@@ -23,7 +24,14 @@ class ImportDataselectieTest(TestCase):
         build_ds_data._build_joined_ds_table()
 
         # this one is always there
-        row = self.get_row('0-0')
+        row = models.DataSelectie.objects.all()[0]
+        self.assertIsNotNone(row)
 
         jsonapi = rapidjson.loads(row.api_json)
-        self.assertIsInstance(jsonapi, models.DataSelectieView)
+        self.assertEqual(len(jsonapi), 12)
+        self.assertEqual(len(jsonapi['bezoekadres']),7)
+        self.assertEqual(len(jsonapi['postadres']), 7)
+        self.assertEqual(len(jsonapi['betrokkenen']), 1)
+        self.assertIsInstance(jsonapi['geometrie'], list)
+        self.assertEqual(jsonapi['postadres']['volledig_adres'][:9], 'vol_adres')
+        self.assertEqual(jsonapi['postadres']['bag_nummeraanduiding'][:10], 'bag_nr_aan')
