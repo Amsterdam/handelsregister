@@ -185,6 +185,8 @@ class ImportVestigingTest(TestCase):
         self.assertEqual('Postbus 229 5460AE Veghel', vestiging.postadres.volledig_adres)
 
         self.assertIsNotNone(vestiging.bezoekadres)
+        self.assertEqual('Vlothavenweg', vestiging.bezoekadres.straatnaam)
+        self.assertEqual(20, vestiging.bezoekadres.huisnummer)
         self.assertEqual('Vlothavenweg 20 1013BJ Amsterdam', vestiging.bezoekadres.volledig_adres)
 
     def test_import_activiteiten(self):
