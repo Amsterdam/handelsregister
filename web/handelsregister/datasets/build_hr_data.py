@@ -625,7 +625,9 @@ INSERT INTO hr_geovestigingen (
     hoofdvestiging,
     locatie_type,
     geometrie,
-    sbi_detail_group
+    sbi_detail_group,
+    postadres_id,
+    bezoekadres_id
 ) SELECT
     vs.vestigingsnummer,
     CAST((COALESCE(a.sbi_code,'0')) AS INTEGER),
@@ -641,7 +643,9 @@ INSERT INTO hr_geovestigingen (
       ELSE 'V'
     END as locatie_type,
     loc.geometrie as geometrie,
-    sc.subcategorie as sbi_detailgroep
+    sc.subcategorie as sbi_detailgroep,
+    vs.postadres_id,
+    vs.bezoekadres_id
   FROM hr_vestiging_activiteiten hr_a
     JOIN hr_vestiging vs
     ON hr_a.vestiging_id = vs.id

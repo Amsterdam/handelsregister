@@ -733,6 +733,14 @@ class GeoVestigingen(models.Model):
         help_text="De codering van de activiteit conform de SBI2008"
     )
 
+    postadres = models.ForeignKey(
+        'Locatie', related_name="+", blank=True, null=True,
+        help_text="postadres")
+
+    bezoekadres = models.ForeignKey(
+        'Locatie', related_name="+", blank=True, null=True,
+        help_text="bezoekadres")
+
 
 class GeoVBO(models.Model):
     id = models.CharField(max_length=14, primary_key=True)
@@ -888,14 +896,19 @@ class BetrokkenPersonen(models.Model):
         help_text="Kvk nummer"
     )
 
-    vestiging_id = models.ForeignKey(
+    vestiging = models.ForeignKey(
         DataSelectie,
         to_field="id",
         db_column="vestiging_id",
         blank=True,
         null=True,
-        help_text="Vestiging nummer",
+        help_text="Vestiging id",
         on_delete=models.DO_NOTHING
+    )
+
+    vestigingsnummer = models.CharField(
+        max_length=12, unique=True,
+        help_text="Betreft het identificerende gegeven voor de Vestiging"
     )
 
     persoons_id = models.IntegerField(
@@ -943,12 +956,13 @@ class BetrokkenPersonen(models.Model):
         help_text="Bevoegdheid van de functionaris"
     )
 
-    # def __getstate__(self):
-    #     state = self.__dict__.copy()
-    #     for s_name in state.keys():
-    #         if s_name[1] == '_' or s_name[:3] == 'py/':
-    #             del state[s_name]
-    #     return state
-    #
-    # def __setstate__(self, state):
-    #     self.__dict__.update(state)
+    datum_aanvang = models.DateField(
+        max_length=8, blank=True, null=True,
+        help_text="De datum van aanvang van de MaatschappelijkeActiviteit",
+    )
+
+    datum_einde = models.DateField(
+        max_length=8, blank=True, null=True,
+        help_text="""
+            De datum van beëindiging van de MaatschappelijkeActiviteit""",
+    )

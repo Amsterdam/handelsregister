@@ -1,19 +1,21 @@
 import factory
 import random
-
+from datetime import datetime
+import pytz
 from django.contrib.gis.geos import Point
 
 from factory import fuzzy
 
 from .. import models
 
+from datasets.build_cbs_sbi import restore_cbs_sbi
 
-class NatuurlijkePersoon(factory.DjangoModelFactory):
+class NatuurlijkePersoonFactory(factory.DjangoModelFactory):
     class Meta:
         model = models.NatuurlijkPersoon
 
     id = fuzzy.FuzzyInteger(low=10000000000000, high=10000000000099)
-    voornamen = 'piet'
+    voornamen = fuzzy.FuzzyText('voornaam')
 
 
 class PersoonFactory(factory.DjangoModelFactory):
@@ -22,6 +24,7 @@ class PersoonFactory(factory.DjangoModelFactory):
 
     id = fuzzy.FuzzyInteger(low=100000000000000000, high=100000000000000099)
     faillissement = False
+    natuurlijkpersoon = factory.SubFactory(NatuurlijkePersoonFactory)
 
 
 class MaatschappelijkeActiviteitFactory(factory.DjangoModelFactory):
@@ -30,6 +33,8 @@ class MaatschappelijkeActiviteitFactory(factory.DjangoModelFactory):
 
     id = fuzzy.FuzzyInteger(low=100000000000000000, high=100000000000000099)
     kvk_nummer = fuzzy.FuzzyInteger(low=1, high=99999999)
+    datum_aanvang = fuzzy.FuzzyDateTime(datetime(1987,2,4, tzinfo=pytz.utc))
+    eigenaar = factory.SubFactory(PersoonFactory)
 
 
 class VestigingFactory(factory.DjangoModelFactory):
@@ -65,6 +70,8 @@ class LocatieFactory(factory.DjangoModelFactory):
 
     bag_numid = fuzzy.FuzzyChoice(choices=[1, 2])  # 'put_in_fixture_id'
     bag_vbid = fuzzy.FuzzyChoice(choices=[3, 4])  # 'put_in_fixture_id'
+    volledig_adres = fuzzy.FuzzyText('vol_adres', length=25)
+    bag_nummeraanduiding = fuzzy.FuzzyText('bag_nr_aand', length=25)
 
 
 class Activiteit(factory.DjangoModelFactory):
@@ -82,30 +89,32 @@ class FunctievervullingFactory(factory.DjangoModelFactory):
         model = models.Functievervulling
 
     id = fuzzy.FuzzyInteger(low=100000000000000000, high=100000000000000099)
+    is_aansprakelijke = factory.SubFactory(PersoonFactory)
+    heeft_aansprakelijke = factory.SubFactory(PersoonFactory)
 
 
 class SBIHoofdcatFactory(factory.DjangoModelFactory):
     class Meta:
         model = models.CBS_sbi_hoofdcat
-    hcat = 'jan'
-    hoofdcategorie = 'sub bla'
+    hcat = fuzzy.FuzzyInteger(low=100, high=109)
+    hoofdcategorie = fuzzy.FuzzyText(prefix='hfdcat')
 
 
 class SBISubcatFactory(factory.DjangoModelFactory):
     class Meta:
         model = models.CBS_sbi_subcat
 
-    scat = 'piet'
+    scat = fuzzy.FuzzyInteger(low=1000, high=1009)
     hcat = factory.SubFactory(SBIHoofdcatFactory)
-    subcategorie = 'sub bla'
+    subcategorie = fuzzy.FuzzyText(prefix='subcat')
 
 
 class SBIcatFactory(factory.DjangoModelFactory):
     class Meta:
         model = models.CBS_sbicodes
 
-    sbi_code = fuzzy.FuzzyInteger(low=20000, high=40099)
-    sub_sub_categorie = 'bla'
+    sbi_code = fuzzy.FuzzyInteger(low=10000, high=10009)
+    sub_sub_categorie = fuzzy.FuzzyText(prefix='sbi')
     scat = factory.SubFactory(SBISubcatFactory)
 
 
@@ -118,9 +127,11 @@ def create_x_vestigingen(x=5):
 
     vestigingen = []
 
+    restore_cbs_sbi()           # required to allow for build of geo_vestiging
     mac = MaatschappelijkeActiviteitFactory.create()
-    # SBIcatFactory.create()
-    a1 = Activiteit.create(sbi_code='1073')
+    a1 = Activiteit.create()
+    a2 = Activiteit.create()
+    a3 = Activiteit.create()
 
     point = Point(121944.32, 487722.88)
 
@@ -155,21 +166,27 @@ def create_x_vestigingen(x=5):
 
 
 def create_dataselectie_set():
-
+    
     # THIS IS A RANDOM AMOUNT
     create_x_vestigingen(x=5)
 
     macs = models.MaatschappelijkeActiviteit.objects.all()
-    persoon = PersoonFactory.create()
-    persoon.natuurlijkpersoon = NatuurlijkePersoon.create()
+    personen = models.Persoon.objects.all()
+    fv = models.Functievervulling.objects.all()
 
-    models.Vestiging.objects.all()
+    for idx, m in enumerate(macs):
+        if idx < len(personen) and idx % 2 == 0:
+            m.eigenaar = personen[idx]
+        elif idx < len(fv):
+            m.eigenaar = fv[idx]
+            m.save()
 
-    for m in macs:
-        m.eigenaar = persoon
-        m.save()
-
-    return persoon
+    sbicodes = models.CBS_sbicodes.objects.all()
+    acnrs = models.Activiteit.objects.count() - 1
+    for idx, ac in enumerate(models.Activiteit.objects.all()[:acnrs]):
+        if idx < len(sbicodes):
+            ac.sbi_code = sbicodes[idx].sbi_code
+            ac.save()
 
 
 def create_search_test_locaties():

@@ -50,3 +50,12 @@ def check_data(request):
         return HttpResponse(
             "No HR data found",
             content_type="text/plain", status=500)
+
+    # check geoviews data
+    try:
+        assert model.objects.count() > 1000
+    except:
+        log.exception("No HR data found")
+        return HttpResponse(
+            "No HR data found",
+            content_type="text/plain", status=500)

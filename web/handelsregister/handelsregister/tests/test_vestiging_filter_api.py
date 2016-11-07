@@ -21,7 +21,7 @@ class VestingFilterTest(APITestCase):
         """
         For x bag panden
         """
-
+        factories_hr.restore_cbs_sbi()
         self.vestigingen = factories_hr.create_x_vestigingen()
 
     def test_simple_response(self):
