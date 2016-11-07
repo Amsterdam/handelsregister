@@ -454,11 +454,14 @@ class Vestiging(models.Model):
     handelsnamen = models.ManyToManyField('Handelsnaam')
 
     @property
-    def _volledig_adres(self):
+    def _adres(self):
         adres = None
 
         if self.bezoekadres:
-            adres = self.bezoekadres.volledig_adres
+            adres = "{} {}".format(
+                self.bezoekadres.straatnaam,
+                self.bezoekadres.huisnummer,
+            )
         elif self.postadres:
             adres = "{} (post)".format(self.postadres.volledig_adres)
 
@@ -467,7 +470,7 @@ class Vestiging(models.Model):
     def __str__(self):
 
         handelsnaam = "{}".format(self.naam)
-        adres = self._volledig_adres
+        adres = self._adres
 
         if adres:
             return "{} - {}".format(handelsnaam, adres)

@@ -10,11 +10,12 @@ from .. import models
 
 from datasets.build_cbs_sbi import restore_cbs_sbi
 
+
 class NatuurlijkePersoonFactory(factory.DjangoModelFactory):
     class Meta:
         model = models.NatuurlijkPersoon
 
-    id = fuzzy.FuzzyInteger(low=10000000000000, high=10000000000099)
+    id = fuzzy.FuzzyInteger(low=10000000000000, high=10000009999999)
     voornamen = fuzzy.FuzzyText('voornaam')
 
 
@@ -33,7 +34,7 @@ class MaatschappelijkeActiviteitFactory(factory.DjangoModelFactory):
 
     id = fuzzy.FuzzyInteger(low=100000000000000000, high=100000000000000099)
     kvk_nummer = fuzzy.FuzzyInteger(low=1, high=99999999)
-    datum_aanvang = fuzzy.FuzzyDateTime(datetime(1987,2,4, tzinfo=pytz.utc))
+    datum_aanvang = fuzzy.FuzzyDateTime(datetime(1987, 2, 4, tzinfo=pytz.utc))
     eigenaar = factory.SubFactory(PersoonFactory)
 
 
@@ -130,8 +131,6 @@ def create_x_vestigingen(x=5):
     restore_cbs_sbi()           # required to allow for build of geo_vestiging
     mac = MaatschappelijkeActiviteitFactory.create()
     a1 = Activiteit.create()
-    a2 = Activiteit.create()
-    a3 = Activiteit.create()
 
     point = Point(121944.32, 487722.88)
 
@@ -166,7 +165,7 @@ def create_x_vestigingen(x=5):
 
 
 def create_dataselectie_set():
-    
+
     # THIS IS A RANDOM AMOUNT
     create_x_vestigingen(x=5)
 
