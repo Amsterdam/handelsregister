@@ -40,16 +40,6 @@ class Locatie(serializers.ModelSerializer):
         )
 
 
-class VestigingLocatie(serializers.ModelSerializer):
-    class Meta(object):
-        model = models.Locatie
-        fields = (
-            'straatnaam',
-            'postcode',
-            'toevoegingadres',
-        )
-
-
 class CommercieleVestiging(serializers.ModelSerializer):
     class Meta(object):
         model = models.CommercieleVestiging
@@ -233,11 +223,19 @@ class PersoonDetail(rest.HALSerializer):
             return url
 
 
+class VestigingLocatie(serializers.ModelSerializer):
+    class Meta(object):
+        model = models.Locatie
+        fields = (
+            'straatnaam',
+            'postcode',
+            'toevoegingadres',
+        )
 class Vestiging(rest.HALSerializer):
     dataset = 'hr'
 
     _display = rest.DisplayField()
-    adres = VestigingLocatie()
+    straatnaam = serializers.SlugRelatedField()
 
     class Meta(object):
         model = models.Vestiging
@@ -250,7 +248,6 @@ class Vestiging(rest.HALSerializer):
             '_links',
             '_display',
             'naam',
-            'adres',
         )
 
 
