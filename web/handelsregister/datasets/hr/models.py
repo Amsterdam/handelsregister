@@ -470,14 +470,15 @@ class Vestiging(models.Model):
     @property
     def _adres_details(self) -> dict:
         adres_obj = self.bezoekadres if self.bezoekadres else self.postadres
-
+        huisnummertoevoeging = '' if adres_obj.huisnummertoevoeging is None else adres_obj.huisnummertoevoeging
+        huisletter = '' if adres_obj.huisletter is None else adres_obj.huisletter
         adres = {
             'straatnaam': adres_obj.straatnaam,
             'postcode': adres_obj.postcode,
             'huisnummer': "{}{}{}".format(
                 adres_obj.huisnummer,
-                getattr(adres_obj, 'huisnummertoevoeging', ''),
-                getattr(adres_obj, 'huisletter', ''),
+                huisnummertoevoeging,
+                huisletter,
             ),
         }
         return adres
