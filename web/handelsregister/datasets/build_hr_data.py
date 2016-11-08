@@ -5,6 +5,7 @@ fill the stelselpedia dumps
 import logging
 
 from django import db
+from datasets.hr.models import Vestiging
 
 log = logging.getLogger(__name__)
 
@@ -75,6 +76,11 @@ def fill_stelselpedia():
         log.info("Converteer onbekende mac mks eigenaren")
         _converteer_onbekende_mac_eigenaar_id(cursor)
 
+        log.info("Verwijder vestigingen met een bezoekadres buiten Amsterdam")
+        # Dropall outside of Amsterdam
+        Vestiging.objects.exclude(
+            bezoekadres__volledig_adres__endswith='Amsterdam').delete()
+
 
 def fill_location_with_bag():
     with db.connection.cursor() as cursor:
@@ -116,7 +122,8 @@ INSERT INTO hr_locatie (
   postcode,
   huisnummer,
   huisnummertoevoeging,
-  huisletter
+  huisletter,
+  plaats
 )
     SELECT
       adrid,
@@ -142,7 +149,8 @@ INSERT INTO hr_locatie (
       postcode,
       huisnummer,
       huisnummertoevoeging,
-      huisletter
+      huisletter,
+      plaats
     FROM kvkadrm00
         """)
 
