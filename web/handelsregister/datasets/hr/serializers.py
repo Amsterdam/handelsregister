@@ -7,7 +7,7 @@ from rest_framework.reverse import reverse
 
 
 class Communicatiegegevens(serializers.ModelSerializer):
-    class Meta:
+    class Meta(object):
         model = models.Communicatiegegevens
         exclude = (
             'id',
@@ -15,7 +15,7 @@ class Communicatiegegevens(serializers.ModelSerializer):
 
 
 class Handelsnaam(serializers.ModelSerializer):
-    class Meta:
+    class Meta(object):
         model = models.Handelsnaam
         exclude = (
             'id',
@@ -25,7 +25,7 @@ class Handelsnaam(serializers.ModelSerializer):
 class Onderneming(serializers.ModelSerializer):
     handelsnamen = Handelsnaam(many=True)
 
-    class Meta:
+    class Meta(object):
         model = models.Onderneming
         exclude = (
             'id',
@@ -33,15 +33,25 @@ class Onderneming(serializers.ModelSerializer):
 
 
 class Locatie(serializers.ModelSerializer):
-    class Meta:
+    class Meta(object):
         model = models.Locatie
         exclude = (
             'id',
         )
 
 
+class VestigingLocatie(serializers.ModelSerializer):
+    class Meta(object):
+        model = models.Locatie
+        fields = (
+            'straatnaam',
+            'postcode',
+            'toevoegingadres',
+        )
+
+
 class CommercieleVestiging(serializers.ModelSerializer):
-    class Meta:
+    class Meta(object):
         model = models.CommercieleVestiging
         exclude = (
             'id',
@@ -49,7 +59,7 @@ class CommercieleVestiging(serializers.ModelSerializer):
 
 
 class NietCommercieleVestiging(serializers.ModelSerializer):
-    class Meta:
+    class Meta(object):
         model = models.NietCommercieleVestiging
         exclude = (
             'id',
@@ -57,7 +67,7 @@ class NietCommercieleVestiging(serializers.ModelSerializer):
 
 
 class Activiteit(serializers.ModelSerializer):
-    class Meta:
+    class Meta(object):
         model = models.Activiteit
         exclude = (
             'id',
@@ -69,7 +79,7 @@ class MaatschappelijkeActiviteit(rest.HALSerializer):
 
     _display = rest.DisplayField()
 
-    class Meta:
+    class Meta(object):
         model = models.MaatschappelijkeActiviteit
         lookup_field = 'kvk_nummer'
 
@@ -86,7 +96,7 @@ class MaatschappelijkeActiviteit(rest.HALSerializer):
 
 class BijzondereRechtsToestand(serializers.ModelSerializer):
 
-        class Meta:
+        class Meta(object):
             model = models.Persoon
 
             fields = (
@@ -106,7 +116,7 @@ class MaatschappelijkeActiviteitDetail(rest.HALSerializer):
 
     _bijzondere_rechts_toestand = BijzondereRechtsToestand(source='eigenaar')
 
-    class Meta:
+    class Meta(object):
         model = models.MaatschappelijkeActiviteit
         lookup_field = 'kvk_nummer'
 
@@ -142,7 +152,7 @@ class Persoon(rest.HALSerializer):
 
     _display = rest.DisplayField()
 
-    class Meta:
+    class Meta(object):
         model = models.Persoon
 
         fields = (
@@ -154,7 +164,7 @@ class Persoon(rest.HALSerializer):
 
 class NatuurlijkPersoon(serializers.ModelSerializer):
 
-    class Meta:
+    class Meta(object):
         model = models.NatuurlijkPersoon
 
         exclude = (
@@ -164,7 +174,7 @@ class NatuurlijkPersoon(serializers.ModelSerializer):
 
 class NietNatuurlijkPersoon(serializers.ModelSerializer):
 
-    class Meta:
+    class Meta(object):
         model = models.NietNatuurlijkPersoon
 
         exclude = (
@@ -184,7 +194,7 @@ class PersoonDetail(rest.HALSerializer):
 
     _display = rest.DisplayField()
 
-    class Meta:
+    class Meta(object):
         model = models.Persoon
 
         fields = (
@@ -227,8 +237,9 @@ class Vestiging(rest.HALSerializer):
     dataset = 'hr'
 
     _display = rest.DisplayField()
+    adres = VestigingLocatie()
 
-    class Meta:
+    class Meta(object):
         model = models.Vestiging
         lookup_field = 'vestigingsnummer'
         extra_kwargs = {
@@ -238,6 +249,8 @@ class Vestiging(rest.HALSerializer):
         fields = (
             '_links',
             '_display',
+            'naam',
+            'adres',
         )
 
 
@@ -253,7 +266,7 @@ class VestigingDetail(rest.HALSerializer):
     activiteiten = Activiteit(many=True)
     handelsnamen = Handelsnaam(many=True)
 
-    class Meta:
+    class Meta(object):
         model = models.Vestiging
         lookup_field = 'vestigingsnummer'
         extra_kwargs = {
@@ -268,7 +281,7 @@ class Functievervulling(rest.HALSerializer):
 
     _display = rest.DisplayField()
 
-    class Meta:
+    class Meta(object):
         model = models.Functievervulling
 
         fields = (
@@ -282,6 +295,6 @@ class FunctievervullingDetail(rest.HALSerializer):
 
     _display = rest.DisplayField()
 
-    class Meta:
+    class Meta(object):
         model = models.Functievervulling
         fields = '__all__'
