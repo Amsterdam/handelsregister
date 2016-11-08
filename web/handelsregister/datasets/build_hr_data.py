@@ -635,7 +635,8 @@ INSERT INTO hr_geovestigingen (
     a.activiteitsomschrijving,
     CAST('handelsregister/vestiging' AS text) as subtype,
     vs.naam,
-    site.domain || 'handelsregister/vestiging/' || vs.vestigingsnummer || '/' AS uri,
+    site.domain || 'handelsregister/vestiging/' ||
+        vs.vestigingsnummer || '/' AS uri,
     vs.hoofdvestiging,
     CASE
       WHEN vs.bezoekadres_id NOTNULL THEN 'B'

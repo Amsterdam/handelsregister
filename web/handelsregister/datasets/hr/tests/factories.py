@@ -15,7 +15,7 @@ class NatuurlijkePersoonFactory(factory.DjangoModelFactory):
     class Meta:
         model = models.NatuurlijkPersoon
 
-    id = fuzzy.FuzzyInteger(low=10000000000000, high=10000009999999)
+    id = fuzzy.FuzzyInteger(low=10000000000000, high=19000009999999)
     voornamen = fuzzy.FuzzyText('voornaam')
 
 
@@ -23,7 +23,7 @@ class PersoonFactory(factory.DjangoModelFactory):
     class Meta:
         model = models.Persoon
 
-    id = fuzzy.FuzzyInteger(low=100000000000000000, high=100000000000000099)
+    id = fuzzy.FuzzyInteger(low=100000000000000000, high=190000000000000099)
     faillissement = False
     natuurlijkpersoon = factory.SubFactory(NatuurlijkePersoonFactory)
 
@@ -32,7 +32,7 @@ class MaatschappelijkeActiviteitFactory(factory.DjangoModelFactory):
     class Meta:
         model = models.MaatschappelijkeActiviteit
 
-    id = fuzzy.FuzzyInteger(low=100000000000000000, high=100000000000000099)
+    id = fuzzy.FuzzyInteger(low=100000000000000000, high=190000000000000099)
     kvk_nummer = fuzzy.FuzzyInteger(low=1, high=99999999)
     datum_aanvang = fuzzy.FuzzyDateTime(datetime(1987, 2, 4, tzinfo=pytz.utc))
     eigenaar = factory.SubFactory(PersoonFactory)
@@ -42,7 +42,7 @@ class VestigingFactory(factory.DjangoModelFactory):
     class Meta:
         model = models.Vestiging
 
-    id = fuzzy.FuzzyInteger(low=100000000000000000, high=100000000000000099)
+    id = fuzzy.FuzzyInteger(low=100000000000000000, high=190000000000000099)
     vestigingsnummer = fuzzy.FuzzyInteger(low=1, high=9999999)
     hoofdvestiging = fuzzy.FuzzyChoice(choices=[True, False])
     maatschappelijke_activiteit = factory.SubFactory(
@@ -65,7 +65,7 @@ class LocatieFactory(factory.DjangoModelFactory):
     class Meta:
         model = models.Locatie
 
-    id = fuzzy.FuzzyInteger(low=100000000000000000, high=100000000000000099)
+    id = fuzzy.FuzzyInteger(low=100000000000000000, high=190000000000000099)
 
     afgeschermd = fuzzy.FuzzyChoice(choices=[True, False])
 
@@ -79,7 +79,7 @@ class Activiteit(factory.DjangoModelFactory):
     class Meta:
         model = models.Activiteit
 
-    id = fuzzy.FuzzyInteger(low=100000000000000000, high=100000000000000099)
+    id = fuzzy.FuzzyInteger(low=100000000000000000, high=190000000000000099)
     sbi_code = '1073'
 
     hoofdactiviteit = fuzzy.FuzzyChoice(choices=[True, False])
@@ -89,7 +89,7 @@ class FunctievervullingFactory(factory.DjangoModelFactory):
     class Meta:
         model = models.Functievervulling
 
-    id = fuzzy.FuzzyInteger(low=100000000000000000, high=100000000000000099)
+    id = fuzzy.FuzzyInteger(low=100000000000000000, high=190000000000000099)
     is_aansprakelijke = factory.SubFactory(PersoonFactory)
     heeft_aansprakelijke = factory.SubFactory(PersoonFactory)
 
