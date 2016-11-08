@@ -454,20 +454,39 @@ class Vestiging(models.Model):
     handelsnamen = models.ManyToManyField('Handelsnaam')
 
     @property
-    def _volledig_adres(self):
+    def _adres(self):
         adres = None
 
         if self.bezoekadres:
-            adres = self.bezoekadres.volledig_adres
+            adres = "{} {}".format(
+                self.bezoekadres.straatnaam,
+                self.bezoekadres.huisnummer,
+            )
         elif self.postadres:
             adres = "{} (post)".format(self.postadres.volledig_adres)
 
         return adres
 
+    @property
+    def _adres_details(self) -> dict:
+        adres_obj = self.bezoekadres if self.bezoekadres else self.postadres
+        huisnummertoevoeging = '' if adres_obj.huisnummertoevoeging is None else adres_obj.huisnummertoevoeging
+        huisletter = '' if adres_obj.huisletter is None else adres_obj.huisletter
+        adres = {
+            'straatnaam': adres_obj.straatnaam,
+            'postcode': adres_obj.postcode,
+            'huisnummer': "{}{}{}".format(
+                adres_obj.huisnummer,
+                huisnummertoevoeging,
+                huisletter,
+            ),
+        }
+        return adres
+
     def __str__(self):
 
         handelsnaam = "{}".format(self.naam)
-        adres = self._volledig_adres
+        adres = self._adres
 
         if adres:
             return "{} - {}".format(handelsnaam, adres)
@@ -525,6 +544,19 @@ class Locatie(models.Model):
 
     geometrie = models.PointField(srid=28992, blank=True, null=True)
 
+    # locatie meuk die er nu wel is.
+    straatnaam = models.CharField(
+        db_index=True, max_length=100, blank=True, null=True)
+    toevoegingadres = models.CharField(max_length=100, blank=True, null=True)
+    huisletter = models.CharField(max_length=1, blank=True, null=True)
+    huisnummer = models.DecimalField(
+        db_index=True,
+        max_digits=5, decimal_places=0, blank=True, null=True)
+    huisnummertoevoeging = models.CharField(
+        max_length=5, blank=True, null=True)
+
+    postcode = models.CharField(
+        db_index=True, max_length=6, blank=True, null=True)
     # Auto fix related
 
     # Indication if corrected by auto search

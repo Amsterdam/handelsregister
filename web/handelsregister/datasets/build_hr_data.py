@@ -111,7 +111,12 @@ INSERT INTO hr_locatie (
   postcode_woonplaats,
   regio,
   land,
-  geometrie
+  geometrie,
+  straatnaam,
+  postcode,
+  huisnummer,
+  huisnummertoevoeging,
+  huisletter
 )
     SELECT
       adrid,
@@ -132,7 +137,12 @@ INSERT INTO hr_locatie (
       postcodewoonplaats,
       regio,
       land,
-      geopunt
+      geopunt,
+      straatnaam,
+      postcode,
+      huisnummer,
+      huisnummertoevoeging,
+      huisletter
     FROM kvkadrm00
         """)
 
