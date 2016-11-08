@@ -250,6 +250,7 @@ class Vestiging(rest.HALSerializer):
             '_links',
             '_display',
             'naam',
+            'adres'
         )
 
 
