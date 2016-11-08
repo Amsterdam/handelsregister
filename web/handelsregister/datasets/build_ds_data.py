@@ -18,7 +18,8 @@ BETROKKENEN_FIELDS = ('mac_naam', 'rol', 'naam', 'rechtsvorm', 'functietitel',
 MAATSCHAPPELIJKE_ACT_FIELDS = ('kvk_nummer', 'datum_aanvang', 'datum_einde')
 
 LOCATIE_FIELDS = ('bag_nummeraanduiding', 'bag_adresseerbaar_object', 'straat_huisnummer',
-                    'postcode_woonplaats', 'postbus_nummer', 'toevoeging_adres', 'volledig_adres')
+                'postcode_woonplaats', 'postbus_nummer', 'toevoeging_adres', 'volledig_adres')
+
 
 def to_dict(data: object, fields: tuple) -> dict:
     result_dict = {}
@@ -70,7 +71,7 @@ def _build_joined_ds_table():
     for vestigingsnummer, vest_data in by_vestiging:
         first = True
         vestiging_dict = {}
-        vestiging_dict['sbi_codes'] = vst_sbi = []
+        vst_sbi = []
         for sbi_repeat in vest_data:
             if first:
                 vestiging_dict = to_dict(sbi_repeat, VESTIGING_FIELDS)
@@ -85,7 +86,8 @@ def _build_joined_ds_table():
 
             first = False
             vst_sbi.append(sbi_values[sbi_repeat.sbi_code])
-            
+
+        vestiging_dict['sbi_codes'] = vst_sbi
         if len(vst_sbi):
             vestiging_dict['betrokkenen'] = vst_betr = []
             first = True
