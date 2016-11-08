@@ -475,7 +475,9 @@ class Vestiging(models.Model):
             'straatnaam': adres_obj.straatnaam,
             'postcode': adres_obj.postcode,
             'huisnummer': "{}{}{}".format(
-                adres_obj.huisnummer, adres_obj.huisnummertoevoeging, adres_obj.huisletter
+                adres_obj.huisnummer,
+                getattr(adres_obj, 'huisnummertoevoeging', ''),
+                getattr(adres_obj, 'huisletter', ''),
             ),
         }
         return adres
