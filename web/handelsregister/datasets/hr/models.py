@@ -467,6 +467,19 @@ class Vestiging(models.Model):
 
         return adres
 
+    @property
+    def _adres_details(self) -> dict:
+        adres_obj = self.bezoekadres if self.bezoekadres else self.postadres
+
+        adres = {
+            'straatnaam': adres_obj.straatnaam,
+            'postcode': adres_obj.postcode,
+            'huisnummer': "{}{}{}".format(
+                adres_obj.huisnummer, adres_obj.huisnummertoevoeging, adres_obj.huisletter
+            ),
+        }
+        return adres
+
     def __str__(self):
 
         handelsnaam = "{}".format(self.naam)
