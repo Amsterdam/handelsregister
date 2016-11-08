@@ -74,7 +74,7 @@ class SearchTest(APITestCase):
 
         source = string.ascii_letters + string.digits + ' ' * 20
 
-        for i in range(155):
+        for i in range(10):
             key_len = random.randint(1, 35)
             keylist = [random.choice(source) for i in range(key_len)]
             query = "".join(keylist)
