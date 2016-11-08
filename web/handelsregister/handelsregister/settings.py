@@ -70,6 +70,8 @@ INSTALLED_APPS = [
 
 ] + PROJECT_APPS
 
+INTERNAL_IPS = ('127.0.0.1', '0.0.0.0')
+
 if DEBUG:
     INSTALLED_APPS += (
         'debug_toolbar', 'explorer')
