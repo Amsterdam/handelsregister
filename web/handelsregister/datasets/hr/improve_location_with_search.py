@@ -2,6 +2,11 @@
 With the datapunt search api we can greatly improve
 location quality of the datasets
 """
+
+from gevent import monkey
+monkey.patch_all(thread=False, select=False)
+
+
 import datetime
 import re
 import json

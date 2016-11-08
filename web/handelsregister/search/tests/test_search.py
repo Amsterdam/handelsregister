@@ -1,4 +1,5 @@
 # Python
+import json
 import string
 import random
 # Packages
@@ -20,35 +21,39 @@ class SearchTest(APITestCase):
         super().setUpClass()
 
         cls.mac1 = factories.MaatschappelijkeActiviteitFactory(
-                naam='mac_1',
+                naam='mac1',
                 kvk_nummer='1111'
 
         )
 
         cls.mac2 = factories.MaatschappelijkeActiviteitFactory(
-                naam='mac_2',
+                naam='mac2',
                 kvk_nummer='0112'
 
         )
         cls.mac3 = factories.MaatschappelijkeActiviteitFactory(
-                naam='mac_3',
+                naam='mac3',
                 kvk_nummer='0113'
         )
 
         cls.ves1 = factories.VestigingFactory(
                 naam='test1',
+                maatschappelijke_activiteit=cls.mac1,
                 vestigingsnummer=99999
         )
         cls.ves2 = factories.VestigingFactory(
                 naam='test2',
+                maatschappelijke_activiteit=cls.mac2,
                 vestigingsnummer=99998
         )
         cls.ves3 = factories.VestigingFactory(
                 naam='test3',
+                maatschappelijke_activiteit=cls.mac3,
                 vestigingsnummer=99988
 
         )
 
+        build_index.delete_hr_docs()
         build_index.index_mac_docs()
         build_index.index_ves_docs()
 
@@ -63,7 +68,7 @@ class SearchTest(APITestCase):
         ]
 
         for url in search_endpoints:
-            #log.debug('random_testing: %s', url)
+            log.debug('random_testing: %s', url)
             self.bomb_endpoint(url)
 
     def bomb_endpoint(self, url):
@@ -92,14 +97,13 @@ class SearchTest(APITestCase):
         self.assertIn('results', response.data)
         self.assertIn('count', response.data)
 
-        #log.exception(response.data['results'])
-        #self.assertEqual(response.data['count'], 2)
+        self.assertEqual(response.data['count'], 2)
 
         query = '0112'
         response = self.client.get(url, {'q': query})
-        #self.assertEqual(response.data['count'], 1)
+        self.assertEqual(response.data['count'], 1)
 
-        #self.assertEqual(response.data['results'][0]['kvk_nummer'], '0112')
+        self.assertEqual(response.data['results'][0]['kvk_nummer'], '0112')
 
     def test_mac_naam(self):
 
@@ -108,14 +112,12 @@ class SearchTest(APITestCase):
         response = self.client.get(url, {'q': query})
         self.assertIn('results', response.data)
         self.assertIn('count', response.data)
-        #log.exception(response.data['results'])
-        #self.assertEqual(response.data['count'], 3)
+        self.assertEqual(response.data['count'], 3)
 
-        query = 'mac_3'
+        query = 'mac3'
         response = self.client.get(url, {'q': query})
-        #self.assertEqual(response.data['count'], 1)
 
-        #self.assertEqual(response.data['results'][0]['naam'], 'mac_3')
+        self.assertEqual(response.data['results'][0]['naam'], 'mac3')
 
     def test_ves_id(self):
 
@@ -124,14 +126,14 @@ class SearchTest(APITestCase):
         response = self.client.get(url, {'q': query})
         self.assertIn('results', response.data)
         self.assertIn('count', response.data)
-        #self.assertEqual(response.data['count'], 2)
+        self.assertEqual(response.data['count'], 2)
 
         query = 99998
         response = self.client.get(url, {'q': query})
-        #self.assertEqual(response.data['count'], 1)
+        self.assertEqual(response.data['count'], 1)
 
-        #self.assertEqual(
-            #response.data['results'][0]['vestigingsnummer'], '99998')
+        self.assertEqual(
+            response.data['results'][0]['vestigingsnummer'], '99998')
 
     def test_ves_naam(self):
 
@@ -140,11 +142,12 @@ class SearchTest(APITestCase):
         response = self.client.get(url, {'q': query})
         self.assertIn('results', response.data)
         self.assertIn('count', response.data)
-        #self.assertEqual(response.data['count'], 3)
+        self.assertEqual(response.data['count'], 3)
 
         query = 'test3'
         response = self.client.get(url, {'q': query})
-        #self.assertEqual(response.data['count'], 1)
 
-        #self.assertEqual(
-        #    response.data['results'][0]['naam'], 'test3')
+        # log.exception(json.dumps(response.data['results'], indent=2))
+
+        self.assertEqual(
+            response.data['results'][0]['naam'], 'test3')

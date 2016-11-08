@@ -83,23 +83,30 @@ def vestiging_query(analyzer: InputQAnalyzer) -> ElasticQueryWrapper:
     vesid = analyzer.get_id()
     handelsnaam = analyzer.get_handelsnaam()
 
+    must = [Q('term', _type='vestiging')]
+
     # straatnaam huisnummer??
 
-    sort_fields = ['_display']
+    # sort_fields = ['_display']
+
+    sort_fields = ['_score']
 
     if vesid:
-        sort_fields = ['_score']
+        must.append(Q('prefix', vestigingsnummer=vesid))
 
     return ElasticQueryWrapper(
         query=Q(
             'bool',
-            must=[
-                Q('term', _type='vestiging'),
-            ],
+            must=must,
             should=[
                 Q('prefix', vestigingsnummer=vesid),
-                Q('match_phrase', naam=handelsnaam),
-                Q('match', naam=handelsnaam)],
+                {"prefix": {"naam": {"value": handelsnaam, "boost": 5.0}}},
+                {"match_phrase_prefix": {"naam": {
+                    "query": handelsnaam, "max_expansions": 5}}},
+                {"match": {"naam.raw": handelsnaam}},
+                {"match": {"naam.ngram": handelsnaam}},
+                {"match": {"naam": {"query": handelsnaam, "fuzziness": 2}}}
+            ],
             minimum_should_match=1),
         sort_fields=sort_fields,
         indexes=[HR],
@@ -110,23 +117,35 @@ def vestiging_query(analyzer: InputQAnalyzer) -> ElasticQueryWrapper:
 def mac_query(analyzer: InputQAnalyzer) -> ElasticQueryWrapper:
     """ Create query/aggregation for vestiging search"""
     # vestigings nummer or handelsnaam
-    macid = analyzer.get_id()
+    kvknummer = analyzer.get_id()
 
     handelsnaam = analyzer.get_handelsnaam()
 
+    must = [Q('term', _type='maatschappelijke_activiteit')]
+
+    if kvknummer:
+        must.append(Q('prefix', kvk_nummer=kvknummer))
+
+    # sort_fields = ['_display']
     # straatnaam huisnummer??
     sort_fields = ['_score']
 
     return ElasticQueryWrapper(
         query=Q(
             'bool',
-            must=[
-                Q('term', _type='maatschappelijke_activiteit'),
-            ],
+            must=must,
             should=[
-                Q('prefix', kvk_nummer=macid),
-                Q('match_phrase', naam=handelsnaam),
-                Q('match', naam=handelsnaam)],
+                Q('prefix', kvk_nummer=kvknummer),
+
+                {"prefix": {"naam": {"value": handelsnaam, "boost": 6.0}}},
+
+                {"match_phrase_prefix": {"naam": {
+                    "query": handelsnaam, "max_expansions": 5}}},
+
+                {"match": {"naam.raw": handelsnaam}},
+                {"match": {"naam.ngram": handelsnaam}},
+                {"match": {"naam": {"query": handelsnaam, "fuzziness": 2}}},
+            ],
             minimum_should_match=1),
         sort_fields=sort_fields,
         indexes=[HR],

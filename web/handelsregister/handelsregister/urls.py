@@ -81,7 +81,7 @@ search = SearchRouter()
 typeahead = SearchRouter()
 
 typeahead.register(
-    r'typeahead', search_views.TypeaheadViewSet, base_name='typeahead')
+    r'', search_views.TypeaheadViewSet, base_name='typeahead')
 
 # Alias voor nummeraanduiding
 search.register(
@@ -101,7 +101,7 @@ grouped_url_patterns = {
         url(r'^handelsregister/search/', include(search.urls)),
     ],
     'typeahead_patterns': [
-        url(r'^handelsregister/', include(typeahead.urls)),
+        url(r'^handelsregister/typeahead/', include(typeahead.urls)),
     ],
 }
 
