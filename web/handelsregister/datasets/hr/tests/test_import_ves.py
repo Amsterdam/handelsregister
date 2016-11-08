@@ -28,6 +28,7 @@ class ImportVestigingTest(TestCase):
         )
 
     def _convert(self, kvk_vestiging):
+
         build_hr_data.fill_stelselpedia()
 
         return models.Vestiging.objects.get(pk=kvk_vestiging.pk)
@@ -171,18 +172,18 @@ class ImportVestigingTest(TestCase):
             kvk.KvkAdres.objects.create(
                 adrid=100000000001511356,
                 afgeschermd='Nee',
-                plaats='Veghel',
+                plaats='Amsterdam',
                 postbusnummer=229,
                 postcode='5460AE',
                 typering='postLocatie',
-                volledigadres='Postbus 229 5460AE Veghel',
+                volledigadres='Postbus 229 5460AE Amsterdam',
                 adrhibver=0
             ))
 
         vestiging = self._convert(kvk_vestiging)
 
         self.assertIsNotNone(vestiging.postadres)
-        self.assertEqual('Postbus 229 5460AE Veghel', vestiging.postadres.volledig_adres)
+        self.assertEqual('Postbus 229 5460AE Amsterdam', vestiging.postadres.volledig_adres)
 
         self.assertIsNotNone(vestiging.bezoekadres)
         self.assertEqual('Vlothavenweg', vestiging.bezoekadres.straatnaam)

@@ -5,6 +5,8 @@ fill the stelselpedia dumps
 import logging
 
 from django import db
+from django.conf import settings
+
 from datasets.hr.models import Vestiging
 
 log = logging.getLogger(__name__)
@@ -78,8 +80,9 @@ def fill_stelselpedia():
 
         log.info("Verwijder vestigingen met een bezoekadres buiten Amsterdam")
         # Dropall outside of Amsterdam
-        Vestiging.objects.exclude(
-            bezoekadres__volledig_adres__endswith='Amsterdam').delete()
+        if not settings.TESTING:
+            Vestiging.objects.exclude(
+                bezoekadres__volledig_adres__endswith='Amsterdam').delete()
 
 
 def fill_location_with_bag():

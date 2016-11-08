@@ -35,9 +35,11 @@ class ImportActiviteitenTest(TestCase):
         )
 
         kvk_vestiging.vesid = 1
-        kvk_vestiging.maatschappelijke_activiteit_id=1
-        kvk_vestiging.vestigingsnummer='1'
-        kvk_vestiging.veshibver=0
+        kvk_vestiging.maatschappelijke_activiteit_id = 1
+        kvk_vestiging.vestigingsnummer = '1'
+        kvk_vestiging.veshibver = 0
+        kvk_vestiging.plaats = 'Amsterdam'
+        kvk_vestiging.volledigadres = "iets in Amsterdam"
 
         kvk_vestiging.save()
         build_hr_data.fill_stelselpedia()
@@ -46,8 +48,7 @@ class ImportActiviteitenTest(TestCase):
         return list(v.activiteiten.all())
 
     def test_read_empty(self):
-        m = kvk.KvkVestiging(
-        )
+        m = kvk.KvkVestiging()
 
         cgs = self._convert(m)
         self.assertIsNotNone(cgs)

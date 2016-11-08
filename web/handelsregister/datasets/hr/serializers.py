@@ -40,6 +40,32 @@ class Locatie(serializers.ModelSerializer):
         )
 
 
+class LocatieVestiging(serializers.ModelSerializer):
+
+    toevoeging = serializers.SerializerMethodField()
+
+    class Meta(object):
+        model = models.Locatie
+        fields = (
+            'plaats',
+            'straatnaam',
+            'postcode',
+            'huisnummer',
+            'toevoeging',
+        )
+
+    def get_toevoeging(self, obj):
+        huisnummertoevoeging = ''
+        if obj.huisnummertoevoeging:
+            huisnummertoevoeging = obj.huisnummertoevoeging
+
+        huisletter = ''
+        if obj.huisletter:
+            huisletter = obj.huisletter
+
+        return "{}{}".format(huisnummertoevoeging, huisletter)
+
+
 class CommercieleVestiging(serializers.ModelSerializer):
     class Meta(object):
         model = models.CommercieleVestiging
@@ -226,8 +252,10 @@ class PersoonDetail(rest.HALSerializer):
 class Vestiging(rest.HALSerializer):
     dataset = 'hr'
 
+    locatie = LocatieVestiging()
+
     _display = rest.DisplayField()
-    
+
     class Meta(object):
         model = models.Vestiging
         lookup_field = 'vestigingsnummer'
@@ -239,7 +267,7 @@ class Vestiging(rest.HALSerializer):
             '_links',
             '_display',
             'naam',
-            '_adres_details'
+            'locatie',
         )
 
 
