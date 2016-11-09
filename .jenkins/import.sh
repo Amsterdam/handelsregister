@@ -27,8 +27,8 @@ dc run --rm tests
 echo "load latest bag database"
 dc exec -T database update-db.sh atlas
 
-echo "create hr api database"
-# create the hr_data
+echo "create hr api database / reset elastic index"
+# create the hr_data and reset elastic
 dc run --rm importer
 
 espeak "Importing H R  DB is DONE!" || echo "DONE!"

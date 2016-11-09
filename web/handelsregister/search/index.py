@@ -16,7 +16,10 @@ import time
 log = logging.getLogger(__name__)
 
 
-class DeleteIndexTask(object):
+class ResetIndexTask(object):
+    """
+    Clear and build index / mapping
+    """
     index = ''
     doc_types = []
     name = 'remove index'
@@ -47,9 +50,11 @@ class DeleteIndexTask(object):
         except NotFoundError:
             log.warning("Could not delete index '%s', ignoring", self.index)
 
+        # create doc types
         for dt in self.doc_types:
             idx.doc_type(dt)
 
+        # create index
         idx.create()
 
 

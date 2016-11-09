@@ -39,7 +39,8 @@ importer:
     OS_PASSWORD:
     PGPASSWORD: insecure
   command: >
-    bash -c "/app/docker-import.sh"
+    bash -c "/app/docker-import.sh \
+             && python manage.py build_index --reset"
 
 
 importer_el1:

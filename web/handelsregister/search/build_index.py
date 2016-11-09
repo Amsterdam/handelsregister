@@ -20,9 +20,7 @@ HR_DOC_TYPES = [
 ]
 
 
-# TODO indexeer vestigingen
-
-class DeleteHRIndex(index.DeleteIndexTask):
+class ResetHRIndex(index.ResetIndexTask):
     index = settings.ELASTIC_INDICES['HR']
     doc_types = HR_DOC_TYPES
 
@@ -33,10 +31,6 @@ class MaatschappelijkIndexer(index.ImportIndexTask):
     queryset = MaatschappelijkeActiviteit.objects.\
         prefetch_related('postadres').\
         prefetch_related('bezoekadres').order_by('id').all()
-
-    # prefetch_related('hoofdvestiging').\
-    # prefetch_related('activiteiten').\
-    # prefetch_related('eigenaar').\
 
     def convert(self, obj):
         return documents.from_mac(obj)
@@ -63,5 +57,5 @@ def index_ves_docs():
     VestigingenIndexer().execute()
 
 
-def delete_hr_docs():
-    DeleteHRIndex().execute()
+def reset_hr_docs():
+    ResetHRIndex().execute()

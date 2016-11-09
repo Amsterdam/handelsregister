@@ -53,7 +53,7 @@ class SearchTest(APITestCase):
 
         )
 
-        build_index.delete_hr_docs()
+        build_index.reset_hr_docs()
         build_index.index_mac_docs()
         build_index.index_ves_docs()
 
