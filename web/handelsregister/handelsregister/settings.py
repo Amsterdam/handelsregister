@@ -30,7 +30,7 @@ CSB_SEARCH = 'http://sbi.cbs.nl/cbs.typeermodule.typeerservicewebapi/api/SBISear
 
 # SECURITY WARNING: keep the secret key used in production secret!
 insecure_key = 'insecure'
-SECRET_KEY = os.getenv('HANDELSREGISTER_SECRET_KEY', insecure_key)
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', insecure_key)
 
 DEBUG = SECRET_KEY == insecure_key
 
