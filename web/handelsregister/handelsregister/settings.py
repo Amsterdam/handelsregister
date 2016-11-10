@@ -24,7 +24,7 @@ def _get_docker_host():
     return '0.0.0.0'
 
 
-VBO_URI = "https://api-acc.datapunt.amsterdam.nl/bag/verblijfsobject/"
+VBO_URI = "https://api.datapunt.amsterdam.nl/bag/verblijfsobject/"
 CBS_URI = 'http://sbi.cbs.nl/cbs.typeermodule.typeerservicewebapi/api/sbianswer/getNextQuestion/{}'
 CSB_SEARCH = 'http://sbi.cbs.nl/cbs.typeermodule.typeerservicewebapi/api/SBISearch/search/{}'
 
