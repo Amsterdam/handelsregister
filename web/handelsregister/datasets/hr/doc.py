@@ -2,7 +2,7 @@
 Elasticsearch index document defenitions
 """
 import logging
-# import json
+import json
 
 from django.conf import settings
 
@@ -83,7 +83,6 @@ class Vestiging(es.DocType):
     hoofdvestiging = es.Boolean()
 
     sbi = es.Nested({
-        'multi': True,
         'properties': {
             'code': es.String(
                 analyzer=analyzers.autocomplete,
@@ -95,6 +94,7 @@ class Vestiging(es.DocType):
         })
 
     naam = es.String(
+        multi=True,
         analyzer=analyzers.adres,
         fields={
             'raw': es.String(index='not_analyzed'),
@@ -154,7 +154,10 @@ def from_vestiging(ves: models.Vestiging):
     doc.vestigingsnummer = ves.vestigingsnummer
     doc.hoofdvestiging = ves.hoofdvestiging
 
-    doc.naam = ves.naam
+    doc.naam.append(ves.naam)
+
+    for h in ves.handelsnamen.all():
+        doc.naam.append(h.handelsnaam)
 
     for act in ves.activiteiten.all():
         doc.sbi.append(dict(
@@ -166,5 +169,6 @@ def from_vestiging(ves: models.Vestiging):
     if ves.postadres:
         doc.postadres = ves.bezoekadres.volledig_adres
 
-    # logging.error(json.dumps(doc.to_dict(), indent=4))
+    logging.error(json.dumps(doc.to_dict(), indent=4))
+
     return doc
