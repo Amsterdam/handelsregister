@@ -80,7 +80,7 @@ importer_el3:
     DATABASE_PASSWORD: insecure
   command: >
     bash -c "/app/docker-wait.sh \
-            && python manage.py build_index --partial=2/3 --build"
+            && python manage.py build_index --partial=3/3 --build"
 
 
 db-backup:
