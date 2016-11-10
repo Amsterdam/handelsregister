@@ -20,10 +20,18 @@ class SearchTest(APITestCase):
     def setUpClass(cls):
         super().setUpClass()
 
+        hnd1 = factories.Handelsnaam(handelsnaam='handelsnaam1')
+        hnd11 = factories.Handelsnaam(handelsnaam='handelsnaam11')
+        hnd2 = factories.Handelsnaam(handelsnaam='handelsnaam2')
+        hnd3 = factories.Handelsnaam(handelsnaam='handelsnaam3')
+        hnd_mac = factories.Handelsnaam(handelsnaam='mac_handelsnaam')
+
+        onderneming = factories.Onderneming(handelsnamen=[hnd_mac])
+
         cls.mac1 = factories.MaatschappelijkeActiviteitFactory(
                 naam='mac1',
-                kvk_nummer='1111'
-
+                kvk_nummer='1111',
+                onderneming=onderneming
         )
 
         cls.mac2 = factories.MaatschappelijkeActiviteitFactory(
@@ -39,17 +47,20 @@ class SearchTest(APITestCase):
         cls.ves1 = factories.VestigingFactory(
                 naam='test1',
                 maatschappelijke_activiteit=cls.mac1,
-                vestigingsnummer=99999
+                vestigingsnummer=99999,
+                handelsnamen=[hnd1, hnd11]
         )
         cls.ves2 = factories.VestigingFactory(
                 naam='test2',
                 maatschappelijke_activiteit=cls.mac2,
-                vestigingsnummer=99998
+                vestigingsnummer=99998,
+                handelsnamen=[hnd2]
         )
         cls.ves3 = factories.VestigingFactory(
                 naam='test3',
                 maatschappelijke_activiteit=cls.mac3,
-                vestigingsnummer=99988
+                vestigingsnummer=99988,
+                handelsnamen=[hnd3]
 
         )
 

@@ -49,10 +49,14 @@ class VestigingFactory(factory.DjangoModelFactory):
         MaatschappelijkeActiviteitFactory)
 
     @factory.post_generation
-    def activiteiten(self, create, activiteiten=None, **kwargs):
+    def activiteiten(self, create, activiteiten=None, handelsnamen=None, **kwargs):
         if not create:
             # Simple build, do nothing.
             return
+
+        if handelsnamen:
+            for h in handelsnamen:
+                self.handelsnamen.add(h)
 
         if activiteiten:
             # A list of groups were passed in, use them
@@ -73,6 +77,37 @@ class LocatieFactory(factory.DjangoModelFactory):
     bag_vbid = fuzzy.FuzzyChoice(choices=[3, 4])  # 'put_in_fixture_id'
     volledig_adres = fuzzy.FuzzyText('vol_adres', length=25)
     bag_nummeraanduiding = fuzzy.FuzzyText('bag_nr_aand', length=25)
+
+
+class Handelsnaam(factory.DjangoModelFactory):
+
+    class Meta:
+        model = models.Handelsnaam
+
+    id = fuzzy.FuzzyInteger(low=1000000000000, high=1900000000000)
+
+    handelsnaam = fuzzy.FuzzyText('handelsnaam', length=25)
+
+
+class Onderneming(factory.DjangoModelFactory):
+
+    class Meta:
+        model = models.Onderneming
+
+    id = fuzzy.FuzzyInteger(low=1000000000000, high=1900000000000)
+    totaal_werkzame_personen = fuzzy.FuzzyInteger(low=1, high=9000)
+    fulltime_werkzame_personen = fuzzy.FuzzyInteger(low=1, high=9000)
+    parttime_werkzame_personen = fuzzy.FuzzyInteger(low=1, high=9000)
+
+    @factory.post_generation
+    def handelsnamen(self, create, handelsnamen=None, **kwargs):
+        if not create:
+            # Simple build, do nothing.
+            return
+
+        if handelsnamen:
+            for h in handelsnamen:
+                self.handelsnamen.add(h)
 
 
 class Activiteit(factory.DjangoModelFactory):
