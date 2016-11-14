@@ -24,7 +24,7 @@ class SearchTest(APITestCase):
         hnd11 = factories.Handelsnaam(handelsnaam='handelsnaam11')
         hnd2 = factories.Handelsnaam(handelsnaam='handelsnaam2')
         hnd3 = factories.Handelsnaam(handelsnaam='handelsnaam3')
-        hnd_mac = factories.Handelsnaam(handelsnaam='mac_handelsnaam')
+        hnd_mac = factories.Handelsnaam(handelsnaam='handelsnaammac')
 
         onderneming = factories.Onderneming(handelsnamen=[hnd_mac])
 
@@ -128,7 +128,27 @@ class SearchTest(APITestCase):
         query = 'mac3'
         response = self.client.get(url, {'q': query})
 
-        self.assertEqual(response.data['results'][0]['naam'], 'mac3')
+        # logging.error(json.dumps(response.data['results'], indent=4))
+
+        handelsnamen = [n['naam'] for n in
+                        response.data['results'][0]['handelsnamen']]
+
+        self.assertTrue('mac3' in handelsnamen)
+
+    def test_mac_handelsnaam(self):
+
+        url = '/handelsregister/search/maatschappelijkeactiviteit/'
+
+        query = 'handelsnaammac'
+
+        response = self.client.get(url, {'q': query})
+
+        # logging.error(json.dumps(response.data['results'], indent=4))
+
+        handelsnamen = [n['naam'] for n in
+                        response.data['results'][0]['handelsnamen']]
+
+        self.assertTrue('handelsnaammac' in handelsnamen)
 
     def test_ves_id(self):
 
@@ -158,7 +178,21 @@ class SearchTest(APITestCase):
         query = 'test3'
         response = self.client.get(url, {'q': query})
 
-        # log.exception(json.dumps(response.data['results'], indent=2))
+        # logging.error(json.dumps(response.data['results'], indent=4))
 
-        self.assertEqual(
-            response.data['results'][0]['naam'], 'test3')
+        handelsnamen = [n['naam'] for n in
+                        response.data['results'][0]['handelsnamen']]
+
+        self.assertTrue('test3' in handelsnamen)
+
+    def test_ves_handelsnaam(self):
+        url = '/handelsregister/search/vestiging/'
+        query = 'handelsnaam3'
+        response = self.client.get(url, {'q': query})
+
+        # logging.error(json.dumps(response.data['results'], indent=4))
+
+        handelsnamen = [n['naam'] for n in
+                        response.data['results'][0]['handelsnamen']]
+
+        self.assertTrue('handelsnaam3' in handelsnamen)

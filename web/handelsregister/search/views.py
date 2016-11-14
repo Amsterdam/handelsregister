@@ -69,7 +69,7 @@ def _get_url(request, hit):
     if doc_type == 'vestiging':
         return get_links(
             view_name=_details[doc_type],
-            kwargs={'vestigingsnummer': id}, request=request)
+            kwargs={'vestigingsnummer': hit.vestigingsnummer}, request=request)
 
     if doc_type == 'maatschappelijke_activiteit':
         return get_links(
@@ -131,7 +131,7 @@ class TypeaheadViewSet(viewsets.ViewSet):
         result_data = []
 
         # Ignoring cache in case debug is on
-        ignore_cache = settings.DEBUG
+        ignore_cache = settings.TESTING
 
         # create elk queries
         for q in query_components:  # type: ElasticQueryWrapper
@@ -145,7 +145,6 @@ class TypeaheadViewSet(viewsets.ViewSet):
                 log.exception('FAILED ELK SEARCH: %s',
                               json.dumps(search.to_dict(), indent=2))
                 continue
-
             # Get the datas!
             result_data.append(result)
 
@@ -301,7 +300,7 @@ class SearchViewSet(viewsets.ViewSet):
             log.debug('no elk query')
             return Response([])
 
-        ignore_cache = settings.DEBUG
+        ignore_cache = settings.TESTING
 
         try:
             result = search.execute(ignore_cache=ignore_cache)

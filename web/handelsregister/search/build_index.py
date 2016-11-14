@@ -3,12 +3,11 @@ import logging
 
 from django.conf import settings
 
-from datasets.hr import doc as documents
-
 from datasets.hr.models import MaatschappelijkeActiviteit
 from datasets.hr.models import Vestiging
 
 from search import index
+from search import documents
 
 
 log = logging.getLogger(__name__)

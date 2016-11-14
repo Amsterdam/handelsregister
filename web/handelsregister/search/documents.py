@@ -162,6 +162,8 @@ def from_mac(mac: models.MaatschappelijkeActiviteit):
     doc.naam = mac.naam
     doc.kvk_nummer = mac.kvk_nummer
 
+    doc.handelsnamen.append(dict(naam=mac.naam))
+
     if mac.onderneming:
         for h in mac.onderneming.handelsnamen.all():
             doc.handelsnamen.append(dict(
@@ -173,7 +175,6 @@ def from_mac(mac: models.MaatschappelijkeActiviteit):
     if mac.postadres:
         doc.postadres = mac.postadres.volledig_adres
 
-    # logging.error(json.dumps(doc.to_dict(), indent=4))
     return doc
 
 
@@ -191,9 +192,10 @@ def from_vestiging(ves: models.Vestiging):
 
     doc.naam = ves.naam
 
+    doc.handelsnamen.append(dict(naam=ves.naam))
+
     for h in ves.handelsnamen.all():
-        doc.handelsnamen.append(dict(
-            naam=h.handelsnaam))
+        doc.handelsnamen.append(dict(naam=h.handelsnaam))
 
     for act in ves.activiteiten.all():
         doc.sbi.append(dict(
@@ -204,7 +206,5 @@ def from_vestiging(ves: models.Vestiging):
         doc.centroid = get_centroid(ves.bezoekadres.geometrie, 'wgs84')
     if ves.postadres:
         doc.postadres = ves.bezoekadres.volledig_adres
-
-    # logging.error(json.dumps(doc.to_dict(), indent=4))
 
     return doc
