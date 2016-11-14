@@ -1,6 +1,7 @@
 # typeahead and Searchviews
 
 import json
+#import string
 
 import logging
 from collections import OrderedDict
@@ -336,7 +337,6 @@ class SearchViewSet(viewsets.ViewSet):
     def normalize_hit(self, hit, request):
         result = OrderedDict()
         result['_links'] = self.get_url(request, hit)
-
         result['type'] = hit.meta.doc_type
         result['dataset'] = hit.meta.index
         result.update(hit.to_dict())
