@@ -454,20 +454,30 @@ class Vestiging(models.Model):
     handelsnamen = models.ManyToManyField('Handelsnaam')
 
     @property
-    def _volledig_adres(self):
+    def _adres(self):
         adres = None
 
         if self.bezoekadres:
-            adres = self.bezoekadres.volledig_adres
+            adres = "{} {}".format(
+                self.bezoekadres.straatnaam,
+                self.bezoekadres.huisnummer,
+            )
         elif self.postadres:
             adres = "{} (post)".format(self.postadres.volledig_adres)
 
         return adres
 
+    @property
+    def locatie(self):
+        """
+        locatie
+        """
+        return self.bezoekadres if self.bezoekadres else self.postadres
+
     def __str__(self):
 
         handelsnaam = "{}".format(self.naam)
-        adres = self._volledig_adres
+        adres = self._adres
 
         if adres:
             return "{} - {}".format(handelsnaam, adres)
@@ -524,6 +534,27 @@ class Locatie(models.Model):
     land = models.CharField(max_length=50, blank=True, null=True)
 
     geometrie = models.PointField(srid=28992, blank=True, null=True)
+
+    # locatie meuk die er nu wel is.
+    straatnaam = models.CharField(
+        db_index=True, max_length=100, blank=True, null=True)
+    toevoegingadres = models.CharField(max_length=100, blank=True, null=True)
+    huisletter = models.CharField(max_length=1, blank=True, null=True)
+
+    huisnummer = models.DecimalField(
+        db_index=True,
+        max_digits=5, decimal_places=0, blank=True, null=True)
+
+    huisnummertoevoeging = models.CharField(
+        max_length=5, blank=True, null=True)
+
+    postcode = models.CharField(
+        db_index=True, max_length=6, blank=True, null=True)
+
+    # plaats.
+    plaats = models.CharField(
+        db_index=True,
+        max_length=100, blank=True, null=True)
 
     # Auto fix related
 
@@ -720,6 +751,14 @@ class GeoVestigingen(models.Model):
         help_text="De codering van de activiteit conform de SBI2008"
     )
 
+    postadres = models.ForeignKey(
+        'Locatie', related_name="+", blank=True, null=True,
+        help_text="postadres")
+
+    bezoekadres = models.ForeignKey(
+        'Locatie', related_name="+", blank=True, null=True,
+        help_text="bezoekadres")
+
 
 class GeoVBO(models.Model):
     id = models.CharField(max_length=14, primary_key=True)
@@ -875,14 +914,19 @@ class BetrokkenPersonen(models.Model):
         help_text="Kvk nummer"
     )
 
-    vestiging_id = models.ForeignKey(
+    vestiging = models.ForeignKey(
         DataSelectie,
         to_field="id",
         db_column="vestiging_id",
         blank=True,
         null=True,
-        help_text="Vestiging nummer",
+        help_text="Vestiging id",
         on_delete=models.DO_NOTHING
+    )
+
+    vestigingsnummer = models.CharField(
+        max_length=12, unique=True,
+        help_text="Betreft het identificerende gegeven voor de Vestiging"
     )
 
     persoons_id = models.IntegerField(
@@ -930,12 +974,13 @@ class BetrokkenPersonen(models.Model):
         help_text="Bevoegdheid van de functionaris"
     )
 
-    # def __getstate__(self):
-    #     state = self.__dict__.copy()
-    #     for s_name in state.keys():
-    #         if s_name[1] == '_' or s_name[:3] == 'py/':
-    #             del state[s_name]
-    #     return state
-    #
-    # def __setstate__(self, state):
-    #     self.__dict__.update(state)
+    datum_aanvang = models.DateField(
+        max_length=8, blank=True, null=True,
+        help_text="De datum van aanvang van de MaatschappelijkeActiviteit",
+    )
+
+    datum_einde = models.DateField(
+        max_length=8, blank=True, null=True,
+        help_text="""
+            De datum van beëindiging van de MaatschappelijkeActiviteit""",
+    )

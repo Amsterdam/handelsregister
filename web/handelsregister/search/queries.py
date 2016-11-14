@@ -83,24 +83,58 @@ def vestiging_query(analyzer: InputQAnalyzer) -> ElasticQueryWrapper:
     vesid = analyzer.get_id()
     handelsnaam = analyzer.get_handelsnaam()
 
+    must = [Q('term', _type='vestiging')]
+
     # straatnaam huisnummer??
 
-    sort_fields = ['_display']
+    # sort_fields = ['_display']
+
+    sort_fields = ['_score']
+
+    min_match = 1
+    should = [
+        # Naam
+        {"prefix": {"naam": {
+            "value": handelsnaam, "boost": 6.0}}},
+
+        {"match": {"handelsnamen.naam": {
+            "query": handelsnaam, "fuzziness": 2}}},
+
+        {"match_phrase_prefix": {"naam": {
+            "query": handelsnaam, "max_expansions": 5}}},
+
+        # Nested handelsnamen
+        Q(
+            "nested",
+            path="handelsnamen",
+            score_mode="max",
+            query=Q(
+                "bool",
+                should=[
+                    {"term": {"handelsnamen.naam": {
+                        "value": handelsnaam, "boost": 21.0}}},
+                    {"prefix": {"handelsnamen.naam": {
+                        "value": handelsnaam}}},
+                    {"match": {"handelsnamen.naam": {
+                        "query": handelsnaam, "fuzziness": 2}}},
+                    {"match_phrase_prefix": {"handelsnamen.naam": {
+                        "query": handelsnaam, "max_expansions": 5}}},
+                    {"prefix": {"handelsnamen.naam.ngram": handelsnaam}},
+                ])
+        )
+    ]
 
     if vesid:
-        sort_fields = ['_score']
+        must.append(Q('prefix', vestigingsnummer=vesid))
+        should = [Q('prefix', vestigingsnummer=vesid)]
+        min_match = 1
 
     return ElasticQueryWrapper(
         query=Q(
             'bool',
-            must=[
-                Q('term', _type='vestiging'),
-            ],
-            should=[
-                Q('prefix', vestigingsnummer=vesid),
-                Q('match_phrase', naam=handelsnaam),
-                Q('match', naam=handelsnaam)],
-            minimum_should_match=1),
+            must=must,
+            should=should,
+            minimum_should_match=min_match),
         sort_fields=sort_fields,
         indexes=[HR],
         size=10,
@@ -110,24 +144,59 @@ def vestiging_query(analyzer: InputQAnalyzer) -> ElasticQueryWrapper:
 def mac_query(analyzer: InputQAnalyzer) -> ElasticQueryWrapper:
     """ Create query/aggregation for vestiging search"""
     # vestigings nummer or handelsnaam
-    macid = analyzer.get_id()
+    kvknummer = analyzer.get_id()
 
     handelsnaam = analyzer.get_handelsnaam()
 
+    must = [Q('term', _type='maatschappelijke_activiteit')]
+
+    min_match = 1
+    should = [
+        # naam
+        {"prefix": {"naam": {
+            "value": handelsnaam, "boost": 6.0}}},
+        {"match": {"naam": {
+            "query": handelsnaam, "boost": 6.0}}},
+
+        {"match_phrase_prefix": {"naam": {
+            "query": handelsnaam, "max_expansions": 5}}},
+
+        # nested handelsnamen
+        Q(
+            "nested",
+            path="handelsnamen",
+            score_mode="max",
+            query=Q(
+                "bool",
+                should=[
+                    {"term": {"handelsnamen.naam": {
+                        "value": handelsnaam, "boost": 21.0}}},
+                    {"prefix": {"handelsnamen.naam": {
+                        "value": handelsnaam}}},
+                    {"match": {"handelsnamen.naam": {
+                        "query": handelsnaam, "fuzziness": 2}}},
+                    {"match_phrase_prefix": {"handelsnamen.naam": {
+                        "query": handelsnaam, "max_expansions": 5}}},
+                    {"prefix": {"handelsnamen.naam.ngram": handelsnaam}},
+                ])
+        )
+    ]
+
+    if kvknummer:
+        must.append(Q('prefix', kvk_nummer=kvknummer))
+        should = [Q('prefix', kvk_nummer=kvknummer)]
+        min_match = 1
+
+    # sort_fields = ['_display']
     # straatnaam huisnummer??
     sort_fields = ['_score']
 
     return ElasticQueryWrapper(
         query=Q(
             'bool',
-            must=[
-                Q('term', _type='maatschappelijke_activiteit'),
-            ],
-            should=[
-                Q('prefix', kvk_nummer=macid),
-                Q('match_phrase', naam=handelsnaam),
-                Q('match', naam=handelsnaam)],
-            minimum_should_match=1),
+            must=must,
+            should=should,
+            minimum_should_match=min_match),
         sort_fields=sort_fields,
         indexes=[HR],
         size=10,

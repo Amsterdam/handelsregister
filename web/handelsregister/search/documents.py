@@ -47,6 +47,19 @@ class MaatschappelijkeActiviteit(es.DocType):
             'ngram': es.String(
                 analyzer=analyzers.autocomplete, search_analyzer='standard')})
 
+    handelsnamen = es.Nested({
+        'properties': {
+            'naam': es.String(
+                analyzer=analyzers.adres,
+                fields={
+                    'raw': es.String(index='not_analyzed'),
+                    'ngram': es.String(
+                        analyzer=analyzers.autocomplete,
+                        search_analyzer='standard')
+                })
+            }
+    })
+
     postadres = es.String(
         analyzer=analyzers.adres,
         fields={
@@ -83,7 +96,6 @@ class Vestiging(es.DocType):
     hoofdvestiging = es.Boolean()
 
     sbi = es.Nested({
-        'multi': True,
         'properties': {
             'code': es.String(
                 analyzer=analyzers.autocomplete,
@@ -99,21 +111,38 @@ class Vestiging(es.DocType):
         fields={
             'raw': es.String(index='not_analyzed'),
             'ngram': es.String(
-                analyzer=analyzers.autocomplete, search_analyzer='standard')})
+                analyzer=analyzers.autocomplete,
+                search_analyzer='standard')}
+        )
+
+    handelsnamen = es.Nested({
+        'properties': {
+            'naam': es.String(
+                analyzer=analyzers.adres,
+                fields={
+                    'raw': es.String(index='not_analyzed'),
+                    'ngram': es.String(
+                        analyzer=analyzers.autocomplete,
+                        search_analyzer='standard')
+                })
+            }
+    })
 
     postadres = es.String(
         analyzer=analyzers.adres,
         fields={
             'raw': es.String(index='not_analyzed'),
             'ngram': es.String(
-                analyzer=analyzers.autocomplete, search_analyzer='standard')})
+                analyzer=analyzers.autocomplete,
+                search_analyzer='standard')})
 
     bezoekadres = es.String(
         analyzer=analyzers.adres,
         fields={
             'raw': es.String(index='not_analyzed'),
             'ngram': es.String(
-                analyzer=analyzers.autocomplete, search_analyzer='standard')})
+                analyzer=analyzers.autocomplete,
+                search_analyzer='standard')})
 
     centroid = es.GeoPoint()
 
@@ -132,6 +161,13 @@ def from_mac(mac: models.MaatschappelijkeActiviteit):
 
     doc.naam = mac.naam
     doc.kvk_nummer = mac.kvk_nummer
+
+    doc.handelsnamen.append(dict(naam=mac.naam))
+
+    if mac.onderneming:
+        for h in mac.onderneming.handelsnamen.all():
+            doc.handelsnamen.append(dict(
+                naam=h.handelsnaam))
 
     if mac.bezoekadres:
         doc.bezoekadres = mac.bezoekadres.volledig_adres
@@ -156,6 +192,11 @@ def from_vestiging(ves: models.Vestiging):
 
     doc.naam = ves.naam
 
+    doc.handelsnamen.append(dict(naam=ves.naam))
+
+    for h in ves.handelsnamen.all():
+        doc.handelsnamen.append(dict(naam=h.handelsnaam))
+
     for act in ves.activiteiten.all():
         doc.sbi.append(dict(
             code=act.sbi_code, omschrijving=act.sbi_omschrijving))
@@ -166,5 +207,4 @@ def from_vestiging(ves: models.Vestiging):
     if ves.postadres:
         doc.postadres = ves.bezoekadres.volledig_adres
 
-    # logging.error(json.dumps(doc.to_dict(), indent=4))
     return doc

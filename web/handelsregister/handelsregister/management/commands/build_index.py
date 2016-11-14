@@ -23,8 +23,8 @@ class Command(BaseCommand):
         'ves': [build_index.index_ves_docs],
     }
 
-    delete_tasks = {
-        'mac': [build_index.delete_hr_docs],
+    reset_tasks = {
+        'mac': [build_index.reset_hr_docs],
         'ves': [],
     }
 
@@ -45,11 +45,11 @@ class Command(BaseCommand):
             help='Build elastic index from postgres')
 
         parser.add_argument(
-            '--delete',
+            '--reset',
             action='store_true',
-            dest='delete_indexes',
+            dest='reset_indexes',
             default=False,
-            help='Delete elastic indexes from elastic')
+            help='Reset elastic indexes')
 
         parser.add_argument(
             '--partial',
@@ -107,8 +107,8 @@ class Command(BaseCommand):
                 for task in self.index_tasks[ds]:
                     task()
 
-            if options['delete_indexes']:
-                for task in self.delete_tasks[ds]:
+            if options['reset_indexes']:
+                for task in self.reset_tasks[ds]:
                     task()
 
         self.stdout.write(

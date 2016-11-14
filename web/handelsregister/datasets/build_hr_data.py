@@ -5,6 +5,9 @@ fill the stelselpedia dumps
 import logging
 
 from django import db
+from django.conf import settings
+
+from datasets.hr.models import Vestiging
 
 log = logging.getLogger(__name__)
 
@@ -75,6 +78,12 @@ def fill_stelselpedia():
         log.info("Converteer onbekende mac mks eigenaren")
         _converteer_onbekende_mac_eigenaar_id(cursor)
 
+        log.info("Verwijder vestigingen met een bezoekadres buiten Amsterdam")
+        # Dropall outside of Amsterdam
+        if not settings.TESTING:
+            Vestiging.objects.exclude(
+                bezoekadres__volledig_adres__endswith='Amsterdam').delete()
+
 
 def fill_location_with_bag():
     with db.connection.cursor() as cursor:
@@ -111,7 +120,13 @@ INSERT INTO hr_locatie (
   postcode_woonplaats,
   regio,
   land,
-  geometrie
+  geometrie,
+  straatnaam,
+  postcode,
+  huisnummer,
+  huisnummertoevoeging,
+  huisletter,
+  plaats
 )
     SELECT
       adrid,
@@ -132,7 +147,13 @@ INSERT INTO hr_locatie (
       postcodewoonplaats,
       regio,
       land,
-      geopunt
+      geopunt,
+      straatnaam,
+      postcode,
+      huisnummer,
+      huisnummertoevoeging,
+      huisletter,
+      plaats
     FROM kvkadrm00
         """)
 
@@ -615,7 +636,9 @@ INSERT INTO hr_geovestigingen (
     hoofdvestiging,
     locatie_type,
     geometrie,
-    sbi_detail_group
+    sbi_detail_group,
+    postadres_id,
+    bezoekadres_id
 ) SELECT
     vs.vestigingsnummer,
     CAST((COALESCE(a.sbi_code,'0')) AS INTEGER),
@@ -623,7 +646,8 @@ INSERT INTO hr_geovestigingen (
     a.activiteitsomschrijving,
     CAST('handelsregister/vestiging' AS text) as subtype,
     vs.naam,
-    site.domain || 'handelsregister/vestiging/' || vs.vestigingsnummer || '/' AS uri,
+    site.domain || 'handelsregister/vestiging/' ||
+        vs.vestigingsnummer || '/' AS uri,
     vs.hoofdvestiging,
     CASE
       WHEN vs.bezoekadres_id NOTNULL THEN 'B'
@@ -631,7 +655,9 @@ INSERT INTO hr_geovestigingen (
       ELSE 'V'
     END as locatie_type,
     loc.geometrie as geometrie,
-    sc.subcategorie as sbi_detailgroep
+    sc.subcategorie as sbi_detailgroep,
+    vs.postadres_id,
+    vs.bezoekadres_id
   FROM hr_vestiging_activiteiten hr_a
     JOIN hr_vestiging vs
     ON hr_a.vestiging_id = vs.id

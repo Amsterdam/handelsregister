@@ -24,13 +24,13 @@ def _get_docker_host():
     return '0.0.0.0'
 
 
-VBO_URI = "https://api-acc.datapunt.amsterdam.nl/bag/verblijfsobject/"
+VBO_URI = "https://api.datapunt.amsterdam.nl/bag/verblijfsobject/"
 CBS_URI = 'http://sbi.cbs.nl/cbs.typeermodule.typeerservicewebapi/api/sbianswer/getNextQuestion/{}'
 CSB_SEARCH = 'http://sbi.cbs.nl/cbs.typeermodule.typeerservicewebapi/api/SBISearch/search/{}'
 
 # SECURITY WARNING: keep the secret key used in production secret!
 insecure_key = 'insecure'
-SECRET_KEY = os.getenv('HANDELSREGISTER_SECRET_KEY', insecure_key)
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', insecure_key)
 
 DEBUG = SECRET_KEY == insecure_key
 
@@ -69,6 +69,8 @@ INSTALLED_APPS = [
     'rest_framework_swagger',
 
 ] + PROJECT_APPS
+
+INTERNAL_IPS = ('127.0.0.1', '0.0.0.0')
 
 if DEBUG:
     INSTALLED_APPS += (

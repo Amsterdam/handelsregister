@@ -26,8 +26,6 @@ futures==3.0.5
 gevent==1.1.2
 greenlet==0.4.10
 grequests==0.3.0
-jsonpickle==0.9.3
-
 iso8601==0.1.11
 itypes==1.1.0
 jsonpickle==0.9.3
@@ -62,3 +60,4 @@ unicodecsv==0.14.1
 uritemplate==3.0.0
 urllib3==1.18.1
 wrapt==1.10.8
+python-rapidjson==0.0.6
