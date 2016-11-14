@@ -1,0 +1,62 @@
+{
+    "_links": {
+        "self": {
+            "href": "https://api-acc.datapunt.amsterdam.nl/search/adres/?q=silodam%20340&page=1"
+        },
+        "next": {
+            "href": null
+        },
+        "prev": {
+            "href": null
+        }
+    },
+    "count_hits": 1,
+    "count": 1,
+    "results": [
+        {
+            "_links": {
+                "self": {
+                    "href": "https://api-acc.datapunt.amsterdam.nl/bag/verblijfsobject/03630001010349/"
+                }
+            },
+            "type": "nummeraanduiding",
+            "dataset": "nummeraanduiding",
+            "straatnaam": "Silodam",
+            "toevoeging": "10 B",
+            "order": 50,
+            "subtype_id": "03630001010349",
+            "huisnummer": 10,
+            "_display": "Silodam 340",
+            "adres": "Silodam 340",
+            "centroid": [
+                4.8904329371004085,
+                52.392530493710765
+            ],
+            "subtype": "verblijfsobject",
+            "postcode": "1013AW"
+
+        },
+        {
+            "_links": {
+                "self": {
+                    "href": "https://api-acc.datapunt.amsterdam.nl/bag/verblijfsobject/03630001010349/"
+                }
+            },
+            "type": "nummeraanduiding",
+            "dataset": "nummeraanduiding",
+            "straatnaam": "Silodam",
+            "toevoeging": "10 A",
+            "order": 50,
+            "subtype_id": "03630001010349",
+            "huisnummer": 10,
+            "_display": "Silodam 340",
+            "adres": "Silodam 340",
+            "centroid": [
+                4.8904329371004085,
+                52.392530493710765
+            ],
+            "subtype": "verblijfsobject",
+            "postcode": "1013AW"
+        }
+    ]
+}
