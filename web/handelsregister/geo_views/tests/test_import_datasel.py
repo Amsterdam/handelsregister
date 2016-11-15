@@ -31,7 +31,7 @@ class ImportDataselectieTest(TestCase):
         self.assertGreaterEqual(len(jsonapi), 1)
         self.assertEqual(len(jsonapi['bezoekadres']),7)
         self.assertIsInstance(jsonapi['sbi_codes'], list)
-        self.assertEqual(len(jsonapi['sbi_codes']), 2)
+        self.assertEqual(len(jsonapi['sbi_codes']), 1)
         self.assertEqual(len(jsonapi['postadres']), 7)
         self.assertEqual(len(jsonapi['betrokkenen']), 1)
         self.assertIsInstance(jsonapi['geometrie'], list)

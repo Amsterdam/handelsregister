@@ -9,8 +9,8 @@ from datasets.hr.models import DataSelectie, GeoVestigingen, CBS_sbi_hoofdcat, B
 
 log = logging.getLogger(__name__)
 
-VESTIGING_FIELDS = ('vestigingsnummer', 'naam', 'uri', 'hoofdvestiging',
-                    'locatie_type', 'geometrie')
+VESTIGING_FIELDS = ('vestigingsnummer', 'naam', 'hoofdvestiging',
+                    'locatie_type', 'geometrie', 'bag_vbid')
 
 BETROKKENEN_FIELDS = ('mac_naam', 'rol', 'naam', 'rechtsvorm', 'functietitel',
                       'soortbevoegdheid', 'bevoegde_naam')
@@ -66,7 +66,7 @@ def _build_joined_ds_table():
         betrokken = None
 
     log.info('START opbouw dataselectie api als json')
-    by_vestiging = groupby(GeoVestigingen.objects.order_by('vestigingsnummer'),
+    by_vestiging = groupby(GeoVestigingen.objects.filter(locatie_type='B').order_by('vestigingsnummer'),
             lambda row: row.vestigingsnummer)
     for vestigingsnummer, vest_data in by_vestiging:
         first = True
@@ -75,36 +75,48 @@ def _build_joined_ds_table():
         for sbi_repeat in vest_data:
             if first:
                 vestiging_dict = to_dict(sbi_repeat, VESTIGING_FIELDS)
-                if sbi_repeat.bezoekadres and sbi_repeat.bezoekadres.bag_nummeraanduiding:
-                    vestiging_dict['bezoekadres'] = to_dict(sbi_repeat.bezoekadres, LOCATIE_FIELDS)
-                else:
-                    vestiging_dict['bezoekadres'] = None
-                if sbi_repeat.postadres and sbi_repeat.bezoekadres.bag_nummeraanduiding:
-                    vestiging_dict['postadres'] = to_dict(sbi_repeat.bezoekadres, LOCATIE_FIELDS)
-                else:
-                    vestiging_dict['postadres'] = None
+                vestiging_dict = add_adressen_dict(vestiging_dict, sbi_repeat)
+                vestiging_dict['sbi_codes'] = vst_sbi = []
+                first = False
 
-            first = False
             vst_sbi.append(sbi_values[sbi_repeat.sbi_code])
 
-        vestiging_dict['sbi_codes'] = vst_sbi
         if len(vst_sbi):
-            vestiging_dict['betrokkenen'] = vst_betr = []
-            first = True
-            while betrokken and betrokken.vestigingsnummer <= vestigingsnummer:
-                if betrokken.vestigingsnummer == vestigingsnummer:
-                    vst_betr.append(to_dict(betrokken, BETROKKENEN_FIELDS))
-                    if first:
-                        mac_dict = to_dict(betrokken, MAATSCHAPPELIJKE_ACT_FIELDS)
-                        vestiging_dict.update(mac_dict)
-                        first = False
-                try:
-                    betrokken = next(betrokken_per_vestiging)
-                except StopIteration:
-                    betrokken = None
-                    break
-            ds = DataSelectie(vestigingsnummer, rapidjson.dumps(vestiging_dict))
-            ds.save()
+            vestiging_dict = add_betrokkenen_to_vestigingen(betrokken, vestiging_dict,
+                                                            vestigingsnummer, betrokken_per_vestiging)
         else:
             log.error('Vestiging %s %s zonder sbi code' % (vestigingsnummer, sbi_repeat.naam))
+        if vestiging_dict:
+            ds = DataSelectie(vestigingsnummer, sbi_repeat.bag_vbid, rapidjson.dumps(vestiging_dict))
+            ds.save()
+
     log.info('opbouw dataselectie api als json VOLTOOID')
+
+
+def add_adressen_dict(vestiging_dict: dict, sbi_repeat) -> dict:
+    if sbi_repeat.bezoekadres and sbi_repeat.bezoekadres.bag_nummeraanduiding:
+        vestiging_dict['bezoekadres'] = to_dict(sbi_repeat.bezoekadres, LOCATIE_FIELDS)
+    else:
+        vestiging_dict['bezoekadres'] = None
+    if sbi_repeat.postadres and sbi_repeat.bezoekadres.bag_nummeraanduiding:
+        vestiging_dict['postadres'] = to_dict(sbi_repeat.bezoekadres, LOCATIE_FIELDS)
+    else:
+        vestiging_dict['postadres'] = None
+    return vestiging_dict
+
+
+def add_betrokkenen_to_vestigingen(betrokken, vestiging_dict, vestigingsnummer, betrokken_per_vestiging) -> dict:
+    vestiging_dict['betrokkenen'] = vst_betr = []
+    first = True
+    while betrokken and betrokken.vestigingsnummer <= vestigingsnummer:
+        if betrokken.vestigingsnummer == vestigingsnummer:
+            vst_betr.append(to_dict(betrokken, BETROKKENEN_FIELDS))
+            if first:
+                mac_dict = to_dict(betrokken, MAATSCHAPPELIJKE_ACT_FIELDS)
+                vestiging_dict.update(mac_dict)
+                first = False
+        try:
+            betrokken = next(betrokken_per_vestiging)
+        except StopIteration:
+            break
+    return vestiging_dict

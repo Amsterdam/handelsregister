@@ -759,6 +759,8 @@ class GeoVestigingen(models.Model):
         'Locatie', related_name="+", blank=True, null=True,
         help_text="bezoekadres")
 
+    bag_vbid = models.CharField(
+        max_length=16, blank=True, null=True)
 
 class GeoVBO(models.Model):
     id = models.CharField(max_length=14, primary_key=True)
@@ -778,81 +780,13 @@ class DataSelectie(models.Model):
         max_length=20,
         primary_key=True)
 
+    bag_vbid = models.CharField(
+        max_length=16, db_index=True, blank=True, null=True)
+
     api_json = JSONField()
 
 
 # SQL VIEWS ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-
-class DataSelectieView(models.Model):
-
-    class Meta:
-        db_table = 'hr_dataselectieview'
-        managed = False
-
-    vestigingsnummer = models.CharField(
-        max_length=12, db_index=True,
-        help_text="Betreft het identificerende gegeven voor de Vestiging"
-    )
-
-    vestiging_id = models.CharField(max_length=20)
-
-    naam = models.CharField(
-        max_length=200, null=True, blank=True,
-    )
-
-    uri = models.CharField(
-        max_length=200, null=True, blank=True,
-    )
-
-    hoofdvestiging = models.BooleanField()
-
-    locatie_type = models.CharField(
-        max_length=1, blank=True, null=True,
-        choices=[
-            ('B', 'Bezoek'),
-            ('P', 'Post'),
-            ('V', 'Vestiging')])
-
-    postadres = models.ForeignKey(
-        'Locatie', related_name="+", blank=True, null=True,
-        help_text="postadres",
-    )
-    bezoekadres = models.ForeignKey(
-        'Locatie', related_name="+", blank=True, null=True,
-        help_text="bezoekadres",
-    )
-
-    geometrie = models.PointField(
-        srid=28992,
-        blank=True,
-        null=True)
-
-    kvk_nummer = models.CharField(
-        max_length=8,
-        blank=True,
-        null=True,
-        help_text="Kvk nummer"
-    )
-
-    datum_aanvang = models.DateField(
-        blank=True,
-        null=True,
-        help_text="Datum inschrijving kvk"
-    )
-
-    datum_einde = models.DateField(
-        blank=True,
-        null=True,
-        help_text="Datum einde inschrijving kvk"
-    )
-
-    handelsnaam = models.CharField(
-        max_length=500,
-        blank=True,
-        null=True,
-        help_text="Eerste Handelsnaam"
-    )
 
 
 class SbicodesPerVestiging(models.Model):
