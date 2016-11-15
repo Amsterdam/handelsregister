@@ -480,6 +480,7 @@ class SearchTask():
             bag_id = details.get(key)
             if bag_id:
                 break
+
         return point, bag_id, num_id
 
     def save_corrected_geo_infomation(self, num, point, bag_id, num_id):

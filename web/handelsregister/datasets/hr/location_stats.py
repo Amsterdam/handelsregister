@@ -102,10 +102,10 @@ def vestiging_stats():
         ves_locaties_post.count(),
         ves_postbus.count(),
         missing_ves_locaties.count(),
-        missing_ves_bezoek_adam.count(),
         ves_loc_bag_id.count(),
         ves_loc_num_id.count(),
-        missing_ves_in_amsterdam.count()
+        missing_ves_in_amsterdam.count(),
+        missing_ves_bezoek_adam.count(),
     ]
 
 
