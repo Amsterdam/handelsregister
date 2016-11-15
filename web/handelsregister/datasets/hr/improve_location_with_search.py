@@ -601,7 +601,7 @@ def create_improve_locations_tasks(all_invalid_locations):
 
     for loc in all_invalid_locations.iterator():
 
-        addr = loc.volledig_adres
+        addr = loc.volledig_adres.lower()
 
         # figure out with adresses / streetnames
         # could be alternative
