@@ -73,6 +73,7 @@ def _search_fixtures_get(url, *args, **kwargs):
         filename = 'vbo={}'.format(landelijk_id)
 
     log.debug(filename)
+
     filename += '.json'
 
     res.encoding = "UTF-8"

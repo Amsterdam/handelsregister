@@ -465,8 +465,7 @@ class SearchTask():
             details = self.get_response(url=vbo_url)
 
         if 'geometrie' not in details:
-            log.exception(json.dumps(details, indent=2))
-            sys.exit(1)
+            log.exception('invalid details')
 
         point = details['geometrie']
 
