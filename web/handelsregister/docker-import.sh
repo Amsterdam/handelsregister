@@ -27,7 +27,7 @@ python /app/manage.py run_import --search || echo "Search failed, continuing any
 python /app/manage.py run_import --cbs_sbi || echo "Search failed, continuing anyway"
 
 # create geoviews
-python /app/manage.py run_import --geovestigingen || echo "Geovestigingen build failed, continuing anyway"
+python /app/manage.py run_import --geovestigingen
 
 # create dataselectie export
 python /app/manage.py run_import --dataselectie || echo "Dataselectie build failed, continuing anyway"
