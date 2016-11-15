@@ -26,7 +26,6 @@ from django.contrib.gis.geos import GEOSGeometry
 import gevent
 from gevent.queue import JoinableQueue
 
-
 from .models import Locatie
 
 log = logging.getLogger(__name__)
@@ -34,8 +33,8 @@ log = logging.getLogger(__name__)
 SEARCHES_QUEUE = JoinableQueue(maxsize=500)
 
 # TO see step by step what search does.
+#SLOW = False
 SLOW = False
-# SLOW = True
 
 STATS = dict(
     start=time.time(),
@@ -53,9 +52,17 @@ WORKERS = 15
 if SLOW:
     WORKERS = 1  # 25
 
-SEARCH_ADRES_URL = 'https://api-acc.datapunt.amsterdam.nl/search/adres/'
-NUM_URL = "https://api-acc.datapunt.amsterdam.nl/bag/nummeraanduiding/{}/"
-VBO_URL = "https://api-acc.datapunt.amsterdam.nl/bag/verblijfsobject/{}/"
+ACC = "https://api-acc.datapunt.amsterdam.nl"
+ROOT = "https://api.datapunt.amsterdam.nl"
+
+# We search against ACC to not pollute graphs in kibana
+SEARCH_ADRES_URL = '{}/search/adres/'.format(ACC)
+
+NUM_URL = "{}/bag/nummeraanduiding/".format(ROOT)
+VBO_URL = "{}/bag/verblijfsobject/".format(ROOT)
+
+# ?huisnummer=105&postcode=1018WR"
+PCODE_URL = "{}/bag/nummeraanduiding/".format(ACC)
 
 
 def make_status_line():
@@ -89,7 +96,7 @@ def fix_counter():
         log.info(make_status_line())
 
 
-class CSVLOGHANDLER():
+class LOGHANDLER():
     """
     set up some logging
     """
@@ -101,7 +108,7 @@ class CSVLOGHANDLER():
             self.wtf.setLevel(logging.CRITICAL)
             self.bag_error.setLevel(logging.CRITICAL)
 
-CSV = CSVLOGHANDLER()
+LOG = LOGHANDLER()
 
 
 # we corrigeren alleen voor Amsterdam.
@@ -159,9 +166,18 @@ def alternative_qs(query_string):
         ("5e", "vijfde"),
     ]
 
+    remove = [
+        "ab"
+    ]
+
     for patern, replace in could_also_be:
         if query_string.startswith(patern):
             qs_new = query_string.replace(patern, replace)
+            alternatives.append(qs_new)
+
+    for patern in remove:
+        if query_string.endswith(patern):
+            qs_new = query_string.replace(patern, "")
             alternatives.append(qs_new)
 
     return alternatives
@@ -245,13 +261,13 @@ class SearchTask():
         # http session
         self.session = Session()
 
-    def get_response(self, parameters):
+    def get_response(self, parameters={}, url=SEARCH_ADRES_URL):
         """
         Actualy do the http api search call
         """
+
         # parameters = {'q': self.get_q()}
-        async_r = grequests.get(
-            SEARCH_ADRES_URL, params=parameters, session=self.session)
+        async_r = grequests.get(url, params=parameters, session=self.session)
         # send a request and wait for results
         gevent.spawn(async_r.send).join()
         # Do something with the result count?
@@ -334,10 +350,40 @@ class SearchTask():
 
         return valid_hits
 
+    def look_in_hits(self, hits, nummer):
+        """
+        Look in hit for matching hit
+        To see if there is a hit with a correct / matching toevoeging
+        """
+
+        # log.debug(hits)
+        # try to find hit in hits that matches toevoegingen
+        for t in self.toevoegingen:
+            for hit in hits:
+                target = '{} {}'.format(nummer, t).lower()
+                hit_toevoeging = hit['toevoeging'].lower()
+                if hit_toevoeging.startswith(target):
+                    # log.debug('OK!')
+                    return hit
+
+    def find_postcode_hit(self):
+        """
+        All numbers have failed. Try to find hit with postcode
+        """
+        # last restort try poscode and take first hit
+        if self.postcode:
+            data = self.get_response(
+                {'postcode': self.postcode}, url=PCODE_URL)
+            hits = data.get('results')
+            if data and hits and data['count'] > 0:
+                # just return first result
+                log.debug('P6 HIT')
+                return hits[0]
+
     def get_search_response(self):
         """
-        Given straatnaam , nummer and toevoeging try to
-        find search result
+        Given straatnaam, nummer and toevoeging try to
+        find search result as last resort try postcode
         """
         hits = None
 
@@ -357,25 +403,20 @@ class SearchTask():
             if SLOW:
                 gevent.sleep(0.5)
 
-            # no hits then try with different number..
-            if not hits:
-                continue
+            # No hits then try with different number..
+            if hits:
+                match = self.look_in_hits(hits, nummer)
+                if match:
+                    return match
+                return hits[0]
 
-            # log.debug(hits)
-            # try to find hit in hits that matches toevoegingen
-            for t in self.toevoegingen:
-                for hit in hits:
-                    target = '{} {}'.format(nummer, t).lower()
-                    hit_toevoeging = hit['toevoeging'].lower()
-                    if hit_toevoeging.startswith(target):
-                        # log.debug('OK!')
-                        return hit
+            if SLOW:
+                gevent.sleep(0.5)
 
-                if SLOW:
-                    gevent.sleep(0.5)
-
-            # return the fist search result
-            return hits[0]
+        # As a last resort find something with the P6 postcode
+        hit = self.find_postcode_hit()
+        if hit:
+            return hit
 
         # Correctie failed
         # save and log empty result result
@@ -389,7 +430,7 @@ class SearchTask():
         """
         nothing found
         """
-        CSV.wtf.debug(
+        LOG.wtf.debug(
             '%s, %s, %s, %s, %s, %s',
             self.locatie.id,
             self.straatnaam,
@@ -406,17 +447,29 @@ class SearchTask():
         """
 
         details_url = num['_links']['self']['href']
-        details_request = grequests.get(details_url, session=self.session)
-        gevent.spawn(details_request.send).join()
-        details_request = details_request.response
+        # search result has all data
+        # but could also be nummeraanduidng endpoint
+        details = self.get_response(url=details_url)
 
-        if not details_request or details_request.status_code == 404:
-            CSV.bag_error.debug("%s, %s", self.get_q(), details_url)
-            return None, None
+        vbo_url = None
+        # a nummeraanduiding result needs more vbo data
+        # van een nummeraanduiding vind het vbo object
+        if details.get('verblijfsobject'):
+            vbo_url = details['verblijfsobject']
+        elif details.get('ligplaats'):
+            vbo_url = details['ligplaats']
+        elif details.get('standplaats'):
+            vbo_url = details['standplaats']
 
-        details = details_request.json()
+        if vbo_url:
+            details = self.get_response(url=vbo_url)
+
+        if 'geometrie' not in details:
+            log.exception(json.dumps(details, indent=2))
+            sys.exit(1)
 
         point = details['geometrie']
+
         num_id = None
         if details['hoofdadres']:
             num_id = details['hoofdadres'].get("landelijk_id")
@@ -442,8 +495,9 @@ class SearchTask():
         # this is not 100% sure.
         self.locatie.bag_vbid = bag_id
         self.locatie.bag_numid = num_id
-        self.locatie.bag_nummeraanduiding = NUM_URL.format(num_id)
-        self.locatie.bag_adresseerbaar_object = VBO_URL.format(bag_id)
+        self.locatie.bag_nummeraanduiding = "{}/{}/".format(NUM_URL, num_id)
+        self.locatie.bag_adresseerbaar_object = \
+            "{}/{}/".format(VBO_URL, bag_id)
 
         self.bag_id = bag_id
 
