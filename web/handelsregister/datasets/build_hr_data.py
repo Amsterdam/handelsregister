@@ -650,9 +650,8 @@ INSERT INTO hr_geovestigingen (
         vs.vestigingsnummer || '/' AS uri,
     vs.hoofdvestiging,
     CASE
-      WHEN vs.bezoekadres_id NOTNULL THEN 'B'
-      WHEN vs.postadres_id NOTNULL THEN 'P'
-      ELSE 'V'
+      WHEN vs.bezoekadres_id = loc.id THEN 'B'
+      WHEN vs.postadres_id = loc.id THEN 'P'
     END as locatie_type,
     loc.geometrie as geometrie,
     sc.subcategorie as sbi_detailgroep,

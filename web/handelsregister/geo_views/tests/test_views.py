@@ -62,3 +62,10 @@ class ViewsTest(TestCase):
         self.assertEqual(
             2 * len(vestigingen),
             models.GeoVestigingen.objects.all().count())
+
+        post_count = (models.GeoVestigingen
+                      .objects.filter(locatie_type='P').count())
+
+        bezoek_count = (models.GeoVestigingen
+                        .objects.filter(locatie_type='B').count())
+        self.assertEqual(post_count, bezoek_count)

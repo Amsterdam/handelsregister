@@ -155,7 +155,15 @@ def geovestigingen_stats():
     geoves_sbi = geoves.filter(
         sbi_code_int__isnull=True)
 
-    return [geoves.count(), geoves_sbi.count()]
+    geoves_post = geoves.filter(locatie_type='P')
+    geoves_bezoek = geoves.filter(locatie_type='B')
+
+    return [
+        geoves.count(),
+        geoves_sbi.count(),
+        geoves_post.count(),
+        geoves_bezoek.count(),
+    ]
 
 
 def log_rapport_counts():
@@ -223,6 +231,6 @@ def log_rapport_counts():
 
     Totaal voor op de kaart      %s
     zonder sbi                   %s
-
-
+    post   locaties              %s
+    bezoek locaties              %s
              """, *count_lines)
