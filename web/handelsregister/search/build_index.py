@@ -27,10 +27,12 @@ class ResetHRIndex(index.ResetIndexTask):
 class MaatschappelijkIndexer(index.ImportIndexTask):
     name = "Index maatschappelijke activiteit"
 
-    queryset = MaatschappelijkeActiviteit.objects.\
-        prefetch_related('postadres').\
-        prefetch_related('onderneming__handelsnamen').\
-        prefetch_related('bezoekadres').order_by('id').all()
+    queryset = (
+        MaatschappelijkeActiviteit.objects.
+        prefetch_related('postadres').
+        prefetch_related('onderneming__handelsnamen').
+        prefetch_related('bezoekadres').
+        order_by('id').all())
 
     def convert(self, obj):
         return documents.from_mac(obj)
@@ -39,12 +41,13 @@ class MaatschappelijkIndexer(index.ImportIndexTask):
 class VestigingenIndexer(index.ImportIndexTask):
     name = "Index vestigingen"
 
-    queryset = Vestiging.objects.\
-        prefetch_related('postadres').\
-        prefetch_related('bezoekadres').\
-        prefetch_related('handelsnamen').\
-        prefetch_related('activiteiten').\
-        order_by('id').all()
+    queryset = (
+        Vestiging.objects.
+        prefetch_related('postadres').
+        prefetch_related('bezoekadres').
+        prefetch_related('handelsnamen').
+        prefetch_related('activiteiten').
+        order_by('id').all())
 
     def convert(self, obj):
         return documents.from_vestiging(obj)

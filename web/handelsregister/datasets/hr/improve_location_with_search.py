@@ -696,7 +696,7 @@ def create_search_for_addr(loc, addr):
 
     toevoeging = None
 
-    postcode = re.search("\d\d\d\d[A-Z][A-Z]", addr)
+    postcode = re.search("\d\d\d\d[a-z][a-z]", addr)
 
     if postcode:
         postcode = postcode.group()

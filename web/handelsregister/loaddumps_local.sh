@@ -8,7 +8,7 @@ export DATABASE_PORT_5432_TCP_ADDR=127.0.0.1
 export DATABASE_PORT_5432_TCP_PORT=5406
 
 # wait for database to load
-source docker-wait.sh
+#source docker-wait.sh
 
 echo 'unzipping latest kvk dump files'
 
