@@ -63,7 +63,7 @@ WHERE hr_geovestigingen.sbi_detail_group in (
         'overheid')
 """
         ),
-        
+
         migrate.ManageView(
             view_name="geo_hr_vestiging_locaties_productie_installatie_reparatie",
             sql="""
@@ -200,16 +200,16 @@ WHERE hr_geovestigingen.sbi_detail_group in (
         migrate.ManageView(
             view_name="geo_hr_vestiging_locaties_naam",
             sql="""
-SELECT row_number() OVER () AS id, geometrie, naam
+SELECT row_number() OVER () AS id, geometrie, naam, locatie_type
 from hr_geovestigingen
-GROUP BY geometrie, naam
+GROUP BY geometrie, naam, locatie_type
     """
     ),
 
         migrate.ManageView(
             view_name="geo_hr_vestiging_locaties_bouw_naam",
             sql="""
-    SELECT row_number() OVER () AS id, geometrie, naam
+    SELECT row_number() OVER () AS id, geometrie, naam, locatie_type
     from hr_geovestigingen
     WHERE hr_geovestigingen.sbi_detail_group in (
             'bouw/utiliteitsbouw algemeen / klusbedrijf',
@@ -219,40 +219,40 @@ GROUP BY geometrie, naam
             'dak- en overige gespecialiseerde bouw',
             'grond, water, wegenbouw',
             'bouw/utiliteitsbouw algemeen / klusbedrijf')
-    GROUP BY geometrie, naam
+    GROUP BY geometrie, naam, locatie_type
         """
         ),
 
         migrate.ManageView(
             view_name="geo_hr_vestiging_locaties_overheid_onderwijs_zorg_naam",
             sql="""
-SELECT row_number() OVER () AS id, geometrie, naam
+SELECT row_number() OVER () AS id, geometrie, naam, locatie_type
 from hr_geovestigingen
 WHERE hr_geovestigingen.sbi_detail_group in (
         'onderwijs',
         'gezondheids- en welzijnszorg',
         'overheid')
-GROUP BY geometrie, naam
+GROUP BY geometrie, naam, locatie_type
     """
     ),
 
         migrate.ManageView(
             view_name="geo_hr_vestiging_locaties_productie_installatie_reparatie_naam",
             sql="""
-SELECT row_number() OVER () AS id, geometrie, naam
+SELECT row_number() OVER () AS id, geometrie, naam, locatie_type
 from hr_geovestigingen
 WHERE hr_geovestigingen.sbi_detail_group in (
         'installatie (geen bouw)',
         'reparatie (geen bouw)',
         'productie')
-GROUP BY geometrie, naam
+GROUP BY geometrie, naam, locatie_type
     """
     ),
 
         migrate.ManageView(
             view_name="geo_hr_vestiging_locaties_zakelijke_dienstverlening_naam",
             sql="""
-SELECT row_number() OVER () AS id, geometrie, naam
+SELECT row_number() OVER () AS id, geometrie, naam, locatie_type
 from hr_geovestigingen
     WHERE hr_geovestigingen.sbi_detail_group in (
             'arbeidsbemiddeling, uitzendbureaus, uitleenbureaus',
@@ -273,7 +273,7 @@ GROUP BY geometrie, naam
         migrate.ManageView(
             view_name="geo_hr_vestiging_locaties_handel_vervoer_opslag_naam",
             sql="""
-SELECT row_number() OVER () AS id, geometrie, naam
+SELECT row_number() OVER () AS id, geometrie, naam, locatie_type
 from hr_geovestigingen
 WHERE hr_geovestigingen.sbi_detail_group in (
         'vervoer',
@@ -284,14 +284,14 @@ WHERE hr_geovestigingen.sbi_detail_group in (
         'handel en reparatie van auto s',
         'groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)'
         )
-GROUP BY geometrie, naam
+GROUP BY geometrie, naam, locatie_type
     """
     ),
 
         migrate.ManageView(
             view_name="geo_hr_vestiging_locaties_landbouw_naam",
             sql="""
-SELECT row_number() OVER () AS id, geometrie, naam
+SELECT row_number() OVER () AS id, geometrie, naam, locatie_type
 from hr_geovestigingen
 WHERE hr_geovestigingen.sbi_detail_group in (
         'teelt eenjarige gewassen',
@@ -300,14 +300,14 @@ WHERE hr_geovestigingen.sbi_detail_group in (
         'dienstverlening voor de land/tuinbouw',
         'teelt meerjarige gewassen',
         'fokken, houden dieren')
-GROUP BY geometrie, naam
+GROUP BY geometrie, naam, locatie_type
     """
     ),
 
         migrate.ManageView(
             view_name="geo_hr_vestiging_locaties_persoonlijke_dienstverlening_naam",
             sql="""
-SELECT row_number() OVER () AS id, geometrie, naam
+SELECT row_number() OVER () AS id, geometrie, naam, locatie_type
 from hr_geovestigingen
 WHERE hr_geovestigingen.sbi_detail_group in (
         'sauna, solaria',
@@ -320,60 +320,60 @@ WHERE hr_geovestigingen.sbi_detail_group in (
         migrate.ManageView(
             view_name="geo_hr_vestiging_locaties_informatie_telecommunicatie_naam",
             sql="""
-SELECT row_number() OVER () AS id, geometrie, naam
+SELECT row_number() OVER () AS id, geometrie, naam, locatie_type
 from hr_geovestigingen
 WHERE hr_geovestigingen.sbi_detail_group in (
     'activiteiten op het gebied van ict',
     'activiteiten  op gebied van film, tv, radio, audio',
     'telecommunicatie',
     'uitgeverijen')
-GROUP BY geometrie, naam
+GROUP BY geometrie, naam, locatie_type
     """
     ),
         migrate.ManageView(
             view_name="geo_hr_vestiging_locaties_cultuur_sport_recreatie_naam",
             sql="""
-SELECT row_number() OVER () AS id, geometrie, naam
+SELECT row_number() OVER () AS id, geometrie, naam, locatie_type
 from hr_geovestigingen
 WHERE hr_geovestigingen.sbi_detail_group in (
         'sport',
         'musea, bibliotheken, kunstuitleen',
         'kunst',
         'recreatie')
-GROUP BY geometrie, naam
+GROUP BY geometrie, naam, locatie_type
     """
     ),
         # Note afwijkende naam ivm. maximale lengte
         migrate.ManageView(
             view_name="geo_hr_vestiging_locaties_financiele_dienstverlening_verhuur_na",
             sql="""
-SELECT row_number() OVER () AS id, geometrie, naam
+SELECT row_number() OVER () AS id, geometrie, naam, locatie_type
 from hr_geovestigingen
 WHERE hr_geovestigingen.sbi_detail_group in (
         'verhuur van- en beheer/handel in onroerend goed',
         'verhuur van roerende goederen',
         'holdings (geen financiële)',
         'holdings, financiële dienstverlening en verzekeringen')
-GROUP BY geometrie, naam
+GROUP BY geometrie, naam, locatie_type
     """
     ),
         migrate.ManageView(
             view_name="geo_hr_vestiging_locaties_overige_naam",
             sql="""
-SELECT row_number() OVER () AS id, geometrie, naam
+SELECT row_number() OVER () AS id, geometrie, naam, locatie_type
 from hr_geovestigingen
 WHERE hr_geovestigingen.sbi_detail_group in (
     'idieële organisaties',
     'belangenorganisaties',
     'overige',
     'hobbyclubs')
-GROUP BY geometrie, naam
+GROUP BY geometrie, naam, locatie_type
     """
     ),
         migrate.ManageView(
             view_name="geo_hr_vestiging_locaties_horeca_naam",
             sql="""
-SELECT row_number() OVER () AS id, geometrie, naam
+SELECT row_number() OVER () AS id, geometrie, naam, locatie_type
 from hr_geovestigingen
 WHERE hr_geovestigingen.sbi_detail_group in (
     'hotel-restaurant',
@@ -383,7 +383,7 @@ WHERE hr_geovestigingen.sbi_detail_group in (
     'café',
     'hotel, pension',
     'restaurant, café-restaurant')
-GROUP BY geometrie, naam
+GROUP BY geometrie, naam, locatie_type
     """
     ),
 
