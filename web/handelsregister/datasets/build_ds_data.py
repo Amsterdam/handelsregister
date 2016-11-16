@@ -78,8 +78,11 @@ def _build_joined_ds_table():
                 vestiging_dict = add_adressen_dict(vestiging_dict, sbi_repeat)
                 vestiging_dict['sbi_codes'] = vst_sbi = []
                 first = False
+            sbi = sbi_values[sbi_repeat.sbi_code]
+            sbi['vestigingsnummer'] = vestigingsnummer
+            sbi['bedrijfsnaam'] = sbi_repeat.naam
 
-            vst_sbi.append(sbi_values[sbi_repeat.sbi_code])
+            vst_sbi.append(sbi)
 
         if len(vst_sbi):
             vestiging_dict = add_betrokkenen_to_vestigingen(betrokken, vestiging_dict,
