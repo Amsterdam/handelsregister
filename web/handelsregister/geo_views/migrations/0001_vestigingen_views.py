@@ -266,7 +266,7 @@ from hr_geovestigingen
             'advocaten rechtskundige diensten, notarissen',
             'architecten',
             'accountancy, administratie')
-GROUP BY geometrie, naam
+GROUP BY geometrie, naam, locatie_type
         """
     ),
 
@@ -315,6 +315,7 @@ WHERE hr_geovestigingen.sbi_detail_group in (
         'uitvaart, crematoria',
         'overige dienstverlening',
         'kappers')
+GROUP BY geometrie, naam, locatie_type
     """
     ),
         migrate.ManageView(
