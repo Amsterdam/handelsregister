@@ -4,7 +4,7 @@ import requests
 
 from unittest import mock
 
-directory = os.path.dirname(__file__)
+DIRECTORY = os.path.dirname(__file__)
 
 
 log = logging.getLogger(__name__)
@@ -28,7 +28,7 @@ def _filter_fixtures_get(url, *args, **kwargs):
     res.encoding = "UTF-8"
 
     try:
-        with open('{}/fixture_files/{}'.format(directory, filename), 'rb') as f:
+        with open('{}/fixture_files/{}'.format(DIRECTORY, filename), 'rb') as f:
             res._content = f.read()
             res.status_code = 200
     except FileNotFoundError:
@@ -45,31 +45,41 @@ def patch_filter_requests(f):
     return mock.patch('requests.get', _filter_fixtures_get)(f)
 
 
+def set_response_with_fixture_file(res, filename):
+
+    try:
+        with open('{}/search_fixture_files/{}'.format(DIRECTORY, filename), 'rb') as f:
+            res._content = f.read()
+            res.status_code = 200
+    except(FileNotFoundError):
+        res.status_code = 404
+
+
 def _search_fixtures_get(url, *args, **kwargs):
 
     filename = None
+    res = requests.Response()
 
     log.debug(url)
-    for k, v in kwargs.items():
-        if 'params' in k:
-            filename = 'q={}'.format(v['q'])
-            break
+
+    try:
+        q = kwargs['params']['q']
+        filename = 'q={}'.format(q)
+    except KeyError:
+        pass
 
     if not filename:
         landelijk_id = url.split('/')[-2]
         filename = 'vbo={}'.format(landelijk_id)
 
+    log.debug(filename)
+
     filename += '.json'
 
-    res = requests.Response()
     res.encoding = "UTF-8"
 
-    try:
-        with open('{}/search_fixture_files/{}'.format(directory, filename), 'rb') as f:
-            res._content = f.read()
-            res.status_code = 200
-    except(FileNotFoundError):
-        res.status_code = 404
+    if filename:
+        set_response_with_fixture_file(res, filename)
 
     class AsyncObject():
         """ mock async get request"""
