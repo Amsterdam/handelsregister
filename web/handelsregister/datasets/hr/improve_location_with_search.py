@@ -33,8 +33,8 @@ log = logging.getLogger(__name__)
 SEARCHES_QUEUE = JoinableQueue(maxsize=500)
 
 # TO see step by step what search does.
-#SLOW = False
 SLOW = False
+#SLOW = True
 
 STATS = dict(
     start=time.time(),
@@ -56,7 +56,7 @@ ACC = "https://api-acc.datapunt.amsterdam.nl"
 ROOT = "https://api.datapunt.amsterdam.nl"
 
 # We search against ACC to not pollute graphs in kibana
-SEARCH_ADRES_URL = '{}/search/adres/'.format(ACC)
+SEARCH_ADRES_URL = '{}/atlas/search/adres/'.format(ACC)
 
 NUM_URL = "{}/bag/nummeraanduiding/".format(ROOT)
 VBO_URL = "{}/bag/verblijfsobject/".format(ROOT)

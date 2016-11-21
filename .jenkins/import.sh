@@ -31,7 +31,7 @@ echo "create hr api database / reset elastic index"
 # create the hr_data and reset elastic
 dc run --rm importer
 
-espeak "Importing H R  DB is DONE!" || echo "DONE!"
+echo "DONE! importing mks into database"
 
 echo "create hr dump"
 # run the backup shizzle
@@ -44,4 +44,4 @@ docker wait hr_importer_el1_1 hr_importer_el2_1 hr_importer_el3_1
 
 dc run --rm el-backup
 
-espeak "Creating H R index is DONE!" || echo "DONE!"
+echo "DONE! with everything!"
