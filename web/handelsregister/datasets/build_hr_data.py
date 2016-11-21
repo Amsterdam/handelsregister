@@ -606,6 +606,14 @@ FROM hr_geovbo bag
 WHERE bag.bag_vbid = loc.bag_vbid
     """)
 
+    # Apparently there are numid filled is on quite some vbid locations
+    cursor.execute("""
+UPDATE hr_locatie loc
+    SET geometrie = bag.geometrie
+FROM hr_geovbo bag
+WHERE bag.bag_vbid = loc.bag_numid AND loc.geometrie is null
+    """)
+
 
 def _clear_autocorrected_results(cursor):
     cursor.execute("""

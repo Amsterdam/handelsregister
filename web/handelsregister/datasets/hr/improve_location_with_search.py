@@ -164,6 +164,7 @@ def alternative_qs(query_string):
         ("3e", "derde"),
         ("4e", "vierde"),
         ("5e", "vijfde"),
+        ("tegenover", ""),
     ]
 
     remove = [
@@ -265,7 +266,6 @@ class SearchTask():
         """
         Actualy do the http api search call
         """
-
         # parameters = {'q': self.get_q()}
         async_r = grequests.get(url, params=parameters, session=self.session)
         # send a request and wait for results
@@ -278,7 +278,9 @@ class SearchTask():
             log.error(parameters)
             return {}
 
-        return async_r.response.json()
+        result_json = async_r.response.json()
+
+        return result_json
 
     def determine_rd_coordinates(self):
         """
@@ -304,10 +306,12 @@ class SearchTask():
         if point:
             rds_bagid.append((point, bag_id))
             # The first point is enough
+
         if rds_bagid:
             self.save_corrected_geo_infomation(num, point, bag_id, num_id)
         else:
-            log.debug('Point/Bagid missing: %s', self.get_q())
+            log.exception('Point/Bagid missing: %s', self.get_q())
+            self.log_wtf_loc()
             return
 
     def get_q(self, toevoeging, nummer=None, postcode=None):
@@ -420,9 +424,11 @@ class SearchTask():
 
         # Correctie failed
         # save and log empty result result
-        self.locatie.correctie = False
-        self.locatie.save()
-        self.log_wtf_loc()
+        self.locatie.refresh_from_db()
+        if self.locatie.correctie is None:
+            self.locatie.correctie = False
+            self.locatie.save()
+            self.log_wtf_loc()
 
         return []
 
@@ -488,6 +494,7 @@ class SearchTask():
         New adition location data is found, save it
         """
         geometrie = normalize_geo(point)
+        assert geometrie
         self.locatie.geometrie = geometrie
         self.geometrie = geometrie
 
@@ -567,8 +574,8 @@ def normalize_toevoeging(toevoegingen=[""]):
         '1hg': [1, 2],
         '2hg': [2, 3],
         '3hg': [3, 4],
-        'iii': [3],
-        'ii': [2],
+        'iii': [3, 4],
+        'ii': [2, 3],
         'i': begane_grond,
         'a': begane_grond,
         'b': [1, 2],
@@ -739,7 +746,6 @@ def create_qs_of_invalid_locations(gemeente):
 
     return Locatie.objects \
         .filter(geometrie__isnull=True) \
-        .filter(bag_vbid__isnull=True) \
         .filter(volledig_adres__endswith=gemeente) \
         .exclude(volledig_adres__startswith='Postbus') \
         .filter(correctie__isnull=True)

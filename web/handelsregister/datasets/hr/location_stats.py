@@ -2,6 +2,8 @@
 Collect status counts about location data in the Handelregister
 """
 
+# FIXME work with format and dict
+
 
 import os.path
 import json
@@ -165,7 +167,7 @@ def geovestigingen_stats():
     ]
 
 
-def log_rapport_counts():
+def log_rapport_counts(context=''):
     """
     Log the count rapports available
     """
@@ -185,6 +187,7 @@ def log_rapport_counts():
         json.dump(STATS, thefile)
 
     header = ""
+
     count_lines = ['' for c in counts]
 
     def new_row(row, cell):
