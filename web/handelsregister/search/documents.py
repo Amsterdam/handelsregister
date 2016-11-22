@@ -90,7 +90,9 @@ class Vestiging(es.DocType):
     vestigingsnummer = es.String(
         analyzer=analyzers.autocomplete,
         fields={
-            'raw': es.String(index='not_analyzed')}
+            'raw': es.String(index='not_analyzed'),
+            'nozero': es.String(analyzer=analyzers.nozero),
+            'int': es.Integer()}
     )
 
     hoofdvestiging = es.Boolean()

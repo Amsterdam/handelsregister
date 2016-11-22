@@ -64,6 +64,13 @@ class SearchTest(APITestCase):
 
         )
 
+        cls.ves00 = factories.VestigingFactory(
+                naam='test00',
+                maatschappelijke_activiteit=cls.mac3,
+                vestigingsnummer='00006',
+                handelsnamen=[hnd3]
+        )
+
         build_index.reset_hr_docs()
         build_index.index_mac_docs()
         build_index.index_ves_docs()
@@ -165,6 +172,17 @@ class SearchTest(APITestCase):
 
         self.assertEqual(
             response.data['results'][0]['vestigingsnummer'], '99998')
+
+    def test_vest_zeros_in_id(self):
+        url = '/handelsregister/search/vestiging/'
+        query = 6
+        response = self.client.get(url, {'q': query})
+        self.assertIn('results', response.data)
+        self.assertIn('count', response.data)
+        self.assertEqual(response.data['count'], 1)
+
+        self.assertEqual(
+            response.data['results'][0]['vestigingsnummer'], '00006')
 
     def test_ves_naam(self):
 

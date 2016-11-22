@@ -24,6 +24,14 @@ synonym_filter = analysis.token_filter(
     ]
 )
 
+
+strip_zero = analysis.CustomCharFilter(
+    "strip_zero",
+    builtin_type="pattern_replace",
+    pattern="^0+(.*)",
+    replacement="$1"
+)
+
 # Change dash and dot to space
 naam_stripper = analysis.char_filter(
     'naam_stripper',
@@ -35,6 +43,7 @@ naam_stripper = analysis.char_filter(
     ]
 )
 
+
 # Create edge ngram filtering to postcode
 edge_ngram_filter = analysis.token_filter(
     'edge_ngram_filter',
@@ -42,6 +51,7 @@ edge_ngram_filter = analysis.token_filter(
     min_gram=1,
     max_gram=15
 )
+
 
 ####################################
 #           Analyzers              #
@@ -60,3 +70,10 @@ autocomplete = es.analyzer(
     tokenizer='standard',
     filter=['lowercase', edge_ngram_filter]
 )
+
+
+nozero = es.analyzer(
+    'nozero',
+    tokenizer='standard',
+    filter=[edge_ngram_filter],
+    char_filter=[strip_zero])

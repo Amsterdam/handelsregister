@@ -125,8 +125,12 @@ def vestiging_query(analyzer: InputQAnalyzer) -> ElasticQueryWrapper:
     ]
 
     if vesid:
-        must.append(Q('prefix', vestigingsnummer=vesid))
-        should = [Q('prefix', vestigingsnummer=vesid)]
+        # must.append(Q('prefix', vestigingsnummer=vesid))
+        should = [
+            # {"prefix": {"vestigingsnummer.nozero": vesid}},
+            Q('prefix', vestigingsnummer__nozero=vesid),
+            Q('prefix', vestigingsnummer=vesid)
+        ]
         min_match = 1
 
     return ElasticQueryWrapper(
