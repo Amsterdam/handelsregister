@@ -191,7 +191,7 @@ class SearchTest(APITestCase):
         response = self.client.get(url, {'q': query})
         self.assertIn('results', response.data)
         self.assertIn('count', response.data)
-        self.assertEqual(response.data['count'], 3)
+        self.assertEqual(response.data['count'], 4)
 
         query = 'test3'
         response = self.client.get(url, {'q': query})

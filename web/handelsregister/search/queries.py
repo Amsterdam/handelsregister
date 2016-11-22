@@ -173,8 +173,6 @@ def mac_query(analyzer: InputQAnalyzer) -> ElasticQueryWrapper:
             query=Q(
                 "bool",
                 should=[
-                    {"term": {"handelsnamen.naam": {
-                        "value": handelsnaam, "boost": 21.0}}},
                     {"prefix": {"handelsnamen.naam": {
                         "value": handelsnaam}}},
                     {"match": {"handelsnamen.naam": {
