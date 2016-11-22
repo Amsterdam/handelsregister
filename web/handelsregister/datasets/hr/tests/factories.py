@@ -77,7 +77,11 @@ class LocatieFactory(factory.DjangoModelFactory):
     bag_vbid = fuzzy.FuzzyChoice(choices=[3, 4])  # 'put_in_fixture_id'
     volledig_adres = fuzzy.FuzzyText('vol_adres', length=25)
     bag_nummeraanduiding = fuzzy.FuzzyText('bag_nr_aand', length=25)
-
+    postcode_woonplaats = fuzzy.FuzzyText(length=6)
+    huisletter = fuzzy.FuzzyText(length=1)
+    huisnummer = fuzzy.FuzzyInteger(1, 99999)
+    huisnummertoevoeging = fuzzy.FuzzyText(length=5)
+    straatnaam = fuzzy.FuzzyText('str', length=50)
 
 class Handelsnaam(factory.DjangoModelFactory):
 
