@@ -150,6 +150,7 @@ class SearchTest(APITestCase):
 
         response = self.client.get(url, {'q': query})
 
+        self.assertEqual(response.data['count'], 1)
         # logging.error(json.dumps(response.data['results'], indent=4))
 
         handelsnamen = [n['naam'] for n in

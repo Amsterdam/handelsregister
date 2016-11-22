@@ -85,42 +85,32 @@ def vestiging_query(analyzer: InputQAnalyzer) -> ElasticQueryWrapper:
 
     must = [Q('term', _type='vestiging')]
 
-    # straatnaam huisnummer??
-
-    # sort_fields = ['_display']
-
-    sort_fields = ['_score']
+    # sort_fields = ['_score']
+    sort_fields = ['_display']
 
     min_match = 1
     should = [
-        # Naam
-        {"prefix": {"naam": {
-            "value": handelsnaam, "boost": 6.0}}},
-
-        {"match": {"handelsnamen.naam": {
-            "query": handelsnaam, "fuzziness": 2}}},
-
-        {"match_phrase_prefix": {"naam": {
-            "query": handelsnaam, "max_expansions": 5}}},
-
+        Q(
+            'multi_match',
+            slop=12,  # match "stephan preeker" with "stephan jacob preeker"
+            max_expansions=12,
+            query=handelsnaam,
+            type='phrase_prefix',
+            fields=["naam"]
+        ),
         # Nested handelsnamen
         Q(
             "nested",
             path="handelsnamen",
             score_mode="max",
             query=Q(
-                "bool",
-                should=[
-                    {"term": {"handelsnamen.naam": {
-                        "value": handelsnaam, "boost": 21.0}}},
-                    {"prefix": {"handelsnamen.naam": {
-                        "value": handelsnaam}}},
-                    {"match": {"handelsnamen.naam": {
-                        "query": handelsnaam, "fuzziness": 2}}},
-                    {"match_phrase_prefix": {"handelsnamen.naam": {
-                        "query": handelsnaam, "max_expansions": 5}}},
-                    {"prefix": {"handelsnamen.naam.ngram": handelsnaam}},
-                ])
+                'multi_match',
+                slop=12,
+                max_expansions=12,
+                query=handelsnaam,
+                type='phrase_prefix',
+                fields=["handelsnamen.naam"]
+            )
         )
     ]
 
@@ -157,41 +147,40 @@ def mac_query(analyzer: InputQAnalyzer) -> ElasticQueryWrapper:
     min_match = 1
     should = [
         # naam
-        {"prefix": {"naam": {
-            "value": handelsnaam, "boost": 6.0}}},
-        {"match": {"naam": {
-            "query": handelsnaam, "boost": 6.0}}},
+        Q(
+            'multi_match',
+            slop=12,
+            max_expansions=12,
+            query=handelsnaam,
+            type='phrase_prefix',
+            fields=["naam"]
+        ),
 
-        {"match_phrase_prefix": {"naam": {
-            "query": handelsnaam, "max_expansions": 5}}},
+        # Nested handelsnamen
 
-        # nested handelsnamen
         Q(
             "nested",
             path="handelsnamen",
             score_mode="max",
             query=Q(
-                "bool",
-                should=[
-                    {"prefix": {"handelsnamen.naam": {
-                        "value": handelsnaam}}},
-                    {"match": {"handelsnamen.naam": {
-                        "query": handelsnaam, "fuzziness": 2}}},
-                    {"match_phrase_prefix": {"handelsnamen.naam": {
-                        "query": handelsnaam, "max_expansions": 5}}},
-                    {"prefix": {"handelsnamen.naam.ngram": handelsnaam}},
-                ])
+                'multi_match',
+                slop=12,
+                max_expansions=12,
+                query=handelsnaam,
+                type='phrase_prefix',
+                fields=["handelsnamen.naam"]
+            )
         )
     ]
 
     if kvknummer:
-        must.append(Q('prefix', kvk_nummer=kvknummer))
+        # must.append(Q('prefix', kvk_nummer=kvknummer))
         should = [Q('prefix', kvk_nummer=kvknummer)]
         min_match = 1
 
-    # sort_fields = ['_display']
+    sort_fields = ['_display']
     # straatnaam huisnummer??
-    sort_fields = ['_score']
+    # sort_fields = ['_score']
 
     return ElasticQueryWrapper(
         query=Q(

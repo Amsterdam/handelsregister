@@ -313,7 +313,8 @@ class SearchViewSet(viewsets.ViewSet):
             # https://github.com/elastic/elasticsearch/issues/11340#issuecomment-105433439
             return Response([])
 
-        # log.exception(json.dumps(search.to_dict(), indent=4))
+        if settings.DEBUG:
+            log.info(json.dumps(search.to_dict(), indent=4))
 
         response = OrderedDict()
 
