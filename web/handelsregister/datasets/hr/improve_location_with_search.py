@@ -167,15 +167,19 @@ def alternative_qs(query_string):
         ("tegenover", ""),
     ]
 
+    def woonbootfix(qs):
+        # woonboot fix
+        if qs.endswith('ab'):
+            qs_new = qs.replace(' ab', "")
+            alternatives.append(qs_new)
+
     for patern, replace in could_also_be:
         if query_string.startswith(patern):
             qs_new = query_string.replace(patern, replace)
             alternatives.append(qs_new)
+            woonbootfix(qs_new)
 
-        # woonboot fix
-        if qs_new.endswith('ab'):
-            qs_new = query_string.replace(' ab', "")
-            alternatives.append(qs_new)
+    woonbootfix(query_string)
 
     return alternatives
 
