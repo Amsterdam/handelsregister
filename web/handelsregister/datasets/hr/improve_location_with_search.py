@@ -167,18 +167,14 @@ def alternative_qs(query_string):
         ("tegenover", ""),
     ]
 
-    remove = [
-        "ab"
-    ]
-
     for patern, replace in could_also_be:
         if query_string.startswith(patern):
             qs_new = query_string.replace(patern, replace)
             alternatives.append(qs_new)
 
-    for patern in remove:
-        if query_string.endswith(patern):
-            qs_new = query_string.replace(patern, "")
+        # woonboot fix
+        if qs_new.endswith('ab'):
+            qs_new = query_string.replace(' ab', "")
             alternatives.append(qs_new)
 
     return alternatives

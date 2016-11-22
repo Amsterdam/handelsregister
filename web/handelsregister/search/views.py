@@ -272,7 +272,8 @@ class SearchViewSet(viewsets.ViewSet):
         Create a response list
         """
 
-        if 'q' not in request.query_params:
+        query = request.query_params.get('q')
+        if not query:
             return Response([])
 
         page = 1
