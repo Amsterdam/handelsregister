@@ -322,13 +322,13 @@ class SearchTask():
             nummer = self.nummers[0]
 
         if postcode:
-            return '{} {} {}'.format(
-                 self.postcode, nummer, toevoeging)
+            return '{} {} {}'.format(postcode, nummer, toevoeging)
 
         return '{} {} {}'.format(
             self.straatnaam, nummer, toevoeging)
 
     def get_hits(self, qs_try, nummer):
+
         # straat/postcode huisnummer toevoeging
         parameters_toevoeging = {'q': qs_try}
 
@@ -375,10 +375,17 @@ class SearchTask():
         All numbers have failed. Try to find hit with postcode
         """
         # last restort try poscode and take first hit
+
+        log.debug('P6 %s' % self.postcode)
+
         if self.postcode:
             data = self.get_response(
-                {'postcode': self.postcode}, url=PCODE_URL)
+                {'postcode': self.postcode.upper()}, url=PCODE_URL)
+
+            # log.debug(data)
+
             hits = data.get('results')
+
             if data and hits and data['count'] > 0:
                 # just return first result
                 log.debug('P6 HIT')
@@ -394,14 +401,13 @@ class SearchTask():
         # First with toevoeging
         for nummer in self.nummers:
 
-            # get all hits with postcode huisnummer
-            qs_try = self.get_q("", nummer=nummer, postcode=self.postcode)
-
+            # get all hits with straat huisnummer
+            qs_try = self.get_q("", nummer=nummer)
             hits = self.get_hits(qs_try, nummer)
 
-            # ELSE get all hits with straat huisnummer
             if not hits:
-                qs_try = self.get_q("", nummer=nummer)
+                # get all hits with postcode huisnummer
+                qs_try = self.get_q("", nummer=nummer, postcode=self.postcode)
                 hits = self.get_hits(qs_try, nummer)
 
             if SLOW:
@@ -419,6 +425,7 @@ class SearchTask():
 
         # As a last resort find something with the P6 postcode
         hit = self.find_postcode_hit()
+
         if hit:
             return hit
 
@@ -581,11 +588,13 @@ def normalize_toevoeging(toevoegingen=[""]):
         'b': [1, 2],
         'bg': begane_grond,
         'huis': begane_grond,
+        'h': begane_grond,
         'hs': begane_grond,
         'sous': begane_grond,
         'bel': begane_grond,
         'parterre': begane_grond
     }
+
     for toevoeging in list(alternatieven):
         if toevoeging in mapping:
             alternatieven.extend(mapping[toevoeging])
@@ -635,8 +644,6 @@ def determine_postcode_index(tokens, postcode):
     """
     postcode is in the tokens.
     """
-    # log.debug(tokens)
-    # log.debug(postcode)
 
     if not postcode:
         return len(tokens)
@@ -708,7 +715,7 @@ def create_search_for_addr(loc, addr):
     if postcode:
         postcode = postcode.group()
     else:
-        log.error(addr)
+        log.error('No postcode %s' % addr)
 
     straat = " ".join(tokens[:i])
     nummer = int(tokens[i])
@@ -739,7 +746,7 @@ def create_qs_of_invalid_locations(gemeente):
     """
     Create a qs of invalid locations.
 
-    - Invalid are locations with no geomatrie,
+    - Invalid are locations with no geometrie,
     - Having an adres withing 'gemeente'
     - No correction has been attempted
     """
@@ -805,3 +812,27 @@ def guess():
     total_seconds = time.time() - STATS['start']
     log.debug('\nTotal Duration %i m: %i\n',
               total_seconds / 60.0, total_seconds % 60)
+
+
+def test_one_weird_one():
+    """
+    Method to check manualy what this search does for 1 item.
+    to use in the shell_plus
+    """
+    test_this = 'Gustav Mahlerlaan 1041 1082MK Amsterdam'
+    query_string, tokens = clean_tokenize(test_this)
+    loc = Locatie.objects.first()
+    loc.volledig_adres = test_this
+
+    global SLOW
+    SLOW = True
+
+    for alternative_addr in alternative_qs(query_string):
+        create_search_for_addr(loc, alternative_addr)
+
+    # fix it
+    async_determine_rd_coordinates()
+
+    print(test_this)
+    print(loc.bag_vbid)
+    print(loc.geometrie)
