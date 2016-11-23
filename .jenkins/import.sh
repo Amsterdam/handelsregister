@@ -51,7 +51,7 @@ echo $import_error
 if [ $import_error > 0 ]
 then
     echo 'Elastic Import Error. 1 or more workers failed'
-    exit -1
+    exit 1
 fi
 
 dc run --rm el-backup
