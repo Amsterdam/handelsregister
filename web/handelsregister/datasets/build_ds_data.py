@@ -99,7 +99,7 @@ def _build_joined_ds_table():
         else:
             log.error('Vestiging %s %s zonder sbi code' % (vestigingsnummer, sbi_repeat.naam))
         if vestiging_dict:
-            ds = DataSelectie(vestigingsnummer, sbi_repeat.bag_vbid, rapidjson.dumps(vestiging_dict))
+            ds = DataSelectie(vestigingsnummer, sbi_repeat.bag_vbid, vestiging_dict)
             ds.save()
 
     log.info('opbouw dataselectie api als json VOLTOOID')
