@@ -40,8 +40,20 @@ dc run --rm db-backup
 echo "create hr index"
 dc up importer_el1 importer_el2 importer_el3
 
-docker wait hr_importer_el1_1 hr_importer_el2_1 hr_importer_el3_1
+# wait until all building is done
+import_status=`docker wait hr_importer_el1_1 hr_importer_el2_1 hr_importer_el3_1`
+
+# count the errors.
+import_error=`echo $import_status | grep -o "1" | wc -l`
+
+echo $import_error
+
+if [ $import_error > 0 ]
+then
+    echo 'Elastic Import Error. 1 or more workers failed'
+    exit -1
+fi
 
 dc run --rm el-backup
 
-echo "DONE! with everything!"
+echo "DONE! with everything! You are awesome! <3"
