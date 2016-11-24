@@ -231,7 +231,6 @@ def create_search_test_locaties():
     """
     Create some test data for the location search completer
     """
-
     # locatie zonder geo maar met
     # adres en geo in fixture
     loc_1 = LocatieFactory.create(
@@ -253,6 +252,14 @@ def create_search_test_locaties():
         correctie=None,
         volledig_adres='ikbestawel 10 A, 1013AW, Amsterdam'
 
+    )
+
+    VestigingFactory.create(
+        bezoekadres=loc_1,
+    )
+
+    VestigingFactory.create(
+        bezoekadres=loc_2,
     )
 
     return [loc_1, loc_2]

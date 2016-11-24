@@ -751,16 +751,18 @@ def create_qs_of_invalid_locations(gemeente):
     - No correction has been attempted
     """
 
-    return Locatie.objects \
-        .filter(geometrie__isnull=True) \
-        .filter(volledig_adres__endswith=gemeente) \
-        .exclude(volledig_adres__startswith='Postbus') \
-        .filter(correctie__isnull=True).extra(
+    return (
+        Locatie.objects
+        .filter(geometrie__isnull=True)
+        .filter(volledig_adres__endswith=gemeente)
+        .exclude(volledig_adres__startswith='Postbus')
+        .filter(correctie__isnull=True)
+        .extra(
             tables=['hr_vestiging'],
             where=[
                 '"hr_vestiging"."bezoekadres_id"="hr_locatie"."id"',
-            ]
-        )
+            ])
+    )
 
 
 def guess():
