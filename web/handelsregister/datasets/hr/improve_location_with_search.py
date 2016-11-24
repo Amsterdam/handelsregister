@@ -477,7 +477,7 @@ class SearchTask():
         if vbo_url:
             details = self.get_response(url=vbo_url)
 
-        if 'geometrie' not in details:
+        if 'geometrie' in details and not details.get('geometrie'):
             log.exception('invalid details')
 
         point = details['geometrie']
@@ -755,7 +755,12 @@ def create_qs_of_invalid_locations(gemeente):
         .filter(geometrie__isnull=True) \
         .filter(volledig_adres__endswith=gemeente) \
         .exclude(volledig_adres__startswith='Postbus') \
-        .filter(correctie__isnull=True)
+        .filter(correctie__isnull=True).extra(
+            tables=['hr_vestiging'],
+            where=[
+                '"hr_vestiging"."bezoekadres_id"="hr_locatie"."id"',
+            ]
+        )
 
 
 def guess():
