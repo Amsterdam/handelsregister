@@ -48,7 +48,7 @@ import_error=`echo $import_status | grep -o "1" | wc -l`
 
 echo $import_error
 
-if [ $import_error > 0 ]
+if (( $import_error > 0 ))
 then
     echo 'Elastic Import Error. 1 or more workers failed'
     exit 1
