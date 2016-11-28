@@ -52,7 +52,7 @@ class MaatschappelijkeActiviteitViewSet(rest.AtlasViewSet):
 
     lookup_field = 'kvk_nummer'
 
-    filter_fields = ('eigenaar', 'naam')
+    filter_fields = ('eigenaar', 'naam', 'bezoekadres__correctie')
 
     filter_class = MacFilter
 
@@ -117,7 +117,9 @@ class VestigingFilter(FilterSet):
             'maatschappelijke_activiteit',
             'nummeraanduiding',
             'verblijfsobject',
-            'bezoekadres__bag_numid')
+            'bezoekadres__bag_numid',
+            'bezoekadres__correctie'
+        )
 
     def nummeraanduiding_filter(self, queryset, value):
         """
