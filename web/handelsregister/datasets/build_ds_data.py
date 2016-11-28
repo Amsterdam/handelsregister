@@ -83,7 +83,7 @@ def _build_joined_ds_table():
     betrokken_per_vestiging = (
         BetrokkenPersonen.objects.order_by('vestigingsnummer').iterator())
 
-    # wat vangen we af?
+    # Indien geen betrokkenen -> resultaat is None
     try:
         betrokken = next(betrokken_per_vestiging)
     except StopIteration:
@@ -93,7 +93,7 @@ def _build_joined_ds_table():
 
     log.info('START opbouw dataselectie api als json:  %s', totalrowcount)
 
-    # groupby vestigings nummer?
+    # groupby vestigings nummer
     by_vestiging = groupby(
         GeoVestigingen.objects.filter(locatie_type='B')
         .order_by('vestigingsnummer'),
@@ -121,7 +121,8 @@ def _build_joined_ds_table():
 def per_vestiging(vestigingsnummer, vest_data, sbi_values,
                   count, totalrowcount, lastreport):
     """
-    Wat doet dit?
+    Read data per vestiging and build dict (to be json) per
+    vestiging
     """
 
     first = True
@@ -175,18 +176,20 @@ def measure_progress(totalrowcount, count, lastreport):
 
 def add_adressen_dict(vestiging_dict: dict, sbi_repeat) -> dict:
     """
-    WAT DOET DIT?
+    Voeg bezoek- en postadressen toe als dict aan resulterende json.
+    bezoekadres en postadres zijn relaties van geolocatie, de gevonden rijen
+    worden vertaald naar dict.
     """
 
     if sbi_repeat.bezoekadres and sbi_repeat.bezoekadres.bag_nummeraanduiding:
-        wat_is_dit = to_dict(sbi_repeat.bezoekadres, LOCATIE_FIELDS)
-        vestiging_dict['bezoekadres'] = wat_is_dit
+        bezoekadres = to_dict(sbi_repeat.bezoekadres, LOCATIE_FIELDS)
+        vestiging_dict['bezoekadres'] = bezoekadres
     else:
         vestiging_dict['bezoekadres'] = None
 
     if sbi_repeat.postadres and sbi_repeat.postadres.bag_nummeraanduiding:
-        wat_is_dit = to_dict(sbi_repeat.postadres, LOCATIE_FIELDS)
-        vestiging_dict['postadres'] = wat_is_dit
+        postadres = to_dict(sbi_repeat.postadres, LOCATIE_FIELDS)
+        vestiging_dict['postadres'] = postadres
     else:
         vestiging_dict['postadres'] = None
 
@@ -197,7 +200,13 @@ def add_betrokkenen_to_vestigingen(
         betrokken, vestiging_dict, vestigingsnummer,
         betrokken_per_vestiging) -> dict:
     """
-    MISSING DOC
+    Voeg betrokkenen aan vestiging toe. Let op, dit is een balanceline
+    verwerking. Om de snelheid hoog te houden lees ik de betrokkenen
+    per vestiging in en verwerk ze voor de vestiging waar ik mee
+    bezig ben. Vergelijkbaar met een join op SQL.
+    De oplossing is gekozen vanwege complexiteit (en traagheid) van
+    de resulterende join in SQL tegenover de snelheid van sequentiele
+    verwerking
     """
 
     vestiging_dict['betrokkenen'] = vst_betr = []
