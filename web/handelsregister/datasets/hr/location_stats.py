@@ -204,7 +204,7 @@ def log_rapport_counts(action=''):
     count_lines = {}
 
     def new_row(row, cell):
-        return '%s   %-9i' % (row, cell)
+        return '%s   %-9s' % (row, cell)
 
     for i, countx in enumerate(STATS):
         for key, count in countx.items():
