@@ -458,9 +458,20 @@ class Vestiging(models.Model):
         adres = None
 
         if self.bezoekadres:
-            adres = "{} {}".format(
+            toevoeging = ""
+
+            if self.bezoekadres.huisletter:
+                toevoeging = self.bezoekadres.huisletter
+
+            if self.bezoekadres.huisnummertoevoeging:
+                toevoeging = "{}-{}".format(
+                        toevoeging,
+                        self.bezoekadres.huisnummertoevoeging)
+
+            adres = "{} {}{}".format(
                 self.bezoekadres.straatnaam,
                 self.bezoekadres.huisnummer,
+                toevoeging,
             )
         elif self.postadres:
             adres = "{} (post)".format(self.postadres.volledig_adres)
