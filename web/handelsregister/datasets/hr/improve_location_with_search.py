@@ -22,6 +22,7 @@ import grequests
 
 from django.conf import settings
 from django.contrib.gis.geos import GEOSGeometry
+from django.db.models import Q
 
 import gevent
 from gevent.queue import JoinableQueue
@@ -477,13 +478,16 @@ class SearchTask():
         if vbo_url:
             details = self.get_response(url=vbo_url)
 
-        if 'geometrie' in details and not details.get('geometrie'):
-            log.exception('invalid details')
-
-        point = details['geometrie']
+        if 'geometrie' in details:
+            if not details.get('geometrie'):
+                log.exception('invalid details')
+            else:
+                point = details['geometrie']
+        else:
+            point = self.locatie.geometrie
 
         num_id = None
-        if details['hoofdadres']:
+        if details.get('hoofdadres'):
             num_id = details['hoofdadres'].get("landelijk_id")
 
         # determine bag_id
@@ -753,7 +757,7 @@ def create_qs_of_invalid_locations(gemeente):
 
     return (
         Locatie.objects
-        .filter(geometrie__isnull=True)
+        .filter(Q(geometrie__isnull=True) | Q(bag_vbid__isnull=True))
         .filter(volledig_adres__endswith=gemeente)
         .exclude(volledig_adres__startswith='Postbus')
         .filter(correctie__isnull=True)

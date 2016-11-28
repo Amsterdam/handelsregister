@@ -38,11 +38,11 @@ def location_stats():
         volledig_adres__startswith="Postbus")
     postbus_loc = all_locations.filter(volledig_adres__startswith="Postbus")
 
-    return [
-        all_locations.count(),
-        empty_loc_no_postbus.count(),
-        postbus_loc.count()
-    ]
+    return dict(
+        a_loc=all_locations.count(),
+        a_loc_zg=empty_loc_no_postbus.count(),
+        a_loc_postbus=postbus_loc.count()
+    )
 
 
 def vestiging_stats():
@@ -92,23 +92,34 @@ def vestiging_stats():
         ]
     )
 
+    missing_ves_bezoek_bag_id_adam = all_locations.extra(
+        tables=['hr_vestiging'],
+        where=[
+            '"hr_vestiging"."bezoekadres_id"="hr_locatie"."id"',
+            '"hr_locatie"."bag_vbid" is null',
+            '"hr_locatie"."volledig_adres" like \'%%Amsterdam\''
+        ]
+    )
+
     ves_loc_bag_id = missing_ves_locaties.extra(
         where=['"hr_locatie"."bag_vbid" is not null'])
 
     ves_loc_num_id = missing_ves_locaties.extra(
         where=['"hr_locatie"."bag_numid" is not null'])
 
-    return [
-        ves_locaties.count(),
-        ves_locaties_bezoek.count(),
-        ves_locaties_post.count(),
-        ves_postbus.count(),
-        missing_ves_locaties.count(),
-        ves_loc_bag_id.count(),
-        ves_loc_num_id.count(),
-        missing_ves_in_amsterdam.count(),
-        missing_ves_bezoek_adam.count(),
-    ]
+    return dict(
+        a_ves=ves_locaties.count(),
+        a_ves_b=ves_locaties_bezoek.count(),
+        a_ves_p=ves_locaties_post.count(),
+        a_ves_pb=ves_postbus.count(),
+        a_ves_zg=missing_ves_locaties.count(),
+        a_ves_zg_mbgid=ves_loc_bag_id.count(),
+        a_ves_zg_mnmid=ves_loc_num_id.count(),
+
+        ves_adam_zg=missing_ves_in_amsterdam.count(),
+        ves_adam_zg_b=missing_ves_bezoek_adam.count(),
+        ves_adam_zbag_id=missing_ves_bezoek_bag_id_adam.count(),
+    )
 
 
 def mac_stats():
@@ -138,12 +149,12 @@ def mac_stats():
     missing_mac_locaties = mac_locaties.extra(
         where=['"hr_locatie"."geometrie" is null'])
 
-    return [
-        mac_locaties.count(),
-        missing_mac_locaties.count(),
-        mac_locaties_amsterdam.count(),
-        mac_locaties_amsterdam_nogeo.count(),
-    ]
+    return dict(
+        a_mac=mac_locaties.count(),
+        a_mac_zg=missing_mac_locaties.count(),
+        mac_adam=mac_locaties_amsterdam.count(),
+        mac_adam_zg=mac_locaties_amsterdam_nogeo.count(),
+    )
 
 
 def geovestigingen_stats():
@@ -159,80 +170,81 @@ def geovestigingen_stats():
     geoves_post = geoves.filter(locatie_type='P')
     geoves_bezoek = geoves.filter(locatie_type='B')
 
-    return [
-        geoves.count(),
-        geoves_sbi.count(),
-        geoves_post.count(),
-        geoves_bezoek.count(),
-    ]
+    return dict(
+        ves_kaart=geoves.count(),
+        ves_kaart_zsbi=geoves_sbi.count(),
+        ves_kaart_p=geoves_post.count(),
+        ves_kaart_b=geoves_bezoek.count(),
+    )
 
 
-def log_rapport_counts(context=''):
+def log_rapport_counts(action=''):
     """
     Log the count rapports available
     """
 
-    counts = location_stats()
-    counts.extend(vestiging_stats())
-    counts.extend(mac_stats())
-    counts.extend(geovestigingen_stats())
+    counts = {'actie': action}
+    counts.update(location_stats())
+    counts.update(vestiging_stats())
+    counts.update(mac_stats())
+    counts.update(geovestigingen_stats())
 
     STATS.append(counts)
 
     if len(STATS) > 6:
         STATS.pop(0)
 
+    if action == '':
+        counts['actie'] = len(STATS)
+
     # update stats with latest status
     with open(tmp_json, 'w') as thefile:
         json.dump(STATS, thefile)
 
-    header = ""
-
-    count_lines = ['' for c in counts]
+    count_lines = {}
 
     def new_row(row, cell):
         return '%s   %-9i' % (row, cell)
 
     for i, countx in enumerate(STATS):
-        header = new_row(header, i)
-        count_lines = map(new_row, count_lines, countx)
-
-    count_lines = list(count_lines)
-    count_lines.insert(0, header)
+        for key, count in countx.items():
+            old_row = count_lines.get(key, '')
+            count_lines[key] = new_row(old_row, count)
 
     LOG.debug("""
 
-    Telmoment                    %s
+    Actie                        {actie}
 
-    Alle HR Locaties             %s
-    zonder geometrie             %s
-    postbus                      %s
+    Alle HR Locaties             {a_loc}
+    zonder geometrie             {a_loc_zg}
+    postbus                      {a_loc_postbus}
 
 
-    Totaal Vestiging locaties    %s
-    waarvan          bezoek      %s
-    varvan           post        %s
-    warvan           postbus     %s
+    Totaal Vestiging locaties    {a_ves}
+    waarvan          bezoek      {a_ves_b}
+    waarvan          post        {a_ves_p}
+    waarvan          postbus     {a_ves_pb}
 
-    zonder geometrie             %s
-    zonder geo maar met bag id   %s
-    zonder geo maar met num id   %s
+    zonder geometrie             {a_ves_zg}
+    zonder geo maar met bag id   {a_ves_zg_mbgid}
+    zonder geo maar met num id   {a_ves_zg_mnmid}
 
-    zonder geometrie Amsterdam   %s
-    waarvan bezoek               %s
+    zonder geometrie Amsterdam   {ves_adam_zg}
+    waarvan bezoek               {ves_adam_zg_b}
+    geen bag_vbid/landelijkid    {ves_adam_zbag_id}
 
-    Totaal Mac locaties          %s
-    zonder geometrie             %s
+    Totaal Mac locaties          {a_mac}
+    zonder geometrie             {a_mac_zg}
 
-    in Amsterdam                 %s
-    in Amsterdam zonder GEO      %s
+    in Amsterdam                 {mac_adam}
+    in Amsterdam zonder GEO      {mac_adam_zg}
 
     Van macs hebben we (nog) geen sbi_codes !!
 
     Vestigingen op de kaart
 
-    Totaal voor op de kaart      %s
-    zonder sbi                   %s
-    post   locaties              %s
-    bezoek locaties              %s
-             """, *count_lines)
+    Totaal voor op de kaart      {ves_kaart}
+    zonder sbi                   {ves_kaart_zsbi}
+    post   locaties              {ves_kaart_p}
+    bezoek locaties              {ves_kaart_b}
+             """.format(**count_lines))

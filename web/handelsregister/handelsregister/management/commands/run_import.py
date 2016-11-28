@@ -97,19 +97,19 @@ class Command(BaseCommand):
             # copy_bag_to_hr script
             self.bag_check()
             build_hr_data.fill_location_with_bag()
-            location_stats.log_rapport_counts()
+            location_stats.log_rapport_counts(action='bag')
         elif options['geo_vest']:
             build_hr_data.fill_geo_table()
-            location_stats.log_rapport_counts()
+            location_stats.log_rapport_counts(action='map')
         elif options['cbs_sbi']:
             build_cbs_sbi.cbsbi_table()
         elif options['dataselectie']:
-            build_ds_data._build_joined_ds_table()
+            build_ds_data._build_joined_ds_table(action='ds')
             # import cProfile
             # cProfile.runctx('build_ds_data._build_joined_ds_table()', globals(), locals(), '/tmp/statsds_data')
         elif options['searchapi']:
             improve_location_with_search.guess()
-            location_stats.log_rapport_counts()
+            location_stats.log_rapport_counts(action='fix')
         elif options['clearsearch']:
             build_hr_data.clear_autocorrect()
         elif options['stats']:
@@ -126,4 +126,4 @@ class Command(BaseCommand):
             LOG.info('hr_geovestigingen %s', models.Locatie.objects.count())
             assert models.GeoVestigingen.objects.count() == 0
             assert models.Locatie.objects.count() > 200000
-            location_stats.log_rapport_counts()
+            location_stats.log_rapport_counts(action='mks')
