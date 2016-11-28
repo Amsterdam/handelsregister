@@ -163,6 +163,7 @@ def geovestigingen_stats():
     """
 
     geoves = models.GeoVestigingen.objects.all()
+    dataselectie = models.DataSelectie.objects.all()
 
     geoves_sbi = geoves.filter(
         sbi_code_int__isnull=True)
@@ -175,6 +176,7 @@ def geovestigingen_stats():
         ves_kaart_zsbi=geoves_sbi.count(),
         ves_kaart_p=geoves_post.count(),
         ves_kaart_b=geoves_bezoek.count(),
+        ves_ds=dataselectie.count()
     )
 
 
@@ -247,4 +249,6 @@ def log_rapport_counts(action=''):
     zonder sbi                   {ves_kaart_zsbi}
     post   locaties              {ves_kaart_p}
     bezoek locaties              {ves_kaart_b}
+
+    Dataselectie                 {ves_ds}
              """.format(**count_lines))
