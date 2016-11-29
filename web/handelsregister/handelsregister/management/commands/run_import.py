@@ -120,6 +120,7 @@ class Command(BaseCommand):
             self.bag_check()
             build_hr_data.fill_stelselpedia()
             location_stats.log_rapport_counts()
+            location_stats.log_rapport_counts(action='mks')
             # now update mks locations with bag locations
             # check if bag data is correctly loaded
             # we need bag data to correct missing geometry data
@@ -127,4 +128,4 @@ class Command(BaseCommand):
             LOG.info('hr_geovestigingen %s', models.Locatie.objects.count())
             assert models.GeoVestigingen.objects.count() == 0
             assert models.Locatie.objects.count() > 200000
-            location_stats.log_rapport_counts(action='mks')
+            location_stats.log_rapport_counts(action='bag')
