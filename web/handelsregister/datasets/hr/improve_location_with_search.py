@@ -311,7 +311,7 @@ class SearchTask():
         if rds_bagid:
             self.save_corrected_geo_infomation(num, point, bag_id, num_id)
         else:
-            log.exception('Point/Bagid missing: %s', self.get_q())
+            log.exception('Point/Bagid missing: %s', num)
             self.log_wtf_loc()
             return
 
