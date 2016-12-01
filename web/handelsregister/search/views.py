@@ -38,15 +38,14 @@ _type_mapping = {
 
 
 _autocomplete_group_order = [
+    'Vestigingen',
     'Maatschappelijke activiteiten',
-    'Vestigingen'
 ]
 
 
 _autocomplete_group_sizes = {
-    'Maatschappelijke activiteiten': 5,
-    'Vestigingen': 10
-
+    'Vestigingen': 10,
+    'Maatschappelijke activiteiten': 5
 }
 
 
