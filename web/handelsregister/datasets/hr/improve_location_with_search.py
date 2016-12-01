@@ -360,8 +360,6 @@ class SearchTask():
         Look in hit for matching hit
         To see if there is a hit with a correct / matching toevoeging
         """
-
-        # log.debug(hits)
         # try to find hit in hits that matches toevoegingen
         for t in self.toevoegingen:
             for hit in hits:
@@ -577,7 +575,8 @@ def normalize_toevoeging(toevoegingen=[""]):
     # toevoegingen
     for i in reversed(range(len(toevoegingen))):
         optie = "".join(toevoegingen[:i])
-        alternatieven.append(optie)
+        if optie:
+            alternatieven.append(optie)
 
     begane_grond = BEGANE_GROND
 
@@ -672,10 +671,8 @@ def determine_toevoegingen(i, tokens, postcode):
     if len(tokens) > i:
         idx = determine_postcode_index(tokens, postcode)
         toevoegingen = tokens[i+1:idx]
-        # log.debug('toevoegingen: %s', toevoegingen)
         # FIX common toevoeging mistakes
         toevoegingen = normalize_toevoeging(toevoegingen)
-        # log.debug('toevoegingen2: %s', toevoegingen)
 
     return toevoegingen
 
@@ -747,6 +744,7 @@ def create_search_for_addr(loc, addr):
                    straat, huisnummers, toevoegingen, postcode]
 
     SEARCHES_QUEUE.put(search_data)
+    return search_data
 
 
 def create_qs_of_invalid_locations(gemeente):
@@ -828,12 +826,17 @@ def guess():
               total_seconds / 60.0, total_seconds % 60)
 
 
-def test_one_weird_one():
+def test_one_weird_one(test=""):
     """
     Method to check manualy what this search does for 1 item.
     to use in the shell_plus
     """
-    test_this = 'Gustav Mahlerlaan 1041 1082MK Amsterdam'
+
+    test_this = 'Nieuwe Looiersstraat 45d 1017VB Amsterdam'
+
+    if test:
+        test_this = test
+
     query_string, tokens = clean_tokenize(test_this)
     loc = Locatie.objects.first()
     loc.volledig_adres = test_this
@@ -842,7 +845,8 @@ def test_one_weird_one():
     SLOW = True
 
     for alternative_addr in alternative_qs(query_string):
-        create_search_for_addr(loc, alternative_addr)
+        search_data = create_search_for_addr(loc, alternative_addr)
+        print(search_data)
 
     # fix it
     async_determine_rd_coordinates()
@@ -850,3 +854,5 @@ def test_one_weird_one():
     print(test_this)
     print(loc.bag_vbid)
     print(loc.geometrie)
+    print(loc.query_string)
+
