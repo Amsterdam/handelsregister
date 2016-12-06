@@ -48,3 +48,4 @@ db-backup:
                         -U handelsregister \
                         -h db -p 5432 \
                         handelsregister > /tmp/backups/database.dump"
+            && chown -R 997:997 /tmp/backups"
