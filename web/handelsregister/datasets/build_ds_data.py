@@ -28,7 +28,7 @@ LOCATIE_FIELDS = (
     'postcode', 'straatnaam', 'postbus_nummer', 'toevoegingadres',
     'volledig_adres', 'correctie', 'afgeschermd')
 
-PROGRESSREPORT = 30         # report every xx seconds
+PROGRESSREPORT = 10         # report every xx seconds
 
 
 def to_dict(data: object, fields: tuple) -> dict:
@@ -100,15 +100,16 @@ def _build_joined_ds_table():
         lambda row: row.vestigingsnummer
     )
 
-    count = 0
+    count = 1
     lastreport = time.time()
 
     for vestigingsnummer, vest_data in by_vestiging:
 
+        count, lastreport = measure_progress(totalrowcount, count, lastreport)
+
         # verzamel gegevens per vestiging
         vst_sbi, vestiging_dict, naam, bag_vbid = per_vestiging(
-            vestigingsnummer, vest_data, sbi_values, count,
-            totalrowcount, lastreport)
+            vestigingsnummer, vest_data, sbi_values)
 
         # save json in ds tabel
         write_hr_dataselectie(
@@ -118,8 +119,7 @@ def _build_joined_ds_table():
     log.info('Opbouw dataselectie api als json VOLTOOID')
 
 
-def per_vestiging(vestigingsnummer, vest_data, sbi_values,
-                  count, totalrowcount, lastreport):
+def per_vestiging(vestigingsnummer, vest_data, sbi_values):
     """
     Read data per vestiging and build dict (to be json) per
     vestiging
@@ -129,17 +129,19 @@ def per_vestiging(vestigingsnummer, vest_data, sbi_values,
     vst_sbi = []
 
     for sbi_repeat in vest_data:
-        count, lastreport = measure_progress(totalrowcount, count, lastreport)
+
         if first:
             vestiging_dict = to_dict(sbi_repeat, VESTIGING_FIELDS)
             vestiging_dict = add_adressen_dict(vestiging_dict, sbi_repeat)
             vestiging_dict['sbi_codes'] = vst_sbi = []
             first = False
+
         sbi = sbi_values[sbi_repeat.sbi_code]
         sbi['vestigingsnummer'] = vestigingsnummer
         sbi['bedrijfsnaam'] = sbi_repeat.naam
 
         vst_sbi.append(sbi)
+
     return vst_sbi, vestiging_dict, sbi_repeat.naam, sbi_repeat.bag_vbid
 
 
@@ -164,6 +166,7 @@ def measure_progress(totalrowcount, count, lastreport):
     Every PROGRESSREPORT timedelta print progres line
     """
     count += 1
+
     if time.time() - lastreport > PROGRESSREPORT:
         lastreport = time.time()
         pct_complete = str(int((count * 100) / totalrowcount)) + '%'
