@@ -189,11 +189,10 @@ class KvkFunctievervulling(models.Model):
     """
     Functievervulling
     """
-    ashid = models.DecimalField(
-        primary_key=True, max_digits=18, decimal_places=0)
+    ashid = models.DecimalField(primary_key=True, max_digits=18, decimal_places=0)
     functie = models.CharField(max_length=20, blank=True, null=True)
-    prsidh = models.DecimalField(max_digits=18, decimal_places=0)
-    prsidi = models.DecimalField(max_digits=18, decimal_places=0)
+    prsidh = models.DecimalField(max_digits=18, decimal_places=0, null=True)
+    prsidi = models.DecimalField(max_digits=18, decimal_places=0, null=True)
     soort = models.CharField(max_length=20, blank=True, null=True)
     prsashhibver = models.DecimalField(max_digits=19, decimal_places=0)
 

@@ -24,14 +24,15 @@ def _get_docker_host():
     return '0.0.0.0'
 
 
-VBO_URI = "https://api-acc.datapunt.amsterdam.nl/bag/verblijfsobject/"
+VBO_URI = "https://api.datapunt.amsterdam.nl/bag/verblijfsobject/"
+CBS_URI = 'http://sbi.cbs.nl/cbs.typeermodule.typeerservicewebapi/api/sbianswer/getNextQuestion/{}'
+CSB_SEARCH = 'http://sbi.cbs.nl/cbs.typeermodule.typeerservicewebapi/api/SBISearch/search/{}'
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'not-secret'
+insecure_key = 'insecure'
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', insecure_key)
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-# DEBUG = True
+DEBUG = SECRET_KEY == insecure_key
 
 ALLOWED_HOSTS = ['*']
 
@@ -65,26 +66,30 @@ INSTALLED_APPS = [
     'django.contrib.gis',
     'rest_framework',
     'rest_framework_gis',
-
-    # 'rest_framework_swagger',
+    'rest_framework_swagger',
 
 ] + PROJECT_APPS
 
+INTERNAL_IPS = ('127.0.0.1', '0.0.0.0')
+
 if DEBUG:
-    INSTALLED_APPS += ('debug_toolbar', )
+    INSTALLED_APPS += (
+        'debug_toolbar', 'explorer')
 
 SITE_ID = 1
 
-MIDDLEWARE_CLASSES = [
+MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
+
 
 ROOT_URLCONF = 'handelsregister.urls'
 
@@ -195,7 +200,7 @@ BATCH_SETTINGS = dict(
 
 
 REST_FRAMEWORK = dict(
-    PAGE_SIZE=25,
+    PAGE_SIZE=100,
 
     MAX_PAGINATE_BY=100,
     DEFAULT_AUTHENTICATION_CLASSES=(
@@ -208,9 +213,56 @@ REST_FRAMEWORK = dict(
         'rest_framework.renderers.JSONRenderer',
         'rest_framework.renderers.BrowsableAPIRenderer'
     ),
-    DEFAULT_FILTER_BACKENDS=('rest_framework.filters.DjangoFilterBackend',),
+    DEFAULT_FILTER_BACKENDS=(
+        'rest_framework.filters.DjangoFilterBackend',
+        # 'rest_framework.filters.OrderingFilter',
+
+        ),
     COERCE_DECIMAL_TO_STRING=True,
 )
+
+# SWAGGER
+
+swag_path = 'api-acc.datapunt.amsterdam.nl/handelsregister/docs'
+
+if DEBUG:
+    swag_path = '127.0.0.1:8000/handelsregister/docs'
+
+SWAGGER_SETTINGS = {
+    'exclude_namespaces': [],
+    'api_version': '0.1',
+    'api_path': '/',
+
+    'enabled_methods': [
+        'get',
+    ],
+
+    'api_key': '',
+    'USE_SESSION_AUTH': False,
+    'VALIDATOR_URL': None,
+
+    'is_authenticated': False,
+    'is_superuser': False,
+
+    'unauthenticated_user': 'django.contrib.auth.models.AnonymousUser',
+    'permission_denied_handler': None,
+    'resource_access_handler': None,
+
+    'protocol': 'https' if not DEBUG else '',
+    'base_path': swag_path,
+
+    'info': {
+        'contact': 'atlas.basisinformatie@amsterdam.nl',
+        'description': 'This is the Handelsregister API server.',
+        'license': 'Not known yet',
+        'licenseUrl': '://www.amsterdam.nl/stelselpedia/',
+        'termsOfServiceUrl': 'https://atlas.amsterdam.nl/terms/',
+        'title': 'Handelsregister',
+    },
+
+    'doc_expansion': 'list',
+}
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
@@ -246,6 +298,10 @@ LOGGING = {
 
 
     'loggers': {
+        'django.db': {
+            'handlers': ['console'],
+            'level': 'ERROR',
+        },
         'django': {
             'handlers': ['console'],
             'level': 'ERROR',

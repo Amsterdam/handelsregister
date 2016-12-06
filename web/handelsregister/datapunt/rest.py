@@ -23,7 +23,7 @@ def get_links(view_name, kwargs=None, request=None):
 
 class DataSetSerializerMixin(object):
     def to_representation(self, obj):
-        result = super().to_representation(obj)
+        result = super(obj).to_representation(obj)
         result['dataset'] = self.dataset
         return result
 

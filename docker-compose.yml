@@ -22,10 +22,10 @@ web:
     - "8102:8000"
   links:
     - database:database
+    - elasticsearch:elasticsearch
   volumes:
     - $PWD/data:/app/data
   environment:
-    SECRET_KEY: hoi
     DATABASE_NAME: handelsregister
     DATABASE_USER: handelsregister
     DATABASE_PASSWORD: insecure

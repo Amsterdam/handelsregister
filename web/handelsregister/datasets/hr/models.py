@@ -1,8 +1,7 @@
 # import uuid
 
 from django.contrib.gis.db import models
-
-import re
+from django.contrib.postgres.fields import JSONField
 
 
 class Persoon(models.Model):
@@ -76,7 +75,7 @@ class Persoon(models.Model):
         primary_key=True, max_digits=18, decimal_places=0)
 
     rol = models.CharField(
-      max_length=14, blank=True, null=True, choices=rol_choices)
+        max_length=14, blank=True, null=True, choices=rol_choices)
 
     rechtsvorm = models.CharField(max_length=50, blank=True, null=True)
     uitgebreide_rechtsvorm = models.CharField(
@@ -153,10 +152,10 @@ class NatuurlijkPersoon(models.Model):
         max_length=20, blank=True, null=True)
 
     huwelijksdatum = models.DateField(
-            max_length=8, blank=True, null=True)
+        max_length=8, blank=True, null=True)
 
     geboortedatum = models.DateField(
-            max_length=8, blank=True, null=True)
+        max_length=8, blank=True, null=True)
 
     geboorteland = models.CharField(max_length=50, blank=True, null=True)
     geboorteplaats = models.CharField(max_length=240, blank=True, null=True)
@@ -205,7 +204,7 @@ class Functievervulling(models.Model):
             naam = self.is_aansprakelijke.volledige_naam
 
         return "{} - {} - {}".format(
-                naam, self.functietitel, self.soortbevoegdheid)
+            naam, self.functietitel, self.soortbevoegdheid)
 
 
 class Activiteit(models.Model):
@@ -292,6 +291,7 @@ class MaatschappelijkeActiviteit(models.Model):
         'Communicatiegegevens',
         help_text="Afgeleid van communicatiegegevens van inschrijving",
     )
+
     activiteiten = models.ManyToManyField(
         'Activiteit',
         help_text="""
@@ -399,9 +399,7 @@ class Vestiging(models.Model):
     Locatie.
     """
 
-    id = models.CharField(
-        primary_key=True, max_length=20
-    )
+    id = models.CharField(primary_key=True, max_length=20)
 
     maatschappelijke_activiteit = models.ForeignKey(
         'MaatschappelijkeActiviteit',
@@ -416,14 +414,13 @@ class Vestiging(models.Model):
 
     hoofdvestiging = models.BooleanField()
 
-    naam = models.CharField(
-        max_length=200, null=True, blank=True,
-    )
+    naam = models.CharField(max_length=200, null=True, blank=True)
 
     datum_aanvang = models.DateField(
         null=True, blank=True,
         help_text="De datum van aanvang van de Vestiging"
     )
+
     datum_einde = models.DateField(
         null=True, blank=True,
         help_text="De datum van beëindiging van de Vestiging"
@@ -442,40 +439,59 @@ class Vestiging(models.Model):
     )
     bezoekadres = models.ForeignKey(
         'Locatie', related_name="+", blank=True, null=True,
-        help_text="bezoekadres",
-    )
+        help_text="bezoekadres")
+
     commerciele_vestiging = models.OneToOneField(
         'CommercieleVestiging',
-        on_delete=models.CASCADE, null=True, blank=True,
-    )
+        on_delete=models.CASCADE, null=True, blank=True)
+
     niet_commerciele_vestiging = models.OneToOneField(
         'NietCommercieleVestiging',
-        on_delete=models.CASCADE, null=True, blank=True,
-    )
+        on_delete=models.CASCADE, null=True, blank=True)
 
-    activiteiten = models.ManyToManyField(
-        'Activiteit'
-    )
+    activiteiten = models.ManyToManyField('Activiteit')
 
-    handelsnamen = models.ManyToManyField(
-        'Handelsnaam'
-    )
+    handelsnamen = models.ManyToManyField('Handelsnaam')
 
-    def __str__(self):
-
-
-        handelsnaam = "{}".format(self.naam)
+    @property
+    def _adres(self):
         adres = None
 
         if self.bezoekadres:
-            adres = self.bezoekadres.volledig_adres
+            toevoeging = ""
+
+            if self.bezoekadres.huisletter:
+                toevoeging = self.bezoekadres.huisletter
+
+            if self.bezoekadres.huisnummertoevoeging:
+                toevoeging = "{}-{}".format(
+                        toevoeging,
+                        self.bezoekadres.huisnummertoevoeging)
+
+            adres = "{} {}{}".format(
+                self.bezoekadres.straatnaam,
+                self.bezoekadres.huisnummer,
+                toevoeging,
+            )
         elif self.postadres:
             adres = "{} (post)".format(self.postadres.volledig_adres)
-        # !! NOTE this should be done in the frontend IMHO.
+
+        return adres
+
+    @property
+    def locatie(self):
+        """
+        locatie
+        """
+        return self.bezoekadres if self.bezoekadres else self.postadres
+
+    def __str__(self):
+
+        handelsnaam = "{}".format(self.naam)
+        adres = self._adres
+
         if adres:
-            # remove postcode
-            clean_adres = re.sub("\d\d\d\d[A-Z][A-Z]", "", adres, count=1)
-            return "{} - {}".format(handelsnaam, clean_adres)
+            return "{} - {}".format(handelsnaam, adres)
 
         return handelsnaam
 
@@ -529,6 +545,27 @@ class Locatie(models.Model):
     land = models.CharField(max_length=50, blank=True, null=True)
 
     geometrie = models.PointField(srid=28992, blank=True, null=True)
+
+    # locatie meuk die er nu wel is.
+    straatnaam = models.CharField(
+        db_index=True, max_length=100, blank=True, null=True)
+    toevoegingadres = models.CharField(max_length=100, blank=True, null=True)
+    huisletter = models.CharField(max_length=1, blank=True, null=True)
+
+    huisnummer = models.DecimalField(
+        db_index=True,
+        max_digits=5, decimal_places=0, blank=True, null=True)
+
+    huisnummertoevoeging = models.CharField(
+        max_length=5, blank=True, null=True)
+
+    postcode = models.CharField(
+        db_index=True, max_length=6, blank=True, null=True)
+
+    # plaats.
+    plaats = models.CharField(
+        db_index=True,
+        max_length=100, blank=True, null=True)
 
     # Auto fix related
 
@@ -648,9 +685,27 @@ class Kapitaal(models.Model):
     """
 
 
+class CBS_sbi_hoofdcat(models.Model):
+    hcat = models.CharField(max_length=20, primary_key=True)
+    hoofdcategorie = models.CharField(max_length=140, blank=False, null=False)
+
+
+class CBS_sbi_subcat(models.Model):
+    scat = models.CharField(max_length=20, primary_key=True)
+    subcategorie = models.CharField(max_length=140, blank=False, null=False)
+    hcat = models.ForeignKey(CBS_sbi_hoofdcat, on_delete=models.CASCADE)
+
+
+class CBS_sbicodes(models.Model):
+    sbi_code = models.CharField(max_length=14, primary_key=True)
+    scat = models.ForeignKey(CBS_sbi_subcat, on_delete=models.CASCADE)
+    sub_sub_categorie = models.CharField(
+        max_length=140, blank=False, null=False)
+
+
 class GeoVestigingen(models.Model):
     """
-    geo table of joined tables to make mapserver lighning speed
+    geo table of joined tables to make mapserver lightning speed
     """
 
     # NOTE merdere activiteiten per vestigings nummer mogelijk
@@ -703,13 +758,22 @@ class GeoVestigingen(models.Model):
 
     sbi_detail_group = models.CharField(
         db_index=True,
-        max_length=200,
+        max_length=200, null=True, blank=True,
         help_text="De codering van de activiteit conform de SBI2008"
     )
 
+    postadres = models.ForeignKey(
+        'Locatie', related_name="+", blank=True, null=True,
+        help_text="postadres")
+
+    bezoekadres = models.ForeignKey(
+        'Locatie', related_name="+", blank=True, null=True,
+        help_text="bezoekadres")
+
+    bag_vbid = models.CharField(
+        max_length=16, blank=True, null=True)
 
 class GeoVBO(models.Model):
-
     id = models.CharField(max_length=14, primary_key=True)
 
     bag_numid = models.CharField(
@@ -719,3 +783,149 @@ class GeoVBO(models.Model):
         max_length=16, db_index=True, blank=True, null=True)
 
     geometrie = models.PointField(srid=28992, blank=True, null=True)
+
+
+class DataSelectie(models.Model):
+
+    id = models.CharField(
+        max_length=20,
+        primary_key=True)
+
+    bag_vbid = models.CharField(
+        max_length=16, db_index=True, blank=True, null=True)
+
+    api_json = JSONField()
+
+
+# SQL VIEWS ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+class SbicodesPerVestiging(models.Model):
+
+    class Meta:
+        db_table = 'hr_sbicodes_per_vestiging'
+        managed = False
+
+    vestiging = models.ForeignKey(
+        DataSelectie,
+        # related_name = 'sbi_codes',
+        on_delete=models.DO_NOTHING)
+
+    sbi_code = models.CharField(
+        max_length=5,
+        help_text="De codering van de activiteit conform de SBI2008"
+    )
+
+    subcategorie = models.CharField(
+        db_index=True,
+        max_length=200,
+        help_text="De codering van de activiteit conform de SBI2008"
+    )
+    hcat = models.CharField(
+        max_length=10,
+        help_text="SBI Hoofd categorie code"
+    )
+
+    scat = models.CharField(
+        max_length=20,
+        help_text="SBI Sub categorie code"
+    )
+
+    hoofdcategorie = models.CharField(
+        max_length=140,
+        help_text="SBI Hoofd categorie omschrijving"
+    )
+
+    sub_sub_categorie = models.CharField(
+        max_length=140,
+        help_text="SBI Sub categorie omschrijving"
+    )
+
+
+class BetrokkenPersonen(models.Model):
+
+    class Meta:
+        db_table = 'hr_betrokken_personen'
+        managed = False
+
+    mac_naam = models.CharField(
+        max_length=600,
+        help_text='Maatschappelijke activiteit naam')
+
+    kvk_nummer = models.CharField(
+        max_length=8,
+        blank=True,
+        null=True,
+        help_text="Kvk nummer"
+    )
+
+    vestiging = models.ForeignKey(
+        DataSelectie,
+        to_field="id",
+        db_column="vestiging_id",
+        blank=True,
+        null=True,
+        help_text="Vestiging id",
+        on_delete=models.DO_NOTHING
+    )
+
+    vestigingsnummer = models.CharField(
+        max_length=12, unique=True,
+        help_text="Betreft het identificerende gegeven voor de Vestiging"
+    )
+
+    persoons_id = models.IntegerField(
+        null=True)
+
+    rol = models.CharField(
+        max_length=14,
+        blank=True,
+        null=True,
+        help_text="Rol"
+    )
+
+    naam = models.CharField(
+        max_length=600,
+        blank=True,
+        null=True,
+        help_text="Persoonsnaam (handelsregister terminologie)"
+    )
+
+    rechtsvorm = models.CharField(
+        max_length=50,
+        blank=True,
+        null=True,
+        help_text="Rechtsvorm"
+    )
+
+    functietitel = models.CharField(
+        max_length=20,
+        blank=True,
+        null=True,
+        help_text="Titel van de functionaris"
+    )
+
+    soortbevoegdheid = models.CharField(
+        max_length=20,
+        blank=True,
+        null=True,
+        help_text="Bevoegdheid van de functionaris"
+    )
+
+    bevoegde_naam = models.CharField(
+        max_length=240,
+        blank=True,
+        null=True,
+        help_text="Bevoegdheid van de functionaris"
+    )
+
+    datum_aanvang = models.DateField(
+        max_length=8, blank=True, null=True,
+        help_text="De datum van aanvang van de MaatschappelijkeActiviteit",
+    )
+
+    datum_einde = models.DateField(
+        max_length=8, blank=True, null=True,
+        help_text="""
+            De datum van beëindiging van de MaatschappelijkeActiviteit""",
+    )

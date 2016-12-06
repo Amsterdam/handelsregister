@@ -1,9 +1,11 @@
 # import sys
 
+import time
+
 from django.core.management import BaseCommand
 from django.conf import settings
 
-from datasets import build_elk_index
+from search import build_index
 
 import logging
 
@@ -14,8 +16,41 @@ class Command(BaseCommand):
     """
     Index HR data from Handelsregster
     """
+    ordered = ['mac', 'ves']
+
+    index_tasks = {
+        'mac': [build_index.index_mac_docs],
+        'ves': [build_index.index_ves_docs],
+    }
+
+    reset_tasks = {
+        'mac': [build_index.reset_hr_docs],
+        'ves': [],
+    }
 
     def add_arguments(self, parser):
+
+        parser.add_argument(
+            'dataset',
+            nargs='*',
+            default=self.ordered,
+            help="Dataset to use, choose from {}".format(
+                ', '.join(self.index_tasks.keys())))
+
+        parser.add_argument(
+            '--build',
+            action='store_true',
+            dest='build_index',
+            default=False,
+            help='Build elastic index from postgres')
+
+        parser.add_argument(
+            '--reset',
+            action='store_true',
+            dest='reset_indexes',
+            default=False,
+            help='Reset elastic indexes')
+
         parser.add_argument(
             '--partial',
             action='store',
@@ -38,12 +73,43 @@ class Command(BaseCommand):
             settings.PARTIAL_IMPORT['numerator'] = numerator
             settings.PARTIAL_IMPORT['denominator'] = denominator
 
+    def determine_datasets(self, options):
+        """
+        Determine
+        """
+        dataset = options['dataset']
+
+        for ds in dataset:
+            if ds not in self.index_tasks.keys():
+                self.stderr.write("Unkown dataset: {}".format(ds))
+                return
+
+        sets = [ds for ds in self.ordered if ds in dataset]     # enforce order
+
+        self.stdout.write("Working on {}".format(", ".join(sets)))
+
+        return sets
+
     def handle(self, *args, **options):
         """
         validate and execute import task
         """
         log.info('Handelsregister import started')
+        start = time.time()
+
+        sets = self.determine_datasets(options)
 
         self.set_partial_config(options)
 
-        build_elk_index.index_mac_docs()
+        for ds in sets:
+
+            if options['build_index']:
+                for task in self.index_tasks[ds]:
+                    task()
+
+            if options['reset_indexes']:
+                for task in self.reset_tasks[ds]:
+                    task()
+
+        self.stdout.write(
+            "Total Duration: %.2f seconds" % (time.time() - start))

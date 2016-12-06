@@ -7,6 +7,8 @@ import logging
 from django.core.management import BaseCommand
 
 from datasets import build_hr_data
+from datasets import build_cbs_sbi
+from datasets import build_ds_data
 from datasets.hr import improve_location_with_search
 from datasets.hr import models
 from datasets.hr import location_stats
@@ -65,6 +67,20 @@ class Command(BaseCommand):
             default=False,
             help='print location stats')
 
+        parser.add_argument(
+            '--cbs_sbi',
+            action='store_true',
+            dest='cbs_sbi',
+            default=False,
+            help='Fill cbs sbi-codes')
+
+        parser.add_argument(
+            '--dataselectie',
+            action='store_true',
+            dest='dataselectie',
+            default=False,
+            help='Fill dataselectie view')
+
     def bag_check(self):
         if models.GeoVBO.objects.count() < 10000:
             raise ValueError(
@@ -81,13 +97,20 @@ class Command(BaseCommand):
             # copy_bag_to_hr script
             self.bag_check()
             build_hr_data.fill_location_with_bag()
-            location_stats.log_rapport_counts()
+            location_stats.log_rapport_counts(action='bag')
         elif options['geo_vest']:
             build_hr_data.fill_geo_table()
-            location_stats.log_rapport_counts()
+            location_stats.log_rapport_counts(action='map')
+        elif options['cbs_sbi']:
+            build_cbs_sbi.cbsbi_table()
+        elif options['dataselectie']:
+            build_ds_data._build_joined_ds_table()
+            # import cProfile
+            # cProfile.runctx('build_ds_data._build_joined_ds_table()', globals(), locals(), '/tmp/statsds_data')
+            location_stats.log_rapport_counts(action='ds')
         elif options['searchapi']:
             improve_location_with_search.guess()
-            location_stats.log_rapport_counts()
+            location_stats.log_rapport_counts(action='fix')
         elif options['clearsearch']:
             build_hr_data.clear_autocorrect()
         elif options['stats']:
@@ -97,6 +120,7 @@ class Command(BaseCommand):
             self.bag_check()
             build_hr_data.fill_stelselpedia()
             location_stats.log_rapport_counts()
+            location_stats.log_rapport_counts(action='mks')
             # now update mks locations with bag locations
             # check if bag data is correctly loaded
             # we need bag data to correct missing geometry data
@@ -104,4 +128,4 @@ class Command(BaseCommand):
             LOG.info('hr_geovestigingen %s', models.Locatie.objects.count())
             assert models.GeoVestigingen.objects.count() == 0
             assert models.Locatie.objects.count() > 200000
-            location_stats.log_rapport_counts()
+            location_stats.log_rapport_counts(action='bag')

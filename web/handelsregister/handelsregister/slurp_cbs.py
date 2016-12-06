@@ -20,7 +20,6 @@ start_codes = {}
 data = requests.get(vraag_url.format(code))
 json_data = data.json()
 
-
 for antwoord in data.json()['Answers']:
     antwoord_code = antwoord['Value']
     hoofd_category = antwoord['Key']
@@ -68,4 +67,4 @@ for category, sub_cats in all_category_codes.items():
         print(u'      {}'.format(sub_cat))
         print(u'          {}'.format(codes))
 
-#print(data.json())
+print(data.json())

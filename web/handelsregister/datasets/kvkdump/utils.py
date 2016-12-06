@@ -73,8 +73,8 @@ CREATE TABLE kvkprsashm00
 (
     ashid NUMERIC(18) PRIMARY KEY NOT NULL,
     functie VARCHAR(20),
-    prsidh NUMERIC(18) NOT NULL,
-    prsidi NUMERIC(18) NOT NULL,
+    prsidh NUMERIC(18),
+    prsidi NUMERIC(18),
     soort VARCHAR(20),
     prsashhibver NUMERIC(19) DEFAULT 1 NOT NULL
 );

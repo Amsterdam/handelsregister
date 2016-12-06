@@ -1,22 +1,33 @@
 # Create your views here.
 
-from datapunt import rest
+import logging
 
+import requests
 from django.conf import settings
 from django_filters import MethodFilter
 
-from django.db.models import Q
+from django_filters.rest_framework import filters
+from django_filters.rest_framework import FilterSet
 
-from rest_framework import filters
-
+from datapunt import rest
 from . import models
 from . import serializers
 
-import requests
-
-import logging
-
 log = logging.getLogger(__name__)
+
+
+class MacFilter(FilterSet):
+
+    naam = filters.CharFilter()
+    eigenaar = filters.CharFilter()
+
+    class Meta:
+        model = models.MaatschappelijkeActiviteit
+
+        fields = (
+            'eigenaar',
+            'naam'
+        )
 
 
 class MaatschappelijkeActiviteitViewSet(rest.AtlasViewSet):
@@ -41,7 +52,24 @@ class MaatschappelijkeActiviteitViewSet(rest.AtlasViewSet):
 
     lookup_field = 'kvk_nummer'
 
-    filter_fields = ('eigenaar', 'naam')
+    filter_fields = ('eigenaar', 'naam', 'bezoekadres__correctie')
+
+    filter_class = MacFilter
+
+
+class PersoonFilter(FilterSet):
+
+    niet_natuurlijkpersoon__rsin = filters.CharFilter()
+    naam = filters.CharFilter()
+
+    class Meta:
+        model = models.Persoon
+
+        fields = (
+            'typering',
+            'naam',
+            'soort',
+            'niet_natuurlijkpersoon__rsin')
 
 
 class PersoonViewSet(rest.AtlasViewSet):
@@ -66,13 +94,10 @@ class PersoonViewSet(rest.AtlasViewSet):
     serializer_detail_class = serializers.PersoonDetail
 
     serializer_class = serializers.Persoon
-
-    filter_fields = (
-        'typering', 'naam', 'soort',
-        'niet_natuurlijkpersoon__rsin')
+    filter_class = PersoonFilter
 
 
-class VestigingFilter(filters.FilterSet):
+class VestigingFilter(FilterSet):
     """
     Filter on nummeraanduiging and vestigingid
     """
@@ -82,6 +107,9 @@ class VestigingFilter(filters.FilterSet):
     pand = MethodFilter(action='pand_filter')
     kadastraal_object = MethodFilter(action='kot_filter')
 
+    bezoekadres__bag_numid = filters.CharFilter()
+    maatschappelijke_activiteit = filters.CharFilter()
+
     class Meta:
         model = models.Vestiging
 
@@ -89,9 +117,9 @@ class VestigingFilter(filters.FilterSet):
             'maatschappelijke_activiteit',
             'nummeraanduiding',
             'verblijfsobject',
-            'bezoekadres__bag_numid')
-
-        order_by = ['naam']
+            'bezoekadres__bag_numid',
+            'bezoekadres__correctie'
+        )
 
     def nummeraanduiding_filter(self, queryset, value):
         """
@@ -118,9 +146,9 @@ class VestigingFilter(filters.FilterSet):
 
     def _collect_landelijke_ids(self, filter_field, value):
         """
-        Collect all 'landelijk_ids' for verblijfsobjecten fiven
+        Collect all 'landelijk_ids' for verblijfsobjecten given
         a filter_field (panden__landelijk_id, kadastrale_objecten__id)
-        by doing request to the bag api
+        by doing a request to the bag api
         """
 
         vbo_ids = []
@@ -141,11 +169,7 @@ class VestigingFilter(filters.FilterSet):
         is more data
         """
 
-        params = {
-            'page': page
-        }
-
-        params[filter_field] = value
+        params = {'page': page, filter_field: value}
 
         url = settings.VBO_URI
 
@@ -191,6 +215,7 @@ class VestigingFilter(filters.FilterSet):
         """
         Given a kadastraal object find all
         """
+
         vbo_ids = self._collect_landelijke_ids(
             'kadastrale_objecten__id', value)
 
@@ -228,7 +253,10 @@ class VestigingViewSet(rest.AtlasViewSet):
     [https://api-acc.datapunt.amsterdam.nl/handelsregister/vestiging/?kadastraal_object=NL.KAD.OnroerendeZaak.11450749270000](https://api-acc.datapunt.amsterdam.nl/handelsregister/vestiging/?kadastraal_object=NL.KAD.OnroerendeZaak.11450749270000)
     """
 
-    queryset = models.Vestiging.objects.all()
+    queryset = (models.Vestiging.objects
+                .select_related('postadres')
+                .select_related('bezoekadres')
+                .all())
 
     queryset_detail = (models.Vestiging.objects
                        .select_related('maatschappelijke_activiteit')
@@ -243,9 +271,25 @@ class VestigingViewSet(rest.AtlasViewSet):
 
     lookup_field = 'vestigingsnummer'
 
-    ordering_fields = ('naam',)
+    ordering_fields = '__all__'
+
+    # ordering = ('naam',)
 
     filter_class = VestigingFilter
+
+
+class FunctievervullingFilter(FilterSet):
+
+    heeft_aansprakelijke = filters.CharFilter()
+    is_aansprakelijke = filters.CharFilter()
+
+    class Meta:
+        model = models.Functievervulling
+
+        fields = (
+            'heeft_aansprakelijke',
+            'is_aansprakelijke'
+        )
 
 
 class FunctievervullingViewSet(rest.AtlasViewSet):
@@ -258,9 +302,11 @@ class FunctievervullingViewSet(rest.AtlasViewSet):
     Onderneming of MaatschappelijkeActiviteit.
     """
 
-    queryset = models.Functievervulling.objects.all()
+    queryset = (models.Functievervulling.objects
+                .select_related('is_aansprakelijke')
+                .select_related('heeft_aansprakelijke'))
 
-    serializer_detail_class = serializers.Functievervulling
+    serializer_detail_class = serializers.FunctievervullingDetail
     serializer_class = serializers.Functievervulling
 
-    filter_fields = ('heeft_aansprakelijke', 'is_aansprakelijke')
+    filter_class = FunctievervullingFilter

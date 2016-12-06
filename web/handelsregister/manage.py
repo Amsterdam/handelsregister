@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
-from gevent import monkey
-monkey.patch_all(thread=False, select=False)
+#from gevent import monkey
+#monkey.patch_all(thread=False, select=False)
 
 import os
 import sys

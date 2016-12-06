@@ -3,7 +3,6 @@ from django.db import connection
 from django.contrib.gis.geos import Point
 from django.test import TestCase
 
-
 from datasets import build_hr_data
 
 from datasets.hr import models
@@ -19,6 +18,9 @@ URL = settings.DATAPUNT_API_URL
 
 class ViewsTest(TestCase):
 
+    def setUp(self):
+        hr_factories.restore_cbs_sbi()
+
     def get_row(self, view_name):
         cursor = connection.cursor()
         cursor.execute("SELECT * FROM " + str(view_name) + " LIMIT 1")
@@ -29,8 +31,9 @@ class ViewsTest(TestCase):
 
     def test_vestiging_locaties(self):
         l = hr_factories.LocatieFactory.create(geometrie=point)
-        a1 = hr_factories.Activiteit.create()
-        a2 = hr_factories.Activiteit.create()
+        hr_factories.SBIcatFactory.create()
+        a1 = hr_factories.Activiteit.create(id='987')
+        a2 = hr_factories.Activiteit.create(id='986')
 
         v = hr_factories.VestigingFactory.create(
             bezoekadres=l,
@@ -59,3 +62,10 @@ class ViewsTest(TestCase):
         self.assertEqual(
             2 * len(vestigingen),
             models.GeoVestigingen.objects.all().count())
+
+        post_count = (models.GeoVestigingen
+                      .objects.filter(locatie_type='P').count())
+
+        bezoek_count = (models.GeoVestigingen
+                        .objects.filter(locatie_type='B').count())
+        self.assertEqual(post_count, bezoek_count)
