@@ -28,7 +28,6 @@ greenlet==0.4.10
 grequests==0.3.0
 iso8601==0.1.11
 itypes==1.1.0
-jsonpickle==0.9.3
 keystoneauth1==2.14.0
 monotonic==1.2
 msgpack-python==0.4.8
