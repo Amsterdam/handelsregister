@@ -27,12 +27,23 @@ class ImportDataselectieTest(TestCase):
         row = models.DataSelectie.objects.all()[0]
         self.assertIsNotNone(row)
 
+        fields_in_row = ('geometrie', 'hoofdvestiging', 'kvk_nummer', 'locatie_type',
+                         'naam', 'postadres_afgeschermd', 'postadres_correctie',
+                         'postadres_huisletter', 'postadres_huisnummer',
+                         'postadres_huisnummertoevoeging', 'postadres_postbus_nummer',
+                         'postadres_postcode', 'postadres_straat_huisnummer',
+                         'postadres_straatnaam', 'postadres_toevoegingadres',
+                         'postadres_volledig_adres', 'sbi_codes', 'vestigingsnummer',
+                         'datum_einde', 'datum_aanvang', 'bezoekadres_volledig_adres',
+                         'bezoekadres_correctie', 'bezoekadres_afgeschermd',
+                         'betrokkenen', 'bag_vbid')
+
+        for f in fields_in_row:
+            self.assertIn(f, row.api_json)
 
         self.assertGreaterEqual(len(row.api_json), 1)
-        self.assertEqual(len(row.api_json['bezoekadres']),11)
         self.assertIsInstance(row.api_json['sbi_codes'], list)
         self.assertEqual(len(row.api_json['sbi_codes']), 1)
-        self.assertEqual(len(row.api_json['postadres']), 11)
         self.assertEqual(len(row.api_json['betrokkenen']), 1)
         self.assertIsInstance(row.api_json['geometrie'], list)
-        self.assertEqual(row.api_json['postadres']['volledig_adres'][:9], 'vol_adres')
+        self.assertEqual(row.api_json['postadres_volledig_adres'][:9], 'vol_adres')
