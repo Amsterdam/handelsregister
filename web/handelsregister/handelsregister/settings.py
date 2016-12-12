@@ -223,7 +223,7 @@ REST_FRAMEWORK = dict(
 
 # SWAGGER
 
-swag_path = 'api-acc.datapunt.amsterdam.nl/handelsregister/docs'
+swag_path = 'https://api-acc.datapunt.amsterdam.nl/handelsregister/docs'
 
 if DEBUG:
     swag_path = '127.0.0.1:8000/handelsregister/docs'
@@ -269,7 +269,7 @@ SWAGGER_SETTINGS = {
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = os.path.abspath(os.path.join(BASE_DIR, '..', 'static'))
+STATIC_ROOT = '/static/'
 
 HEALTH_MODEL = 'hr.MaatschappelijkeActiviteit'
 

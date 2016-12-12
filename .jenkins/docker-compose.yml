@@ -14,6 +14,12 @@ elasticsearch:
   user: root
   command: /usr/share/elasticsearch/bin/elasticsearch -Des.insecure.allow.root=true -Des.network.host=0.0.0.0 -Des.path.repo=/tmp
 
+web-static:
+  build: ..
+  user: root
+  volumes:
+    - /mnt/data/static/:/static/
+  command: python manage.py collectstatic --noinput
 
 tests:
   build: ../web
