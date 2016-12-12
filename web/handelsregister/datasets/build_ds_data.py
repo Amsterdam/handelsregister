@@ -23,25 +23,33 @@ BETROKKENEN_FIELDS = ('mac_naam', 'rol', 'naam', 'rechtsvorm', 'functietitel',
 
 MAATSCHAPPELIJKE_ACT_FIELDS = ('kvk_nummer', 'datum_aanvang', 'datum_einde')
 
-LOCATIE_FIELDS = (
+LOCATIE_BEZOEKADRES_FIELDS = ('volledig_adres', 'afgeschermd')
+LOCATIE_POSTADRES_FIELDS = (
     'straat_huisnummer', 'huisletter', 'huisnummer', 'huisnummertoevoeging',
     'postcode', 'straatnaam', 'postbus_nummer', 'toevoegingadres',
-    'volledig_adres', 'correctie', 'afgeschermd')
+    'volledig_adres', 'afgeschermd')
 
 PROGRESSREPORT = 10         # report every xx seconds
 
 
-def to_dict(data: object, fields: tuple) -> dict:
+def to_dict(data: object, fields: tuple, field_prefix=None) -> dict:
     result_dict = {}
     for f in fields:
-        value = getattr(data, f)
-        if isinstance(value, Point):
-            value = [value.x, value.y]
-        elif isinstance(value, Decimal):
-            value = str(value)
-        elif isinstance(value, datetime) or isinstance(value, date):
-            value = value.isoformat()
-        result_dict[f] = value
+        if field_prefix:
+            f_to = field_prefix + '_' + f
+        else:
+            f_to = f
+        if data:
+            value = getattr(data, f)
+            if isinstance(value, Point):
+                value = [value.x, value.y]
+            elif isinstance(value, Decimal):
+                value = str(value)
+            elif isinstance(value, datetime) or isinstance(value, date):
+                value = value.isoformat()
+        else:
+            value = ''
+        result_dict[f_to] = value
 
     return result_dict
 
@@ -127,6 +135,7 @@ def per_vestiging(vestigingsnummer, vest_data, sbi_values):
 
     first = True
     vst_sbi = []
+    vestiging_dict = {}
 
     for sbi_repeat in vest_data:
 
@@ -181,22 +190,22 @@ def add_adressen_dict(vestiging_dict: dict, sbi_repeat) -> dict:
     """
     Voeg bezoek- en postadressen toe als dict aan resulterende json.
     bezoekadres en postadres zijn relaties van geolocatie, de gevonden rijen
-    worden vertaald naar dict.
+    worden vertaald naar dict. De bezoekadres gegevens worden later in
+    dataselectie uit Bag opgehaald. Postadres wordt wel volledig meegegeven
     """
 
-    if sbi_repeat.bezoekadres and sbi_repeat.bezoekadres.bag_nummeraanduiding:
-        bezoekadres = to_dict(sbi_repeat.bezoekadres, LOCATIE_FIELDS)
-        vestiging_dict['bezoekadres'] = bezoekadres
-    else:
-        vestiging_dict['bezoekadres'] = None
-
-    if sbi_repeat.postadres and sbi_repeat.postadres.bag_nummeraanduiding:
-        postadres = to_dict(sbi_repeat.postadres, LOCATIE_FIELDS)
-        vestiging_dict['postadres'] = postadres
-    else:
-        vestiging_dict['postadres'] = None
+    vestiging_dict.update(to_dict(sbi_repeat.bezoekadres, LOCATIE_BEZOEKADRES_FIELDS, 'bezoekadres'))
+    vestiging_dict['bezoekadres_correctie'] = correctie_address(sbi_repeat.bezoekadres)
+    vestiging_dict.update(to_dict(sbi_repeat.postadres, LOCATIE_POSTADRES_FIELDS, 'postadres'))
+    vestiging_dict['postadres_correctie'] = correctie_address(sbi_repeat.postadres)
 
     return vestiging_dict
+
+
+def correctie_address(address):
+    if address and address.correctie:
+        return 'BAG'
+    return 'KVK'
 
 
 def add_betrokkenen_to_vestigingen(
