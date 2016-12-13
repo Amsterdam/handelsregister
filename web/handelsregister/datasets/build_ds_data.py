@@ -16,7 +16,7 @@ from datasets.hr.models import BetrokkenPersonen
 log = logging.getLogger(__name__)
 
 VESTIGING_FIELDS = ('vestigingsnummer', 'naam', 'hoofdvestiging',
-                    'locatie_type', 'geometrie', 'bag_vbid')
+                    'locatie_type', 'geometrie')
 
 BETROKKENEN_FIELDS = ('mac_naam', 'rol', 'naam', 'rechtsvorm', 'functietitel',
                       'soortbevoegdheid', 'bevoegde_naam')
@@ -116,13 +116,13 @@ def _build_joined_ds_table():
         count, lastreport = measure_progress(totalrowcount, count, lastreport)
 
         # verzamel gegevens per vestiging
-        vst_sbi, vestiging_dict, naam, bag_vbid = per_vestiging(
+        vst_sbi, vestiging_dict, naam, bag_vbid, bag_numid = per_vestiging(
             vestigingsnummer, vest_data, sbi_values)
 
         # save json in ds tabel
         write_hr_dataselectie(
             vst_sbi, betrokken, vestiging_dict,
-            vestigingsnummer, betrokken_per_vestiging, naam, bag_vbid)
+            vestigingsnummer, betrokken_per_vestiging, naam, bag_vbid, bag_numid)
 
     log.info('Opbouw dataselectie api als json VOLTOOID')
 
@@ -151,12 +151,12 @@ def per_vestiging(vestigingsnummer, vest_data, sbi_values):
 
         vst_sbi.append(sbi)
 
-    return vst_sbi, vestiging_dict, sbi_repeat.naam, sbi_repeat.bag_vbid
+    return vst_sbi, vestiging_dict, sbi_repeat.naam, sbi_repeat.bezoekadres.bag_vbid, sbi_repeat.bezoekadres.bag_numid
 
 
 def write_hr_dataselectie(
         vst_sbi, betrokken, vestiging_dict, vestigingsnummer,
-        betrokken_per_vestiging, naam, bag_vbid):
+        betrokken_per_vestiging, naam, bag_vbid, bag_numid):
 
     if len(vst_sbi):
         vestiging_dict = add_betrokkenen_to_vestigingen(
@@ -165,8 +165,8 @@ def write_hr_dataselectie(
     else:
         log.error('Vestiging %s %s zonder sbi code' % (vestigingsnummer, naam))
 
-    if vestiging_dict and bag_vbid:
-        ds = DataSelectie(vestigingsnummer, bag_vbid, vestiging_dict)
+    if vestiging_dict and bag_numid:
+        ds = DataSelectie(vestigingsnummer, bag_vbid, bag_numid, vestiging_dict)
         ds.save()
 
 

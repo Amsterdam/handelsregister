@@ -36,7 +36,7 @@ class ImportDataselectieTest(TestCase):
                          'postadres_volledig_adres', 'sbi_codes', 'vestigingsnummer',
                          'datum_einde', 'datum_aanvang', 'bezoekadres_volledig_adres',
                          'bezoekadres_correctie', 'bezoekadres_afgeschermd',
-                         'betrokkenen', 'bag_vbid')
+                         'betrokkenen')
 
         for f in fields_in_row:
             self.assertIn(f, row.api_json)

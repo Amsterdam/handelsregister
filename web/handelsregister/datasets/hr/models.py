@@ -770,9 +770,6 @@ class GeoVestigingen(models.Model):
         'Locatie', related_name="+", blank=True, null=True,
         help_text="bezoekadres")
 
-    bag_vbid = models.CharField(
-        max_length=16, blank=True, null=True)
-
 class GeoVBO(models.Model):
     id = models.CharField(max_length=14, primary_key=True)
 
@@ -792,6 +789,9 @@ class DataSelectie(models.Model):
         primary_key=True)
 
     bag_vbid = models.CharField(
+        max_length=16, blank=True, null=True)
+
+    bag_numid = models.CharField(
         max_length=16, db_index=True, blank=True, null=True)
 
     api_json = JSONField()
