@@ -770,6 +770,13 @@ class GeoVestigingen(models.Model):
         'Locatie', related_name="+", blank=True, null=True,
         help_text="bezoekadres")
 
+    bag_vbid = models.CharField(
+        max_length=16, blank=True, null=True)
+
+    # Indication if corrected by auto search
+    correctie = models.NullBooleanField()
+
+
 class GeoVBO(models.Model):
     id = models.CharField(max_length=14, primary_key=True)
 

@@ -12,10 +12,6 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RemoveField(
-            model_name='geovestigingen',
-            name='bag_vbid',
-        ),
         migrations.AddField(
             model_name='dataselectie',
             name='bag_numid',
