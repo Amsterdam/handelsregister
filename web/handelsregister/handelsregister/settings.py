@@ -52,7 +52,7 @@ PROJECT_APPS = [
 DATAPUNT_API_URL = 'https://api.datapunt.amsterdam.nl/'
 
 # Application definition
-INSTALLED_APPS = [
+INSTALLED_APPS = PROJECT_APPS + [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -68,7 +68,7 @@ INSTALLED_APPS = [
     'rest_framework_gis',
     'rest_framework_swagger',
 
-] + PROJECT_APPS
+]
 
 INTERNAL_IPS = ('127.0.0.1', '0.0.0.0')
 
