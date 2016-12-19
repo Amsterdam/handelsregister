@@ -95,6 +95,7 @@ db-backup:
             && chmod 600 ~/.pgpass \
             && pg_dump --clean \
                         -Fc \
+                        -t geo* \
                         -t hr* \
                         -t kvk* \
                         -t django_migrations  \
