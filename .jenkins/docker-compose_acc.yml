@@ -97,7 +97,7 @@ db-backup:
                         -Fc \
                         -t hr* \
                         -t kvk* \
-                        -t geo*  \
+                        -t django_migrations  \
                         -T auth*    \
                         -U handelsregister \
                         -h db -p 5432 \
