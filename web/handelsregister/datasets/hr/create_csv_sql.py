@@ -11,24 +11,24 @@
 
 gemeenten = [
   'Amsterdam',
-  'Amstelveen',
-  'Diemen',
-  'Ouder-Amstel',
-  'Landsmeer',
-  'Oostzaan',
-  'Waterland',
-  'Haarlemmerliede',
-  'Haarlemmermeer',
-  'Weesp',
-  'Gooise Meren',
-  'De Ronde Venen',
-  'Purmerend',
-  'Wormerland',
-  'Velsen',
-  'Haarlem',
-  'Aalsmeer',
-  'Stichtse Vecht',
-  'Wijdemeren'
+  # 'Amstelveen',
+  # 'Diemen',
+  # 'Ouder-Amstel',
+  # 'Landsmeer',
+  # 'Oostzaan',
+  # 'Waterland',
+  # 'Haarlemmerliede',
+  # 'Haarlemmermeer',
+  # 'Weesp',
+  # 'Gooise Meren',
+  # 'De Ronde Venen',
+  # 'Purmerend',
+  # 'Wormerland',
+  # 'Velsen',
+  # 'Haarlem',
+  # 'Aalsmeer',
+  # 'Stichtse Vecht',
+  # 'Wijdemeren'
 ]
 
 
@@ -90,12 +90,29 @@ SELECT
     geometrie
     FROM hr_vestiging vs
         JOIN hr_locatie loc
-        ON (vs.bezoekadres_id = loc.id
-            OR vs.postadres_id = loc.id)
-            AND ST_IsValid(loc.geometrie) is null
+        ON (vs.bezoekadres_id = loc.id OR vs.postadres_id = loc.id)
+
+        AND loc.geometrie is not null
         WHERE volledig_adres LIKE '%{}%'
         ORDER BY volledig_adres
 """
+
+vestiging_fix_sql = """
+SELECT
+    vestigingsnummer,
+    hoofdvestiging,
+    query_string,
+    volledig_adres,
+    naam,
+    bag_numid,
+    bag_vbid,
+    geometrie
+    FROM hr_vestiging vs
+        JOIN hr_locatie loc ON vs.bezoekadres_id = loc.id
+        WHERE loc.correctie AND volledig_adres LIKE '%Amsterdam'
+        ORDER BY volledig_adres
+"""
+
 
 # create csv with sbi codes
 WITH_SBI = False
@@ -109,27 +126,34 @@ else:
     the_select = select_sql
 
 
+sql_file_name = 'fixed_vestiging_bezoek.sql'
+
+
 with open(sql_file_name, 'w') as target_file:
 
     copy_lines = []
 
-    for city in gemeenten:
+    # for city in gemeenten:
         # create the select query for a specific city
-        city_select = the_select.format(city)
+    # .format(city)
         # join the statement one one single line this
         # is a psql meta command requirement
-        one_line = " ".join(city_select.splitlines())
-        # make a copy statement
-        statement = copy_sql.format(one_line, city)
-        # add line to results
-        copy_lines.append('\echo {}'.format(city))
-        copy_lines.append(statement)
+
+    one_line = " ".join(vestiging_fix_sql.splitlines())
+
+    # make a copy statement
+    statement = copy_sql.format(one_line, 'fixed')
+
+    # add line to results
+    copy_lines.append('\echo {}'.format('fixed vestigingen bezoek'))
+    copy_lines.append(statement)
 
     # write sql all lines to file
     target_file.write("".join(copy_lines))
+
     print("""
       SQL File generated: {}  Run this agains your docker database:
-      to get a csv with all vestigingen with missing geometry data.
+      to get a csv sql output
 
       psql -h 127.0.0.1 -p 5406 -U handelsregister handelsregister --file {}
     """.format(sql_file_name, sql_file_name))

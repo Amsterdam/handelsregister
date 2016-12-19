@@ -100,6 +100,14 @@ def vestiging_stats():
             '"hr_locatie"."volledig_adres" like \'%%Amsterdam\''
         ]
     )
+    missing_ves_bezoek_num_id_adam = all_locations.extra(
+        tables=['hr_vestiging'],
+        where=[
+            '"hr_vestiging"."bezoekadres_id"="hr_locatie"."id"',
+            '"hr_locatie"."bag_numid" is null',
+            '"hr_locatie"."volledig_adres" like \'%%Amsterdam\''
+        ]
+    )
 
     ves_loc_bag_id = missing_ves_locaties.extra(
         where=['"hr_locatie"."bag_vbid" is not null'])
@@ -118,7 +126,8 @@ def vestiging_stats():
 
         ves_adam_zg=missing_ves_in_amsterdam.count(),
         ves_adam_zg_b=missing_ves_bezoek_adam.count(),
-        ves_adam_zbag_id=missing_ves_bezoek_bag_id_adam.count(),
+        ves_adam_zvb_id=missing_ves_bezoek_bag_id_adam.count(),
+        ves_adam_znum_id=missing_ves_bezoek_num_id_adam.count(),
     )
 
 
@@ -233,7 +242,8 @@ def log_rapport_counts(action=''):
 
     zonder geometrie Amsterdam   {ves_adam_zg}
     waarvan bezoek               {ves_adam_zg_b}
-    geen bag_vbid/landelijkid    {ves_adam_zbag_id}
+    geen bag_vbid/landelijkid    {ves_adam_zvb_id}
+    geen bag_numid/landelijkid   {ves_adam_znum_id}
 
     Totaal Mac locaties          {a_mac}
     zonder geometrie             {a_mac_zg}

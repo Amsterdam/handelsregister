@@ -52,7 +52,7 @@ PROJECT_APPS = [
 DATAPUNT_API_URL = 'https://api.datapunt.amsterdam.nl/'
 
 # Application definition
-INSTALLED_APPS = [
+INSTALLED_APPS = PROJECT_APPS + [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -68,7 +68,7 @@ INSTALLED_APPS = [
     'rest_framework_gis',
     'rest_framework_swagger',
 
-] + PROJECT_APPS
+]
 
 INTERNAL_IPS = ('127.0.0.1', '0.0.0.0')
 
@@ -223,7 +223,7 @@ REST_FRAMEWORK = dict(
 
 # SWAGGER
 
-swag_path = 'api-acc.datapunt.amsterdam.nl/handelsregister/docs'
+swag_path = 'https://api-acc.datapunt.amsterdam.nl/handelsregister/docs'
 
 if DEBUG:
     swag_path = '127.0.0.1:8000/handelsregister/docs'
@@ -269,7 +269,7 @@ SWAGGER_SETTINGS = {
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = os.path.abspath(os.path.join(BASE_DIR, '..', 'static'))
+STATIC_ROOT = '/static/'
 
 HEALTH_MODEL = 'hr.MaatschappelijkeActiviteit'
 
