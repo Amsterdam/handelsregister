@@ -84,7 +84,7 @@ class Command(BaseCommand):
     def bag_check(self):
         if models.GeoVBO.objects.count() < 10000:
             raise ValueError(
-                'Import bag data with "copy_bagvbo_to_hr(local).sh"')
+                'Incomplete bag data..with "copy_bagvbo_to_hr(local).sh"')
 
     def handle(self, *args, **options):
         """
