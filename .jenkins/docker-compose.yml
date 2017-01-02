@@ -27,7 +27,7 @@ tests:
 
 
 importer:
-  image: build.datapunt.amsterdam.nl:5000/datapunt/handelsregister:production
+  image: build.datapunt.amsterdam.nl:5000/datapunt/handelsregister:${ENVIRONMENT}
   links:
     - database:database
     - elasticsearch:elasticsearch
@@ -43,7 +43,7 @@ importer:
 
 
 importer_el1:
-  image: build.datapunt.amsterdam.nl:5000/datapunt/handelsregister:production
+  image: build.datapunt.amsterdam.nl:5000/datapunt/handelsregister:${ENVIRONMENT}
   links:
     - database:database
     - elasticsearch:elasticsearch
@@ -56,7 +56,7 @@ importer_el1:
             && python manage.py build_index --partial=1/3 --build"
 
 importer_el2:
-  image: build.datapunt.amsterdam.nl:5000/datapunt/handelsregister:production
+  image: build.datapunt.amsterdam.nl:5000/datapunt/handelsregister:${ENVIRONMENT}
   links:
     - database:database
     - elasticsearch:elasticsearch
@@ -69,7 +69,7 @@ importer_el2:
             && python manage.py build_index --partial=2/3 --build"
 
 importer_el3:
-  image: build.datapunt.amsterdam.nl:5000/datapunt/handelsregister:production
+  image: build.datapunt.amsterdam.nl:5000/datapunt/handelsregister:${ENVIRONMENT}
   links:
     - database:database
     - elasticsearch:elasticsearch
