@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+set -u   # crash on missing env variables
+set -e   # stop on any error
+
 ##
 echo "clean up old dockers";
 docker rm $(docker ps -qa);
