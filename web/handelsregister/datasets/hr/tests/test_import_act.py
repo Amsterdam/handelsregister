@@ -96,6 +96,7 @@ class ImportActiviteitenTest(TestCase):
         )], acts)
 
     def test_opschonen_activiteiten_zooi(self):
+        # NOTE nog steeds nodig?
         m = kvk.KvkVestiging(
             omschrijvingactiviteit='Het schrijven van teksten, notuleren en verslaglegging',
             sbicodehoofdactiviteit=Decimal('900302'),
@@ -108,15 +109,15 @@ class ImportActiviteitenTest(TestCase):
         acts = self._convert(m)
         self.assertActEqual([models.Activiteit(
             activiteitsomschrijving='Het schrijven van teksten, notuleren en verslaglegging',
-            sbi_code='9003',
+            sbi_code='900302',
             sbi_omschrijving='Scheppende kunst en documentaire schrijvers',
             hoofdactiviteit=True,
         ), models.Activiteit(
-            sbi_code='88992',
+            sbi_code='889922',
             sbi_omschrijving='Specifiek maatschappelijk werk',
             hoofdactiviteit=False,
         ), models.Activiteit(
-            sbi_code='6202',
+            sbi_code='620202',
             sbi_omschrijving='Software consultancy',
             hoofdactiviteit=False,
         )], acts)
