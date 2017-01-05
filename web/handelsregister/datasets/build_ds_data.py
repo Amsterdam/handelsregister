@@ -120,7 +120,7 @@ def _build_joined_ds_table():
             vestigingsnummer, vest_data, sbi_values)
 
         # save json in ds tabel
-        write_hr_dataselectie(
+        betrokken = write_hr_dataselectie(
             vst_sbi, betrokken, vestiging_dict,
             vestigingsnummer, betrokken_per_vestiging, naam, bag_vbid, bag_numid)
 
@@ -159,7 +159,7 @@ def write_hr_dataselectie(
         betrokken_per_vestiging, naam, bag_vbid, bag_numid):
 
     if len(vst_sbi):
-        vestiging_dict = add_betrokkenen_to_vestigingen(
+        vestiging_dict, betrokken = add_betrokkenen_to_vestigingen(
                 betrokken, vestiging_dict,
                 vestigingsnummer, betrokken_per_vestiging)
     else:
@@ -168,6 +168,7 @@ def write_hr_dataselectie(
     if vestiging_dict and bag_numid:
         ds = DataSelectie(vestigingsnummer, bag_vbid, bag_numid, vestiging_dict)
         ds.save()
+    return betrokken
 
 
 def measure_progress(totalrowcount, count, lastreport):
@@ -210,7 +211,7 @@ def correctie_address(address):
 
 def add_betrokkenen_to_vestigingen(
         betrokken, vestiging_dict, vestigingsnummer,
-        betrokken_per_vestiging) -> dict:
+        betrokken_per_vestiging):
     """
     Voeg betrokkenen aan vestiging toe. Let op, dit is een balanceline
     verwerking. Om de snelheid hoog te houden lees ik de betrokkenen
@@ -222,6 +223,8 @@ def add_betrokkenen_to_vestigingen(
     """
 
     vestiging_dict['betrokkenen'] = vst_betr = []
+    for field in MAATSCHAPPELIJKE_ACT_FIELDS:
+        vestiging_dict[field] = None
     first = True
 
     while betrokken and betrokken.vestigingsnummer <= vestigingsnummer:
@@ -231,9 +234,11 @@ def add_betrokkenen_to_vestigingen(
                 mac_dict = to_dict(betrokken, MAATSCHAPPELIJKE_ACT_FIELDS)
                 vestiging_dict.update(mac_dict)
                 first = False
-        try:
-            betrokken = next(betrokken_per_vestiging)
-        except StopIteration:
-            break
+            
+        if betrokken.vestigingsnummer <= vestigingsnummer:
+            try:
+                betrokken = next(betrokken_per_vestiging)
+            except StopIteration:
+                break
 
-    return vestiging_dict
+    return vestiging_dict, betrokken

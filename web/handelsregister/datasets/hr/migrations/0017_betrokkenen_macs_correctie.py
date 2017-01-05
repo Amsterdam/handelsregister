@@ -10,20 +10,10 @@ from geo_views import migrate
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('hr', '0009_dataselectie_rename'),
+        ('hr', '0016_merge_20161213_2213'),
     ]
 
     operations = [
-        migrations.AddField(
-            model_name='geovestigingen',
-            name='bezoekadres',
-            field=models.ForeignKey(blank=True, help_text='bezoekadres', null=True, on_delete=django.db.models.deletion.CASCADE, related_name='+', to='hr.Locatie'),
-        ),
-        migrations.AddField(
-            model_name='geovestigingen',
-            name='postadres',
-            field=models.ForeignKey(blank=True, help_text='postadres', null=True, on_delete=django.db.models.deletion.CASCADE, related_name='+', to='hr.Locatie'),
-        ),
         migrate.ManageView(
             view_name="hr_betrokken_personen",
             sql="""
@@ -47,24 +37,13 @@ class Migration(migrations.Migration):
        fv.soortbevoegdheid,
        np2.geslachtsnaam AS bevoegde_naam
       FROM hr_maatschappelijkeactiviteit mac
-        JOIN hr_vestiging vs ON vs.maatschappelijke_activiteit_id = mac.id
+        LEFT JOIN hr_vestiging vs ON vs.maatschappelijke_activiteit_id = mac.id
         JOIN hr_persoon p1 ON mac.eigenaar_id = p1.id
         LEFT JOIN hr_natuurlijkpersoon np1 ON np1.id::text = p1.natuurlijkpersoon_id::text
         LEFT JOIN hr_functievervulling fv ON fv.heeft_aansprakelijke_id = mac.eigenaar_id
         LEFT JOIN hr_persoon p2 ON fv.is_aansprakelijke_id = p2.id
         LEFT JOIN hr_natuurlijkpersoon np2 ON np2.id::text = p2.natuurlijkpersoon_id::text
        """),
-        # migrations.DeleteModel('DataSelectieView'),
+        migrations.DeleteModel('DataSelectieView'),
         migrations.DeleteModel('SbicodesPerVestiging'),
     ]
-
-
-def create_site(apps, *args, **kwargs):
-    pass
-
-
-def delete_site(apps, *args, **kwargs):
-    migrations.RemoveField(model_name='geovestigingen',
-            name='bezoekadres')
-    migrations.RemoveField(model_name='geovestigingen',
-            name='postadres')
