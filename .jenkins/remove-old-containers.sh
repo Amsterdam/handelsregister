@@ -9,7 +9,7 @@ docker rm $(docker ps -qa);
 echo "clean up completed";
 
 echo "clean up old images";
-docker rmi $(docker images -q);
+docker 2>/dev/null 1>&2 rmi `docker images -aq` || true
 echo "clean up images completed";
 
 echo "clean up old volumes";
