@@ -228,7 +228,7 @@ class Activiteit(models.Model):
             Vestiging of Rechtspersoon uitoefent"""
     )
     sbi_code = models.CharField(
-        max_length=5,
+        max_length=6,
         help_text="De codering van de activiteit conform de SBI2008"
     )
     sbi_omschrijving = models.CharField(
@@ -804,51 +804,7 @@ class DataSelectie(models.Model):
     api_json = JSONField()
 
 
-# SQL VIEWS ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-
-class SbicodesPerVestiging(models.Model):
-
-    class Meta:
-        db_table = 'hr_sbicodes_per_vestiging'
-        managed = False
-
-    vestiging = models.ForeignKey(
-        DataSelectie,
-        # related_name = 'sbi_codes',
-        on_delete=models.DO_NOTHING)
-
-    sbi_code = models.CharField(
-        max_length=5,
-        help_text="De codering van de activiteit conform de SBI2008"
-    )
-
-    subcategorie = models.CharField(
-        db_index=True,
-        max_length=200,
-        help_text="De codering van de activiteit conform de SBI2008"
-    )
-    hcat = models.CharField(
-        max_length=10,
-        help_text="SBI Hoofd categorie code"
-    )
-
-    scat = models.CharField(
-        max_length=20,
-        help_text="SBI Sub categorie code"
-    )
-
-    hoofdcategorie = models.CharField(
-        max_length=140,
-        help_text="SBI Hoofd categorie omschrijving"
-    )
-
-    sub_sub_categorie = models.CharField(
-        max_length=140,
-        help_text="SBI Sub categorie omschrijving"
-    )
-
-
+# SQL VIEW ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 class BetrokkenPersonen(models.Model):
 
     class Meta:

@@ -13,17 +13,23 @@ from datasets.hr.models import GeoVestigingen
 from datasets.hr.models import CBS_sbi_hoofdcat
 from datasets.hr.models import BetrokkenPersonen
 
+
 log = logging.getLogger(__name__)
 
-VESTIGING_FIELDS = ('vestigingsnummer', 'naam', 'hoofdvestiging',
-                    'locatie_type', 'geometrie')
 
-BETROKKENEN_FIELDS = ('mac_naam', 'rol', 'naam', 'rechtsvorm', 'functietitel',
-                      'soortbevoegdheid', 'bevoegde_naam')
+VESTIGING_FIELDS = (
+    'vestigingsnummer', 'naam', 'hoofdvestiging',
+    'locatie_type', 'geometrie')
 
-MAATSCHAPPELIJKE_ACT_FIELDS = ('kvk_nummer', 'datum_aanvang', 'datum_einde')
+BETROKKENEN_FIELDS = (
+    'mac_naam', 'rol', 'naam', 'rechtsvorm', 'functietitel',
+    'soortbevoegdheid', 'bevoegde_naam')
 
-LOCATIE_BEZOEKADRES_FIELDS = ('volledig_adres', 'afgeschermd')
+MAATSCHAPPELIJKE_ACT_FIELDS = (
+    'kvk_nummer', 'datum_aanvang', 'datum_einde')
+
+LOCATIE_BEZOEKADRES_FIELDS = (
+    'volledig_adres', 'afgeschermd')
 LOCATIE_POSTADRES_FIELDS = (
     'straat_huisnummer', 'huisletter', 'huisnummer', 'huisnummertoevoeging',
     'postcode', 'straatnaam', 'postbus_nummer', 'toevoegingadres',
@@ -122,7 +128,8 @@ def _build_joined_ds_table():
         # save json in ds tabel
         betrokken = write_hr_dataselectie(
             vst_sbi, betrokken, vestiging_dict,
-            vestigingsnummer, betrokken_per_vestiging, naam, bag_vbid, bag_numid)
+            vestigingsnummer, betrokken_per_vestiging,
+            naam, bag_vbid, bag_numid)
 
     log.info('Opbouw dataselectie api als json VOLTOOID')
 
@@ -151,7 +158,9 @@ def per_vestiging(vestigingsnummer, vest_data, sbi_values):
 
         vst_sbi.append(sbi)
 
-    return vst_sbi, vestiging_dict, sbi_repeat.naam, sbi_repeat.bezoekadres.bag_vbid, sbi_repeat.bezoekadres.bag_numid
+    return (
+        vst_sbi, vestiging_dict, sbi_repeat.naam,
+        sbi_repeat.bezoekadres.bag_vbid, sbi_repeat.bezoekadres.bag_numid)
 
 
 def write_hr_dataselectie(
@@ -166,7 +175,8 @@ def write_hr_dataselectie(
         log.error('Vestiging %s %s zonder sbi code' % (vestigingsnummer, naam))
 
     if vestiging_dict and bag_numid:
-        ds = DataSelectie(vestigingsnummer, bag_vbid, bag_numid, vestiging_dict)
+        ds = DataSelectie(
+            vestigingsnummer, bag_vbid, bag_numid, vestiging_dict)
         ds.save()
     return betrokken
 
@@ -195,10 +205,20 @@ def add_adressen_dict(vestiging_dict: dict, sbi_repeat) -> dict:
     dataselectie uit Bag opgehaald. Postadres wordt wel volledig meegegeven
     """
 
-    vestiging_dict.update(to_dict(sbi_repeat.bezoekadres, LOCATIE_BEZOEKADRES_FIELDS, 'bezoekadres'))
-    vestiging_dict['bezoekadres_correctie'] = correctie_address(sbi_repeat.bezoekadres)
-    vestiging_dict.update(to_dict(sbi_repeat.postadres, LOCATIE_POSTADRES_FIELDS, 'postadres'))
-    vestiging_dict['postadres_correctie'] = correctie_address(sbi_repeat.postadres)
+    vestiging_dict.update(
+        to_dict(
+            sbi_repeat.bezoekadres, LOCATIE_BEZOEKADRES_FIELDS, 'bezoekadres'))
+
+    vestiging_dict['bezoekadres_correctie'] = \
+        correctie_address(sbi_repeat.bezoekadres)
+
+    vestiging_dict.update(
+        to_dict(
+            sbi_repeat.postadres,
+            LOCATIE_POSTADRES_FIELDS, 'postadres'))
+
+    vestiging_dict['postadres_correctie'] = \
+        correctie_address(sbi_repeat.postadres)
 
     return vestiging_dict
 

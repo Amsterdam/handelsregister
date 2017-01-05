@@ -34,43 +34,7 @@ class Migration(migrations.Migration):
                 'db_table': 'hr_betrokken_personen',
             },
         ),
-        migrations.CreateModel(
-            name='DataSelectieView',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('vestigingsnummer', models.CharField(db_index=True, help_text='Betreft het identificerende gegeven voor de Vestiging', max_length=12)),
-                ('vestiging_id', models.CharField(max_length=20)),
-                ('naam', models.CharField(blank=True, max_length=200, null=True)),
-                ('uri', models.CharField(blank=True, max_length=200, null=True)),
-                ('hoofdvestiging', models.BooleanField()),
-                ('locatie_type', models.CharField(blank=True, choices=[('B', 'Bezoek'), ('P', 'Post'), ('V', 'Vestiging')], max_length=1, null=True)),
-                ('geometrie', django.contrib.gis.db.models.fields.PointField(blank=True, null=True, srid=28992)),
-                ('kvk_nummer', models.CharField(blank=True, help_text='Kvk nummer', max_length=8, null=True)),
-                ('datum_aanvang', models.DateField(blank=True, help_text='Datum inschrijving kvk', null=True)),
-                ('datum_einde', models.DateField(blank=True, help_text='Datum einde inschrijving kvk', null=True)),
-                ('handelsnaam', models.CharField(blank=True, help_text='Eerste Handelsnaam', max_length=500, null=True)),
-            ],
-            options={
-                'managed': False,
-                'db_table': 'hr_dataselectieview',
-            },
-        ),
-        migrations.CreateModel(
-            name='SbicodesPerVestiging',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('sbi_code', models.CharField(help_text='De codering van de activiteit conform de SBI2008', max_length=5)),
-                ('subcategorie', models.CharField(db_index=True, help_text='De codering van de activiteit conform de SBI2008', max_length=200)),
-                ('hcat', models.CharField(help_text='SBI Hoofd categorie code', max_length=10)),
-                ('scat', models.CharField(help_text='SBI Sub categorie code', max_length=20)),
-                ('hoofdcategorie', models.CharField(help_text='SBI Hoofd categorie omschrijving', max_length=140)),
-                ('sub_sub_categorie', models.CharField(help_text='SBI Sub categorie omschrijving', max_length=140)),
-            ],
-            options={
-                'managed': False,
-                'db_table': 'hr_sbicodes_per_vestiging',
-            },
-        ),
+
         migrations.CreateModel(
             name='CBS_sbi_hoofdcat',
             fields=[
@@ -78,6 +42,7 @@ class Migration(migrations.Migration):
                 ('hoofdcategorie', models.CharField(max_length=140)),
             ],
         ),
+
         migrations.CreateModel(
             name='CBS_sbi_subcat',
             fields=[

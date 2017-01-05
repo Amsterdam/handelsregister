@@ -38,11 +38,8 @@ class ManageView(Operation):
         schema_editor.execute("CREATE VIEW {} AS {}".format(self.view_name, self.sql))
 
     def database_backwards(self, app_label, schema_editor, from_state, to_state):
+        print('deleting views')
         schema_editor.execute("DROP VIEW IF EXISTS {}".format(self.view_name))
-        previous = self.pop_previous_sql(app_label)
-
-        if previous:
-            schema_editor.execute("CREATE VIEW {} AS {}".format(self.view_name, previous))
 
     def state_forwards(self, app_label, state):
         self.push_history(app_label)

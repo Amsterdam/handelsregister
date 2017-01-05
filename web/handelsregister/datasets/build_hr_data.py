@@ -408,16 +408,13 @@ INSERT INTO hr_activiteit (
   SELECT
     vesid || '0',
     omschrijvingactiviteit,
-    CASE sbicodehoofdactiviteit
-    WHEN '900302' THEN '9003'
-    WHEN '889922' THEN '88992'
-    WHEN '620202' THEN '6202'
-    ELSE sbicodehoofdactiviteit END ,
+    sbicodehoofdactiviteit,
     sbiomschrijvinghoofdact,
     TRUE
   FROM kvkvesm00
   WHERE sbicodehoofdactiviteit IS NOT NULL
     """)
+
     cursor.execute("""
 INSERT INTO hr_vestiging_activiteiten (
   vestiging_id,
@@ -441,11 +438,7 @@ INSERT INTO hr_activiteit (
 )
   SELECT
     vesid || '{index}',
-    CASE sbicodenevenactiviteit{index}
-    WHEN '900302' THEN '9003'
-    WHEN '889922' THEN '88992'
-    WHEN '620202' THEN '6202'
-    ELSE sbicodenevenactiviteit{index} END ,
+    sbicodenevenactiviteit{index},
     sbiomschrijvingnevenact{index},
     FALSE
   FROM kvkvesm00

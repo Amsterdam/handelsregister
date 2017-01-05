@@ -12,27 +12,13 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.CreateModel(
-            name='SbicodesPerVestiging',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('sbi_code', models.CharField(help_text='De codering van de activiteit conform de SBI2008', max_length=5)),
-                ('subcategorie', models.CharField(db_index=True, help_text='De codering van de activiteit conform de SBI2008', max_length=200)),
-                ('hcat', models.CharField(help_text='SBI Hoofd categorie code', max_length=10)),
-                ('scat', models.CharField(help_text='SBI Sub categorie code', max_length=20)),
-                ('hoofdcategorie', models.CharField(help_text='SBI Hoofd categorie omschrijving', max_length=140)),
-                ('sub_sub_categorie', models.CharField(help_text='SBI Sub categorie omschrijving', max_length=140)),
-            ],
-            options={
-                'db_table': 'hr_sbicodes_per_vestiging',
-                'managed': False,
-            },
-        ),
+
         migrations.AddField(
             model_name='dataselectie',
             name='bag_vbid',
             field=models.CharField(blank=True, db_index=True, max_length=16, null=True),
         ),
+
         migrations.AddField(
             model_name='geovestigingen',
             name='bag_vbid',
