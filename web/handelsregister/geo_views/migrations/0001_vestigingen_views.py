@@ -27,6 +27,9 @@ def delete_views(apps, *args, **kwargs):
     Some views need manual destruction
     """
     migrations.DeleteModel('BetrokkenPersonen')
+    migrations.DeleteModel('DataSelectieView'),
+    migrations.DeleteModel('SbicodesPerVestiging'),
+
 
 def create_pass(app, *args, **kwargs):
     """
