@@ -23,8 +23,8 @@ elasticsearch-dsl==2.1.0
 factory-boy==2.7.0
 fake-factory==0.7.2
 futures==3.0.5
-gevent==1.1.2
-greenlet==0.4.10
+gevent==1.2.0
+greenlet==0.4.11
 grequests==0.3.0
 iso8601==0.1.11
 itypes==1.1.0
