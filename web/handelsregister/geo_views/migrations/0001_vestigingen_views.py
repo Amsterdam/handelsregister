@@ -41,7 +41,7 @@ class Migration(migrations.Migration):
         ('hr', '__first__'),
         ('hr', '0002_geovestigingen'),
         ('hr', '0007_dataselectie'),
-        ('hr', '0017_auto_20170105_1206'),
+        ('hr', '0018_auto_20170105_1206'),
     ]
 
     operations = [
@@ -413,30 +413,30 @@ GROUP BY geometrie, naam, locatie_type
         view_name="hr_betrokken_personen",
         sql="""
 SELECT row_number() OVER (ORDER BY (( SELECT 1))) AS id,
-  mac.naam AS mac_naam,
-  mac.kvk_nummer,
-  mac.datum_aanvang,
-  mac.datum_einde,
-  vs.id AS vestiging_id,
-  vs.vestigingsnummer,
-  p1.id AS persoons_id,
-  p1.rol,
-      CASE
-          WHEN p1.naam IS NOT NULL THEN p1.naam
-          WHEN p2.naam IS NOT NULL THEN p2.naam
-          WHEN np1.geslachtsnaam IS NOT NULL THEN np1.geslachtsnaam
-          ELSE NULL::character varying
-      END AS naam,
-  p1.rechtsvorm,
-  fv.functietitel,
-  fv.soortbevoegdheid,
-  np2.geslachtsnaam AS bevoegde_naam
- FROM hr_maatschappelijkeactiviteit mac
-   LEFT JOIN hr_vestiging vs ON vs.maatschappelijke_activiteit_id = mac.id
-   JOIN hr_persoon p1 ON mac.eigenaar_id = p1.id
-   LEFT JOIN hr_natuurlijkpersoon np1 ON np1.id::text = p1.natuurlijkpersoon_id::text
-   LEFT JOIN hr_functievervulling fv ON fv.heeft_aansprakelijke_id = mac.eigenaar_id
-   LEFT JOIN hr_persoon p2 ON fv.is_aansprakelijke_id = p2.id
-   LEFT JOIN hr_natuurlijkpersoon np2 ON np2.id::text = p2.natuurlijkpersoon_id::text
-  """),
+   mac.naam AS mac_naam,
+   mac.kvk_nummer,
+   mac.datum_aanvang,
+   mac.datum_einde,
+   vs.id AS vestiging_id,
+   vs.vestigingsnummer,
+   p1.id AS persoons_id,
+   p1.rol,
+       CASE
+           WHEN p1.naam IS NOT NULL THEN p1.naam
+           WHEN p2.naam IS NOT NULL THEN p2.naam
+           WHEN np1.geslachtsnaam IS NOT NULL THEN np1.geslachtsnaam
+           ELSE NULL::character varying
+       END AS naam,
+   p1.rechtsvorm,
+   fv.functietitel,
+   fv.soortbevoegdheid,
+   np2.geslachtsnaam AS bevoegde_naam
+  FROM hr_maatschappelijkeactiviteit mac
+    JOIN hr_vestiging vs ON vs.maatschappelijke_activiteit_id = mac.id
+    JOIN hr_persoon p1 ON mac.eigenaar_id = p1.id
+    LEFT JOIN hr_natuurlijkpersoon np1 ON np1.id::text = p1.natuurlijkpersoon_id::text
+    LEFT JOIN hr_functievervulling fv ON fv.heeft_aansprakelijke_id = mac.eigenaar_id
+    LEFT JOIN hr_persoon p2 ON fv.is_aansprakelijke_id = p2.id
+    LEFT JOIN hr_natuurlijkpersoon np2 ON np2.id::text = p2.natuurlijkpersoon_id::text
+"""),
 ]

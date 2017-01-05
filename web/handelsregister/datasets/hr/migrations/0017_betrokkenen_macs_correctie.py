@@ -44,6 +44,4 @@ class Migration(migrations.Migration):
         LEFT JOIN hr_persoon p2 ON fv.is_aansprakelijke_id = p2.id
         LEFT JOIN hr_natuurlijkpersoon np2 ON np2.id::text = p2.natuurlijkpersoon_id::text
        """),
-        migrations.DeleteModel('DataSelectieView'),
-        migrations.DeleteModel('SbicodesPerVestiging'),
     ]
