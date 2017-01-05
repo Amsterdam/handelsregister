@@ -17,13 +17,6 @@ import sys
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
-def _get_docker_host():
-    d_host = os.getenv('DOCKER_HOST', None)
-    if d_host:
-        return re.match(r'tcp://(.*?):\d+', d_host).group(1)
-    return '0.0.0.0'
-
-
 VBO_URI = "https://api.datapunt.amsterdam.nl/bag/verblijfsobject/"
 CBS_URI = 'http://sbi.cbs.nl/cbs.typeermodule.typeerservicewebapi/api/sbianswer/getNextQuestion/{}'
 CSB_SEARCH = 'http://sbi.cbs.nl/cbs.typeermodule.typeerservicewebapi/api/SBISearch/search/{}'
@@ -146,7 +139,7 @@ DATABASES = {
 
 
 ELASTIC_SEARCH_HOSTS = ["{}:{}".format(
-    os.getenv('ELASTICSEARCH_PORT_9200_TCP_ADDR', _get_docker_host()),
+    os.getenv('ELASTICSEARCH_PORT_9200_TCP_ADDR', get_docker_host()),
     os.getenv('ELASTICSEARCH_PORT_9200_TCP_PORT', 9200))]
 
 

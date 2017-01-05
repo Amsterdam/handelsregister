@@ -821,7 +821,7 @@ def guess():
             continue
         log.debug('%s - correcties: %s', gemeente, STATS[gemeente])
 
-    # check if we did any corrections..
+    # check if we did any corrections.
     assert STATS['Amsterdam'] > 0
 
     total_seconds = time.time() - STATS['start']

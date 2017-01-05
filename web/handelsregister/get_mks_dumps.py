@@ -10,6 +10,7 @@ from dateutil import parser
 
 log = logging.getLogger(__name__)
 
+assert os.getenv('OS_HR_PASSWORD')
 
 OBJECTSTORE = dict(
     VERSION='2.0',
@@ -17,7 +18,7 @@ OBJECTSTORE = dict(
     TENANT_NAME='BGE000081_Handelsregister',
     TENANT_ID='0efc828b88584759893253f563b35f9b',
     USER=os.getenv('OBJECTSTORE_USER', 'handelsregister'),
-    PASSWORD=os.getenv('OS_PASSWORD', 'insecure'),
+    PASSWORD=os.getenv('OS_HR_PASSWORD'),
     REGION_NAME='NL',
 )
 
@@ -85,7 +86,9 @@ def get_latest_zipfile():
 
     # Download the latest data
     zipname = object_meta_data['name'].split('/')[-1]
-    log.info('Downloading: %s %s', time, zipname)
+    msg = 'Downloading: %s %s' % (time, zipname)
+    log.debug(msg)
+    print(msg)
 
     latest_zip = get_store_object(object_meta_data)
 
