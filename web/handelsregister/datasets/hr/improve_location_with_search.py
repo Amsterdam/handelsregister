@@ -48,7 +48,7 @@ STATS = dict(
 
 # the amount of concurrent workers that do requests
 # to the search api
-WORKERS = 15
+WORKERS = 10
 
 if SLOW:
     WORKERS = 1  # 25
@@ -92,7 +92,7 @@ def fix_counter():
         diff = STATS['correcties'] - start + 0.001
         speed = (diff // interval) + 1
         STATS['fixs'] = '%.2f' % speed
-        seconds_left = abs(STATS['total'] + 1) // speed
+        seconds_left = abs((STATS['total'] + 1) - STATS['correcties'] ) // speed
         STATS['left'] = datetime.timedelta(seconds=seconds_left)
         log.info(make_status_line())
 
