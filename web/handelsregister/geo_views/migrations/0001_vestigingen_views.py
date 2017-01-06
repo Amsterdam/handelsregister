@@ -44,7 +44,7 @@ class Migration(migrations.Migration):
         ('hr', '__first__'),
         ('hr', '0002_geovestigingen'),
         ('hr', '0007_dataselectie'),
-        ('hr', '0018_auto_20170105_1206'),
+        #('hr', '0018_auto_20170105_1206'),
     ]
 
     operations = [
