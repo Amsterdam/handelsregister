@@ -12,7 +12,7 @@ dc() {
 trap 'dc kill ; dc rm -f' EXIT
 
 echo "Do we have OS password?"
-echo $OS_HR_PASSWORD
+echo $HANDELSREGISTER_OBJECTSTORE_PASSWORD
 
 rm -rf ${DIR}/backups
 mkdir -p ${DIR}/backups

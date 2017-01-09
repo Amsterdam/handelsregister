@@ -10,7 +10,7 @@ from dateutil import parser
 
 log = logging.getLogger(__name__)
 
-assert os.getenv('OS_HR_PASSWORD')
+assert os.getenv('HANDELSREGISTER_OBJECTSTORE_PASSWORD')
 
 OBJECTSTORE = dict(
     VERSION='2.0',
@@ -18,7 +18,7 @@ OBJECTSTORE = dict(
     TENANT_NAME='BGE000081_Handelsregister',
     TENANT_ID='0efc828b88584759893253f563b35f9b',
     USER=os.getenv('OBJECTSTORE_USER', 'handelsregister'),
-    PASSWORD=os.getenv('OS_HR_PASSWORD'),
+    PASSWORD=os.getenv('HANDELSREGISTER_OBJECTSTORE_PASSWORD'),
     REGION_NAME='NL',
 )
 
