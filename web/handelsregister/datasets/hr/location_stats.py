@@ -10,6 +10,7 @@ import json
 import logging
 
 from . import models
+from datasets.kvkdump import models as mksmodels
 
 
 LOG = logging.getLogger(__name__)
@@ -51,6 +52,9 @@ def vestiging_stats():
     of he HR location / adres data
     """
     LOG.debug('ves counts..')
+
+    mks_ves = mksmodels.KvkVestiging.objects.all()
+    hr_ves = models.Vestiging.objects.all()
 
     all_locations = models.Locatie.objects.all()
 
@@ -116,6 +120,9 @@ def vestiging_stats():
         where=['"hr_locatie"."bag_numid" is not null'])
 
     return dict(
+        mks_ves=mks_ves.count(),
+        hr_ves=hr_ves.count(),
+
         a_ves=ves_locaties.count(),
         a_ves_b=ves_locaties_bezoek.count(),
         a_ves_p=ves_locaties_post.count(),
@@ -230,8 +237,11 @@ def log_rapport_counts(action=''):
     zonder geometrie             {a_loc_zg}
     postbus                      {a_loc_postbus}
 
+    Alle vestigingen in mks      {mks_ves}
+    Alle vestigingen in hr       {hr_ves}
 
     Totaal Vestiging locaties    {a_ves}
+
     waarvan          bezoek      {a_ves_b}
     waarvan          post        {a_ves_p}
     waarvan          postbus     {a_ves_pb}

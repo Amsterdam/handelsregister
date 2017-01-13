@@ -12,9 +12,4 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AlterField(
-            model_name='activiteit',
-            name='sbi_code',
-            field=models.CharField(help_text='De codering van de activiteit conform de SBI2008', max_length=6),
-        ),
     ]

@@ -41,6 +41,7 @@ def fill_stelselpedia():
         _converteer_niet_commerciele_vestiging(cursor)
 
         log.info("Converteren vestiging")
+
         _converteer_vestiging(cursor)
 
         for i in (1, 2, 3):
@@ -78,9 +79,9 @@ def fill_stelselpedia():
         log.info("Converteer onbekende mac mks eigenaren")
         _converteer_onbekende_mac_eigenaar_id(cursor)
 
-        log.info("Verwijder vestigingen met een bezoekadres buiten Amsterdam")
         # Dropall outside of Amsterdam
         if not settings.TESTING:
+            log.info("Verwijder vestigingen met bezoekadres buiten Amsterdam")
             Vestiging.objects.exclude(
                 bezoekadres__volledig_adres__endswith='Amsterdam').delete()
 
@@ -374,7 +375,7 @@ INSERT INTO hr_vestiging
     ELSE FALSE
     END,
 
-    coalesce(v.naam, v.eerstehandelsnaam),
+    coalesce(v.eerstehandelsnaam, v.naam),
     to_date(to_char(v.datumaanvang, '99999999'), 'YYYYMMDD'),
     to_date(to_char(v.datumeinde, '99999999'), 'YYYYMMDD'),
     NULL,
