@@ -20,7 +20,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.CharField(max_length=21, primary_key=True, serialize=False)),
                 ('activiteitsomschrijving', models.TextField(blank=True, help_text='\n            De omschrijving van de activiteiten die de\n            Vestiging of Rechtspersoon uitoefent', null=True)),
-                ('sbi_code', models.CharField(help_text='De codering van de activiteit conform de SBI2008', max_length=5)),
+                ('sbi_code', models.CharField(help_text='De codering van de activiteit conform de SBI2008', max_length=6)),
                 ('sbi_omschrijving', models.CharField(help_text='Omschrijving van de activiteit conform de SBI2008', max_length=300)),
                 ('hoofdactiviteit', models.BooleanField(help_text='\n            Indicatie die aangeeft welke van de activiteiten de\n            hoofdactiviteit is')),
             ],

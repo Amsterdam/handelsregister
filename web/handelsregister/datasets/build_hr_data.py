@@ -283,6 +283,7 @@ INSERT INTO hr_communicatiegegevens (
         OR nummer{index} IS NOT NULL
         OR soort{index} IS NOT NULL
             """.format(id_col=id_col, source=source, index=i))
+
     cursor.execute("""
 INSERT INTO hr_{target}_communicatiegegevens (
   {target}_id,
@@ -365,7 +366,6 @@ INSERT INTO hr_vestiging
   bezoekadres_id,
   postadres_id
 )
-
   SELECT
     v.vesid,
     v.vestigingsnummer,
