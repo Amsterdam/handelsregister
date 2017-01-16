@@ -42,7 +42,7 @@ class ImportActiviteitenTest(TestCase):
         kvk_vestiging.volledigadres = "iets in Amsterdam"
 
         kvk_vestiging.save()
-        build_hr_data.fill_stelselpedia()
+        build_hr_data.fill_stelselpedia(keep_outside_amsterdam=True)
 
         v = models.Vestiging.objects.get(pk=kvk_vestiging.pk)
         return list(v.activiteiten.all())
@@ -71,6 +71,7 @@ class ImportActiviteitenTest(TestCase):
 
     def test_read_multiactiviteit(self):
         m = kvk.KvkVestiging(
+
             omschrijvingactiviteit='De exploitatie van een hotel, restaurant, bar en vergaderruimtes.',
             sbicodehoofdactiviteit=Decimal('55101'),
             sbicodenevenactiviteit1=Decimal('5630'),
@@ -92,32 +93,5 @@ class ImportActiviteitenTest(TestCase):
         ), models.Activiteit(
             sbi_code='68203',
             sbi_omschrijving='Verhuur van overige woonruimte',
-            hoofdactiviteit=False,
-        )], acts)
-
-    def test_opschonen_activiteiten_zooi(self):
-        # NOTE nog steeds nodig?
-        m = kvk.KvkVestiging(
-            omschrijvingactiviteit='Het schrijven van teksten, notuleren en verslaglegging',
-            sbicodehoofdactiviteit=Decimal('900302'),
-            sbiomschrijvinghoofdact='Scheppende kunst en documentaire schrijvers',
-            sbicodenevenactiviteit1=Decimal('889922'),
-            sbiomschrijvingnevenact1='Specifiek maatschappelijk werk',
-            sbicodenevenactiviteit2=Decimal('620202'),
-            sbiomschrijvingnevenact2='Software consultancy',
-        )
-        acts = self._convert(m)
-        self.assertActEqual([models.Activiteit(
-            activiteitsomschrijving='Het schrijven van teksten, notuleren en verslaglegging',
-            sbi_code='900302',
-            sbi_omschrijving='Scheppende kunst en documentaire schrijvers',
-            hoofdactiviteit=True,
-        ), models.Activiteit(
-            sbi_code='889922',
-            sbi_omschrijving='Specifiek maatschappelijk werk',
-            hoofdactiviteit=False,
-        ), models.Activiteit(
-            sbi_code='620202',
-            sbi_omschrijving='Software consultancy',
             hoofdactiviteit=False,
         )], acts)

@@ -5,14 +5,14 @@ fill the stelselpedia dumps
 import logging
 
 from django import db
-from django.conf import settings
+# from django.conf import settings
 
 from datasets.hr.models import Vestiging
 
 log = logging.getLogger(__name__)
 
 
-def fill_stelselpedia():
+def fill_stelselpedia(keep_outside_amsterdam=False):
     """
     Go through all tables and fill Stelselpedia tables.
     """
@@ -80,10 +80,12 @@ def fill_stelselpedia():
         _converteer_onbekende_mac_eigenaar_id(cursor)
 
         # Dropall outside of Amsterdam
-        if not settings.TESTING:
+        # if not settings.TESTING:
+        if not keep_outside_amsterdam:
             log.info("Verwijder vestigingen met bezoekadres buiten Amsterdam")
-            Vestiging.objects.exclude(
+            deleted = Vestiging.objects.exclude(
                 bezoekadres__volledig_adres__endswith='Amsterdam').delete()
+            log.info(deleted)
 
 
 def fill_location_with_bag():

@@ -329,7 +329,7 @@ class MaatschappelijkeActiviteit(models.Model):
     )
 
     hoofdvestiging = models.ForeignKey(
-        'Vestiging', null=True, blank=True,
+        'Vestiging', null=True, blank=True, on_delete=models.SET_NULL
     )
 
     def __str__(self):
@@ -405,6 +405,7 @@ class Vestiging(models.Model):
         'MaatschappelijkeActiviteit',
         related_name='vestigingen',
         db_index=True,
+        on_delete=models.DO_NOTHING,
     )
 
     vestigingsnummer = models.CharField(

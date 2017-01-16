@@ -27,7 +27,41 @@ class ImportVestigingTest(TestCase):
             machibver=0
         )
 
+    def geef_vestiging_een_adres(self, kvk_vestiging):
+
+        if kvk_vestiging.adressen.count() == 0:
+            b, _ = kvk.KvkAdres.objects.get_or_create(
+                adrid=100000000001511357,
+                afgeschermd='Nee',
+                huisnummer=20,
+                identificatieaoa='0363200000313987',
+                identificatietgo='0363010000855678',
+                plaats='Amsterdam',
+                postcode='1013BJ',
+                straatnaam='Vlothavenweg',
+                typering='bezoekLocatie',
+                volledigadres='Vlothavenweg 20 1013BJ Amsterdam',
+                xcoordinaat=118678.000,
+                ycoordinaat=490703.000,
+                adrhibver=0)
+            p, _ = kvk.KvkAdres.objects.get_or_create(
+                adrid=100000000001511356,
+                afgeschermd='Nee',
+                plaats='Amsterdam',
+                postbusnummer=229,
+                postcode='5460AE',
+                typering='postLocatie',
+                volledigadres='Postbus 229 5460AE Amsterdam',
+                adrhibver=0
+            )
+            kvk_vestiging.adressen.add(p, b)
+
     def _convert(self, kvk_vestiging):
+        """
+        converteer vestiging naar hr_vestiging
+        NOTE: Elke vestigign MOET een locatie hebben in Amsterdam
+        """
+        self.geef_vestiging_een_adres(kvk_vestiging)
 
         build_hr_data.fill_stelselpedia()
 
@@ -154,32 +188,7 @@ class ImportVestigingTest(TestCase):
             totaalwerkzamepersonen=0,
         )
 
-        kvk_vestiging.adressen.add(
-            kvk.KvkAdres.objects.create(
-                adrid=100000000001511357,
-                afgeschermd='Nee',
-                huisnummer=20,
-                identificatieaoa='0363200000313987',
-                identificatietgo='0363010000855678',
-                plaats='Amsterdam',
-                postcode='1013BJ',
-                straatnaam='Vlothavenweg',
-                typering='bezoekLocatie',
-                volledigadres='Vlothavenweg 20 1013BJ Amsterdam',
-                xcoordinaat=118678.000,
-                ycoordinaat=490703.000,
-                adrhibver=0),
-            kvk.KvkAdres.objects.create(
-                adrid=100000000001511356,
-                afgeschermd='Nee',
-                plaats='Amsterdam',
-                postbusnummer=229,
-                postcode='5460AE',
-                typering='postLocatie',
-                volledigadres='Postbus 229 5460AE Amsterdam',
-                adrhibver=0
-            ))
-
+        
         vestiging = self._convert(kvk_vestiging)
 
         self.assertIsNotNone(vestiging.postadres)
@@ -249,6 +258,7 @@ class ImportVestigingTest(TestCase):
         self.assertListEqual(['Handelsnaam B.V.'], [h.handelsnaam for h in handelsnamen])
 
     def test_import_hoofdvestiging(self):
+
         kvk_vestiging_1 = kvk.KvkVestiging.objects.create(
             vesid=100000000000000000,
             maatschappelijke_activiteit_id=999999999999999999,
@@ -259,6 +269,7 @@ class ImportVestigingTest(TestCase):
             veshibver=0,
             indicatiehoofdvestiging='Nee',
         )
+
         kvk_vestiging_2 = kvk.KvkVestiging.objects.create(
             vesid=100000000000000001,
             maatschappelijke_activiteit_id=999999999999999999,
@@ -269,6 +280,9 @@ class ImportVestigingTest(TestCase):
             veshibver=0,
             indicatiehoofdvestiging='Ja',
         )
+
+        self.geef_vestiging_een_adres(kvk_vestiging_1)
+        self.geef_vestiging_een_adres(kvk_vestiging_2)
 
         build_hr_data.fill_stelselpedia()
 

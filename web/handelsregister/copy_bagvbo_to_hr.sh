@@ -2,6 +2,7 @@
 
 set -u
 set -e
+set -x
 
 echo copying bag vbo geo hr_geovbo tabel
 
