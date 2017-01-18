@@ -41,6 +41,7 @@ services:
       PGPASSWORD: insecure
     command: >
       bash -c "/app/docker-wait.sh \
+               && python manage.py migrate geo_views zero \
                && python manage.py migrate \
                && /app/docker-import.sh \
                && python manage.py build_index --reset"
