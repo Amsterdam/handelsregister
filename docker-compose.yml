@@ -1,32 +1,38 @@
-database:
-  image: build.datapunt.amsterdam.nl:5000/atlas/postgres
-  ports:
-    - "5406:5432"
-  environment:
-    POSTGRES_PASSWORD: insecure
-    POSTGRES_DB: handelsregister
-    POSTGRES_USER: handelsregister
+version: '2.1'
+services:
+  database:
+    image: build.datapunt.amsterdam.nl:5000/atlas/postgres
+    ports:
+      - "5406:5432"
+    environment:
+      POSTGRES_PASSWORD: insecure
+      POSTGRES_DB: handelsregister
+      POSTGRES_USER: handelsregister
 
 
-elasticsearch:
-  image: build.datapunt.amsterdam.nl:5000/atlas/elasticsearch:latest
-  command: elasticsearch -Des.network.host=0.0.0.0
-  ports:
-    - "9200:9200"
-    - "9300:9300"
+  elasticsearch:
+    image: build.datapunt.amsterdam.nl:5000/atlas/elasticsearch:latest
+    command: elasticsearch -Des.network.host=0.0.0.0
+    ports:
+      - "9200:9200"
+      - "9300:9300"
 
 
-web:
-  build: ./web
-  ports:
-    - "8102:8000"
-  links:
-    - database:database
-    - elasticsearch:elasticsearch
-  volumes:
-    - $PWD/data:/app/data
-  environment:
-    DATABASE_NAME: handelsregister
-    DATABASE_USER: handelsregister
-    DATABASE_PASSWORD: insecure
-    PGPASSWORD: insecure
+  web:
+    build: ./web
+    ports:
+      - "8102:8000"
+    links:
+      - database
+      - elasticsearch
+    volumes:
+      - $PWD/data:/app/data
+    environment:
+      DATABASE_NAME: handelsregister
+      DATABASE_USER: handelsregister
+      DATABASE_PASSWORD: insecure
+      PGPASSWORD: insecure
+      command: >
+            bash -c "/app/docker-wait.sh \
+                    && /app/docker-migrate.sh \
+                    && /app/docker-run.sh"

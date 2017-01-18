@@ -9,13 +9,96 @@ https://docs.djangoproject.com/en/1.9/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.9/ref/settings/
 """
-import re
 import os
+import re
 import sys
+
+
+def get_docker_host():
+    """
+    Looks for the DOCKER_HOST environment variable to find the VM
+    running docker-machine.
+
+    If the environment variable is not found, it is assumed that
+    you're running docker on localhost.
+    """
+    d_host = os.getenv('DOCKER_HOST', None)
+    if d_host:
+        if re.match(r'^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$', d_host):
+            return d_host
+
+        return re.match(r'tcp://(.*?):\d+', d_host).group(1)
+    return 'localhost'
+
+
+# noinspection PyBroadException
+def in_docker():
+    """
+    Checks pid 1 cgroup settings to check with reasonable certainty we're in a
+    docker env.
+    :return: true when running in a docker container, false otherwise
+    """
+    try:
+        return ':/docker/' in open('/proc/1/cgroup', 'r').read()
+    except:
+        return False
+
+
+OVERRIDE_HOST_ENV_VAR = 'DATABASE_HOST_OVERRIDE'
+OVERRIDE_PORT_ENV_VAR = 'DATABASE_PORT_OVERRIDE'
+
+OVERRIDE_EL_HOST_VAR = 'ELASTIC_HOST_OVERRIDE'
+OVERRIDE_EL_PORT_VAR = 'ELASTIC_PORT_OVERRIDE'
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+
+class LocationKey:
+    local = 'local'
+    docker = 'docker'
+    override = 'override'
+
+
+def get_database_key():
+    if os.getenv(OVERRIDE_HOST_ENV_VAR):
+        return LocationKey.override
+    elif in_docker():
+        return LocationKey.docker
+
+    return LocationKey.local
+
+
+DATABASE_OPTIONS = {
+    LocationKey.docker: {
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        'NAME': os.getenv('DB_NAME', 'handelsregister'),
+        'USER': os.getenv('DB_USER', 'handelsregister'),
+        'PASSWORD': os.getenv('DB_PASSWORD', 'insecure'),
+        'HOST': 'database',
+        'PORT': '5432'
+    },
+    LocationKey.local: {
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        'NAME': os.getenv('DB_NAME', 'handelsregister'),
+        'USER': os.getenv('DB_USER', 'handelsregister'),
+        'PASSWORD': os.getenv('DB_PASSWORD', 'insecure'),
+        'HOST': get_docker_host(),
+        'PORT': '5406'
+    },
+    LocationKey.override: {
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        'NAME': os.getenv('DB_NAME', 'handelsregister'),
+        'USER': os.getenv('DB_USER', 'handelsregister'),
+        'PASSWORD': os.getenv('DB_PASSWORD', 'insecure'),
+        'HOST': os.getenv(OVERRIDE_HOST_ENV_VAR),
+        'PORT': os.getenv(OVERRIDE_PORT_ENV_VAR, '5432')
+    },
+}
+
+DATABASES = {
+    'default': DATABASE_OPTIONS[get_database_key()]
+}
 
 VBO_URI = "https://api.datapunt.amsterdam.nl/bag/verblijfsobject/"
 CBS_URI = 'http://sbi.cbs.nl/cbs.typeermodule.typeerservicewebapi/api/sbianswer/getNextQuestion/{}'
@@ -24,11 +107,9 @@ CSB_SEARCH = 'http://sbi.cbs.nl/cbs.typeermodule.typeerservicewebapi/api/SBISear
 # SECURITY WARNING: keep the secret key used in production secret!
 insecure_key = 'insecure'
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', insecure_key)
-
 DEBUG = SECRET_KEY == insecure_key
 
 ALLOWED_HOSTS = ['*']
-
 
 PARTIAL_IMPORT = {
     'numerator': 0,
@@ -83,7 +164,6 @@ MIDDLEWARE = [
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
-
 ROOT_URLCONF = 'handelsregister.urls'
 
 TEMPLATES = [
@@ -104,45 +184,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'handelsregister.wsgi.application'
 
-
-def get_docker_host():
-    """Find the local docker-deamon
-    """
-    d_host = os.getenv('DOCKER_HOST', None)
-    if d_host:
-        if re.match(r'^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$', d_host):
-            return d_host
-        return re.match(r'tcp://(.*?):\d+', d_host).group(1)
-    return 'localhost'
-
-# Database
-# https://docs.djangoproject.com/en/1.9/ref/settings/#databases
-
-#database = os.environ.get('DATABASE_1_ENV_POSTGRES_DB', 'handelregister')
-#    password = os.environ.get('DATABASE_ENV_POSTGRES_PASSWORD', 'insecure')
-#    user = os.environ.get('DATABASE_1_ENV_POSTGRES_USER', 'handelsregister')
-#    port = os.environ.get('DATABASE_1_PORT_5432_TCP_PORT', 5432)
-#    host = os.environ.get(
-#        'HANDELSREGISTER_DATABASE_1_PORT_5432_TCP_ADDR', '127.0.0.1')
-
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': os.getenv('DATABASE_NAME', 'handelsregister'),
-        'USER': os.getenv('DATABASE_USER', 'handelsregister'),
-        'PASSWORD': os.getenv('DATABASE_PASSWORD', 'insecure'),
-        'HOST': os.getenv('DATABASE_PORT_5432_TCP_ADDR', get_docker_host()),
-        'PORT': os.getenv('DATABASE_PORT_5432_TCP_PORT', '5406'),
-    }
-}
-
-
-ELASTIC_SEARCH_HOSTS = ["{}:{}".format(
-    os.getenv('ELASTICSEARCH_PORT_9200_TCP_ADDR', get_docker_host()),
-    os.getenv('ELASTICSEARCH_PORT_9200_TCP_PORT', 9200))]
-
-
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
 
@@ -161,7 +202,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
 
@@ -177,20 +217,26 @@ USE_TZ = True
 
 DUMP_DIR = 'mks-dump'
 
-TESTING = len(sys.argv) > 1 and sys.argv[1] == 'test'
+ELASTIC_OPTIONS = {
+    LocationKey.docker: ["http://elasticsearch:9200"],
+    LocationKey.local: [
+        f"http://{get_docker_host()}:9200"],
+    LocationKey.override: [f"http://{os.getenv(OVERRIDE_EL_HOST_VAR)}:{os.getenv(OVERRIDE_EL_PORT_VAR, '9200')}"],
+}
+ELASTIC_SEARCH_HOSTS = ELASTIC_OPTIONS[get_database_key()]
 
 ELASTIC_INDICES = {
     'HR': 'handelsregister',
 }
 
+TESTING = len(sys.argv) > 1 and sys.argv[1] == 'test'
 if TESTING:
     for k, v in ELASTIC_INDICES.items():
-        ELASTIC_INDICES[k] = ELASTIC_INDICES[k] + 'test'
+        ELASTIC_INDICES[k] += 'test'
 
 BATCH_SETTINGS = dict(
     batch_size=4000
 )
-
 
 REST_FRAMEWORK = dict(
     PAGE_SIZE=100,
@@ -210,7 +256,7 @@ REST_FRAMEWORK = dict(
         'rest_framework.filters.DjangoFilterBackend',
         # 'rest_framework.filters.OrderingFilter',
 
-        ),
+    ),
     COERCE_DECIMAL_TO_STRING=True,
 )
 
@@ -256,7 +302,6 @@ SWAGGER_SETTINGS = {
     'doc_expansion': 'list',
 }
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
@@ -288,7 +333,6 @@ LOGGING = {
         'level': 'DEBUG',
         'handlers': ['console'],
     },
-
 
     'loggers': {
         'django.db': {

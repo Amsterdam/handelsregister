@@ -3,10 +3,6 @@
 set -u   # crash on missing env variables
 set -e   # stop on any error
 
-source docker-wait.sh
-
-source docker-migrate.sh
-
 echo 'Downloading latest mks dumps'
 python get_mks_dumps.py
 
