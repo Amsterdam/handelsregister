@@ -13,6 +13,8 @@ trap 'dc kill ; dc rm -f' EXIT
 
 echo "Do we have OS password?"
 echo $HANDELSREGISTER_OBJECTSTORE_PASSWORD
+echo "Do we have ENVIRONMENT?"
+echo $ENVIRONMENT
 
 rm -rf ${DIR}/backups
 mkdir -p ${DIR}/backups
