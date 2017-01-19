@@ -30,7 +30,7 @@ for sql in *.sql; do
     grep -v "PRIMARY" | \
     sed 's/^.*geometry(Point.*$/    geopunt GEOMETRY(Point,28992)/' | \
     sed 's/igp_sw44z0001_cmg_owner\.//' | \
-    psql -v ON_ERROR_STOP=1 -d ${DB_HOST_OVERRIDE:-database} handelsregister -h 5432 -U handelsregister
+    psql -v ON_ERROR_STOP=1 -d ${DB_HOST_OVERRIDE:-database} handelsregister -h database -U handelsregister
 done
 
 # PUT BAVK WD! ^*&^*^
