@@ -10,7 +10,7 @@ echo 'unzipping latest kvk dump files'
 
 unzip -o $(ls -Art data/*.zip | tail -n 1) -d /app/unzipped/
 
-psql -d handelsregister -h ${DATABASE_PORT_5432_TCP_ADDR} -U handelsregister -f dropallkvk.sql
+psql -d handelsregister -h database -U handelsregister -f dropallkvk.sql
 
 cd /app/unzipped/
 
@@ -30,7 +30,7 @@ for sql in *.sql; do
     grep -v "PRIMARY" | \
     sed 's/^.*geometry(Point.*$/    geopunt GEOMETRY(Point,28992)/' | \
     sed 's/igp_sw44z0001_cmg_owner\.//' | \
-    psql -v ON_ERROR_STOP=1 -d handelsregister -h ${DATABASE_PORT_5432_TCP_ADDR} -U handelsregister
+    psql -v ON_ERROR_STOP=1 -d ${DB_HOST_OVERRIDE:-database} handelsregister -h 5432 -U handelsregister
 done
 
 # PUT BAVK WD! ^*&^*^
