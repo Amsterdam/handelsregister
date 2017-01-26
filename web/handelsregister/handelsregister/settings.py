@@ -219,8 +219,7 @@ DUMP_DIR = 'mks-dump'
 
 ELASTIC_OPTIONS = {
     LocationKey.docker: ["http://elasticsearch:9200"],
-    LocationKey.local: [
-        f"http://{get_docker_host()}:9200"],
+    LocationKey.local: [f"http://{get_docker_host()}:9200"],
     LocationKey.override: [f"http://{os.getenv(OVERRIDE_EL_HOST_VAR)}:{os.getenv(OVERRIDE_EL_PORT_VAR, '9200')}"],
 }
 ELASTIC_SEARCH_HOSTS = ELASTIC_OPTIONS[get_database_key()]

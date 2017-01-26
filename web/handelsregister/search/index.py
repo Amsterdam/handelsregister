@@ -156,4 +156,4 @@ class ImportIndexTask(object):
         # because relavancy score will make more sense
         if settings.TESTING:
             es_index = IndicesClient(client)
-            es_index.optimize('*test', max_num_segments=1)
+            es_index.optimize('*test')

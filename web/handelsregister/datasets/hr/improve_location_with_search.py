@@ -780,11 +780,13 @@ def guess():
 
     for gemeente in GEMEENTEN:
         invalid_locations = create_qs_of_invalid_locations(gemeente)
+
         if SLOW:
             invalid_locations = invalid_locations[:10]
 
         count = invalid_locations.count()
 
+        # no invalid locations for gemeente..
         if count == 0:
             continue
 
