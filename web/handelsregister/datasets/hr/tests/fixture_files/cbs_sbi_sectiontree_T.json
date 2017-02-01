@@ -1,0 +1,66 @@
+[
+  {
+    "Id": 36965,
+    "ParentId": 36880,
+    "Code": "97",
+    "Title": "Huishoudens als werkgever van huishoudelijk personeel",
+    "HasChildren": true,
+    "IsRoot": true
+  },
+  {
+    "Id": 36966,
+    "ParentId": 36880,
+    "Code": "98",
+    "Title": "Niet-gedifferentieerde productie van goederen en diensten door particuliere huishoudens voor eigen gebruik",
+    "HasChildren": true,
+    "IsRoot": true
+  },
+  {
+    "Id": 37230,
+    "ParentId": 36965,
+    "Code": "970",
+    "Title": "Huishoudens als werkgever van huishoudelijk personeel",
+    "HasChildren": true,
+    "IsRoot": false
+  },
+  {
+    "Id": 37834,
+    "ParentId": 37230,
+    "Code": "9700",
+    "Title": "Huishoudens als werkgever van huishoudelijk personeel",
+    "HasChildren": false,
+    "IsRoot": false
+  },
+  {
+    "Id": 37231,
+    "ParentId": 36966,
+    "Code": "981",
+    "Title": "Niet-gedifferentieerde productie van goederen door particuliere huishoudens voor eigen gebruik",
+    "HasChildren": true,
+    "IsRoot": false
+  },
+  {
+    "Id": 37232,
+    "ParentId": 36966,
+    "Code": "982",
+    "Title": "Niet-gedifferentieerde productie van diensten door particuliere huishoudens voor eigen gebruik",
+    "HasChildren": true,
+    "IsRoot": false
+  },
+  {
+    "Id": 37835,
+    "ParentId": 37231,
+    "Code": "9810",
+    "Title": "Niet-gedifferentieerde productie van goederen door particuliere huishoudens voor eigen gebruik",
+    "HasChildren": false,
+    "IsRoot": false
+  },
+  {
+    "Id": 37836,
+    "ParentId": 37232,
+    "Code": "9820",
+    "Title": "Niet-gedifferentieerde productie van diensten door particuliere huishoudens voor eigen gebruik",
+    "HasChildren": false,
+    "IsRoot": false
+  }
+]

@@ -12,6 +12,7 @@ import time
 from datasets.hr.models import CBS_sbicodes, CBS_sbi_hoofdcat, CBS_sbi_subcat
 
 log = logging.getLogger(__name__)
+logging.getLogger("requests").setLevel(logging.DEBUG)
 
 
 def _clear_cbsbi_table():
@@ -25,7 +26,7 @@ def _clear_cbsbi_table():
 def _request_exec(req_parameter):
     data = None
     try:
-        data = requests.get(req_parameter)
+        data = requests.get(req_parameter, headers={'Accept': "*/*", 'Cache-Control': "no-cache"})
     except requests.ConnectionError:
         log.error("Connection Error")
     except requests.HTTPError:
@@ -38,59 +39,42 @@ def _request_exec(req_parameter):
 
 
 def _fill_cbsbi_table():
-
     log.info("Vullen sbi codes vanuit cbs.typeermodule.typeerservicewebapi")
-    code = 'start/0'
-    vraag_url = settings.CBS_URI
+    section_data = _request_exec(settings.CBS_SECTIONS_URI)
 
-    data = _request_exec(vraag_url.format(code))
-    if data:
-        _process_data_from_cbs(data, vraag_url)
+    if section_data:
+        _process_sectiondata_from_cbs(section_data)
         log.info("Vullen sbi codes voltooid")
 
 
-def _process_data_from_cbs(data, vraag_url):
-    for antwoord in data.json()['Answers']:
+def _process_sectiondata_from_cbs(section_data):
+    for section in section_data.json():
         hcat = CBS_sbi_hoofdcat(
-            hcat=antwoord['Value'], hoofdcategorie=antwoord['Key'])
+            hcat=section['Letter'], hoofdcategorie=section['Title'])
         hcat.save()
 
-        next_url = vraag_url.format(antwoord['Value'])
-        next_url += '/1'
-
-        category_data = _request_exec(next_url)
-        if category_data:
-
-            _process_category_data(category_data, hcat)
+        _process_section(hcat)
 
 
-def _process_category_data(category_data, hcat):
-    # subantwoorden = category_data.json()['Answers']
-    search_url = settings.CSB_SEARCH
-    for sub_category_antwoord in category_data.json()['Answers']:
+def _process_section(hcat):
+    section_tree_data_url = settings.CBS_SECTIONSTREE_URI.format(hcat.hcat)
+    section_tree_data = _request_exec(section_tree_data_url)
 
-        # sub_cat = sub_category_antwoord['Key']
-        # category_url_code = sub_category_antwoord['Value']
-        scat = CBS_sbi_subcat(hcat=hcat, scat=sub_category_antwoord['Value'],
-                              subcategorie=sub_category_antwoord['Key'])
-        scat.save()
+    if section_tree_data:
+        section_tree = section_tree_data.json()
 
-        search_url_k = search_url.format(sub_category_antwoord['Value'])
-        category_codes = _request_exec(search_url_k)
-        if category_codes:
+        subcat_set = {}
+        for subcat in [node for node in section_tree if node['IsRoot']]:
+            scat = CBS_sbi_subcat(hcat=hcat, scat=subcat['Code'], subcategorie=subcat['Title'])
+            scat.save()
+            subcat_set[subcat['Code']] = scat
 
-            time.sleep(0.1)
-
-            for item in category_codes.json():
-                # Met overige in horeca komen ook de andere categorieen mee!
-                # Negeer daarom select op al aangemaakt!!
-                if not item or CBS_sbicodes.objects.filter(
-                        sbi_code=item['Code']).count():
-                    continue
-                cbsbi = CBS_sbicodes(sbi_code=item['Code'],
-                                     scat_id=scat.scat,
-                                     sub_sub_categorie=item['Title'])
-                cbsbi.save()
+        for sbi_code in [node for node in section_tree if not node['IsRoot']]:
+            scat_code = sbi_code['Code'][:2]
+            cbsbi = CBS_sbicodes(sbi_code=sbi_code['Code'],
+                                 scat=subcat_set[scat_code],
+                                 sub_sub_categorie=sbi_code['Title'])
+            cbsbi.save()
 
 
 def _check_download_complete():

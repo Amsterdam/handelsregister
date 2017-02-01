@@ -15,9 +15,9 @@ class ImportCSBTest(APITestCase):
         hoofdcatnr = CBS_sbi_hoofdcat.objects.count()
         subcatnr = CBS_sbi_subcat.objects.count()
         sbinr = CBS_sbicodes.objects.count()
-        self.assertEqual(hoofdcatnr, 12)
-        self.assertEqual(subcatnr, 7)
-        self.assertEqual(sbinr, 109)
+        self.assertEqual(hoofdcatnr, 4)
+        self.assertEqual(subcatnr, 19)
+        self.assertEqual(sbinr, 209)
 
         with db.connection.cursor() as cursor:
             cursor.execute("""COMMIT""")

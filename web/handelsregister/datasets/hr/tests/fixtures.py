@@ -15,10 +15,12 @@ def _filter_fixtures_get(url, *args, **kwargs):
     function which json filename
     we need.
     """
-    fixturefiles = {'http://sbi.cbs.nl/cbs.typeermodule.typeerservicewebapi/api/sbianswer/getNextQuestion/start/0': 'cbs_sbi_first.json',
-                    'http://sbi.cbs.nl/cbs.typeermodule.typeerservicewebapi/api/sbianswer/getNextQuestion/22272_12/1': 'cbs_sbi_next.json',
-                    'http://sbi.cbs.nl/cbs.typeermodule.typeerservicewebapi/api/SBISearch/search/22272_12_22207_11': 'cbs_sbi_code1.json',
-                    'http://sbi.cbs.nl/cbs.typeermodule.typeerservicewebapi/api/SBISearch/search/22272_12_22208_11': 'cbs_sbi_code2.json'}
+    fixturefiles = {'http://sbi.cbs.nl/cbs.typeermodule.typeerservicewebapi/api/SBIData/Sections': 'cbs_sbi_sections.json',
+                    'http://sbi.cbs.nl/cbs.typeermodule.typeerservicewebapi/api/SBIData/SectionChildrenTree/M': 'cbs_sbi_sectiontree_M.json',
+                    'http://sbi.cbs.nl/cbs.typeermodule.typeerservicewebapi/api/SBIData/SectionChildrenTree/R': 'cbs_sbi_sectiontree_R.json',
+                    'http://sbi.cbs.nl/cbs.typeermodule.typeerservicewebapi/api/SBIData/SectionChildrenTree/T': 'cbs_sbi_sectiontree_T.json',
+                    'http://sbi.cbs.nl/cbs.typeermodule.typeerservicewebapi/api/SBIData/SectionChildrenTree/N': 'cbs_sbi_sectiontree_N.json'
+    }
     try:
         filename = fixturefiles[url]
     except:
