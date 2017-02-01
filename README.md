@@ -72,7 +72,8 @@ Import Quickstart
 -----------------
     Download a prepared database..
 
-    docker-compose exec database update-db.sh handelsregister
+    docker-compose exec database update-db.sh handelsregister 
+    
 
 
 The API should now be available on http://localhost:8100/handelsregister
