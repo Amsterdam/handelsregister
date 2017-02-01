@@ -24,6 +24,3 @@ python /app/manage.py run_import --cbs_sbi || echo "Search failed, continuing an
 
 # create geoviews
 python /app/manage.py run_import --geovestigingen
-
-# create dataselectie export
-python /app/manage.py run_import --dataselectie
