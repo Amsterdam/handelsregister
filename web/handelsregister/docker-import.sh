@@ -20,7 +20,7 @@ python /app/manage.py run_import
 python /app/manage.py run_import --search
 
 # import sbicodes
-python /app/manage.py run_import --cbs_sbi || echo "Search failed, continuing anyway"
+python /app/manage.py run_import --cbs_sbi
 
 # create geoviews
 python /app/manage.py run_import --geovestigingen
