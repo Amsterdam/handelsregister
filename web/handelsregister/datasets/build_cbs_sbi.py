@@ -42,6 +42,9 @@ def _fill_cbsbi_table():
     section_data = _request_exec(settings.CBS_SECTIONS_URI)
 
     if section_data:
+
+        time.sleep(0.1)
+
         _process_sectiondata_from_cbs(section_data)
         log.info("Vullen alle sbi codes voltooid")
 
@@ -59,6 +62,9 @@ def _process_section(hcat):
     section_tree_data = _request_exec(section_tree_data_url)
 
     if section_tree_data:
+
+        time.sleep(0.1)
+
         _process_sectiondatatree(section_tree_data, hcat)
         log.info("Vullen sbi codes sectie {} voltooid".format(hcat.hcat))
 
@@ -74,7 +80,8 @@ def _process_sectiondatatree(section_tree_data, hcat):
 
     for sbi_code in [node for node in section_tree if not node['IsRoot']]:
         scat_code = sbi_code['Code'][:2]
-        cbsbi = CBS_sbicodes(sbi_code=sbi_code['Code'],
+        malformed_sbi_code = sbi_code['Code'][1:] if scat_code[0] == '0' else sbi_code['Code']
+        cbsbi = CBS_sbicodes(sbi_code=malformed_sbi_code,
                              scat=subcat_set[scat_code],
                              sub_sub_categorie=sbi_code['Title'])
         cbsbi.save()

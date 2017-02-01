@@ -688,12 +688,12 @@ class Kapitaal(models.Model):
 
 class CBS_sbi_hoofdcat(models.Model):
     hcat = models.CharField(max_length=20, primary_key=True)
-    hoofdcategorie = models.CharField(max_length=140, blank=False, null=False)
+    hoofdcategorie = models.CharField(max_length=255, blank=False, null=False)
 
 
 class CBS_sbi_subcat(models.Model):
     scat = models.CharField(max_length=20, primary_key=True)
-    subcategorie = models.CharField(max_length=140, blank=False, null=False)
+    subcategorie = models.CharField(max_length=255, blank=False, null=False)
     hcat = models.ForeignKey(CBS_sbi_hoofdcat, on_delete=models.CASCADE)
 
 
@@ -701,7 +701,7 @@ class CBS_sbicodes(models.Model):
     sbi_code = models.CharField(max_length=14, primary_key=True)
     scat = models.ForeignKey(CBS_sbi_subcat, on_delete=models.CASCADE)
     sub_sub_categorie = models.CharField(
-        max_length=140, blank=False, null=False)
+        max_length=255, blank=False, null=False)
 
 
 class GeoVestigingen(models.Model):

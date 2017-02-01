@@ -150,7 +150,8 @@ web/web.iml
 
 .jenkins/backups
 reports/junit.xml
-data/
+**/data/
+**/unzipped/
 
 .project
 .pydevproject
