@@ -1,0 +1,31 @@
+{
+  "Mode": "r",
+  "NextStep": 2,
+  "Question": "Kunt u een subcategorie aangeven?",
+  "Answers": [
+    {
+      "Value": "22275_12_22224_11",
+      "Key": "teelt eenjarige gewassen"
+    },
+    {
+      "Value": "22275_12_22225_11",
+      "Key": "teelt meerjarige gewassen"
+    },
+    {
+      "Value": "22275_12_22226_11",
+      "Key": "teelt sierplanten"
+    },
+    {
+      "Value": "22275_12_22227_11",
+      "Key": "fokken, houden dieren"
+    },
+    {
+      "Value": "22275_12_22228_11",
+      "Key": "gemengd bedrijf"
+    },
+    {
+      "Value": "22275_12_22229_11",
+      "Key": "dienstverlening voor de land/tuinbouw"
+    }
+  ]
+}

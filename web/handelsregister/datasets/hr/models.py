@@ -697,11 +697,28 @@ class CBS_sbi_subcat(models.Model):
     hcat = models.ForeignKey(CBS_sbi_hoofdcat, on_delete=models.CASCADE)
 
 
-class CBS_sbicodes(models.Model):
+class CBS_sbi_endcode(models.Model):
     sbi_code = models.CharField(max_length=14, primary_key=True)
     scat = models.ForeignKey(CBS_sbi_subcat, on_delete=models.CASCADE)
-    sub_sub_categorie = models.CharField(
-        max_length=255, blank=False, null=False)
+    sub_sub_categorie = models.CharField(max_length=140, blank=False, null=False)
+
+
+class CBS_sbi_section(models.Model):
+    code = models.CharField(max_length=1, primary_key=True)
+    title = models.CharField(max_length=255, blank=False, null=False)
+
+
+class CBS_sbi_rootnode(models.Model):
+    code = models.CharField(max_length=2, primary_key=True)
+    title = models.CharField(max_length=255, blank=False, null=False)
+    section = models.ForeignKey(CBS_sbi_section, on_delete=models.CASCADE)
+
+
+class CBS_sbicode(models.Model):
+    sbi_code = models.CharField(max_length=10, primary_key=True)
+    title = models.CharField(max_length=255, blank=False, null=False)
+    sub_cat = models.ForeignKey(CBS_sbi_subcat, on_delete=models.CASCADE)
+    root_node = models.ForeignKey(CBS_sbi_rootnode, on_delete=models.CASCADE)
 
 
 class GeoVestigingen(models.Model):

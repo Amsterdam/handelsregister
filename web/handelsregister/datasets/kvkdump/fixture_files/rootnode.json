@@ -1,0 +1,690 @@
+[
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "01",
+    "fields": {
+      "title": "Landbouw, jacht en dienstverlening voor de landbouw en jacht",
+      "section": "A"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "02",
+    "fields": {
+      "title": "Bosbouw, exploitatie van bossen en dienstverlening voor de bosbouw",
+      "section": "A"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "03",
+    "fields": {
+      "title": "Visserij en kweken van vis en schaaldieren",
+      "section": "A"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "06",
+    "fields": {
+      "title": "Winning van aardolie en aardgas",
+      "section": "B"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "08",
+    "fields": {
+      "title": "Winning van delfstoffen (geen olie en gas)",
+      "section": "B"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "09",
+    "fields": {
+      "title": "Dienstverlening voor de winning van delfstoffen",
+      "section": "B"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "10",
+    "fields": {
+      "title": "Vervaardiging van voedingsmiddelen",
+      "section": "C"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "11",
+    "fields": {
+      "title": "Vervaardiging van dranken",
+      "section": "C"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "12",
+    "fields": {
+      "title": "Vervaardiging van tabaksproducten",
+      "section": "C"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "13",
+    "fields": {
+      "title": "Vervaardiging van textiel",
+      "section": "C"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "14",
+    "fields": {
+      "title": "Vervaardiging van kleding",
+      "section": "C"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "15",
+    "fields": {
+      "title": "Vervaardiging van leer, lederwaren en schoenen",
+      "section": "C"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "16",
+    "fields": {
+      "title": "Primaire houtbewerking en vervaardiging van artikelen van hout, kurk, riet en ",
+      "section": "C"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "17",
+    "fields": {
+      "title": "Vervaardiging van papier, karton en papier- en kartonwaren",
+      "section": "C"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "18",
+    "fields": {
+      "title": "Drukkerijen, reproductie van opgenomen media",
+      "section": "C"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "19",
+    "fields": {
+      "title": "Vervaardiging van cokesovenproducten en aardolieverwerking",
+      "section": "C"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "20",
+    "fields": {
+      "title": "Vervaardiging van chemische producten",
+      "section": "C"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "21",
+    "fields": {
+      "title": "Vervaardiging van farmaceutische grondstoffen en producten",
+      "section": "C"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "22",
+    "fields": {
+      "title": "Vervaardiging van producten van rubber en kunststof",
+      "section": "C"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "23",
+    "fields": {
+      "title": "Vervaardiging van overige niet-metaalhoudende minerale producten",
+      "section": "C"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "24",
+    "fields": {
+      "title": "Vervaardiging van metalen in primaire vorm",
+      "section": "C"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "25",
+    "fields": {
+      "title": "Vervaardiging van producten van metaal (geen machines en apparaten)",
+      "section": "C"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "26",
+    "fields": {
+      "title": "Vervaardiging van computers en van elektronische en optische apparatuur",
+      "section": "C"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "27",
+    "fields": {
+      "title": "Vervaardiging van elektrische apparatuur",
+      "section": "C"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "28",
+    "fields": {
+      "title": "Vervaardiging van overige machines en apparaten",
+      "section": "C"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "29",
+    "fields": {
+      "title": "Vervaardiging van auto's, aanhangwagens en opleggers",
+      "section": "C"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "30",
+    "fields": {
+      "title": "Vervaardiging van overige transportmiddelen",
+      "section": "C"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "31",
+    "fields": {
+      "title": "Vervaardiging van meubels",
+      "section": "C"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "32",
+    "fields": {
+      "title": "Vervaardiging van overige goederen",
+      "section": "C"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "33",
+    "fields": {
+      "title": "Reparatie en installatie van machines en apparaten",
+      "section": "C"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "35",
+    "fields": {
+      "title": "Productie en distributie van en handel in elektriciteit, aardgas, stoom en gekoelde lucht",
+      "section": "D"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "36",
+    "fields": {
+      "title": "Winning en distributie van water",
+      "section": "E"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "37",
+    "fields": {
+      "title": "Afvalwaterinzameling en -behandeling",
+      "section": "E"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "38",
+    "fields": {
+      "title": "Afvalinzameling en \u2013behandeling; voorbereiding tot recycling",
+      "section": "E"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "39",
+    "fields": {
+      "title": "Sanering en overig afvalbeheer",
+      "section": "E"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "41",
+    "fields": {
+      "title": "Algemene burgerlijke en utiliteitsbouw en projectontwikkeling",
+      "section": "F"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "42",
+    "fields": {
+      "title": "Grond-, water- en wegenbouw (geen grondverzet)",
+      "section": "F"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "43",
+    "fields": {
+      "title": "Gespecialiseerde werkzaamheden in de bouw",
+      "section": "F"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "45",
+    "fields": {
+      "title": "Handel in en reparatie van auto's, motorfietsen en aanhangers",
+      "section": "G"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "46",
+    "fields": {
+      "title": "Groothandel en handelsbemiddeling (niet in auto's en motorfietsen)",
+      "section": "G"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "47",
+    "fields": {
+      "title": "Detailhandel (niet in auto's)",
+      "section": "G"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "49",
+    "fields": {
+      "title": "Vervoer over land",
+      "section": "H"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "50",
+    "fields": {
+      "title": "Vervoer over water",
+      "section": "H"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "51",
+    "fields": {
+      "title": "Luchtvaart",
+      "section": "H"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "52",
+    "fields": {
+      "title": "Opslag en dienstverlening voor vervoer",
+      "section": "H"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "53",
+    "fields": {
+      "title": "Post en koeriers",
+      "section": "H"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "55",
+    "fields": {
+      "title": "Logiesverstrekking",
+      "section": "I"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "56",
+    "fields": {
+      "title": "Eet- en drinkgelegenheden",
+      "section": "I"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "58",
+    "fields": {
+      "title": "Uitgeverijen",
+      "section": "J"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "59",
+    "fields": {
+      "title": "Productie en distributie van films en televisieprogramma's; maken en uitgeven van geluidsopnamen",
+      "section": "J"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "60",
+    "fields": {
+      "title": "Verzorgen en uitzenden van radio- en televisieprogramma's",
+      "section": "J"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "61",
+    "fields": {
+      "title": "Telecommunicatie",
+      "section": "J"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "62",
+    "fields": {
+      "title": "Dienstverlenende activiteiten op het gebied van informatietechnologie",
+      "section": "J"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "63",
+    "fields": {
+      "title": "Dienstverlenende activiteiten op het gebied van informatie",
+      "section": "J"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "64",
+    "fields": {
+      "title": "Financi\u00eble instellingen (geen verzekeringen en pensioenfondsen)",
+      "section": "K"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "65",
+    "fields": {
+      "title": "Verzekeringen en pensioenfondsen (geen verplichte sociale verzekeringen)",
+      "section": "K"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "66",
+    "fields": {
+      "title": "Overige financi\u00eble dienstverlening",
+      "section": "K"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "68",
+    "fields": {
+      "title": "Verhuur van en handel in onroerend goed",
+      "section": "L"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "69",
+    "fields": {
+      "title": "Rechtskundige dienstverlening, accountancy, belastingadvisering en administratie",
+      "section": "M"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "70",
+    "fields": {
+      "title": "Holdings (geen financi\u00eble), concerndiensten binnen eigen concern en managementadvisering",
+      "section": "M"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "71",
+    "fields": {
+      "title": "Architecten, ingenieurs en technisch ontwerp en advies; keuring en controle",
+      "section": "M"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "72",
+    "fields": {
+      "title": "Speur- en ontwikkelingswerk",
+      "section": "M"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "73",
+    "fields": {
+      "title": "Reclame en marktonderzoek",
+      "section": "M"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "74",
+    "fields": {
+      "title": "Industrieel ontwerp en vormgeving, fotografie, vertaling en overige consultancy",
+      "section": "M"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "75",
+    "fields": {
+      "title": "Veterinaire dienstverlening",
+      "section": "M"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "77",
+    "fields": {
+      "title": "Verhuur en lease van auto's, consumentenartikelen, machines en overige roerende goederen",
+      "section": "N"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "78",
+    "fields": {
+      "title": "Arbeidsbemiddeling, uitzendbureaus en personeelsbeheer",
+      "section": "N"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "79",
+    "fields": {
+      "title": "Reisbemiddeling, reisorganisatie, toeristische informatie en reserveringsbureaus",
+      "section": "N"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "80",
+    "fields": {
+      "title": "Beveiliging en opsporing",
+      "section": "N"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "81",
+    "fields": {
+      "title": "Facility management, reiniging en landschapsverzorging",
+      "section": "N"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "82",
+    "fields": {
+      "title": "Overige zakelijke dienstverlening",
+      "section": "N"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "84",
+    "fields": {
+      "title": "Openbaar bestuur, overheidsdiensten en verplichte sociale verzekeringen",
+      "section": "O"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "85",
+    "fields": {
+      "title": "Onderwijs",
+      "section": "P"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "86",
+    "fields": {
+      "title": "Gezondheidszorg",
+      "section": "Q"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "87",
+    "fields": {
+      "title": "Verpleging, verzorging en begeleiding met overnachting",
+      "section": "Q"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "88",
+    "fields": {
+      "title": "Maatschappelijke dienstverlening zonder overnachting",
+      "section": "Q"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "90",
+    "fields": {
+      "title": "Kunst",
+      "section": "R"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "91",
+    "fields": {
+      "title": "Culturele uitleencentra, openbare archieven, musea, dieren- en plantentuinen, natuurbehoud",
+      "section": "R"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "92",
+    "fields": {
+      "title": "Loterijen en kansspelen",
+      "section": "R"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "93",
+    "fields": {
+      "title": "Sport en recreatie",
+      "section": "R"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "94",
+    "fields": {
+      "title": "Levensbeschouwelijke en politieke organisaties, belangen- en ide\u00eble organisaties, hobbyclubs",
+      "section": "S"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "95",
+    "fields": {
+      "title": "Reparatie van computers en consumentenartikelen",
+      "section": "S"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "96",
+    "fields": {
+      "title": "Wellness en overige dienstverlening; uitvaartbranche",
+      "section": "S"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "97",
+    "fields": {
+      "title": "Huishoudens als werkgever van huishoudelijk personeel",
+      "section": "T"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "98",
+    "fields": {
+      "title": "Niet-gedifferentieerde productie van goederen en diensten door particuliere huishoudens voor eigen gebruik",
+      "section": "T"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_rootnode",
+    "pk": "99",
+    "fields": {
+      "title": "Extraterritoriale organisaties en lichamen",
+      "section": "U"
+    }
+  }
+]

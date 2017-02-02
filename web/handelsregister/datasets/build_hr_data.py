@@ -623,7 +623,7 @@ WHERE correctie IS NOT NULL
 
 
 def _build_joined_geo_table(cursor):
-    cursor.execute("SELECT COUNT(*) from hr_cbs_sbicodes")
+    cursor.execute("SELECT COUNT(*) from hr_cbs_sbicode")
     r = cursor.fetchone()
     assert(r[0] > 0)
 
@@ -674,10 +674,10 @@ INSERT INTO hr_geovestigingen (
     ON (vs.bezoekadres_id = loc.id
         OR vs.postadres_id = loc.id)
         AND ST_IsValid(loc.geometrie)
-    JOIN hr_cbs_sbicodes sbi
+    JOIN hr_cbs_sbicode sbi
     ON a.sbi_code = sbi.sbi_code
     JOIN hr_cbs_sbi_subcat sc
-    ON sbi.scat_id = sc.scat
+    ON sbi.sub_cat_id = sc.scat
     JOIN hr_cbs_sbi_hoofdcat hc
     ON sc.hcat_id = hc.hcat,
         django_site site

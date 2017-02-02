@@ -149,13 +149,31 @@ class SBISubcatFactory(factory.DjangoModelFactory):
     subcategorie = fuzzy.FuzzyText(prefix='subcat')
 
 
+class SBISectionFactory(factory.DjangoModelFactory):
+    class Meta:
+        model = models.CBS_sbi_section
+
+    code = 'X'
+    title = fuzzy.FuzzyText(prefix='section')
+
+
+class SBIRootNodeFactory(factory.DjangoModelFactory):
+    class Meta:
+        model = models.CBS_sbi_rootnode
+
+    code = '00'
+    section = factory.SubFactory(SBISectionFactory)
+    title = fuzzy.FuzzyText(prefix='rootnode')
+
+
 class SBIcatFactory(factory.DjangoModelFactory):
     class Meta:
-        model = models.CBS_sbicodes
+        model = models.CBS_sbicode
 
     sbi_code = fuzzy.FuzzyInteger(low=10000, high=10009)
-    sub_sub_categorie = fuzzy.FuzzyText(prefix='sbi')
-    scat = factory.SubFactory(SBISubcatFactory)
+    title = fuzzy.FuzzyText(prefix='sbi')
+    sub_cat = factory.SubFactory(SBISubcatFactory)
+    root_node = factory.SubFactory(SBIRootNodeFactory)
 
 
 def create_x_vestigingen(x=5):
@@ -219,7 +237,7 @@ def create_dataselectie_set():
             m.eigenaar = fv[idx]
             m.save()
 
-    sbicodes = models.CBS_sbicodes.objects.all()
+    sbicodes = models.CBS_sbi_endcode.objects.all()
     acnrs = models.Activiteit.objects.count() - 1
     for idx, ac in enumerate(models.Activiteit.objects.all()[:acnrs]):
         if idx < len(sbicodes):

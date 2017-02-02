@@ -146,12 +146,14 @@ ENV/
 web/handelsregister/datasets/__pycache__/
 web/handelsregister/datasets/kvkdump/__pycache__/
 web/handelsregister/handelsregister/__pycache__/
-web/web.iml
 
 .jenkins/backups
 reports/junit.xml
-**/data/
-**/unzipped/
+**/data/*
+**/unzipped/*
 
 .project
 .pydevproject
+data/
+unzipped/
+hr_cbs_sbicodes/

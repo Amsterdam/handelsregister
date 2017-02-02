@@ -1,0 +1,149 @@
+[
+  {
+    "model": "hr.cbs_sbi_section",
+    "pk": "A",
+    "fields": {
+      "title": "LANDBOUW, BOSBOUW EN VISSERIJ"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_section",
+    "pk": "B",
+    "fields": {
+      "title": "WINNING VAN DELFSTOFFEN"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_section",
+    "pk": "C",
+    "fields": {
+      "title": "INDUSTRIE"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_section",
+    "pk": "D",
+    "fields": {
+      "title": "PRODUCTIE EN DISTRIBUTIE VAN EN HANDEL IN ELEKTRICITEIT, AARDGAS, STOOM EN GEKOELDE LUCHT"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_section",
+    "pk": "E",
+    "fields": {
+      "title": "WINNING EN DISTRIBUTIE VAN WATER; AFVAL- EN AFVALWATERBEHEER EN SANERING"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_section",
+    "pk": "F",
+    "fields": {
+      "title": "BOUWNIJVERHEID"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_section",
+    "pk": "G",
+    "fields": {
+      "title": "GROOT- EN DETAILHANDEL; REPARATIE VAN AUTO\u2019S"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_section",
+    "pk": "H",
+    "fields": {
+      "title": "VERVOER EN OPSLAG"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_section",
+    "pk": "I",
+    "fields": {
+      "title": "LOGIES-, MAALTIJD- EN DRANKVERSTREKKING"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_section",
+    "pk": "J",
+    "fields": {
+      "title": "INFORMATIE EN COMMUNICATIE"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_section",
+    "pk": "K",
+    "fields": {
+      "title": "FINANCI\u00cbLE INSTELLINGEN"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_section",
+    "pk": "L",
+    "fields": {
+      "title": "VERHUUR VAN EN HANDEL IN ONROEREND GOED"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_section",
+    "pk": "M",
+    "fields": {
+      "title": "ADVISERING, ONDERZOEK EN OVERIGE SPECIALISTISCHE ZAKELIJKE DIENSTVERLENING"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_section",
+    "pk": "N",
+    "fields": {
+      "title": "VERHUUR VAN ROERENDE GOEDEREN EN OVERIGE ZAKELIJKE DIENSTVERLENING"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_section",
+    "pk": "O",
+    "fields": {
+      "title": "OPENBAAR BESTUUR, OVERHEIDSDIENSTEN EN VERPLICHTE SOCIALE VERZEKERINGEN"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_section",
+    "pk": "P",
+    "fields": {
+      "title": "ONDERWIJS"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_section",
+    "pk": "Q",
+    "fields": {
+      "title": "GEZONDHEIDS- EN WELZIJNSZORG"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_section",
+    "pk": "R",
+    "fields": {
+      "title": "CULTUUR, SPORT EN RECREATIE"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_section",
+    "pk": "S",
+    "fields": {
+      "title": "OVERIGE DIENSTVERLENING"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_section",
+    "pk": "T",
+    "fields": {
+      "title": "HUISHOUDENS ALS WERKGEVER; NIET-GEDIFFERENTIEERDE PRODUCTIE VAN GOEDEREN EN DIENSTEN DOOR HUISHOUDENS VOOR EIGEN GEBRUIK"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_section",
+    "pk": "U",
+    "fields": {
+      "title": "EXTRATERRITORIALE ORGANISATIES EN LICHAMEN"
+    }
+  }
+]

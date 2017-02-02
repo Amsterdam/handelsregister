@@ -1,1 +1,530 @@
-[{"model": "hr.cbs_sbi_subcat", "pk": "22272_12_22207_11", "fields": {"subcategorie": "detailhandel (verkoop aan consumenten, niet zelf vervaardigd)", "hcat": "22272_12"}}, {"model": "hr.cbs_sbi_subcat", "pk": "22272_12_22208_11", "fields": {"subcategorie": "handel en reparatie van auto s", "hcat": "22272_12"}}, {"model": "hr.cbs_sbi_subcat", "pk": "22272_12_22209_11", "fields": {"subcategorie": "groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)", "hcat": "22272_12"}}, {"model": "hr.cbs_sbi_subcat", "pk": "22272_12_22210_11", "fields": {"subcategorie": "handelsbemiddeling (tussenpersoon, verkoopt niet zelf)", "hcat": "22272_12"}}, {"model": "hr.cbs_sbi_subcat", "pk": "22272_12_22211_11", "fields": {"subcategorie": "vervoer", "hcat": "22272_12"}}, {"model": "hr.cbs_sbi_subcat", "pk": "22272_12_22212_11", "fields": {"subcategorie": "opslag", "hcat": "22272_12"}}, {"model": "hr.cbs_sbi_subcat", "pk": "22272_12_22213_11", "fields": {"subcategorie": "dienstverlening vervoer", "hcat": "22272_12"}}, {"model": "hr.cbs_sbi_subcat", "pk": "22273_12_22214_11", "fields": {"subcategorie": "productie", "hcat": "22273_12"}}, {"model": "hr.cbs_sbi_subcat", "pk": "22273_12_22215_11", "fields": {"subcategorie": "installatie (geen bouw)", "hcat": "22273_12"}}, {"model": "hr.cbs_sbi_subcat", "pk": "22273_12_22216_11", "fields": {"subcategorie": "reparatie (geen bouw)", "hcat": "22273_12"}}, {"model": "hr.cbs_sbi_subcat", "pk": "22274_12_22217_11", "fields": {"subcategorie": "bouw/utiliteitsbouw algemeen", "hcat": "22274_12"}}, {"model": "hr.cbs_sbi_subcat", "pk": "22274_12_22218_11", "fields": {"subcategorie": "grond, water, wegenbouw", "hcat": "22274_12"}}, {"model": "hr.cbs_sbi_subcat", "pk": "22274_12_22219_11", "fields": {"subcategorie": "bouwinstallatie", "hcat": "22274_12"}}, {"model": "hr.cbs_sbi_subcat", "pk": "22274_12_22220_11", "fields": {"subcategorie": "afwerking van gebouwen", "hcat": "22274_12"}}, {"model": "hr.cbs_sbi_subcat", "pk": "22274_12_22221_11", "fields": {"subcategorie": "dak- en overige gespecialiseerde bouw", "hcat": "22274_12"}}, {"model": "hr.cbs_sbi_subcat", "pk": "22274_12_22222_11", "fields": {"subcategorie": "klussenbedrijf", "hcat": "22274_12"}}, {"model": "hr.cbs_sbi_subcat", "pk": "22274_12_22223_11", "fields": {"subcategorie": "bouw overig", "hcat": "22274_12"}}, {"model": "hr.cbs_sbi_subcat", "pk": "22275_12_22224_11", "fields": {"subcategorie": "teelt eenjarige gewassen", "hcat": "22275_12"}}, {"model": "hr.cbs_sbi_subcat", "pk": "22275_12_22225_11", "fields": {"subcategorie": "teelt meerjarige gewassen", "hcat": "22275_12"}}, {"model": "hr.cbs_sbi_subcat", "pk": "22275_12_22226_11", "fields": {"subcategorie": "teelt sierplanten", "hcat": "22275_12"}}, {"model": "hr.cbs_sbi_subcat", "pk": "22275_12_22227_11", "fields": {"subcategorie": "fokken, houden dieren", "hcat": "22275_12"}}, {"model": "hr.cbs_sbi_subcat", "pk": "22275_12_22228_11", "fields": {"subcategorie": "gemengd bedrijf", "hcat": "22275_12"}}, {"model": "hr.cbs_sbi_subcat", "pk": "22275_12_22229_11", "fields": {"subcategorie": "dienstverlening voor de land/tuinbouw", "hcat": "22275_12"}}, {"model": "hr.cbs_sbi_subcat", "pk": "22276_12_22230_11", "fields": {"subcategorie": "hotel-restaurant", "hcat": "22276_12"}}, {"model": "hr.cbs_sbi_subcat", "pk": "22276_12_22231_11", "fields": {"subcategorie": "hotel, pension", "hcat": "22276_12"}}, {"model": "hr.cbs_sbi_subcat", "pk": "22276_12_22232_11", "fields": {"subcategorie": "restaurant, caf\u00e9-restaurant", "hcat": "22276_12"}}, {"model": "hr.cbs_sbi_subcat", "pk": "22276_12_22233_11", "fields": {"subcategorie": "cafetaria, snackbar, ijssalon", "hcat": "22276_12"}}, {"model": "hr.cbs_sbi_subcat", "pk": "22276_12_22234_11", "fields": {"subcategorie": "caf\u00e9", "hcat": "22276_12"}}, {"model": "hr.cbs_sbi_subcat", "pk": "22276_12_22235_11", "fields": {"subcategorie": "kantine, catering", "hcat": "22276_12"}}, {"model": "hr.cbs_sbi_subcat", "pk": "22276_12_22236_11", "fields": {"subcategorie": "overig, te weten", "hcat": "22276_12"}}, {"model": "hr.cbs_sbi_subcat", "pk": "22277_12_22237_11", "fields": {"subcategorie": "uitgeverijen", "hcat": "22277_12"}}, {"model": "hr.cbs_sbi_subcat", "pk": "22277_12_22238_11", "fields": {"subcategorie": "activiteiten  op gebied van film, tv, radio, audio", "hcat": "22277_12"}}, {"model": "hr.cbs_sbi_subcat", "pk": "22277_12_22239_11", "fields": {"subcategorie": "telecommunicatie", "hcat": "22277_12"}}, {"model": "hr.cbs_sbi_subcat", "pk": "22277_12_22240_11", "fields": {"subcategorie": "activiteiten op het gebied van ict", "hcat": "22277_12"}}, {"model": "hr.cbs_sbi_subcat", "pk": "22278_12_22241_11", "fields": {"subcategorie": "financi\u00eble dienstverlening en verzekeringen", "hcat": "22278_12"}}, {"model": "hr.cbs_sbi_subcat", "pk": "22278_12_22242_11", "fields": {"subcategorie": "holdings", "hcat": "22278_12"}}, {"model": "hr.cbs_sbi_subcat", "pk": "22278_12_22243_11", "fields": {"subcategorie": "verhuur van- en beheer/handel in onroerend goed", "hcat": "22278_12"}}, {"model": "hr.cbs_sbi_subcat", "pk": "22278_12_22244_11", "fields": {"subcategorie": "verhuur van roerende goederen", "hcat": "22278_12"}}, {"model": "hr.cbs_sbi_subcat", "pk": "22279_12_22245_11", "fields": {"subcategorie": "public relationsbureaus", "hcat": "22279_12"}}, {"model": "hr.cbs_sbi_subcat", "pk": "22279_12_22246_11", "fields": {"subcategorie": "managementadvies, economisch advies", "hcat": "22279_12"}}, {"model": "hr.cbs_sbi_subcat", "pk": "22279_12_22247_11", "fields": {"subcategorie": "advocaten rechtskundige diensten, notarissen", "hcat": "22279_12"}}, {"model": "hr.cbs_sbi_subcat", "pk": "22279_12_22248_11", "fields": {"subcategorie": "accountancy, administratie", "hcat": "22279_12"}}, {"model": "hr.cbs_sbi_subcat", "pk": "22279_12_22249_11", "fields": {"subcategorie": "architecten", "hcat": "22279_12"}}, {"model": "hr.cbs_sbi_subcat", "pk": "22279_12_22250_11", "fields": {"subcategorie": "interieurarchitecten", "hcat": "22279_12"}}, {"model": "hr.cbs_sbi_subcat", "pk": "22279_12_22251_11", "fields": {"subcategorie": "technisch ontwerp, advies, keuring/research", "hcat": "22279_12"}}, {"model": "hr.cbs_sbi_subcat", "pk": "22279_12_22252_11", "fields": {"subcategorie": "arbeidsbemiddeling, uitzendbureaus, uitleenbureaus", "hcat": "22279_12"}}, {"model": "hr.cbs_sbi_subcat", "pk": "22279_12_22253_11", "fields": {"subcategorie": "reclame en marktonderzoek", "hcat": "22279_12"}}, {"model": "hr.cbs_sbi_subcat", "pk": "22279_12_22254_11", "fields": {"subcategorie": "design", "hcat": "22279_12"}}, {"model": "hr.cbs_sbi_subcat", "pk": "22279_12_22255_11", "fields": {"subcategorie": "overige zakelijke dienstverlening", "hcat": "22279_12"}}, {"model": "hr.cbs_sbi_subcat", "pk": "22280_12_22256_11", "fields": {"subcategorie": "overheid", "hcat": "22280_12"}}, {"model": "hr.cbs_sbi_subcat", "pk": "22280_12_22257_11", "fields": {"subcategorie": "onderwijs", "hcat": "22280_12"}}, {"model": "hr.cbs_sbi_subcat", "pk": "22280_12_22258_11", "fields": {"subcategorie": "gezondheids- en welzijnszorg", "hcat": "22280_12"}}, {"model": "hr.cbs_sbi_subcat", "pk": "22281_12_22259_11", "fields": {"subcategorie": "kunst", "hcat": "22281_12"}}, {"model": "hr.cbs_sbi_subcat", "pk": "22281_12_22260_11", "fields": {"subcategorie": "musea, bibliotheken, kunstuitleen", "hcat": "22281_12"}}, {"model": "hr.cbs_sbi_subcat", "pk": "22281_12_22261_11", "fields": {"subcategorie": "sport", "hcat": "22281_12"}}, {"model": "hr.cbs_sbi_subcat", "pk": "22281_12_22262_11", "fields": {"subcategorie": "recreatie", "hcat": "22281_12"}}, {"model": "hr.cbs_sbi_subcat", "pk": "22282_12_22263_11", "fields": {"subcategorie": "kappers", "hcat": "22282_12"}}, {"model": "hr.cbs_sbi_subcat", "pk": "22282_12_22264_11", "fields": {"subcategorie": "schoonheidsverzorging", "hcat": "22282_12"}}, {"model": "hr.cbs_sbi_subcat", "pk": "22282_12_22265_11", "fields": {"subcategorie": "sauna, solaria", "hcat": "22282_12"}}, {"model": "hr.cbs_sbi_subcat", "pk": "22282_12_22266_11", "fields": {"subcategorie": "uitvaart, crematoria", "hcat": "22282_12"}}, {"model": "hr.cbs_sbi_subcat", "pk": "22282_12_22267_11", "fields": {"subcategorie": "overige dienstverlening", "hcat": "22282_12"}}, {"model": "hr.cbs_sbi_subcat", "pk": "22283_12_22268_11", "fields": {"subcategorie": "belangenorganisaties", "hcat": "22283_12"}}, {"model": "hr.cbs_sbi_subcat", "pk": "22283_12_22269_11", "fields": {"subcategorie": "idie\u00eble organisaties", "hcat": "22283_12"}}, {"model": "hr.cbs_sbi_subcat", "pk": "22283_12_22270_11", "fields": {"subcategorie": "hobbyclubs", "hcat": "22283_12"}}, {"model": "hr.cbs_sbi_subcat", "pk": "22283_12_22271_11", "fields": {"subcategorie": "overige", "hcat": "22283_12"}}]
+[
+  {
+    "model": "hr.cbs_sbi_subcat",
+    "pk": "22272_12_22207_11",
+    "fields": {
+      "subcategorie": "detailhandel (verkoop aan consumenten, niet zelf vervaardigd)",
+      "hcat": "22272_12"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_subcat",
+    "pk": "22272_12_22208_11",
+    "fields": {
+      "subcategorie": "handel en reparatie van auto s",
+      "hcat": "22272_12"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_subcat",
+    "pk": "22272_12_22209_11",
+    "fields": {
+      "subcategorie": "groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)",
+      "hcat": "22272_12"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_subcat",
+    "pk": "22272_12_22210_11",
+    "fields": {
+      "subcategorie": "handelsbemiddeling (tussenpersoon, verkoopt niet zelf)",
+      "hcat": "22272_12"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_subcat",
+    "pk": "22272_12_22211_11",
+    "fields": {
+      "subcategorie": "vervoer",
+      "hcat": "22272_12"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_subcat",
+    "pk": "22272_12_22212_11",
+    "fields": {
+      "subcategorie": "opslag",
+      "hcat": "22272_12"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_subcat",
+    "pk": "22272_12_22213_11",
+    "fields": {
+      "subcategorie": "dienstverlening vervoer",
+      "hcat": "22272_12"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_subcat",
+    "pk": "22273_12_22214_11",
+    "fields": {
+      "subcategorie": "productie",
+      "hcat": "22273_12"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_subcat",
+    "pk": "22273_12_22215_11",
+    "fields": {
+      "subcategorie": "installatie (geen bouw)",
+      "hcat": "22273_12"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_subcat",
+    "pk": "22273_12_22216_11",
+    "fields": {
+      "subcategorie": "reparatie (geen bouw)",
+      "hcat": "22273_12"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_subcat",
+    "pk": "22274_12_22217_11",
+    "fields": {
+      "subcategorie": "bouw/utiliteitsbouw algemeen",
+      "hcat": "22274_12"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_subcat",
+    "pk": "22274_12_22218_11",
+    "fields": {
+      "subcategorie": "grond, water, wegenbouw",
+      "hcat": "22274_12"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_subcat",
+    "pk": "22274_12_22219_11",
+    "fields": {
+      "subcategorie": "bouwinstallatie",
+      "hcat": "22274_12"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_subcat",
+    "pk": "22274_12_22220_11",
+    "fields": {
+      "subcategorie": "afwerking van gebouwen",
+      "hcat": "22274_12"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_subcat",
+    "pk": "22274_12_22221_11",
+    "fields": {
+      "subcategorie": "dak- en overige gespecialiseerde bouw",
+      "hcat": "22274_12"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_subcat",
+    "pk": "22274_12_22222_11",
+    "fields": {
+      "subcategorie": "klussenbedrijf",
+      "hcat": "22274_12"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_subcat",
+    "pk": "22274_12_22223_11",
+    "fields": {
+      "subcategorie": "bouw overig",
+      "hcat": "22274_12"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_subcat",
+    "pk": "22275_12_22224_11",
+    "fields": {
+      "subcategorie": "teelt eenjarige gewassen",
+      "hcat": "22275_12"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_subcat",
+    "pk": "22275_12_22225_11",
+    "fields": {
+      "subcategorie": "teelt meerjarige gewassen",
+      "hcat": "22275_12"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_subcat",
+    "pk": "22275_12_22226_11",
+    "fields": {
+      "subcategorie": "teelt sierplanten",
+      "hcat": "22275_12"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_subcat",
+    "pk": "22275_12_22227_11",
+    "fields": {
+      "subcategorie": "fokken, houden dieren",
+      "hcat": "22275_12"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_subcat",
+    "pk": "22275_12_22228_11",
+    "fields": {
+      "subcategorie": "gemengd bedrijf",
+      "hcat": "22275_12"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_subcat",
+    "pk": "22275_12_22229_11",
+    "fields": {
+      "subcategorie": "dienstverlening voor de land/tuinbouw",
+      "hcat": "22275_12"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_subcat",
+    "pk": "22276_12_22230_11",
+    "fields": {
+      "subcategorie": "hotel-restaurant",
+      "hcat": "22276_12"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_subcat",
+    "pk": "22276_12_22231_11",
+    "fields": {
+      "subcategorie": "hotel, pension",
+      "hcat": "22276_12"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_subcat",
+    "pk": "22276_12_22232_11",
+    "fields": {
+      "subcategorie": "restaurant, caf\u00e9-restaurant",
+      "hcat": "22276_12"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_subcat",
+    "pk": "22276_12_22233_11",
+    "fields": {
+      "subcategorie": "cafetaria, snackbar, ijssalon",
+      "hcat": "22276_12"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_subcat",
+    "pk": "22276_12_22234_11",
+    "fields": {
+      "subcategorie": "caf\u00e9",
+      "hcat": "22276_12"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_subcat",
+    "pk": "22276_12_22235_11",
+    "fields": {
+      "subcategorie": "kantine, catering",
+      "hcat": "22276_12"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_subcat",
+    "pk": "22276_12_22236_11",
+    "fields": {
+      "subcategorie": "overig, te weten",
+      "hcat": "22276_12"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_subcat",
+    "pk": "22277_12_22237_11",
+    "fields": {
+      "subcategorie": "uitgeverijen",
+      "hcat": "22277_12"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_subcat",
+    "pk": "22277_12_22238_11",
+    "fields": {
+      "subcategorie": "activiteiten  op gebied van film, tv, radio, audio",
+      "hcat": "22277_12"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_subcat",
+    "pk": "22277_12_22239_11",
+    "fields": {
+      "subcategorie": "telecommunicatie",
+      "hcat": "22277_12"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_subcat",
+    "pk": "22277_12_22240_11",
+    "fields": {
+      "subcategorie": "activiteiten op het gebied van ict",
+      "hcat": "22277_12"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_subcat",
+    "pk": "22278_12_22241_11",
+    "fields": {
+      "subcategorie": "financi\u00eble dienstverlening en verzekeringen",
+      "hcat": "22278_12"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_subcat",
+    "pk": "22278_12_22242_11",
+    "fields": {
+      "subcategorie": "holdings",
+      "hcat": "22278_12"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_subcat",
+    "pk": "22278_12_22243_11",
+    "fields": {
+      "subcategorie": "verhuur van- en beheer/handel in onroerend goed",
+      "hcat": "22278_12"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_subcat",
+    "pk": "22278_12_22244_11",
+    "fields": {
+      "subcategorie": "verhuur van roerende goederen",
+      "hcat": "22278_12"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_subcat",
+    "pk": "22279_12_22245_11",
+    "fields": {
+      "subcategorie": "public relationsbureaus",
+      "hcat": "22279_12"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_subcat",
+    "pk": "22279_12_22246_11",
+    "fields": {
+      "subcategorie": "managementadvies, economisch advies",
+      "hcat": "22279_12"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_subcat",
+    "pk": "22279_12_22247_11",
+    "fields": {
+      "subcategorie": "advocaten rechtskundige diensten, notarissen",
+      "hcat": "22279_12"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_subcat",
+    "pk": "22279_12_22248_11",
+    "fields": {
+      "subcategorie": "accountancy, administratie",
+      "hcat": "22279_12"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_subcat",
+    "pk": "22279_12_22249_11",
+    "fields": {
+      "subcategorie": "architecten",
+      "hcat": "22279_12"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_subcat",
+    "pk": "22279_12_22250_11",
+    "fields": {
+      "subcategorie": "interieurarchitecten",
+      "hcat": "22279_12"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_subcat",
+    "pk": "22279_12_22251_11",
+    "fields": {
+      "subcategorie": "technisch ontwerp, advies, keuring/research",
+      "hcat": "22279_12"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_subcat",
+    "pk": "22279_12_22252_11",
+    "fields": {
+      "subcategorie": "arbeidsbemiddeling, uitzendbureaus, uitleenbureaus",
+      "hcat": "22279_12"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_subcat",
+    "pk": "22279_12_22253_11",
+    "fields": {
+      "subcategorie": "reclame en marktonderzoek",
+      "hcat": "22279_12"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_subcat",
+    "pk": "22279_12_22254_11",
+    "fields": {
+      "subcategorie": "design",
+      "hcat": "22279_12"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_subcat",
+    "pk": "22279_12_22255_11",
+    "fields": {
+      "subcategorie": "overige zakelijke dienstverlening",
+      "hcat": "22279_12"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_subcat",
+    "pk": "22280_12_22256_11",
+    "fields": {
+      "subcategorie": "overheid",
+      "hcat": "22280_12"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_subcat",
+    "pk": "22280_12_22257_11",
+    "fields": {
+      "subcategorie": "onderwijs",
+      "hcat": "22280_12"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_subcat",
+    "pk": "22280_12_22258_11",
+    "fields": {
+      "subcategorie": "gezondheids- en welzijnszorg",
+      "hcat": "22280_12"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_subcat",
+    "pk": "22281_12_22259_11",
+    "fields": {
+      "subcategorie": "kunst",
+      "hcat": "22281_12"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_subcat",
+    "pk": "22281_12_22260_11",
+    "fields": {
+      "subcategorie": "musea, bibliotheken, kunstuitleen",
+      "hcat": "22281_12"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_subcat",
+    "pk": "22281_12_22261_11",
+    "fields": {
+      "subcategorie": "sport",
+      "hcat": "22281_12"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_subcat",
+    "pk": "22281_12_22262_11",
+    "fields": {
+      "subcategorie": "recreatie",
+      "hcat": "22281_12"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_subcat",
+    "pk": "22282_12_22263_11",
+    "fields": {
+      "subcategorie": "kappers",
+      "hcat": "22282_12"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_subcat",
+    "pk": "22282_12_22264_11",
+    "fields": {
+      "subcategorie": "schoonheidsverzorging",
+      "hcat": "22282_12"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_subcat",
+    "pk": "22282_12_22265_11",
+    "fields": {
+      "subcategorie": "sauna, solaria",
+      "hcat": "22282_12"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_subcat",
+    "pk": "22282_12_22266_11",
+    "fields": {
+      "subcategorie": "uitvaart, crematoria",
+      "hcat": "22282_12"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_subcat",
+    "pk": "22282_12_22267_11",
+    "fields": {
+      "subcategorie": "overige dienstverlening",
+      "hcat": "22282_12"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_subcat",
+    "pk": "22283_12_22268_11",
+    "fields": {
+      "subcategorie": "belangenorganisaties",
+      "hcat": "22283_12"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_subcat",
+    "pk": "22283_12_22269_11",
+    "fields": {
+      "subcategorie": "idie\u00eble organisaties",
+      "hcat": "22283_12"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_subcat",
+    "pk": "22283_12_22270_11",
+    "fields": {
+      "subcategorie": "hobbyclubs",
+      "hcat": "22283_12"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_subcat",
+    "pk": "22283_12_22271_11",
+    "fields": {
+      "subcategorie": "overige",
+      "hcat": "22283_12"
+    }
+  },
+  {
+    "model": "hr.cbs_sbi_subcat",
+    "pk": "XXX",
+    "fields": {
+      "subcategorie": "ongeplaatst",
+      "hcat": "22283_12"
+    }
+  }
+]
