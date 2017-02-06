@@ -9,7 +9,7 @@ export DATABASE_PORT_5432_TCP_PORT=5406
 export PGPASSWORD="insecure"
 
 # wait for database to load
-#source docker-wait.sh
+source docker-wait.sh
 
 echo 'unzipping latest kvk dump files'
 
