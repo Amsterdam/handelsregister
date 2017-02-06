@@ -137,7 +137,9 @@ def _process_sectiondatatree(section_tree_data, section):
     for sbi_code_node in [node for node in section_tree if not node['IsRoot']]:
         sbi_code = sbi_code_node['Code']
         rootnode_code = sbi_code_node['Code'][:2]
-        cbsbi = CBS_sbicode(sbi_code=sbi_code,
+        # to be depricated:
+        malformed_sbi_code = sbi_code[1:] if sbi_code[0] == '0' else sbi_code
+        cbsbi = CBS_sbicode(sbi_code=malformed_sbi_code,
                             title=sbi_code_node['Title'],
                             sub_cat=_get_subcat(sbi_code),
                             root_node=rootnode_set[rootnode_code])
