@@ -2,8 +2,6 @@ version: '2.1'
 services:
   database:
     image: build.datapunt.amsterdam.nl:5000/atlas/postgres
-    #ports:
-    #  - "5406:5432"
     environment:
       POSTGRES_PASSWORD: insecure
       POSTGRES_USER: handelsregister

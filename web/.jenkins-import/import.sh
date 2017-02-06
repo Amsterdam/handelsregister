@@ -23,6 +23,13 @@ dc build --pull
 
 dc up -d database
 
+# wait for postgres
+while ! nc -z database 5432
+do
+	echo "Waiting for postgres..."
+	sleep 0.5
+done
+
 # load latest bag into database
 echo "Load latest verblijfsobjecten en nummeraanduidingen in bag database"
 dc exec -T database update-db.sh atlas
