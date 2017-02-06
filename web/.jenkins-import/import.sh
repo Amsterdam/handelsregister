@@ -23,8 +23,6 @@ dc build --pull
 
 dc up -d database
 
-dc run --rm tests
-
 # load latest bag into database
 echo "Load latest verblijfsobjecten en nummeraanduidingen in bag database"
 dc exec -T database update-db.sh atlas
