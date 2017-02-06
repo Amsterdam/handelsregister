@@ -44,8 +44,3 @@ class ImportCSBTest(APITestCase):
         self.assertEqual(CBS_sbi_section.objects.count(), 0)
         self.assertEqual(CBS_sbi_hoofdcat.objects.count(), 0)
 
-        build_cbs_sbi._check_download_complete()
-        self.assertGreater(CBS_sbi_hoofdcat.objects.count(), 11)
-        self.assertGreater(CBS_sbi_subcat.objects.count(), 5)
-        self.assertGreater(CBS_sbi_endcode.objects.count(), 9)
-

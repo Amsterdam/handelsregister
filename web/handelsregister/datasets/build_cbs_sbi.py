@@ -7,7 +7,6 @@ import logging
 from django import db
 from django.conf import settings
 import requests
-import json
 import time
 from datasets.hr.models import CBS_sbi_endcode, CBS_sbi_hoofdcat, CBS_sbi_subcat, \
                                CBS_sbi_section, CBS_sbi_rootnode, CBS_sbicode
@@ -161,51 +160,6 @@ def _get_subcat(sbi_code):
             return _get_subcat(sbi_code[:-1])
 
 
-def _check_download_complete():
-
-    if CBS_sbi_hoofdcat.objects.count() == 0:
-        restore_cbs_sbi()
-
-
-def restore_cbs_sbi():
-    _restore_json(
-        './datasets/kvkdump/fixture_files/hcat.json',
-        CBS_sbi_hoofdcat, 'hcat')
-    _restore_json(
-        './datasets/kvkdump/fixture_files/scat.json',
-        CBS_sbi_subcat, 'scat', ['hcat'])
-    _restore_json(
-        './datasets/kvkdump/fixture_files/sbi_endcode.json',
-        CBS_sbi_endcode, 'sbi_code', ['scat'])
-    _restore_json(
-        './datasets/kvkdump/fixture_files/section.json',
-        CBS_sbi_section, 'code')
-    _restore_json(
-        './datasets/kvkdump/fixture_files/rootnode.json',
-        CBS_sbi_rootnode, 'code', ['section'])
-    _restore_json(
-        './datasets/kvkdump/fixture_files/sbi_code.json',
-        CBS_sbicode, 'sbi_code', ['root_node', 'sub_cat'])
-
-
-def _restore_json(filename, modelname, pkname='id', reference_fields=[]):
-    with open(filename, 'r') as injson:
-        indata = json.loads(injson.read())
-
-    for rows in indata:
-        newrow = modelname()
-        for key, value in rows.items():
-            if key == 'pk':
-                setattr(newrow, pkname, value)
-            elif key == 'fields':
-                for fldname, fldvalue in value.items():
-                    if fldname in reference_fields:
-                        fldname += '_id'
-                    setattr(newrow, fldname, fldvalue)
-        newrow.save()
-
-
 def cbsbi_table():
     _clear_cbsbi_table()
     _fill_cbsbi_table()
-    _check_download_complete()

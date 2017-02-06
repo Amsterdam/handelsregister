@@ -1,14 +1,40 @@
-import factory
 import random
 from datetime import datetime
+
+import factory
+import json
 import pytz
 from django.contrib.gis.geos import Point
-
 from factory import fuzzy
 
 from .. import models
 
-from datasets.build_cbs_sbi import restore_cbs_sbi
+
+def restore_cbs_sbi():
+    _restore_json('./datasets/kvkdump/fixture_files/hcat.json', models.CBS_sbi_hoofdcat, 'hcat')
+    _restore_json('./datasets/kvkdump/fixture_files/scat.json', models.CBS_sbi_subcat, 'scat', ['hcat'])
+    _restore_json('./datasets/kvkdump/fixture_files/sbi_endcode.json',  models.CBS_sbi_endcode, 'sbi_code', ['scat'])
+    _restore_json('./datasets/kvkdump/fixture_files/section.json', models.CBS_sbi_section, 'code')
+    _restore_json('./datasets/kvkdump/fixture_files/rootnode.json', models.CBS_sbi_rootnode, 'code', ['section'])
+    _restore_json('./datasets/kvkdump/fixture_files/sbi_code.json', models.CBS_sbicode, 'sbi_code', ['root_node',
+                                                                                                     'sub_cat'])
+
+
+def _restore_json(filename, modelname, pkname='id', reference_fields=[]):
+    with open(filename, 'r') as injson:
+        indata = json.loads(injson.read())
+
+    for rows in indata:
+        newrow = modelname()
+        for key, value in rows.items():
+            if key == 'pk':
+                setattr(newrow, pkname, value)
+            elif key == 'fields':
+                for fldname, fldvalue in value.items():
+                    if fldname in reference_fields:
+                        fldname += '_id'
+                    setattr(newrow, fldname, fldvalue)
+        newrow.save()
 
 
 class NatuurlijkePersoonFactory(factory.DjangoModelFactory):
@@ -65,7 +91,6 @@ class VestigingFactory(factory.DjangoModelFactory):
 
 
 class LocatieFactory(factory.DjangoModelFactory):
-
     class Meta:
         model = models.Locatie
 
@@ -83,8 +108,8 @@ class LocatieFactory(factory.DjangoModelFactory):
     huisnummertoevoeging = fuzzy.FuzzyText(length=5)
     straatnaam = fuzzy.FuzzyText('str', length=50)
 
-class Handelsnaam(factory.DjangoModelFactory):
 
+class Handelsnaam(factory.DjangoModelFactory):
     class Meta:
         model = models.Handelsnaam
 
@@ -94,7 +119,6 @@ class Handelsnaam(factory.DjangoModelFactory):
 
 
 class Onderneming(factory.DjangoModelFactory):
-
     class Meta:
         model = models.Onderneming
 
@@ -136,6 +160,7 @@ class FunctievervullingFactory(factory.DjangoModelFactory):
 class SBIHoofdcatFactory(factory.DjangoModelFactory):
     class Meta:
         model = models.CBS_sbi_hoofdcat
+
     hcat = fuzzy.FuzzyInteger(low=100, high=109)
     hoofdcategorie = fuzzy.FuzzyText(prefix='hfdcat')
 
@@ -185,7 +210,7 @@ def create_x_vestigingen(x=5):
 
     vestigingen = []
 
-    restore_cbs_sbi()           # required to allow for build of geo_vestiging
+    restore_cbs_sbi()  # required to allow for build of geo_vestiging
     mac = MaatschappelijkeActiviteitFactory.create()
     a1 = Activiteit.create()
 
@@ -194,17 +219,17 @@ def create_x_vestigingen(x=5):
     for i in range(x):
 
         loc_b = LocatieFactory.create(
-                id='{}{}'.format('b', i),
-                bag_numid=i,
-                bag_vbid=i,
-                geometrie=point
+            id='{}{}'.format('b', i),
+            bag_numid=i,
+            bag_vbid=i,
+            geometrie=point
         )
 
         loc_p = LocatieFactory.create(
-                id=i*100+1,
-                bag_numid='p{}'.format(i),
-                bag_vbid='p{}'.format(i),
-                geometrie=point
+            id=i * 100 + 1,
+            bag_numid='p{}'.format(i),
+            bag_vbid='p{}'.format(i),
+            geometrie=point
         )
 
         for v in range(random.randint(1, 10)):
@@ -222,7 +247,6 @@ def create_x_vestigingen(x=5):
 
 
 def create_dataselectie_set():
-
     # THIS IS A RANDOM AMOUNT
     create_x_vestigingen(x=5)
 
@@ -263,7 +287,7 @@ def create_search_test_locaties():
     # locatie zonder geo en geen adres
     # in atlas fixture
     loc_2 = LocatieFactory.create(
-        id=2*100+1,
+        id=2 * 100 + 1,
         bag_numid=None,
         bag_vbid=None,
         geometrie=None,
