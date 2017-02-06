@@ -24,7 +24,7 @@ dc build --pull
 dc up -d database
 
 # wait for postgres
-while ! nc -z database 5432
+while ! nc -z localhost 5432
 do
 	echo "Waiting for postgres..."
 	sleep 0.5
