@@ -27,7 +27,7 @@ dc up -d database
 while ! nc -z localhost 5432
 do
 	echo "Waiting for postgres..."
-	sleep 0.5
+	sleep 5
 done
 
 # load latest bag into database
