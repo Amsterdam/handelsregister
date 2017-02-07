@@ -23,12 +23,8 @@ dc build --pull
 
 dc up -d database
 
-# wait for postgres
-while ! nc -z localhost 5432
-do
-	echo "Waiting for postgres..."
-	sleep 5
-done
+# wait to give postgres the change to be up
+sleep 50
 
 # load latest bag into database
 echo "Load latest verblijfsobjecten en nummeraanduidingen in bag database"
