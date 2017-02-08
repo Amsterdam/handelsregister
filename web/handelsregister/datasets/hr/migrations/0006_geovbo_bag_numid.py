@@ -11,10 +11,4 @@ class Migration(migrations.Migration):
         ('hr', '0005_auto_20161020_1920'),
     ]
 
-    operations = [
-        migrations.AddField(
-            model_name='geovbo',
-            name='bag_numid',
-            field=models.CharField(blank=True, db_index=True, max_length=16, null=True),
-        ),
-    ]
+    operations = []

@@ -9,7 +9,7 @@ dc() {
 	docker-compose -p hr -f ${DIR}/docker-compose.yml $*;
 }
 
-trap 'dc kill ; dc rm -f' EXIT
+trap 'dc kill ; dc rm -f -v' EXIT
 
 echo "Do we have OS password?"
 echo $HANDELSREGISTER_OBJECTSTORE_PASSWORD

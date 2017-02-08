@@ -71,11 +71,6 @@ class Command(BaseCommand):
             default=False,
             help='Fill cbs sbi-codes')
 
-    def bag_check(self):
-        if models.GeoVBO.objects.count() < 10000:
-            raise ValueError(
-                'Incomplete bag data..with "copy_bagvbo_to_hr(local).sh"')
-
     def handle(self, *args, **options):
         """
         validate and execute import task
@@ -83,9 +78,7 @@ class Command(BaseCommand):
         LOG.info('Handelsregister import started')
 
         if options['bag']:
-            # load bag data in GeoVBO with
             # copy_bag_to_hr script
-            self.bag_check()
             build_hr_data.fill_location_with_bag()
             location_stats.log_rapport_counts(action='bag')
         elif options['geo_vest']:
@@ -104,7 +97,6 @@ class Command(BaseCommand):
             location_stats.log_rapport_counts()
         else:
             # convert mks dump
-            self.bag_check()
             build_hr_data.fill_stelselpedia()
             location_stats.log_rapport_counts()
             location_stats.log_rapport_counts(action='mks')

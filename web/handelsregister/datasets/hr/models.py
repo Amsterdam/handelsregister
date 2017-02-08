@@ -554,9 +554,11 @@ class Locatie(models.Model):
     toevoegingadres = models.CharField(max_length=100, blank=True, null=True)
 
     huisletter = models.CharField(max_length=1, blank=True, null=True)
+
     huisnummer = models.DecimalField(
         db_index=True,
         max_digits=5, decimal_places=0, blank=True, null=True)
+
     huisnummertoevoeging = models.CharField(
         max_length=5, blank=True, null=True)
 
@@ -794,18 +796,6 @@ class GeoVestigingen(models.Model):
 
     # Indication if corrected by auto search
     correctie = models.NullBooleanField()
-
-
-class GeoVBO(models.Model):
-    id = models.CharField(max_length=14, primary_key=True)
-
-    bag_numid = models.CharField(
-        max_length=16, db_index=True, blank=True, null=True)
-
-    bag_vbid = models.CharField(
-        max_length=16, db_index=True, blank=True, null=True)
-
-    geometrie = models.PointField(srid=28992, blank=True, null=True)
 
 
 class DataSelectie(models.Model):
