@@ -9,6 +9,8 @@ dc() {
 	docker-compose -p hr -f ${DIR}/docker-compose.yml $*;
 }
 
+dc pull
+
 trap 'dc kill ; dc rm -f -v' EXIT
 
 echo "Do we have OS password?"
