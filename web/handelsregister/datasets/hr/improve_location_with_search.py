@@ -46,6 +46,10 @@ STATS = dict(
     left=0,
 )
 
+STRAATLEVEL = 0
+POSTCODELEVEL = 200
+P6LEVEL = 1000
+
 # the amount of concurrent workers that do requests
 # to the search api
 WORKERS = 10
@@ -293,7 +297,7 @@ class SearchTask():
         """
 
         # find nummeraanduiding hit that comes close to what we look for
-        num = self.get_search_response()
+        correctie_level, num = self.get_search_response()
 
         if not num:
             # nothing found return
@@ -309,7 +313,8 @@ class SearchTask():
             # The first point is enough
 
         if rds_bagid:
-            self.save_corrected_geo_infomation(num, point, bag_id, num_id)
+            self.save_corrected_geo_infomation(
+                num, point, bag_id, num_id, correctie_level)
         else:
             log.exception('Point/Bagid missing: %s', num)
             self.log_wtf_loc()
@@ -357,17 +362,18 @@ class SearchTask():
 
     def look_in_hits(self, hits, nummer):
         """
-        Look in hit for matching hit
-        To see if there is a hit with a correct / matching toevoeging
+        Look in hits for matching hit to see if there is a
+        hit with a correct / matching toevoeging
         """
         # try to find hit in hits that matches toevoegingen
-        for t in self.toevoegingen:
+        for ti, t in enumerate(self.toevoegingen):
             for hit in hits:
                 target = '{} {}'.format(nummer, t).lower()
                 hit_toevoeging = hit['toevoeging'].lower()
                 if hit_toevoeging.startswith(target):
                     # log.debug('OK!')
-                    return hit
+                    return ti, hit
+        return None, None
 
     def find_postcode_hit(self):
         """
@@ -394,11 +400,15 @@ class SearchTask():
         """
         Given straatnaam, nummer and toevoeging try to
         find search result as last resort try postcode
+
+        return correctie_level, hit
         """
         hits = None
 
         # First with toevoeging
-        for nummer in self.nummers:
+        for i, nummer in enumerate(self.nummers):
+
+            correctie_level = i*10 + STRAATLEVEL
 
             # get all hits with straat huisnummer
             qs_try = self.get_q("", nummer=nummer)
@@ -408,17 +418,24 @@ class SearchTask():
                 # get all hits with postcode huisnummer
                 qs_try = self.get_q("", nummer=nummer, postcode=self.postcode)
                 hits = self.get_hits(qs_try, nummer)
+                if hits:
+                    correctie_level += POSTCODELEVEL
 
             if SLOW:
                 gevent.sleep(0.5)
 
-            # No hits then try with different number..
+            # IF hits then check toevoegingen.
             if hits:
-                match = self.look_in_hits(hits, nummer)
+                ti, match = self.look_in_hits(hits, nummer)
+                # add toevoeging level
                 if match:
-                    return match
-                return hits[0]
+                    # the closer the toevoeging the better score.
+                    correctie_level += ti
+                    return correctie_level, match
+                # no toevoeging match given.
+                return correctie_level, hits[0]
 
+            # for debugging
             if SLOW:
                 gevent.sleep(0.5)
 
@@ -426,7 +443,8 @@ class SearchTask():
         hit = self.find_postcode_hit()
 
         if hit:
-            return hit
+            correctie_level += P6LEVEL  # postcode_hit
+            return correctie_level, hit
 
         # Correctie failed
         # save and log empty result result
@@ -436,7 +454,7 @@ class SearchTask():
             self.locatie.save()
             self.log_wtf_loc()
 
-        return []
+        return 9999, []
 
     def log_wtf_loc(self):
         """
@@ -498,7 +516,8 @@ class SearchTask():
 
         return point, bag_id, num_id
 
-    def save_corrected_geo_infomation(self, num, point, bag_id, num_id):
+    def save_corrected_geo_infomation(
+            self, num, point, bag_id, num_id, correctie_level):
         """
         New adition location data is found, save it
         """
@@ -520,6 +539,7 @@ class SearchTask():
         locatie = self.locatie
         # we succesfull did a correction
         locatie.correctie = True
+        locatie.correctie_level = correctie_level
         locatie.query_string = num['_display']
 
         # save the new location
@@ -762,7 +782,7 @@ def create_qs_of_invalid_locations(gemeente):
         .filter(volledig_adres__endswith=gemeente)
         .exclude(volledig_adres__startswith='Postbus')
         .filter(correctie__isnull=True)
-        #.extra(
+        # .extra(
         #    tables=['hr_vestiging'],
         #    where=[
         #        '"hr_vestiging"."bezoekadres_id"="hr_locatie"."id"',
@@ -860,4 +880,3 @@ def test_one_weird_one(test=""):
     print(loc.bag_vbid)
     print(loc.geometrie)
     print(loc.query_string)
-

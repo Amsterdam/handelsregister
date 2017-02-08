@@ -611,13 +611,20 @@ WHERE bag.bag_vbid = loc.bag_numid AND loc.geometrie is null
     """)
 
 
+def _update_adres_details_from_bag(cursor):
+    """
+    Copy huisnummer, huisletter, toevoeging, postcode, woonplaats
+    from bag source. since hr data is inclomplete
+    """
+
 def _clear_autocorrected_results(cursor):
     cursor.execute("""
 UPDATE hr_locatie
     SET geometrie = NULL,
         correctie = NULL,
         bag_vbid = NULL,
-        bag_numid = NULL
+        bag_numid = NULL,
+        correctie_level = NULL
 WHERE correctie IS NOT NULL
     """)
 

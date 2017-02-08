@@ -572,6 +572,7 @@ class Locatie(models.Model):
 
     # Indication if corrected by auto search
     correctie = models.NullBooleanField()
+    correctie_level = models.IntegerField(null=True)
     # Last updated  (by search)
     updated_at = models.DateTimeField(auto_now=True, null=True)
     # QS string used to fix the search data
