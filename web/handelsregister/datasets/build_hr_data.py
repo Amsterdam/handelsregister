@@ -597,25 +597,25 @@ WHERE m.macid = hrm.id AND NOT EXISTS (
 def _update_location_table_with_bag(cursor):
     cursor.execute("""
 UPDATE hr_locatie loc
-    SET geometrie = bag.geometrie
-FROM hr_geovbo bag
-WHERE bag.bag_vbid = loc.bag_vbid
+    SET geometrie = bag.geometrie,
+        huisnummer = bag.huisnummer,
+        huisletter = bag.huisletter,
+        huisnummertoevoeging = bag.huisnummer_toevoeging,
+        straatnaam = bag._openbare_ruimte_naam,
+        postcode = bag.postcode
+FROM (select v.id,
+      v.landelijk_id,
+      n.huisnummer,
+      n.huisletter,
+      n.huisnummer_toevoeging,
+      n._openbare_ruimte_naam,
+      n.postcode,
+      v.geometrie
+      FROM bag_nummeraanduiding n, bag_verblijfsobject v
+      WHERE n.verblijfsobject_id = v.id AND n.hoofdadres) bag
+WHERE bag.landelijk_id = loc.bag_vbid OR bag.landelijk_id = loc.bag_numid
     """)
 
-    # Apparently there are numid filled is on quite some vbid locations
-    cursor.execute("""
-UPDATE hr_locatie loc
-    SET geometrie = bag.geometrie
-FROM hr_geovbo bag
-WHERE bag.bag_vbid = loc.bag_numid AND loc.geometrie is null
-    """)
-
-
-def _update_adres_details_from_bag(cursor):
-    """
-    Copy huisnummer, huisletter, toevoeging, postcode, woonplaats
-    from bag source. since hr data is inclomplete
-    """
 
 def _clear_autocorrected_results(cursor):
     cursor.execute("""

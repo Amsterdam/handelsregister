@@ -550,13 +550,13 @@ class Locatie(models.Model):
     # locatie meuk die er nu wel is.
     straatnaam = models.CharField(
         db_index=True, max_length=100, blank=True, null=True)
-    toevoegingadres = models.CharField(max_length=100, blank=True, null=True)
-    huisletter = models.CharField(max_length=1, blank=True, null=True)
 
+    toevoegingadres = models.CharField(max_length=100, blank=True, null=True)
+
+    huisletter = models.CharField(max_length=1, blank=True, null=True)
     huisnummer = models.DecimalField(
         db_index=True,
         max_digits=5, decimal_places=0, blank=True, null=True)
-
     huisnummertoevoeging = models.CharField(
         max_length=5, blank=True, null=True)
 

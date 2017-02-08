@@ -27,8 +27,11 @@ dc up -d database
 sleep 50
 
 # load latest bag into database
-echo "Load latest verblijfsobjecten en nummeraanduidingen in bag database"
-dc exec -T database update-db.sh atlas
+echo "Load latest verblijfsobjecten en nummeraanduidingen in handelsregister database"
+
+# dc exec -T database update-db.sh atlas
+dc exec -T database update-table.sh bag bag_verblijfsobject public handelsregister
+dc exec -T database update-table.sh bag bag_nummeraanduiding public handelsregister
 
 echo "create hr api database / reset elastic index"
 # create the hr_data and reset elastic
@@ -59,4 +62,4 @@ fi
 
 dc run --rm el-backup
 
-echo "DONE! with everything! You are awesome! <3"
+echo "DONE! with Import! You are awesome! <3"

@@ -8,6 +8,8 @@ services:
       POSTGRES_PASSWORD: insecure
       POSTGRES_DB: handelsregister
       POSTGRES_USER: handelsregister
+    volumes:
+      - tmpdatabase:/tmp
 
 
   elasticsearch:
@@ -36,3 +38,5 @@ services:
             bash -c "/app/docker-wait.sh \
                     && /app/docker-migrate.sh \
                     && /app/docker-run.sh"
+volumes:
+   tmpdatabase:

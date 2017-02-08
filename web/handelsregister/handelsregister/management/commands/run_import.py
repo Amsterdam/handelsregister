@@ -95,6 +95,8 @@ class Command(BaseCommand):
             build_cbs_sbi.cbsbi_table()
         elif options['searchapi']:
             improve_location_with_search.guess()
+            # add extra bag information
+            build_hr_data.fill_location_with_bag()
             location_stats.log_rapport_counts(action='fix')
         elif options['clearsearch']:
             build_hr_data.clear_autocorrect()

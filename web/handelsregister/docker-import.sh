@@ -9,10 +9,6 @@ python get_mks_dumps.py
 echo 'Store mks dumps in database'
 source loaddumps.sh
 
-echo 'Copy bag geometrie naar hg_geobag'
-
-source copy_bagvbo_to_hr.sh
-
 # load mks data into HR models
 python /app/manage.py run_import
 

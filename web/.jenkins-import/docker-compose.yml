@@ -5,6 +5,8 @@ services:
     environment:
       POSTGRES_PASSWORD: insecure
       POSTGRES_USER: handelsregister
+    volumes:
+      - tmpdatabase:/tmp
 
   elasticsearch:
     image: build.datapunt.amsterdam.nl:5000/atlas/elasticsearch
@@ -106,3 +108,5 @@ services:
               && curl -X PUT http://elasticsearch:9200/_snapshot/backup/handelsregister?wait_for_completion=true -d '{ \"indices\": \"handelsregister\" }' \
               && chown -R 997:997 /tmp/backups"
 
+volumes:
+   tmpdatabase:
