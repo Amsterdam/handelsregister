@@ -722,6 +722,7 @@ class CBS_sbicode(models.Model):
     title = models.CharField(max_length=255, blank=False, null=False)
     sub_cat = models.ForeignKey(CBS_sbi_subcat, on_delete=models.CASCADE)
     root_node = models.ForeignKey(CBS_sbi_rootnode, on_delete=models.CASCADE)
+    is_leaf = models.BooleanField(default=False)
 
 
 class GeoVestigingen(models.Model):

@@ -29,13 +29,14 @@ class ImportCSBTest(APITestCase):
         sbi_codes_nr = CBS_sbicode.objects.count()
         self.assertEqual(sections_nr, 1)
         self.assertEqual(rootnodes_nr, 3)
-        self.assertEqual(sbi_codes_nr, 66)
+        self.assertEqual(sbi_codes_nr, 132)
 
         with db.connection.cursor() as cursor:
             cursor.execute("""COMMIT""")
 
         self.assertEqual(0, len(CBS_sbi_endcode.objects.filter(sbi_code='0113')))
         self.assertEqual(0, len(CBS_sbi_endcode.objects.filter(sbi_code='113')))
+        self.assertEqual(1, len(CBS_sbicode.objects.filter(sbi_code='0113')))
         self.assertEqual(1, len(CBS_sbicode.objects.filter(sbi_code='113')))
         node = CBS_sbicode.objects.filter(sbi_code='113')[0]
         self.assertEqual(node.sub_cat.subcategorie, 'teelt eenjarige gewassen')

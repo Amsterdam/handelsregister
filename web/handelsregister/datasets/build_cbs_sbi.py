@@ -7,7 +7,6 @@ import logging
 from django import db
 from django.conf import settings
 import requests
-import time
 from datasets.hr.models import CBS_sbi_endcode, CBS_sbi_hoofdcat, CBS_sbi_subcat, \
                                CBS_sbi_section, CBS_sbi_rootnode, CBS_sbicode
 
@@ -15,7 +14,6 @@ log = logging.getLogger(__name__)
 
 
 def _clear_cbsbi_table():
-
     log.info("Leegmaken oude cbs sbi codes")
 
     with db.connection.cursor() as cursor:
@@ -61,33 +59,18 @@ def _process_data_from_cbs(data, vraag_url):
 
         category_data = _request_exec(next_url)
         if category_data:
-
             _process_category_data(category_data, hcat)
 
 
 def _process_category_data(category_data, hcat):
-    # subantwoorden = category_data.json()['Answers']
-    search_url = settings.CSB_SEARCH
     for sub_category_antwoord in category_data.json()['Answers']:
-
-        # sub_cat = sub_category_antwoord['Key']
-        # category_url_code = sub_category_antwoord['Value']
-        scat = CBS_sbi_subcat(hcat=hcat, scat=sub_category_antwoord['Value'],
-                              subcategorie=sub_category_antwoord['Key'])
+        scat_code = sub_category_antwoord['Value'][9:]
+        scat = CBS_sbi_subcat(hcat=hcat, scat=scat_code, subcategorie=sub_category_antwoord['Key'])
         scat.save()
 
-        search_url_k = search_url.format(sub_category_antwoord['Value'])
-        category_codes = _request_exec(search_url_k)
+        category_codes = _request_exec(settings.CSB_SEARCH.format(scat_code))
         if category_codes:
-
-            time.sleep(0.1)
-
             for item in category_codes.json():
-                # Met overige in horeca komen ook de andere categorieen mee!
-                # Negeer daarom select op al aangemaakt!!
-                if not item or CBS_sbi_endcode.objects.filter(
-                        sbi_code=item['Code']).count():
-                    continue
                 cbsbi = CBS_sbi_endcode(sbi_code=item['Code'],
                                         scat_id=scat.scat,
                                         sub_sub_categorie=item['Title'])
@@ -113,6 +96,7 @@ def _process_sectiondata_from_cbs(section_data):
         section.save()
 
         _process_section(section)
+    _post_process_sections()
 
 
 def _process_section(section):
@@ -127,37 +111,124 @@ def _process_section(section):
 def _process_sectiondatatree(section_tree_data, section):
     section_tree = section_tree_data.json()
 
-    rootnode_set = {}
     for node in [node for node in section_tree if node['IsRoot']]:
         rootnode = CBS_sbi_rootnode(section=section, code=node['Code'], title=node['Title'])
         rootnode.save()
-        rootnode_set[node['Code']] = rootnode
 
     for sbi_code_node in [node for node in section_tree if not node['IsRoot']]:
         sbi_code = sbi_code_node['Code']
         rootnode_code = sbi_code_node['Code'][:2]
-        # to be depricated:
-        malformed_sbi_code = sbi_code[1:] if sbi_code[0] == '0' else sbi_code
-        cbsbi = CBS_sbicode(sbi_code=malformed_sbi_code,
+        sub_cat = _get_subcat_direct(sbi_code)
+        if sub_cat is None:
+            sub_cat = CBS_sbi_subcat.objects.filter(scat='XXX')[0]
+
+        cbsbi = CBS_sbicode(sbi_code=sbi_code,
                             title=sbi_code_node['Title'],
-                            sub_cat=_get_subcat(sbi_code),
-                            root_node=rootnode_set[rootnode_code])
+                            is_leaf=not sbi_code_node['HasChildren'],
+                            sub_cat=sub_cat,
+                            root_node_id=rootnode_code)
         cbsbi.save()
 
 
-def _get_subcat(sbi_code):
+def _get_subcat_direct(sbi_code):
     try:
         return CBS_sbi_endcode.objects.filter(sbi_code=sbi_code)[0].scat
     except IndexError:
-        pass
+        return None
+
+
+def _post_process_sections():
+    _find_missing_subcats()
+    _assign_missing_subcats()
+
+    for sbi_code in CBS_sbicode.objects.filter(sub_cat_id='XXX'):
+        log.info(f"ongeplaatste sbi_code: {sbi_code.sbi_code} - {sbi_code.title}")
+
+    # to be depricated:
+    _remove_starting_zeros()
+
+
+def _find_missing_subcats():
+    for sbi_code in CBS_sbicode.objects.filter(sub_cat_id='XXX', is_leaf=True):
+        scat = _find_cbs_scat_for_missing_sbi(sbi_code.sbi_code)
+        if scat is None:
+            log.warning(f"No scat found for sbi_code: {sbi_code.sbi_code}")
+            continue
+        else:
+            cbsbi = CBS_sbi_endcode(sbi_code=sbi_code.sbi_code,
+                                    scat_id=scat.scat,
+                                    sub_sub_categorie=sbi_code.title)
+            cbsbi.save()
+
+
+def _find_cbs_scat_for_missing_sbi(sbi_code):
+    log.info(f"Find missing scat for {sbi_code}")
+    hcat = _find_cbs_hcat_for_missing_sbi(sbi_code)
+
+    if hcat is None:
+        log.warning(f"No hcat found for sbi_code: {sbi_code}")
+        return
+
+    for subcat in CBS_sbi_subcat.objects.filter(hcat=hcat):
+        search_url = settings.CSB_SEARCH.format(subcat.scat+'%20'+sbi_code)
+        if _hit_for_sbicode_on(search_url, sbi_code):
+            log.info(f"-- Found scat {subcat.scat} - {subcat.subcategorie} for {sbi_code}")
+            return subcat
+    return None
+
+
+def _find_cbs_hcat_for_missing_sbi(sbi_code):
+    for hcat in CBS_sbi_hoofdcat.objects.all():
+        search_url = settings.CSB_SEARCH.format(hcat.hcat+'%20'+sbi_code)
+        if _hit_for_sbicode_on(search_url, sbi_code):
+            return hcat
+    return None
+
+
+def _hit_for_sbicode_on(search_url, sbi_code):
+    results = _request_exec(search_url)
+    if results:
+        for result in results.json():
+            if sbi_code == result['Code']:
+                # a score > 1 means a match on more than one term
+                #   we try to match on sbi_code and either hcat or scat,
+                #   so a score of 1 means only 1 of the terms match,
+                #   and since it's an existing sbi_code, result will always
+                #   be at least 1.0
+                return float(result['Score']) > 1.0
+    return False
+
+
+def _assign_missing_subcats():
+    for sbi_code in CBS_sbicode.objects.filter(sub_cat_id='XXX'):
+        new_subcat = _get_subcat(sbi_code.sbi_code)
+        if not new_subcat is None:
+            sbi_code.sub_cat = new_subcat
+            sbi_code.save()
+
+
+def  _get_subcat(sbi_code):
+    possible_subcat = _get_subcat_direct(sbi_code)
+    if not possible_subcat is None:
+        return possible_subcat
 
     try:
         return CBS_sbi_endcode.objects.filter(sbi_code__startswith=sbi_code)[0].scat
     except IndexError:
-        if len(sbi_code) == 2:
-            return CBS_sbi_subcat.objects.filter(scat='XXX')[0]
-        else:
+        if len(sbi_code) > 2:
             return _get_subcat(sbi_code[:-1])
+
+    return CBS_sbi_subcat.objects.filter(scat='XXX')[0]
+
+
+def _remove_starting_zeros():
+    # to be depricated:
+    for sbi_code in CBS_sbicode.objects.filter(sbi_code__startswith='0'):
+        sbi_code.sbi_code = sbi_code.sbi_code[1:]
+        try:
+            sbi_code.save()
+        except Exception:
+            pass
 
 
 def cbsbi_table():
