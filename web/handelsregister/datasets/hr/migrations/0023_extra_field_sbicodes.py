@@ -8,7 +8,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('hr', '0020_extra_sbicodes'),
+        ('hr', '0022_delete_geovbo'),
     ]
 
     operations = [
