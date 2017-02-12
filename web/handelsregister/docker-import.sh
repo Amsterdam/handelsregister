@@ -20,3 +20,6 @@ python /app/manage.py run_import --cbs_sbi
 
 # create geoviews
 python /app/manage.py run_import --geovestigingen
+
+# create dataselectie
+python /app/manage.py run_import --dataselectie

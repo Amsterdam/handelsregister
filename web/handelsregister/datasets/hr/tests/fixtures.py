@@ -46,4 +46,3 @@ def patch_cbs_requests(f):
     from the fixture_files directory.
     """
     return mock.patch('requests.get', _filter_fixtures_get)(f)
-
