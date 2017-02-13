@@ -12,6 +12,13 @@ from datasets.hr.models import CBS_sbi_endcode, CBS_sbi_hoofdcat, CBS_sbi_subcat
 
 log = logging.getLogger(__name__)
 
+HARDCODED_MAPPING = {
+    '30': '22214_11',
+    '97': '22271_11',
+    '98': '22271_11',
+    '99': '22271_11'
+}
+
 
 def _clear_cbsbi_table():
     log.info("Leegmaken oude cbs sbi codes")
@@ -71,6 +78,11 @@ def _process_category_data(category_data, hcat):
         category_codes = _request_exec(settings.CSB_SEARCH.format(scat_code))
         if category_codes:
             for item in category_codes.json():
+                # Met overige in horeca komen ook de andere categorieen mee!
+                # Negeer daarom select op al aangemaakt!!
+                if not item or CBS_sbi_endcode.objects.filter(
+                        sbi_code=item['Code']).count():
+                    continue
                 cbsbi = CBS_sbi_endcode(sbi_code=item['Code'],
                                         scat_id=scat.scat,
                                         sub_sub_categorie=item['Title'])
@@ -78,7 +90,7 @@ def _process_category_data(category_data, hcat):
 
 
 def _fill_complete_cbsbi_tables():
-    # add a fallback for missing codes
+    # create a temporary fallback for missing codes
     fallback_hoofd = CBS_sbi_hoofdcat.objects.filter(hoofdcategorie='overige niet hierboven genoemd')[0]
     fallback = CBS_sbi_subcat(scat="XXX", subcategorie="ongeplaatst", hcat=fallback_hoofd)
     fallback.save()
@@ -217,6 +229,9 @@ def  _get_subcat(sbi_code):
     except IndexError:
         if len(sbi_code) > 2:
             return _get_subcat(sbi_code[:-1])
+
+    if sbi_code[:2] in HARDCODED_MAPPING:
+        return CBS_sbi_subcat.objects.filter(scat=HARDCODED_MAPPING[sbi_code[:2]])[0]
 
     return CBS_sbi_subcat.objects.filter(scat='XXX')[0]
 
