@@ -63,8 +63,8 @@ ROOT = "https://api.datapunt.amsterdam.nl"
 # We search against ACC to not pollute graphs in kibana
 SEARCH_ADRES_URL = '{}/atlas/search/adres/'.format(ACC)
 
-NUM_URL = "{}/bag/nummeraanduiding/".format(ROOT)
-VBO_URL = "{}/bag/verblijfsobject/".format(ROOT)
+NUM_URL = "{}/bag/nummeraanduiding".format(ROOT)
+VBO_URL = "{}/bag/verblijfsobject".format(ROOT)
 
 # ?huisnummer=105&postcode=1018WR"
 PCODE_URL = "{}/bag/nummeraanduiding/".format(ACC)
@@ -305,7 +305,6 @@ class SearchTask():
             return
 
         rds_bagid = []
-
         point, bag_id, num_id = self.get_details_for_vbo(num)
 
         if point:
@@ -505,6 +504,10 @@ class SearchTask():
         num_id = None
         if details.get('hoofdadres'):
             num_id = details['hoofdadres'].get("landelijk_id")
+        elif details.get('adressen'):
+            num_url = details['adressen']['href']
+            details = self.get_response(url=num_url)
+            num_id = details['results'][0].get('nummeraanduidingidentificatie')
 
         # determine bag_id
         for key in ['verblijfsobjectidentificatie',
@@ -529,7 +532,10 @@ class SearchTask():
         # we found a probably correct bag_id.
         # this is not 100% sure.
         self.locatie.bag_vbid = bag_id
-        self.locatie.bag_numid = num_id
+
+        if num_id:
+            self.locatie.bag_numid = num_id
+
         self.locatie.bag_nummeraanduiding = "{}/{}/".format(NUM_URL, num_id)
         self.locatie.bag_adresseerbaar_object = \
             "{}/{}/".format(VBO_URL, bag_id)
