@@ -37,7 +37,7 @@ Import the latest BAG geo data
 
 Load latest makelaarsuite data from the object store
 
-Prerequisites: create data folder and set Objectstore password
+Prerequisites: create data folder and set Objectstore passworfind d
 
 	cd  web/handelsregister
 	mkdir data

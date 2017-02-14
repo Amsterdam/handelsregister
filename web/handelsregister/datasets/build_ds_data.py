@@ -7,13 +7,12 @@ from itertools import groupby
 from django import db
 from django.contrib.gis.geos.point import Point
 
-from datasets.hr.models import DataSelectie
 from datasets.hr.models import BetrokkenPersonen
-from datasets.hr.models import GeoVestigingen
 from datasets.hr.models import CBS_sbi_section
+from datasets.hr.models import DataSelectie
+from datasets.hr.models import GeoVestigingen
 
 log = logging.getLogger(__name__)
-
 
 VESTIGING_FIELDS = (
     'vestigingsnummer', 'naam', 'hoofdvestiging',
@@ -33,7 +32,7 @@ LOCATIE_POSTADRES_FIELDS = (
     'postcode', 'straatnaam', 'postbus_nummer', 'toevoegingadres',
     'volledig_adres', 'afgeschermd')
 
-PROGRESSREPORT = 10         # report every xx seconds
+PROGRESSREPORT = 10  # report every xx seconds
 
 
 def to_dict(data: object, fields: tuple, field_prefix=None) -> dict:
@@ -88,7 +87,8 @@ def build_joined_ds_table():
 
     # groupby vestigings nummer
     by_vestiging = groupby(
-        GeoVestigingen.objects.order_by('vestigingsnummer'),
+        GeoVestigingen.objects.filter(bag_vbid__isnull=False).order_by(
+            'vestigingsnummer'),
         lambda row: row.vestigingsnummer
     )
 
@@ -96,7 +96,6 @@ def build_joined_ds_table():
     lastreport = time.time()
 
     for vestigingsnummer, vest_data in by_vestiging:
-
         count, lastreport = measure_progress(totalrowcount, count, lastreport)
 
         # verzamel gegevens per vestiging
@@ -143,19 +142,23 @@ def per_vestiging(vestigingsnummer, vest_data, sbi_values):
             vst_sbi.append(sbi)
         count += 1
 
+    if sbi_repeat.bezoekadres.bag_vbid:
+        bag_vbid = sbi_repeat.bezoekadres.bag_vbid
+    else:
+        bag_vbid = sbi_repeat.postadres.bag_vbid
     return (
         vst_sbi, vestiging_dict, sbi_repeat.naam,
-        sbi_repeat.bezoekadres.bag_vbid, sbi_repeat.bezoekadres.bag_numid, count)
+        bag_vbid, sbi_repeat.bezoekadres.bag_numid,
+        count)
 
 
 def write_hr_dataselectie(
         vst_sbi, betrokken, vestiging_dict, vestigingsnummer,
         betrokken_per_vestiging, naam, bag_vbid, bag_numid):
-
     if len(vst_sbi):
         vestiging_dict, betrokken = add_betrokkenen_to_vestigingen(
-                betrokken, vestiging_dict,
-                vestigingsnummer, betrokken_per_vestiging)
+            betrokken, vestiging_dict,
+            vestigingsnummer, betrokken_per_vestiging)
     else:
         log.error('Vestiging %s %s zonder sbi code' % (vestigingsnummer, naam))
 
@@ -212,8 +215,10 @@ def add_adressen_dict(vestiging_dict: dict, sbi_repeat) -> dict:
 
     return vestiging_dict
 
+
 def get_bag(postadres, pa_fields, prefix):
     return {}
+
 
 def correctie_address(address):
     if address and address.correctie:
@@ -249,7 +254,7 @@ def add_betrokkenen_to_vestigingen(
                 mac_dict = to_dict(betrokken, MAATSCHAPPELIJKE_ACT_FIELDS)
                 vestiging_dict.update(mac_dict)
                 first = False
-            
+
         if betrokken.vestigingsnummer <= vestigingsnummer:
             try:
                 betrokken = next(betrokken_per_vestiging)
