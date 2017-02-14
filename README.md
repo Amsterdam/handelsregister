@@ -37,7 +37,7 @@ Import the latest BAG geo data
 
 Load latest makelaarsuite data from the object store
 
-Prerequisites: create data folder and set Objectstore password
+Prerequisites: create data folder and set Objectstore passworfind d
 
 	cd  web/handelsregister
 	mkdir data
@@ -69,9 +69,13 @@ for some locations we have only an adress
 
     docker-compose exec database ./manage.py run_import --search
 
-Finally build the geodataview
+Build the geodataview
 
     docker-compose exec database ./manage.py run_import --geovestigingen
+
+Finally build the dataselectie view (if you need it....)
+
+    docker-compose exec database ./manage.py run_import --dataselectie
 
 
 Quickstart Import

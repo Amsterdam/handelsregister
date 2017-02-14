@@ -8,6 +8,7 @@ from django.contrib.gis.geos import Point
 from factory import fuzzy
 
 from .. import models
+from datasets.build_hr_data import fill_geo_table
 
 
 def restore_cbs_sbi():
@@ -268,6 +269,7 @@ def create_dataselectie_set():
             ac.sbi_code = sbicodes[idx].sbi_code
             ac.save()
 
+    fill_geo_table()
 
 def create_search_test_locaties():
     """

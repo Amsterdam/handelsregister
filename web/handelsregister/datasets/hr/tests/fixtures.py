@@ -18,7 +18,7 @@ def _filter_fixtures_get(url, *args, **kwargs):
 
     fixturefiles = {'http://sbi.cbs.nl/cbs.typeermodule.typeerservicewebapi/api/sbianswer/getNextQuestion/start/0': 'cbs_sbi_first.json',
                     'http://sbi.cbs.nl/cbs.typeermodule.typeerservicewebapi/api/sbianswer/getNextQuestion/22275_12/1': 'cbs_sbi_next.json',
-                    'http://sbi.cbs.nl/cbs.typeermodule.typeerservicewebapi/api/SBISearch/search/22275_12_22224_11': 'cbs_sbi_code0.json',
+                    'http://sbi.cbs.nl/cbs.typeermodule.typeerservicewebapi/api/SBISearch/search/22224_11': 'cbs_sbi_code0.json',
                     'http://sbi.cbs.nl/cbs.typeermodule.typeerservicewebapi/api/SBIData/Sections': 'cbs_sbi_sections.json',
                     'http://sbi.cbs.nl/cbs.typeermodule.typeerservicewebapi/api/SBIData/SectionChildrenTree/A': 'cbs_sbi_sectiontree_A.json'
     }
@@ -46,4 +46,3 @@ def patch_cbs_requests(f):
     from the fixture_files directory.
     """
     return mock.patch('requests.get', _filter_fixtures_get)(f)
-
