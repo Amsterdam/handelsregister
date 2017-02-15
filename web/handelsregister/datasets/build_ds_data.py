@@ -162,7 +162,7 @@ def write_hr_dataselectie(
     else:
         log.error('Vestiging %s %s zonder sbi code' % (vestigingsnummer, naam))
 
-    if vestiging_dict and bag_numid:
+    if vestiging_dict and bag_vbid:
         ds = DataSelectie(
             vestigingsnummer, bag_vbid, bag_numid, vestiging_dict)
         ds.save()
