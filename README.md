@@ -29,7 +29,7 @@ To run an complete import, execute:
 Make sure your database is up to date
 
 	# this is automatic after previous docker-compose up -d  --build
-	docker-compose exec database ./manage.py migrate
+	docker-compose exec web ./manage.py migrate
 
 Import the latest BAG geo data
 
@@ -58,31 +58,31 @@ for the api and geoviews for mapserver
 
 	# change back to the root of the project
 	cd  ../..
-    docker-compose exec database ./manage.py run_import
+    docker-compose exec web ./manage.py run_import
 
 To see the various options for imports, execute:
 
-    docker-compose exec database ./manage.py run_import --help
+    docker-compose exec web ./manage.py run_import --help
 
 To fix missing location geodata with the search api
 for some locations we have only an adress
 
-    docker-compose exec database ./manage.py run_import --search
+    docker-compose exec web ./manage.py run_import --search
 
 Build the geodataview
 
-    docker-compose exec database ./manage.py run_import --geovestigingen
+    docker-compose exec web ./manage.py run_import --geovestigingen
 
 Finally build the dataselectie view (if you need it....)
 
-    docker-compose exec database ./manage.py run_import --dataselectie
+    docker-compose exec web ./manage.py run_import --dataselectie
 
 
 Quickstart Import
 -----------------
     Download a prepared database..
 
-    docker-compose exec database update-db.sh handelsregister 
-    
+    docker-compose exec database update-db.sh handelsregister
+
 
 The API should now be available on http://localhost:8100/handelsregister
