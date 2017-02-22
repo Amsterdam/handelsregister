@@ -89,6 +89,16 @@ class Activiteit(serializers.ModelSerializer):
             'id',
         )
 
+class ActiviteitDataselectie(serializers.ModelSerializer):
+    sbi_code = CBS_sbicode()
+
+    class Meta(object):
+        model = models.Activiteit
+        fields = (
+            sbi_code,
+            sbi_omschrijving,
+            hoofdactiviteit,
+        )
 
 class MaatschappelijkeActiviteit(rest.HALSerializer):
     dataset = 'hr'
@@ -160,6 +170,19 @@ class MaatschappelijkeActiviteitDetail(rest.HALSerializer):
             'hoofdvestiging',
             'activiteiten',
             '_bijzondere_rechts_toestand'
+        )
+
+class MaatschappelijkeActiviteitDataselectie(serializers.ModelSerializer):
+    dataset = 'hr'
+
+    class Meta(object):
+        model = models.MaatschappelijkeActiviteit
+        lookup_field = 'kvk_nummer'
+
+        fields = (
+            'kvk_nummer',
+            'datum_aanvang',
+            'datum_einde',
         )
 
 
@@ -293,6 +316,31 @@ class VestigingDetail(rest.HALSerializer):
         fields = '__all__'
 
 
+class VestigingDataselectie(serializers.ModelSerializer):
+    dataset = 'hr'
+
+    postadres = Locatie()
+    bezoekadres = Locatie()
+    maatschappelijke_activiteit = MaatschappelijkeActiviteitDataselectie()
+    activiteiten = Activiteit(many=True)
+    handelsnamen = Handelsnaam(many=True)
+
+    class Meta(object):
+        model = models.Vestiging
+        fields = (
+            'vestigingsnummer',
+            'naam',
+            'hoofdvestiging',
+            'locatie_type',
+            'geometrie',
+            'postadres',
+            'bezoekadres',
+            'maatschappelijke_activiteit',
+            'activiteiten',
+            'handelsnamen'
+        )
+
+
 class Functievervulling(rest.HALSerializer):
     dataset = 'hr'
 
@@ -315,3 +363,9 @@ class FunctievervullingDetail(rest.HALSerializer):
     class Meta(object):
         model = models.Functievervulling
         fields = '__all__'
+
+class CBS_sbicode(serializers.ModelSerializer):
+    dataset = 'hr'
+
+    class Meta(object):
+

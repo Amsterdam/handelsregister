@@ -14,7 +14,6 @@ from datasets.build_hr_data import fill_geo_table
 def restore_cbs_sbi():
     _restore_json('./datasets/kvkdump/fixture_files/hcat.json', models.CBS_sbi_hoofdcat, 'hcat')
     _restore_json('./datasets/kvkdump/fixture_files/scat.json', models.CBS_sbi_subcat, 'scat', ['hcat'])
-    _restore_json('./datasets/kvkdump/fixture_files/sbi_endcode.json',  models.CBS_sbi_endcode, 'sbi_code', ['scat'])
     _restore_json('./datasets/kvkdump/fixture_files/section.json', models.CBS_sbi_section, 'code')
     _restore_json('./datasets/kvkdump/fixture_files/rootnode.json', models.CBS_sbi_rootnode, 'code', ['section'])
     _restore_json('./datasets/kvkdump/fixture_files/sbi_code.json', models.CBS_sbicode, 'sbi_code', ['root_node',
@@ -262,7 +261,6 @@ def create_dataselectie_set():
             m.eigenaar = fv[idx]
             m.save()
 
-    sbicodes = models.CBS_sbi_endcode.objects.all()
     acnrs = models.Activiteit.objects.count() - 1
     for idx, ac in enumerate(models.Activiteit.objects.all()[:acnrs]):
         if idx < len(sbicodes):
