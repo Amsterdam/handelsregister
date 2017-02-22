@@ -700,6 +700,17 @@ class CBS_sbi_subcat(models.Model):
     subcategorie = models.CharField(max_length=255, blank=False, null=False)
     hcat = models.ForeignKey(CBS_sbi_hoofdcat, on_delete=models.CASCADE)
 
+    def __dict__(self):
+        try:
+            hcat = CBS_sbi_hoofdcat.objects.get(pk=self.hcat).values()
+        except models.Model.DoesNotExist:
+            hcat = self.hcat
+        return {
+            'scat': self.scat,
+            'subcategorie': self.subcategorie,
+            'hcat': hcat
+        }
+
 
 class CBS_sbi_section(models.Model):
     code = models.CharField(max_length=1, primary_key=True)
