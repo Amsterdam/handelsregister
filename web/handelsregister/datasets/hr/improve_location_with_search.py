@@ -585,16 +585,17 @@ def normalize_geo(point):
         return centroid_p.json
 
 
-BEGANE_GROND = set(['H', 1, 'A', 'O'])
+BEGANE_GROND = ['H', 1, 'A', 'O']
 
 
 def normalize_toevoeging(toevoegingen=[""]):
     """
     zoek toevoeging indicaties
-    en alle alternativen
+    en alle alternatieven
     """
 
     toevoegingen = [t.lower() for t in toevoegingen]
+
     alternatieven = ["".join(toevoegingen)]
 
     # generete from specific to less specific alternatives for
@@ -622,9 +623,11 @@ def normalize_toevoeging(toevoegingen=[""]):
         'huis': begane_grond,
         'h': begane_grond,
         'hs': begane_grond,
+        '-hs': begane_grond,
         'sous': begane_grond,
         'bel': begane_grond,
-        'parterre': begane_grond
+        'parterre': begane_grond,
+        'part': begane_grond
     }
 
     for toevoeging in list(alternatieven):
@@ -633,10 +636,12 @@ def normalize_toevoeging(toevoegingen=[""]):
 
     # Empty toevoeging should always be an option
     alternatieven.append("")
+
     # Begane grond as last resort
     alternatieven.extend(begane_grond)
+
     # Return unique ordered items list
-    return list(OrderedDict.fromkeys(alternatieven))
+    return list(alternatieven)
 
 
 def create_improve_locations_tasks(all_invalid_locations):
@@ -857,7 +862,7 @@ def guess():
               total_seconds / 60.0, total_seconds % 60)
 
 
-def test_one_weird_one(test=""):
+def test_one_weird_one(test="", target=""):
     """
     Method to check manualy what this search does for 1 item.
     to use in the shell_plus
@@ -882,7 +887,31 @@ def test_one_weird_one(test=""):
     # fix it
     async_determine_rd_coordinates()
 
-    print(test_this)
-    print(loc.bag_vbid)
-    print(loc.geometrie)
-    print(loc.query_string)
+    result = f"""
+
+    test:   {test_this}
+    bag_id: {loc.bag_vbid}
+    geom:   {loc.geometrie}
+    result: {loc.query_string}
+    should: {target}
+
+    """
+
+    print(result)
+
+
+buggy_voorbeelden = [
+    ('Pieter Pauwstraat 18 hs 1017ZK Amsterdam', 'Pieter Pauwstraat 18-H'),
+    ('Haarlemmermeerstraat 99 huis 1058JT Amsterdam',
+        'Haarlemmermeerstraat 99-H'),
+    ('Frederik Hendrikstraat 128 part  1052JC Amsterdam',
+        'Frederik Hendrikstraat 128-H'),
+    ('Lindengracht 254 BG 1015KN Amsterdam', 'Lindengracht 254-H'),
+    ('Jacob Obrechtstraat 39 -hs 1071KG Amsterdam',
+        'Jacob Obrechtstraat 39-H'),
+]
+
+
+def test_bad_examples():
+    for example, target in buggy_voorbeelden:
+        test_one_weird_one(test=example, target=target)

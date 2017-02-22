@@ -29,7 +29,7 @@ class Command(BaseCommand):
     - manage.py migrate handelsregister
 
     """
-    
+
     def add_arguments(self, parser):
         parser.add_argument(
             '--bagfix',
@@ -37,55 +37,62 @@ class Command(BaseCommand):
             dest='bag',
             default=False,
             help='Fill hr_locatie with hr_baggeo table')
-        
+
         parser.add_argument(
             '--geovestigingen',
             action='store_true',
             dest='geo_vest',
             default=False,
             help='Fill hr_geovestigingen table')
-        
+
         parser.add_argument(
             '--search',
             action='store_true',
             dest='searchapi',
             default=False,
             help='Fill hr_locatie with search api')
-        
+
         parser.add_argument(
             '--clearsearch',
             action='store_true',
             dest='clearsearch',
             default=False,
             help='Clear hr_locate from search api results')
-        
+
+        parser.add_argument(
+            '--testsearch',
+            action='store_true',
+            dest='testsearch',
+            default=False,
+            help='Test search algorithm with examples')
+
         parser.add_argument(
             '--status',
             action='store_true',
             dest='stats',
             default=False,
             help='print location stats')
-        
+
         parser.add_argument(
             '--cbs_sbi',
             action='store_true',
             dest='cbs_sbi',
             default=False,
             help='Fill cbs sbi-codes')
-        
+
         parser.add_argument(
             '--dataselectie',
             action='store_true',
             dest='dataselectie',
             default=False,
             help='Fill dataselectie view')
-    
+
     def handle(self, *args, **options):
         """
         validate and execute import task
         """
         LOG.info('Handelsregister import started')
-        
+
         if options['bag']:
             # copy_bag_to_hr script
             build_hr_data.fill_location_with_bag()
@@ -105,6 +112,8 @@ class Command(BaseCommand):
             location_stats.log_rapport_counts(action='fix')
         elif options['clearsearch']:
             build_hr_data.clear_autocorrect()
+        elif options['testsearch']:
+            improve_location_with_search.test_bad_examples()
         elif options['stats']:
             location_stats.log_rapport_counts()
         else:
