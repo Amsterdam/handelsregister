@@ -81,6 +81,13 @@ class NietCommercieleVestiging(serializers.ModelSerializer):
             'id',
         )
 
+class CBS_sbicode(serializers.ModelSerializer):
+    dataset = 'hr'
+
+    class Meta(object):
+        model = models.CBS_sbicode
+        fields = '__all__'
+
 
 class Activiteit(serializers.ModelSerializer):
     class Meta(object):
@@ -95,9 +102,9 @@ class ActiviteitDataselectie(serializers.ModelSerializer):
     class Meta(object):
         model = models.Activiteit
         fields = (
-            sbi_code,
-            sbi_omschrijving,
-            hoofdactiviteit,
+            'sbi_code',
+            'sbi_omschrijving',
+            'hoofdactiviteit',
         )
 
 class MaatschappelijkeActiviteit(rest.HALSerializer):
@@ -363,9 +370,4 @@ class FunctievervullingDetail(rest.HALSerializer):
     class Meta(object):
         model = models.Functievervulling
         fields = '__all__'
-
-class CBS_sbicode(serializers.ModelSerializer):
-    dataset = 'hr'
-
-    class Meta(object):
 

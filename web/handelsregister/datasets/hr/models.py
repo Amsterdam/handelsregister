@@ -706,6 +706,12 @@ class CBS_sbi_section(models.Model):
     title = models.CharField(max_length=255, blank=False, null=False)
 
 
+class CBS_sbi_endcode(models.Model):
+    sbi_code = models.CharField(max_length=14, primary_key=True)
+    scat = models.ForeignKey(CBS_sbi_subcat, on_delete=models.CASCADE)
+    sub_sub_categorie = models.CharField(max_length=140, blank=False, null=False)
+
+
 class CBS_sbi_rootnode(models.Model):
     code = models.CharField(max_length=2, primary_key=True)
     title = models.CharField(max_length=255, blank=False, null=False)
@@ -798,10 +804,12 @@ class DataSelectie(models.Model):
 
     id = models.CharField(
         max_length=20,
-        primary_key=True)
+        primary_key=True
+    )
 
     bag_numid = models.CharField(
-        max_length=16, blank=True, null=True)
+        max_length=16, blank=True, null=True
+    )
 
     api_json = JSONField()
 
