@@ -81,12 +81,30 @@ class NietCommercieleVestiging(serializers.ModelSerializer):
             'id',
         )
 
+class CBS_sbi_hoofdcat(serializers.ModelSerializer):
+    class Meta(object):
+        model = models.CBS_sbi_hoofdcat
+        fields = '__all__'
+
+
+class CBS_sbi_subcat(serializers.ModelSerializer):
+    hcat = CBS_sbi_hoofdcat(read_only=True)
+
+    class Meta(object):
+        model = models.CBS_sbi_subcat
+        fields = '__all__'
+
+
 class CBS_sbicode(serializers.ModelSerializer):
-    dataset = 'hr'
+    sub_cat = CBS_sbi_subcat(read_only=True)
 
     class Meta(object):
         model = models.CBS_sbicode
-        fields = '__all__'
+        fields = (
+            'sbi_code',
+            'title',
+            'sub_cat'
+        )
 
 
 class Activiteit(serializers.ModelSerializer):
@@ -95,6 +113,7 @@ class Activiteit(serializers.ModelSerializer):
         exclude = (
             'id',
         )
+
 
 class ActiviteitDataselectie(serializers.ModelSerializer):
     sbi_code = CBS_sbicode()
@@ -179,17 +198,28 @@ class MaatschappelijkeActiviteitDetail(rest.HALSerializer):
             '_bijzondere_rechts_toestand'
         )
 
+class PersoonDataselectie(serializers.ModelSerializer):
+    class Meta(object):
+        model = models.Persoon
+        fields = (
+            'id',
+            'naam',
+            'volledige_naam',
+        )
+
+
 class MaatschappelijkeActiviteitDataselectie(serializers.ModelSerializer):
-    dataset = 'hr'
+    eigenaar = PersoonDataselectie(read_only=True)
 
     class Meta(object):
         model = models.MaatschappelijkeActiviteit
-        lookup_field = 'kvk_nummer'
-
         fields = (
             'kvk_nummer',
             'datum_aanvang',
             'datum_einde',
+            'naam',
+            'eigenaar',
+            'eigenaar_mks_id',
         )
 
 
@@ -338,8 +368,6 @@ class VestigingDataselectie(serializers.ModelSerializer):
             'vestigingsnummer',
             'naam',
             'hoofdvestiging',
-            'locatie_type',
-            'geometrie',
             'postadres',
             'bezoekadres',
             'maatschappelijke_activiteit',

@@ -227,9 +227,11 @@ class Activiteit(models.Model):
             De omschrijving van de activiteiten die de
             Vestiging of Rechtspersoon uitoefent"""
     )
-    sbi_code = models.ForeignKey(
-        'CBS_sbicode',
-        related_name='activiteiten',
+    # This is actually a foreign key to the CBS_sbicode table
+    # However, not all data is included which leads to foreign
+    # constrain failures
+    sbi_code = models.CharField(
+        max_length=6,
         help_text="De codering van de activiteit conform de SBI2008"
     )
     sbi_omschrijving = models.CharField(
@@ -699,17 +701,6 @@ class CBS_sbi_subcat(models.Model):
     scat = models.CharField(max_length=20, primary_key=True)
     subcategorie = models.CharField(max_length=255, blank=False, null=False)
     hcat = models.ForeignKey(CBS_sbi_hoofdcat, on_delete=models.CASCADE)
-
-    def __dict__(self):
-        try:
-            hcat = CBS_sbi_hoofdcat.objects.get(pk=self.hcat).values()
-        except models.Model.DoesNotExist:
-            hcat = self.hcat
-        return {
-            'scat': self.scat,
-            'subcategorie': self.subcategorie,
-            'hcat': hcat
-        }
 
 
 class CBS_sbi_section(models.Model):

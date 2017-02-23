@@ -254,10 +254,10 @@ def create_dataselectie_set():
     macs = models.MaatschappelijkeActiviteit.objects.all()
     personen = models.Persoon.objects.all()
     fv = models.Functievervulling.objects.all()
-
     for idx, m in enumerate(macs):
         if idx < len(personen) and idx % 2 == 0:
             m.eigenaar = personen[idx]
+            m.save()
         elif idx < len(fv):
             m.eigenaar = fv[idx]
             m.save()
