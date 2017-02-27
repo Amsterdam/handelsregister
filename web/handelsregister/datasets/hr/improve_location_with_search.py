@@ -169,24 +169,35 @@ def alternative_qs(query_string):
         ("3e", "derde"),
         ("4e", "vierde"),
         ("5e", "vijfde"),
-        ("tegenover", ""),
     ]
+
+    remove = [
+     " tegenover",
+     " t o",
+    ]
+
+    try_first = []
 
     def woonbootfix(qs):
         # woonboot fix
         if qs.endswith('ab'):
             qs_new = qs.replace(' ab', "")
-            alternatives.append(qs_new)
+            try_first.append(qs_new)
+
+    for unwanted in remove:
+        if unwanted in query_string:
+            qs_new = query_string.replace(unwanted, "")
+            try_first.append(qs_new)
 
     for patern, replace in could_also_be:
         if query_string.startswith(patern):
             qs_new = query_string.replace(patern, replace)
             alternatives.append(qs_new)
-            woonbootfix(qs_new)
 
     woonbootfix(query_string)
 
-    return alternatives
+    try_first.extend(alternatives)
+    return try_first
 
 
 def clean_tokenize(query_string):
@@ -653,7 +664,6 @@ def normalize_toevoeging(toevoegingen=[""]):
         'huis': begane_grond,
         'h': begane_grond,
         'hs': begane_grond,
-        '-hs': begane_grond,
         'sous': begane_grond,
         'bel': begane_grond,
         'parterre': begane_grond,
@@ -671,7 +681,7 @@ def normalize_toevoeging(toevoegingen=[""]):
     alternatieven.extend(begane_grond)
 
     # Return unique ordered items list
-    return list(alternatieven)
+    return list(OrderedDict.fromkeys(alternatieven))
 
 
 def create_improve_locations_tasks(all_invalid_locations):
@@ -741,18 +751,12 @@ def determine_toevoegingen(hi, tokens, postcode):
     toevoegingen = current_toevoegingen(hi, tokens, postcode)
     # FIX common toevoeging mistakes
 
-    print('T1', toevoegingen)
-
     tv = []
     for token in toevoegingen:
         for char in token:
             tv.append(char)
 
-    print('TX', tv)
-
     toevoegingen = normalize_toevoeging(tv)
-
-    print('T2', toevoegingen)
 
     return toevoegingen
 
@@ -783,8 +787,8 @@ def determine_relevant_huisnummers(hi, nummer, tokens, postcode):
             huisnummers.append(int(nummer2))
             tokens.remove(nummer2)
 
-    less = range(nummer-2, nummer-6, -2)
-    more = range(nummer+2, nummer+6, 2)
+    less = range(nummer-2, nummer-8, -2)
+    more = range(nummer+2, nummer+8, 2)
 
     numbers_by_distance = [j for i in zip(less, more) for j in i]
 
@@ -941,7 +945,11 @@ def test_one_weird_one(test="", target=""):
     global SLOW
     SLOW = True
 
-    for alternative_addr in alternative_qs(query_string):
+    options = alternative_qs(query_string)
+
+    print(options)
+
+    for alternative_addr in options:
         search_data = create_search_for_addr(loc, alternative_addr)
         print(search_data)
 
@@ -977,18 +985,17 @@ buggy_voorbeelden = [
     ('Jacob Obrechtstraat 39 -hs 1071KG Amsterdam',
         'Jacob Obrechtstraat 39-H'),
 
+    ('Silodam 340 1013AW Amsterdam', 'Silodam 340'),
     ('Keizersgracht 62 -64 1015CS Amsterdam', 'Keizersgracht 62'),
-    # FAILS
-    # ('Neveritaweg 33 1033WB Amsterdam', '?'),
-    ('Haarlemmerstraat 24 - 26 1013ER Amsterdam', 'Haarlemmerstraat 24-H'),
 
+    ('tt. Neveritaweg 33 1033WB Amsterdam', '?'),
+    ('Haarlemmerstraat 24 - 26 1013ER Amsterdam', 'Haarlemmerstraat 24-H'),
     ('Hoogte Kadijk 143 F26 1018BH Amsterdam', 'Hoogte Kadijk 143F-26'),
 
-    #('Geleenstraat 46 I 1078LG Amsterdam', '?',),
-    #('Ruysdaelstraat 49 B 7 1071XA Amsterdam', '?'),
-    #('tt. Neveritaweg 33 1033WB Amsterdam', '?'),
-    #('Oude Schans t/o 14 1011LK Amsterdam', '?'),
-    #('Nieuwe Ridderstraat 4 - 6 1011CP Amsterdam', '?'),
+    ('Geleenstraat 46 I 1078LG Amsterdam', 'Geleenstraat 46-H',),
+    ('Ruysdaelstraat 49 B 7 1071XA Amsterdam', 'Ruysdaelstraat 49B-7'),
+    ('Oude Schans t/o 14 1011LK Amsterdam', '?'),
+    ('Nieuwe Ridderstraat 4 - 6 1011CP Amsterdam', '?'),
     ('Raadhuisstraat 22 1016DE Amsterdam', 'Raadhuisstraat 20'),  # even nummer
     ('Vossiusstraat 52 1071AK Amsterdam', 'Vossiusstraat 50-H'),
 ]
