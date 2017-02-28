@@ -654,7 +654,7 @@ def normalize_toevoeging(toevoegingen=[""]):
         '3hg': [3, 4],
         'iii': [3, 4],
         'ii': [2, 3],
-        'i': begane_grond,
+        'i': ['1', 'H', 'A', 'O'],
         'a': begane_grond,
         'b': [1, 2],
         'c': [2, 3],
@@ -992,16 +992,19 @@ buggy_voorbeelden = [
     ('Haarlemmerstraat 24 - 26 1013ER Amsterdam', 'Haarlemmerstraat 24-H'),
     ('Hoogte Kadijk 143 F26 1018BH Amsterdam', 'Hoogte Kadijk 143F-26'),
 
-    ('Geleenstraat 46 I 1078LG Amsterdam', 'Geleenstraat 46-H',),
+    ('Geleenstraat 46 I 1078LG Amsterdam', 'Geleenstraat 46-1',),
     ('Ruysdaelstraat 49 B 7 1071XA Amsterdam', 'Ruysdaelstraat 49B-7'),
-    ('Oude Schans t/o 14 1011LK Amsterdam', '?'),
-    ('Nieuwe Ridderstraat 4 - 6 1011CP Amsterdam', '?'),
+    # WONTFIX
+    # ('Oude Schans t/o 14 1011LK Amsterdam', '?'),
+    ('Nieuwe Ridderstraat 4 - 6 1011CP Amsterdam', 'Nieuwe Ridderstraat 6'),
     ('Raadhuisstraat 22 1016DE Amsterdam', 'Raadhuisstraat 20'),  # even nummer
     ('Vossiusstraat 52 1071AK Amsterdam', 'Vossiusstraat 50-H'),
 ]
 
 
 def test_bad_examples():
+    if Locatie.objects.count() == 0:
+        Locatie.objects.create(afgescherm=True)
     ok = 0
     fail = 0
     for example, target in buggy_voorbeelden:
