@@ -60,6 +60,13 @@ class Command(BaseCommand):
             help='Clear hr_locate from search api results')
 
         parser.add_argument(
+            '--testsearch',
+            action='store_true',
+            dest='testsearch',
+            default=False,
+            help='Test search algorithm with examples')
+
+        parser.add_argument(
             '--status',
             action='store_true',
             dest='stats',
@@ -105,6 +112,8 @@ class Command(BaseCommand):
             location_stats.log_rapport_counts(action='fix')
         elif options['clearsearch']:
             build_hr_data.clear_autocorrect()
+        elif options['testsearch']:
+            improve_location_with_search.test_bad_examples()
         elif options['stats']:
             location_stats.log_rapport_counts()
         else:

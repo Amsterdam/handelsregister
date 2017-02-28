@@ -169,24 +169,35 @@ def alternative_qs(query_string):
         ("3e", "derde"),
         ("4e", "vierde"),
         ("5e", "vijfde"),
-        ("tegenover", ""),
     ]
+
+    remove = [
+     " tegenover",
+     " t o",
+    ]
+
+    try_first = []
 
     def woonbootfix(qs):
         # woonboot fix
         if qs.endswith('ab'):
             qs_new = qs.replace(' ab', "")
-            alternatives.append(qs_new)
+            try_first.append(qs_new)
+
+    for unwanted in remove:
+        if unwanted in query_string:
+            qs_new = query_string.replace(unwanted, "")
+            try_first.append(qs_new)
 
     for patern, replace in could_also_be:
         if query_string.startswith(patern):
             qs_new = query_string.replace(patern, replace)
             alternatives.append(qs_new)
-            woonbootfix(qs_new)
 
     woonbootfix(query_string)
 
-    return alternatives
+    try_first.extend(alternatives)
+    return try_first
 
 
 def clean_tokenize(query_string):
@@ -359,19 +370,46 @@ class SearchTask():
 
         return valid_hits
 
+    def match_hit(self, nummer, toevoeging_optie, hits, exact=True):
+        """
+        go look for a match. exact or startswith
+        """
+        for hit in hits:
+
+            suggestion = '{} {}'.format(nummer, toevoeging_optie).lower()
+            # stip exessive white space
+            suggestion = suggestion.strip()
+
+            hit_toevoeging = hit['toevoeging'].lower()
+
+            if exact:
+                if str(hit_toevoeging) == str(suggestion):
+                    return hit
+            else:
+                if hit_toevoeging.startswith(suggestion):
+                    return hit
+
     def look_in_hits(self, hits, nummer):
         """
         Look in hits for matching hit to see if there is a
         hit with a correct / matching toevoeging
+
+        H hit is better then.
         """
-        # try to find hit in hits that matches toevoegingen
-        for ti, t in enumerate(self.toevoegingen):
-            for hit in hits:
-                target = '{} {}'.format(nummer, t).lower()
-                hit_toevoeging = hit['toevoeging'].lower()
-                if hit_toevoeging.startswith(target):
-                    # log.debug('OK!')
-                    return ti, hit
+        # Try to find hit in hits that exactly matches toevoegingen
+        for tindex, tv_optie in enumerate(self.toevoegingen):
+            # find exact hits
+            hit = self.match_hit(nummer, tv_optie, hits)
+            if hit:
+                return tindex, hit
+
+        # Try to find hit in hits that startswith toevoegingen
+        for tindex, tv_optie in enumerate(self.toevoegingen):
+            # find exact hits
+            hit = self.match_hit(nummer, tv_optie, hits, exact=False)
+            if hit:
+                return tindex + 5, hit
+
         return None, None
 
     def find_postcode_hit(self):
@@ -585,22 +623,26 @@ def normalize_geo(point):
         return centroid_p.json
 
 
-BEGANE_GROND = set(['H', 1, 'A', 'O'])
+BEGANE_GROND = ['H', 1, 'A', 'O']
 
 
 def normalize_toevoeging(toevoegingen=[""]):
     """
     zoek toevoeging indicaties
-    en alle alternativen
+    en alle alternatieven
     """
 
     toevoegingen = [t.lower() for t in toevoegingen]
-    alternatieven = ["".join(toevoegingen)]
 
-    # generete from specific to less specific alternatives for
+    alternatieven = [
+        "".join(toevoegingen),
+        " ".join(toevoegingen),
+    ]
+
+    # generate from specific to less specific alternatives for
     # toevoegingen
     for i in reversed(range(len(toevoegingen))):
-        optie = "".join(toevoegingen[:i])
+        optie = " ".join(toevoegingen[:i])
         if optie:
             alternatieven.append(optie)
 
@@ -612,7 +654,7 @@ def normalize_toevoeging(toevoegingen=[""]):
         '3hg': [3, 4],
         'iii': [3, 4],
         'ii': [2, 3],
-        'i': begane_grond,
+        'i': ['1', 'H', 'A', 'O'],
         'a': begane_grond,
         'b': [1, 2],
         'c': [2, 3],
@@ -624,7 +666,8 @@ def normalize_toevoeging(toevoegingen=[""]):
         'hs': begane_grond,
         'sous': begane_grond,
         'bel': begane_grond,
-        'parterre': begane_grond
+        'parterre': begane_grond,
+        'part': begane_grond
     }
 
     for toevoeging in list(alternatieven):
@@ -633,8 +676,10 @@ def normalize_toevoeging(toevoegingen=[""]):
 
     # Empty toevoeging should always be an option
     alternatieven.append("")
+
     # Begane grond as last resort
     alternatieven.extend(begane_grond)
+
     # Return unique ordered items list
     return list(OrderedDict.fromkeys(alternatieven))
 
@@ -687,23 +732,36 @@ def determine_postcode_index(tokens, postcode):
             return idx
 
 
-def determine_toevoegingen(i, tokens, postcode):
+def current_toevoegingen(huisnummer_i, tokens, postcode):
+
+    if len(tokens) < huisnummer_i:
+        return []
+
+    idx = determine_postcode_index(tokens, postcode)
+    toevoegingen = tokens[huisnummer_i+1:idx]
+    return toevoegingen
+
+
+def determine_toevoegingen(hi, tokens, postcode):
     """
     Determine specific toevoegingen which apply
     """
 
     toevoegingen = []  # List with possible options
+    toevoegingen = current_toevoegingen(hi, tokens, postcode)
+    # FIX common toevoeging mistakes
 
-    if len(tokens) > i:
-        idx = determine_postcode_index(tokens, postcode)
-        toevoegingen = tokens[i+1:idx]
-        # FIX common toevoeging mistakes
-        toevoegingen = normalize_toevoeging(toevoegingen)
+    tv = []
+    for token in toevoegingen:
+        for char in token:
+            tv.append(char)
+
+    toevoegingen = normalize_toevoeging(tv)
 
     return toevoegingen
 
 
-def determine_relevant_huisnummers(nummer, toevoeging):
+def determine_relevant_huisnummers(hi, nummer, tokens, postcode):
     """
     Given nummer and toevoeging determine relevant nummers
     sometimes bakkertje - utrechtste straat 30-32
@@ -711,18 +769,27 @@ def determine_relevant_huisnummers(nummer, toevoeging):
 
     input = 30-32
 
-    output = [30,
+    output = [30, 32, 28, 34, 36]
 
+    remove 32 from toevoegingen / tokens
     """
+
+    toevoegingen = current_toevoegingen(hi, tokens, postcode)
+
     huisnummers = [nummer]
 
-    nummer2 = dubbele_nummer_check(nummer, toevoeging)
+    if toevoegingen:
+        toevoeging = toevoegingen[0]
 
-    if nummer2:
-        huisnummers.append(nummer2)
+        nummer2 = dubbele_nummer_check(nummer, toevoeging)
 
-    less = range(nummer-1, nummer-5, -1)
-    more = range(nummer+1, nummer+5)
+        if nummer2:
+            huisnummers.append(int(nummer2))
+            tokens.remove(nummer2)
+
+    less = range(nummer-2, nummer-8, -2)
+    more = range(nummer+2, nummer+8, 2)
+
     numbers_by_distance = [j for i in zip(less, more) for j in i]
 
     huisnummers.extend(numbers_by_distance)
@@ -736,7 +803,7 @@ def create_search_for_addr(loc, addr):
     """
     query_string, tokens = clean_tokenize(addr)
 
-    i = is_straat_huisnummer(tokens)
+    huisnummer_i = is_straat_huisnummer(tokens)
 
     toevoeging = None
 
@@ -747,8 +814,8 @@ def create_search_for_addr(loc, addr):
     else:
         log.error('No postcode %s' % addr)
 
-    straat = " ".join(tokens[:i])
-    nummer = int(tokens[i])
+    straat = " ".join(tokens[:huisnummer_i])
+    nummer = int(tokens[huisnummer_i])
 
     if not straat:
         loc.correctie = False
@@ -756,7 +823,11 @@ def create_search_for_addr(loc, addr):
         log.error(addr)
         return
 
-    toevoegingen = determine_toevoegingen(i, tokens, postcode)
+    huisnummers = determine_relevant_huisnummers(
+            huisnummer_i, nummer, tokens, postcode)
+
+    toevoegingen = determine_toevoegingen(
+            huisnummer_i, tokens, postcode)
 
     # add search tasks to queue
     while SEARCHES_QUEUE.full():
@@ -764,7 +835,6 @@ def create_search_for_addr(loc, addr):
 
     # generate the most relevant huisnummer for this adres
     # also take in account the most relevant neighbours
-    huisnummers = determine_relevant_huisnummers(nummer, toevoeging)
 
     search_data = [loc, query_string,
                    straat, huisnummers, toevoegingen, postcode]
@@ -857,7 +927,7 @@ def guess():
               total_seconds / 60.0, total_seconds % 60)
 
 
-def test_one_weird_one(test=""):
+def test_one_weird_one(test="", target=""):
     """
     Method to check manualy what this search does for 1 item.
     to use in the shell_plus
@@ -875,14 +945,72 @@ def test_one_weird_one(test=""):
     global SLOW
     SLOW = True
 
-    for alternative_addr in alternative_qs(query_string):
+    options = alternative_qs(query_string)
+
+    print(options)
+
+    for alternative_addr in options:
         search_data = create_search_for_addr(loc, alternative_addr)
         print(search_data)
 
     # fix it
     async_determine_rd_coordinates()
 
-    print(test_this)
-    print(loc.bag_vbid)
-    print(loc.geometrie)
-    print(loc.query_string)
+    test_ok = loc.query_string == target
+
+    result = f"""
+
+    test:   {test_this}
+    bag_id: {loc.bag_vbid}
+    geom:   {loc.geometrie}
+    result: {loc.query_string}
+    should: {target}
+
+    {test_ok}
+
+    """
+
+    print(result)
+
+    return test_ok
+
+
+buggy_voorbeelden = [
+    ('Pieter Pauwstraat 18 hs 1017ZK Amsterdam', 'Pieter Pauwstraat 18-H'),
+    ('Haarlemmermeerstraat 99 huis 1058JT Amsterdam',
+        'Haarlemmermeerstraat 99-H'),
+    ('Frederik Hendrikstraat 128 part  1052JC Amsterdam',
+        'Frederik Hendrikstraat 128-H'),
+    ('Lindengracht 254 BG 1015KN Amsterdam', 'Lindengracht 254-H'),
+    ('Jacob Obrechtstraat 39 -hs 1071KG Amsterdam',
+        'Jacob Obrechtstraat 39-H'),
+
+    ('Silodam 340 1013AW Amsterdam', 'Silodam 340'),
+    ('Keizersgracht 62 -64 1015CS Amsterdam', 'Keizersgracht 62'),
+
+    ('tt. Neveritaweg 33 1033WB Amsterdam', '?'),
+    ('Haarlemmerstraat 24 - 26 1013ER Amsterdam', 'Haarlemmerstraat 24-H'),
+    ('Hoogte Kadijk 143 F26 1018BH Amsterdam', 'Hoogte Kadijk 143F-26'),
+
+    ('Geleenstraat 46 I 1078LG Amsterdam', 'Geleenstraat 46-1',),
+    ('Ruysdaelstraat 49 B 7 1071XA Amsterdam', 'Ruysdaelstraat 49B-7'),
+    # WONTFIX
+    # ('Oude Schans t/o 14 1011LK Amsterdam', '?'),
+    ('Nieuwe Ridderstraat 4 - 6 1011CP Amsterdam', 'Nieuwe Ridderstraat 6'),
+    ('Raadhuisstraat 22 1016DE Amsterdam', 'Raadhuisstraat 20'),  # even nummer
+    ('Vossiusstraat 52 1071AK Amsterdam', 'Vossiusstraat 50-H'),
+]
+
+
+def test_bad_examples():
+    if Locatie.objects.count() == 0:
+        Locatie.objects.create(afgescherm=True)
+    ok = 0
+    fail = 0
+    for example, target in buggy_voorbeelden:
+        if test_one_weird_one(test=example, target=target):
+            ok += 1
+        else:
+            fail += 1
+
+    log.debug(f'OK: {ok}  FAIL: {fail}')
