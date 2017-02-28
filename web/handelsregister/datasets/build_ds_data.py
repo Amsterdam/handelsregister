@@ -22,7 +22,8 @@ def get_vestigingen(offset: int = 0, size:int = None) -> object:
     An optional offset and size parameters can be given to limit
     the size of the queryset
     """
-    qs = models.Vestiging.objects.select_related('maatschappelijke_activiteit') \
+    qs = models.Vestiging.objects \
+        .select_related('maatschappelijke_activiteit') \
         .select_related('bezoekadres') \
         .select_related('postadres') \
         .prefetch_related('activiteiten') \

@@ -244,6 +244,18 @@ class Activiteit(models.Model):
             hoofdactiviteit is"""
     )
 
+    @property
+    def sbi_code_link(self):
+        """
+        Since sbi_code cannot be used as foreign key because
+        of missing data, this property provides a link functionality
+        """
+        try:
+            return CBS_sbicode.objects.get(pk=self.sbi_code)
+        except CBS_sbicode.DoesNotExist:
+            return None
+            return CBS_sbicode()
+
 
 class MaatschappelijkeActiviteit(models.Model):
     """

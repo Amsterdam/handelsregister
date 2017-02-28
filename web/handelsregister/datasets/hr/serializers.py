@@ -116,7 +116,7 @@ class Activiteit(serializers.ModelSerializer):
 
 
 class ActiviteitDataselectie(serializers.ModelSerializer):
-    sbi_code = CBS_sbicode()
+    sbi_code_link = CBS_sbicode()
 
     class Meta(object):
         model = models.Activiteit
@@ -124,6 +124,7 @@ class ActiviteitDataselectie(serializers.ModelSerializer):
             'sbi_code',
             'sbi_omschrijving',
             'hoofdactiviteit',
+            'sbi_code_link',
         )
 
 class MaatschappelijkeActiviteit(rest.HALSerializer):
@@ -359,7 +360,7 @@ class VestigingDataselectie(serializers.ModelSerializer):
     postadres = Locatie()
     bezoekadres = Locatie()
     maatschappelijke_activiteit = MaatschappelijkeActiviteitDataselectie()
-    activiteiten = Activiteit(many=True)
+    activiteiten = ActiviteitDataselectie(many=True)
     handelsnamen = Handelsnaam(many=True)
 
     class Meta(object):
