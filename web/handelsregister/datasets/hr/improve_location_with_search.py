@@ -1,6 +1,9 @@
 """
 With the datapunt search api we can greatly improve
 location quality of the datasets
+
+./manage.py run_import --testsearch
+
 """
 
 from gevent import monkey
