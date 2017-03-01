@@ -90,8 +90,6 @@ def fix_counter():
     Get an indication of the request per second
     """
     interval = 3.0
-    if SLOW:
-        interval = 3.0
 
     while True:
         start = STATS['correcties']
@@ -237,9 +235,12 @@ def clean_tokenize(query_string):
     return query_string, tokens
 
 
-def is_straat_huisnummer(tokens):
+def is_straat_huisnummer(tokens) -> int:
     """
     Check if unpunt contains a steer and number, return token index.
+
+    0 nothing found.
+    i > 0  = index token
     """
     if len(tokens) < 2:
         return False
@@ -355,7 +356,6 @@ class SearchTask():
         data = self.get_response(parameters_toevoeging)
 
         # Only if we are realy sure we return data
-        # FIXME postcode check!
 
         if SLOW:
             count = 0
@@ -627,9 +627,6 @@ def normalize_geo(point):
         return centroid_p.json
 
 
-BEGANE_GROND = ['H', 1, 'A', 'O']
-
-
 def normalize_toevoeging(toevoegingen=[""]):
     """
     zoek toevoeging indicaties
@@ -650,7 +647,7 @@ def normalize_toevoeging(toevoegingen=[""]):
         if optie:
             alternatieven.append(optie)
 
-    begane_grond = BEGANE_GROND
+    begane_grond = ['H', 1, 'A', 'O']
 
     mapping = {
         '1hg': [1, 2],
