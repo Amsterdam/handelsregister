@@ -35,7 +35,7 @@ SEARCHES_QUEUE = JoinableQueue(maxsize=500)
 
 # TO see step by step what search does.
 SLOW = False
-#SLOW = True
+# SLOW = True
 
 STATS = dict(
     start=time.time(),
@@ -58,16 +58,16 @@ if SLOW:
     WORKERS = 1  # 25
 
 ACC = "https://api-acc.datapunt.amsterdam.nl"
-ROOT = "https://api.datapunt.amsterdam.nl"
-
 # We search against ACC to not pollute graphs in kibana
 SEARCH_ADRES_URL = '{}/atlas/search/adres/'.format(ACC)
-
-NUM_URL = "{}/bag/nummeraanduiding".format(ROOT)
-VBO_URL = "{}/bag/verblijfsobject".format(ROOT)
-
 # ?huisnummer=105&postcode=1018WR"
 PCODE_URL = "{}/bag/nummeraanduiding/".format(ACC)
+
+
+# These urls are used to be SAVED at the locaton object
+ROOT = "https://api.datapunt.amsterdam.nl"
+NUM_URL = "{}/bag/nummeraanduiding".format(ROOT)
+VBO_URL = "{}/bag/verblijfsobject".format(ROOT)
 
 
 def make_status_line():
@@ -96,7 +96,7 @@ def fix_counter():
         diff = STATS['correcties'] - start + 0.001
         speed = (diff // interval) + 1
         STATS['fixs'] = '%.2f' % speed
-        seconds_left = abs((STATS['total'] + 1) - STATS['correcties'] ) // speed
+        seconds_left = abs((STATS['total'] + 1) - STATS['correcties']) // speed
         STATS['left'] = datetime.timedelta(seconds=seconds_left)
         log.info(make_status_line())
 
@@ -112,6 +112,7 @@ class LOGHANDLER():
         if not settings.DEBUG:
             self.wtf.setLevel(logging.CRITICAL)
             self.bag_error.setLevel(logging.CRITICAL)
+
 
 LOG = LOGHANDLER()
 
@@ -988,7 +989,7 @@ buggy_voorbeelden = [
     ('Silodam 340 1013AW Amsterdam', 'Silodam 340'),
     ('Keizersgracht 62 -64 1015CS Amsterdam', 'Keizersgracht 62'),
 
-    ('tt. Neveritaweg 33 1033WB Amsterdam', '?'),
+    ('tt. Neveritaweg 33 1033WB Amsterdam', 'tt. Neveritaweg 27'),
     ('Haarlemmerstraat 24 - 26 1013ER Amsterdam', 'Haarlemmerstraat 24-H'),
     ('Hoogte Kadijk 143 F26 1018BH Amsterdam', 'Hoogte Kadijk 143F-26'),
 
