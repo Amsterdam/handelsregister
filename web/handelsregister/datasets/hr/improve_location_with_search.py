@@ -1,6 +1,9 @@
 """
 With the datapunt search api we can greatly improve
 location quality of the datasets
+
+./manage.py run_import --testsearch
+
 """
 
 from gevent import monkey
@@ -35,7 +38,7 @@ SEARCHES_QUEUE = JoinableQueue(maxsize=500)
 
 # TO see step by step what search does.
 SLOW = False
-#SLOW = True
+# SLOW = True
 
 STATS = dict(
     start=time.time(),
@@ -58,16 +61,16 @@ if SLOW:
     WORKERS = 1  # 25
 
 ACC = "https://api-acc.datapunt.amsterdam.nl"
-ROOT = "https://api.datapunt.amsterdam.nl"
-
 # We search against ACC to not pollute graphs in kibana
 SEARCH_ADRES_URL = '{}/atlas/search/adres/'.format(ACC)
-
-NUM_URL = "{}/bag/nummeraanduiding".format(ROOT)
-VBO_URL = "{}/bag/verblijfsobject".format(ROOT)
-
 # ?huisnummer=105&postcode=1018WR"
 PCODE_URL = "{}/bag/nummeraanduiding/".format(ACC)
+
+
+# These urls are used to be SAVED at the locaton object
+ROOT = "https://api.datapunt.amsterdam.nl"
+NUM_URL = "{}/bag/nummeraanduiding".format(ROOT)
+VBO_URL = "{}/bag/verblijfsobject".format(ROOT)
 
 
 def make_status_line():
@@ -87,8 +90,6 @@ def fix_counter():
     Get an indication of the request per second
     """
     interval = 3.0
-    if SLOW:
-        interval = 3.0
 
     while True:
         start = STATS['correcties']
@@ -96,7 +97,7 @@ def fix_counter():
         diff = STATS['correcties'] - start + 0.001
         speed = (diff // interval) + 1
         STATS['fixs'] = '%.2f' % speed
-        seconds_left = abs((STATS['total'] + 1) - STATS['correcties'] ) // speed
+        seconds_left = abs((STATS['total'] + 1) - STATS['correcties']) // speed
         STATS['left'] = datetime.timedelta(seconds=seconds_left)
         log.info(make_status_line())
 
@@ -112,6 +113,7 @@ class LOGHANDLER():
         if not settings.DEBUG:
             self.wtf.setLevel(logging.CRITICAL)
             self.bag_error.setLevel(logging.CRITICAL)
+
 
 LOG = LOGHANDLER()
 
@@ -233,9 +235,12 @@ def clean_tokenize(query_string):
     return query_string, tokens
 
 
-def is_straat_huisnummer(tokens):
+def is_straat_huisnummer(tokens) -> int:
     """
     Check if unpunt contains a steer and number, return token index.
+
+    0 nothing found.
+    i > 0  = index token
     """
     if len(tokens) < 2:
         return False
@@ -351,7 +356,6 @@ class SearchTask():
         data = self.get_response(parameters_toevoeging)
 
         # Only if we are realy sure we return data
-        # FIXME postcode check!
 
         if SLOW:
             count = 0
@@ -623,9 +627,6 @@ def normalize_geo(point):
         return centroid_p.json
 
 
-BEGANE_GROND = ['H', 1, 'A', 'O']
-
-
 def normalize_toevoeging(toevoegingen=[""]):
     """
     zoek toevoeging indicaties
@@ -646,7 +647,7 @@ def normalize_toevoeging(toevoegingen=[""]):
         if optie:
             alternatieven.append(optie)
 
-    begane_grond = BEGANE_GROND
+    begane_grond = ['H', 1, 'A', 'O']
 
     mapping = {
         '1hg': [1, 2],
@@ -988,7 +989,7 @@ buggy_voorbeelden = [
     ('Silodam 340 1013AW Amsterdam', 'Silodam 340'),
     ('Keizersgracht 62 -64 1015CS Amsterdam', 'Keizersgracht 62'),
 
-    ('tt. Neveritaweg 33 1033WB Amsterdam', '?'),
+    ('tt. Neveritaweg 33 1033WB Amsterdam', 'tt. Neveritaweg 27'),
     ('Haarlemmerstraat 24 - 26 1013ER Amsterdam', 'Haarlemmerstraat 24-H'),
     ('Hoogte Kadijk 143 F26 1018BH Amsterdam', 'Hoogte Kadijk 143F-26'),
 
