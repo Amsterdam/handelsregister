@@ -19,16 +19,15 @@ class DataselectieHrImportTest(TestCase):
         self.assertGreater(len(rows), 0)
 
         fields_in_row = (
-            'geometrie', 'hoofdvestiging', 'kvk_nummer', 'locatie_type',
-            'naam', 'postadres_afgeschermd', 'postadres_correctie',
-            'postadres_huisletter', 'postadres_huisnummer',
-            'postadres_huisnummertoevoeging', 'postadres_postbus_nummer',
-            'postadres_postcode', 'postadres_straat_huisnummer',
-            'postadres_straatnaam', 'postadres_toevoegingadres',
-            'postadres_volledig_adres', 'sbi_codes', 'vestigingsnummer',
-            'datum_einde', 'datum_aanvang', 'bezoekadres_volledig_adres',
-            'bezoekadres_correctie', 'bezoekadres_afgeschermd',
-            'betrokkenen')
+            'naam',
+            'postadres',
+            'bezoekadres',
+            'activiteiten',
+            'handelsnamen',
+            'hoofdvestiging',
+            'vestigingsnummer',
+            'maatschappelijke_activiteit'
+        )
 
         for row in rows:
             for f in fields_in_row:
@@ -36,9 +35,13 @@ class DataselectieHrImportTest(TestCase):
 
         row = rows[0]
 
+        sub_models = (
+            'maatschappelijke_activiteit',
+            'bezoekadres',
+            'postadres',
+        )
+        for sub_model in sub_models:
+            self.assertIsInstance(row.api_json[sub_model], dict)
+        self.assertIsInstance(row.api_json['activiteiten'], list)
+        self.assertIsInstance(row.api_json['activiteiten'][0], dict)
         self.assertGreaterEqual(len(row.api_json), 1)
-        self.assertIsInstance(row.api_json['sbi_codes'], list)
-        self.assertGreater(len(row.api_json['sbi_codes']), 0)
-        self.assertGreater(len(row.api_json['betrokkenen']), 0)
-        self.assertEqual(row.api_json['postadres_volledig_adres'][:9],
-                         'vol_adres')

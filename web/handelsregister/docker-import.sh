@@ -9,14 +9,14 @@ python get_mks_dumps.py
 echo 'Store mks dumps in database'
 source loaddumps.sh
 
+# import sbicodes
+python /app/manage.py run_import --cbs_sbi
+
 # load mks data into HR models
 python /app/manage.py run_import
 
 # autocorrect locations fields with search resultaten
 python /app/manage.py run_import --search
-
-# import sbicodes
-python /app/manage.py run_import --cbs_sbi
 
 # create geoviews
 python /app/manage.py run_import --geovestigingen

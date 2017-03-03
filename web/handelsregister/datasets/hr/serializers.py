@@ -81,6 +81,31 @@ class NietCommercieleVestiging(serializers.ModelSerializer):
             'id',
         )
 
+class CBS_sbi_hoofdcat(serializers.ModelSerializer):
+    class Meta(object):
+        model = models.CBS_sbi_hoofdcat
+        fields = '__all__'
+
+
+class CBS_sbi_subcat(serializers.ModelSerializer):
+    hcat = CBS_sbi_hoofdcat(read_only=True)
+
+    class Meta(object):
+        model = models.CBS_sbi_subcat
+        fields = '__all__'
+
+
+class CBS_sbicode(serializers.ModelSerializer):
+    sub_cat = CBS_sbi_subcat(read_only=True)
+
+    class Meta(object):
+        model = models.CBS_sbicode
+        fields = (
+            'sbi_code',
+            'title',
+            'sub_cat'
+        )
+
 
 class Activiteit(serializers.ModelSerializer):
     class Meta(object):
@@ -89,6 +114,18 @@ class Activiteit(serializers.ModelSerializer):
             'id',
         )
 
+
+class ActiviteitDataselectie(serializers.ModelSerializer):
+    sbi_code_link = CBS_sbicode()
+
+    class Meta(object):
+        model = models.Activiteit
+        fields = (
+            'sbi_code',
+            'sbi_omschrijving',
+            'hoofdactiviteit',
+            'sbi_code_link',
+        )
 
 class MaatschappelijkeActiviteit(rest.HALSerializer):
     dataset = 'hr'
@@ -160,6 +197,31 @@ class MaatschappelijkeActiviteitDetail(rest.HALSerializer):
             'hoofdvestiging',
             'activiteiten',
             '_bijzondere_rechts_toestand'
+        )
+
+class PersoonDataselectie(serializers.ModelSerializer):
+    class Meta(object):
+        model = models.Persoon
+        fields = (
+            'id',
+            'naam',
+            'volledige_naam',
+        )
+
+
+class MaatschappelijkeActiviteitDataselectie(serializers.ModelSerializer):
+    eigenaar = PersoonDataselectie(read_only=True)
+
+    class Meta(object):
+        model = models.MaatschappelijkeActiviteit
+        fields = (
+            'kvk_nummer',
+            'datum_aanvang',
+            'datum_einde',
+            'naam',
+            'eigenaar',
+            'eigenaar_mks_id',
+            'non_mailing',
         )
 
 
@@ -293,6 +355,29 @@ class VestigingDetail(rest.HALSerializer):
         fields = '__all__'
 
 
+class VestigingDataselectie(serializers.ModelSerializer):
+    dataset = 'hr'
+
+    postadres = Locatie()
+    bezoekadres = Locatie()
+    maatschappelijke_activiteit = MaatschappelijkeActiviteitDataselectie()
+    activiteiten = ActiviteitDataselectie(many=True)
+    handelsnamen = Handelsnaam(many=True)
+
+    class Meta(object):
+        model = models.Vestiging
+        fields = (
+            'vestigingsnummer',
+            'naam',
+            'hoofdvestiging',
+            'postadres',
+            'bezoekadres',
+            'maatschappelijke_activiteit',
+            'activiteiten',
+            'handelsnamen'
+        )
+
+
 class Functievervulling(rest.HALSerializer):
     dataset = 'hr'
 
@@ -315,3 +400,4 @@ class FunctievervullingDetail(rest.HALSerializer):
     class Meta(object):
         model = models.Functievervulling
         fields = '__all__'
+

@@ -227,6 +227,9 @@ class Activiteit(models.Model):
             De omschrijving van de activiteiten die de
             Vestiging of Rechtspersoon uitoefent"""
     )
+    # This is actually a foreign key to the CBS_sbicode table
+    # However, not all data is included which leads to foreign
+    # constrain failures
     sbi_code = models.CharField(
         max_length=6,
         help_text="De codering van de activiteit conform de SBI2008"
@@ -240,6 +243,18 @@ class Activiteit(models.Model):
             Indicatie die aangeeft welke van de activiteiten de
             hoofdactiviteit is"""
     )
+
+    @property
+    def sbi_code_link(self):
+        """
+        Since sbi_code cannot be used as foreign key because
+        of missing data, this property provides a link functionality
+        """
+        try:
+            return CBS_sbicode.objects.get(pk=self.sbi_code)
+        except CBS_sbicode.DoesNotExist:
+            return None
+            return CBS_sbicode()
 
 
 class MaatschappelijkeActiviteit(models.Model):
@@ -700,15 +715,15 @@ class CBS_sbi_subcat(models.Model):
     hcat = models.ForeignKey(CBS_sbi_hoofdcat, on_delete=models.CASCADE)
 
 
+class CBS_sbi_section(models.Model):
+    code = models.CharField(max_length=1, primary_key=True)
+    title = models.CharField(max_length=255, blank=False, null=False)
+
+
 class CBS_sbi_endcode(models.Model):
     sbi_code = models.CharField(max_length=14, primary_key=True)
     scat = models.ForeignKey(CBS_sbi_subcat, on_delete=models.CASCADE)
     sub_sub_categorie = models.CharField(max_length=140, blank=False, null=False)
-
-
-class CBS_sbi_section(models.Model):
-    code = models.CharField(max_length=1, primary_key=True)
-    title = models.CharField(max_length=255, blank=False, null=False)
 
 
 class CBS_sbi_rootnode(models.Model):
@@ -803,13 +818,12 @@ class DataSelectie(models.Model):
 
     id = models.CharField(
         max_length=20,
-        primary_key=True)
-
-    bag_vbid = models.CharField(
-        max_length=16, blank=True, null=True)
+        primary_key=True
+    )
 
     bag_numid = models.CharField(
-        max_length=16, db_index=True, blank=True, null=True)
+        max_length=16, blank=True, null=True
+    )
 
     api_json = JSONField()
 

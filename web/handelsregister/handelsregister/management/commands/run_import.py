@@ -103,7 +103,7 @@ class Command(BaseCommand):
         elif options['cbs_sbi']:
             build_cbs_sbi.cbsbi_table()
         elif options['dataselectie']:
-            build_ds_data.build_joined_ds_table()
+            build_ds_data.write_dataselectie_data()
             # location_stats.log_rapport_counts(action='ds')
         elif options['searchapi']:
             improve_location_with_search.guess()
