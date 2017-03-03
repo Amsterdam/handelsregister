@@ -1,19 +1,4 @@
-# Python
-from datetime import datetime, date
-from decimal import Decimal
-import logging
-import time
-
-from itertools import groupby
-
-# Packages
-from django import db
-from django.contrib.gis.geos.point import Point
-# Project
 from datasets.hr import models, serializers
-
-
-log = logging.getLogger(__name__)
 
 
 def get_vestigingen(offset: int = 0, size:int = None) -> object:

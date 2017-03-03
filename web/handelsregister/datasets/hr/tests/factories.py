@@ -257,10 +257,9 @@ def create_dataselectie_set():
     for idx, m in enumerate(macs):
         if idx < len(personen) and idx % 2 == 0:
             m.eigenaar = personen[idx]
-            m.save()
         elif idx < len(fv):
             m.eigenaar = fv[idx]
-            m.save()
+        m.save()
 
     sbicodes = models.CBS_sbi_endcode.objects.all()
     acnrs = models.Activiteit.objects.count() - 1

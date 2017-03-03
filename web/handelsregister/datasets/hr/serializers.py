@@ -221,6 +221,7 @@ class MaatschappelijkeActiviteitDataselectie(serializers.ModelSerializer):
             'naam',
             'eigenaar',
             'eigenaar_mks_id',
+            'non_mailing',
         )
 
 

@@ -30,10 +30,8 @@ class DataselectieHrImportTest(TestCase):
         )
 
         for row in rows:
-            print(row.api_json['maatschappelijke_activiteit'])
             for f in fields_in_row:
                 self.assertIn(f, row.api_json)
-            print('-------'*20)
 
         row = rows[0]
 
