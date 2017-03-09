@@ -126,7 +126,7 @@ class VestigingFilter(FilterSet):
         Filter Vestiging op nummeraanduiding
         """
 
-        locations = models.Locatie.objects.filter(bag_numid=value).values()
+        locations = models.Locatie.objects.filter(bag_numid=value).values('id')
 
         q1 = queryset.filter(bezoekadres__in=locations)
         q2 = queryset.filter(postadres__in=locations)
@@ -137,7 +137,7 @@ class VestigingFilter(FilterSet):
         """
         Filter Vestiging op verblijfsobject
         """
-        locations = models.Locatie.objects.filter(bag_vbid=value).values()
+        locations = models.Locatie.objects.filter(bag_vbid=value).values('id')
 
         q1 = queryset.filter(bezoekadres__in=locations)
         q2 = queryset.filter(postadres__in=locations)
@@ -204,7 +204,7 @@ class VestigingFilter(FilterSet):
         vbo_ids = self._collect_landelijke_ids(
             'panden__landelijk_id', value)
 
-        locations = models.Locatie.objects.filter(bag_vbid__in=vbo_ids).values()
+        locations = models.Locatie.objects.filter(bag_vbid__in=vbo_ids).values('id')
 
         q1 = queryset.filter(bezoekadres__in=locations)
         q2 = queryset.filter(postadres__in=locations)
@@ -219,7 +219,7 @@ class VestigingFilter(FilterSet):
         vbo_ids = self._collect_landelijke_ids(
             'kadastrale_objecten__id', value)
 
-        locations = models.Locatie.objects.filter(bag_vbid__in=vbo_ids).values()
+        locations = models.Locatie.objects.filter(bag_vbid__in=vbo_ids).values('id')
 
         q1 = queryset.filter(bezoekadres__in=locations)
         q2 = queryset.filter(postadres__in=locations)
