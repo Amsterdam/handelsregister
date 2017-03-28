@@ -1,7 +1,7 @@
 {
     "_links": {
         "self": {
-            "href": "https://api-acc.datapunt.amsterdam.nl/search/adres/?q=silodam%20340&page=1"
+            "href": "https://api-acc.data.amsterdam.nl/search/adres/?q=silodam%20340&page=1"
         },
         "next": {
             "href": null
@@ -16,7 +16,7 @@
         {
             "_links": {
                 "self": {
-                    "href": "https://api-acc.datapunt.amsterdam.nl/bag/verblijfsobject/03630001010349/"
+                    "href": "https://api-acc.data.amsterdam.nl/bag/verblijfsobject/03630001010349/"
                 }
             },
             "type": "nummeraanduiding",
@@ -39,7 +39,7 @@
         {
             "_links": {
                 "self": {
-                    "href": "https://api-acc.datapunt.amsterdam.nl/bag/verblijfsobject/03630001010349/"
+                    "href": "https://api-acc.data.amsterdam.nl/bag/verblijfsobject/03630001010349/"
                 }
             },
             "type": "nummeraanduiding",

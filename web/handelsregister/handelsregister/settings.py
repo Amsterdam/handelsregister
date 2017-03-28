@@ -100,7 +100,7 @@ DATABASES = {
     'default': DATABASE_OPTIONS[get_database_key()]
 }
 
-VBO_URI = "https://api.datapunt.amsterdam.nl/bag/verblijfsobject/"
+VBO_URI = "https://api.data.amsterdam.nl/bag/verblijfsobject/"
 CBS_URI = 'http://sbi.cbs.nl/cbs.typeermodule.typeerservicewebapi/api/sbianswer/getNextQuestion/{}'
 CSB_SEARCH = 'http://sbi.cbs.nl/cbs.typeermodule.typeerservicewebapi/api/SBISearch/search/{}'
 CBS_SECTIONS_URI = 'http://sbi.cbs.nl/cbs.typeermodule.typeerservicewebapi/api/SBIData/Sections'
@@ -125,7 +125,7 @@ PROJECT_APPS = [
     'geo_views',
 ]
 
-DATAPUNT_API_URL = 'https://api.datapunt.amsterdam.nl/'
+DATAPUNT_API_URL = 'https://api.data.amsterdam.nl/'
 
 # Application definition
 INSTALLED_APPS = PROJECT_APPS + [
@@ -263,7 +263,7 @@ REST_FRAMEWORK = dict(
 
 # SWAGGER
 
-swag_path = 'https://api-acc.datapunt.amsterdam.nl/handelsregister/docs'
+swag_path = 'https://api-acc.data.amsterdam.nl/handelsregister/docs'
 
 if DEBUG:
     swag_path = '127.0.0.1:8000/handelsregister/docs'
