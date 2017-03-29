@@ -246,11 +246,11 @@ class VestigingViewSet(rest.AtlasViewSet):
 
     Zoeken op landelijk pand id van de Waag op de nieuwmarkt voorbeeld:
 
-    [https://api-acc.data.amsterdam.nl/handelsregister/vestiging/?pand=0363100012171850](https://api-acc.data.amsterdam.nl/handelsregister/vestiging/?pand=0363100012171850)
+    [https://acc.api.data.amsterdam.nl/handelsregister/vestiging/?pand=0363100012171850](https://acc.api.data.amsterdam.nl/handelsregister/vestiging/?pand=0363100012171850)
 
     Zoeken op kadastraal object id voorbeeld:
 
-    [https://api-acc.data.amsterdam.nl/handelsregister/vestiging/?kadastraal_object=NL.KAD.OnroerendeZaak.11450749270000](https://api-acc.data.amsterdam.nl/handelsregister/vestiging/?kadastraal_object=NL.KAD.OnroerendeZaak.11450749270000)
+    [https://acc.api.data.amsterdam.nl/handelsregister/vestiging/?kadastraal_object=NL.KAD.OnroerendeZaak.11450749270000](https://acc.api.data.amsterdam.nl/handelsregister/vestiging/?kadastraal_object=NL.KAD.OnroerendeZaak.11450749270000)
     """
 
     queryset = (models.Vestiging.objects

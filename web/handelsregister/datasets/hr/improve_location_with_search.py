@@ -60,7 +60,7 @@ WORKERS = 10
 if SLOW:
     WORKERS = 1  # 25
 
-ACC = "https://api-acc.data.amsterdam.nl"
+ACC = "https://acc.api.data.amsterdam.nl"
 # We search against ACC to not pollute graphs in kibana
 SEARCH_ADRES_URL = '{}/atlas/search/adres/'.format(ACC)
 # ?huisnummer=105&postcode=1018WR"
