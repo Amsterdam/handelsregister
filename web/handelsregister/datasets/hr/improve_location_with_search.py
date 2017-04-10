@@ -60,7 +60,7 @@ WORKERS = 10
 if SLOW:
     WORKERS = 1  # 25
 
-ACC = "https://api-acc.datapunt.amsterdam.nl"
+ACC = "https://acc.api.data.amsterdam.nl"
 # We search against ACC to not pollute graphs in kibana
 SEARCH_ADRES_URL = '{}/atlas/search/adres/'.format(ACC)
 # ?huisnummer=105&postcode=1018WR"
@@ -68,7 +68,7 @@ PCODE_URL = "{}/bag/nummeraanduiding/".format(ACC)
 
 
 # These urls are used to be SAVED at the locaton object
-ROOT = "https://api.datapunt.amsterdam.nl"
+ROOT = "https://api.datA.amsterdam.nl"
 NUM_URL = "{}/bag/nummeraanduiding".format(ROOT)
 VBO_URL = "{}/bag/verblijfsobject".format(ROOT)
 

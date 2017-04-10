@@ -1,7 +1,7 @@
 {
     "_links": {
         "self": {
-            "href": "https://api.datapunt.amsterdam.nl/bag/verblijfsobject/?panden__landelijk_id=0363100012171850"
+            "href": "https://api.data.amsterdam.nl/bag/verblijfsobject/?panden__landelijk_id=0363100012171850"
         },
         "next": {
             "href": null
@@ -15,7 +15,7 @@
         {
             "_links": {
                 "self": {
-                    "href": "https://api.datapunt.amsterdam.nl/bag/verblijfsobject/03630000752664/"
+                    "href": "https://api.data.amsterdam.nl/bag/verblijfsobject/03630000752664/"
                 }
             },
             "_display": "Nieuwmarkt 4",
