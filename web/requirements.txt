@@ -11,12 +11,13 @@ debtcollector==1.9.0
 django-braces==1.10.0
 django-debug-toolbar==1.6
 django-extensions==1.7.4
-django-filter==0.15.3
+django-filter==1.0.2
 django-jenkins==0.110.0
 django-rest-swagger==2.1.0
 django-shotgun==0.2
 django==1.11
 djangorestframework-gis==0.10.1
+djangorestframework-filters==0.9.1
 djangorestframework==3.5.3
 drf-extensions==0.3.1
 drf-hal-json==0.9.1
@@ -49,7 +50,6 @@ pyparsing==2.1.10
 pyslack-real==0.6.0
 python-dateutil==2.5.3
 python-keystoneclient==3.6.0
-python-rapidjson==0.0.6
 python-swiftclient==3.1.0
 pytz==2016.7
 pyyaml==3.12
