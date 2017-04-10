@@ -5,24 +5,8 @@ from django.db import migrations
 
 from geo_views import migrate
 
-from django.conf import settings
 
-
-from django.contrib.sites.models import Site
-
-
-def create_site(apps, *args, **kwargs):
-    Site.objects.create(
-        domain=settings.DATAPUNT_API_URL,
-        name='API Domain'
-    )
-
-
-def delete_site(apps, *args, **kwargs):
-    Site.objects.filter(name='API Domain').delete()
-
-
-def delete_views(apps, *args, **kwargs):
+def delete_views(_, _args, **_kwargs):
     """
     Some views need manual destruction
     """
@@ -31,7 +15,7 @@ def delete_views(apps, *args, **kwargs):
     migrations.DeleteModel('SbicodesPerVestiging'),
 
 
-def create_pass(app, *args, **kwargs):
+def create_pass(_, _args, **_kwargs):
     """
     Created in the operations..
     """
@@ -40,16 +24,14 @@ def create_pass(app, *args, **kwargs):
 
 class Migration(migrations.Migration):
     dependencies = [
-        ('sites', '__first__'),
         ('hr', '__first__'),
         ('hr', '0002_geovestigingen'),
         ('hr', '0007_dataselectie'),
-        #('hr', '0018_auto_20170105_1206'),
     ]
 
     operations = [
         # set the site name
-        migrations.RunPython(code=create_site, reverse_code=delete_site),
+        # migrations.RunPython(code=create_site, reverse_code=delete_site),
 
         # delete manual view
         # NOTE BetrokkenPersonen
@@ -88,7 +70,7 @@ WHERE hr_geovestigingen.sbi_detail_group in (
         ),
 
         migrate.ManageView(
-            view_name="geo_hr_vestiging_locaties_productie_installatie_reparatie",
+            view_name="geo_hr_vestiging_locaties_productie_installatie_reparatie",     # noqa
             sql="""
 SELECT * FROM hr_geovestigingen
 WHERE hr_geovestigingen.sbi_detail_group in (
@@ -182,7 +164,7 @@ WHERE hr_geovestigingen.sbi_detail_group in (
 """
         ),
         migrate.ManageView(
-            view_name="geo_hr_vestiging_locaties_financiele_dienstverlening_verhuur",
+            view_name="geo_hr_vestiging_locaties_financiele_dienstverlening_verhuur",    # noqa
             sql="""
 SELECT * FROM hr_geovestigingen
 WHERE hr_geovestigingen.sbi_detail_group in (
@@ -218,7 +200,7 @@ WHERE hr_geovestigingen.sbi_detail_group in (
 """
         ),
 
-# NAAM QUERIES
+        # NAAM QUERIES
 
         migrate.ManageView(
             view_name="geo_hr_vestiging_locaties_naam",
@@ -227,7 +209,7 @@ SELECT row_number() OVER () AS id, geometrie, naam, locatie_type
 from hr_geovestigingen
 GROUP BY geometrie, naam, locatie_type
     """
-    ),
+        ),
 
         migrate.ManageView(
             view_name="geo_hr_vestiging_locaties_bouw_naam",
@@ -257,10 +239,10 @@ WHERE hr_geovestigingen.sbi_detail_group in (
         'overheid')
 GROUP BY geometrie, naam, locatie_type
     """
-    ),
+        ),
 
         migrate.ManageView(
-            view_name="geo_hr_vestiging_locaties_productie_installatie_reparatie_naam",
+            view_name="geo_hr_vestiging_locaties_productie_installatie_reparatie_naam",     # noqa
             sql="""
 SELECT row_number() OVER () AS id, geometrie, naam, locatie_type
 from hr_geovestigingen
@@ -270,10 +252,10 @@ WHERE hr_geovestigingen.sbi_detail_group in (
         'productie')
 GROUP BY geometrie, naam, locatie_type
     """
-    ),
+        ),
 
         migrate.ManageView(
-            view_name="geo_hr_vestiging_locaties_zakelijke_dienstverlening_naam",
+            view_name="geo_hr_vestiging_locaties_zakelijke_dienstverlening_naam",           # noqa
             sql="""
 SELECT row_number() OVER () AS id, geometrie, naam, locatie_type
 from hr_geovestigingen
@@ -309,7 +291,7 @@ WHERE hr_geovestigingen.sbi_detail_group in (
         )
 GROUP BY geometrie, naam, locatie_type
     """
-    ),
+        ),
 
         migrate.ManageView(
             view_name="geo_hr_vestiging_locaties_landbouw_naam",
@@ -325,10 +307,10 @@ WHERE hr_geovestigingen.sbi_detail_group in (
         'fokken, houden dieren')
 GROUP BY geometrie, naam, locatie_type
     """
-    ),
+        ),
 
         migrate.ManageView(
-            view_name="geo_hr_vestiging_locaties_persoonlijke_dienstverlening_naam",
+            view_name="geo_hr_vestiging_locaties_persoonlijke_dienstverlening_naam",   # noqa
             sql="""
 SELECT row_number() OVER () AS id, geometrie, naam, locatie_type
 from hr_geovestigingen
@@ -340,9 +322,9 @@ WHERE hr_geovestigingen.sbi_detail_group in (
         'kappers')
 GROUP BY geometrie, naam, locatie_type
     """
-    ),
+        ),
         migrate.ManageView(
-            view_name="geo_hr_vestiging_locaties_informatie_telecommunicatie_naam",
+            view_name="geo_hr_vestiging_locaties_informatie_telecommunicatie_naam",     # noqa
             sql="""
 SELECT row_number() OVER () AS id, geometrie, naam, locatie_type
 from hr_geovestigingen
@@ -369,7 +351,7 @@ GROUP BY geometrie, naam, locatie_type
     ),
         # Note afwijkende naam ivm. maximale lengte
         migrate.ManageView(
-            view_name="geo_hr_vestiging_locaties_financiele_dienstverlening_verhuur_na",
+            view_name="geo_hr_vestiging_locaties_financiele_dienstverlening_verhuur_na", # noqa
             sql="""
 SELECT row_number() OVER () AS id, geometrie, naam, locatie_type
 from hr_geovestigingen
@@ -409,7 +391,7 @@ WHERE hr_geovestigingen.sbi_detail_group in (
     'restaurant, café-restaurant')
 GROUP BY geometrie, naam, locatie_type
     """
-    ),
+        ),
 
     # Dataselectie view
     migrate.ManageView(
@@ -437,9 +419,13 @@ SELECT row_number() OVER (ORDER BY (( SELECT 1))) AS id,
   FROM hr_maatschappelijkeactiviteit mac
     JOIN hr_vestiging vs ON vs.maatschappelijke_activiteit_id = mac.id
     JOIN hr_persoon p1 ON mac.eigenaar_id = p1.id
-    LEFT JOIN hr_natuurlijkpersoon np1 ON np1.id::text = p1.natuurlijkpersoon_id::text
-    LEFT JOIN hr_functievervulling fv ON fv.heeft_aansprakelijke_id = mac.eigenaar_id
-    LEFT JOIN hr_persoon p2 ON fv.is_aansprakelijke_id = p2.id
-    LEFT JOIN hr_natuurlijkpersoon np2 ON np2.id::text = p2.natuurlijkpersoon_id::text
-"""),
-]
+    LEFT JOIN
+        hr_natuurlijkpersoon np1 ON np1.id::text = p1.natuurlijkpersoon_id::text
+    LEFT JOIN
+        hr_functievervulling fv ON fv.heeft_aansprakelijke_id = mac.eigenaar_id
+    LEFT JOIN
+        hr_persoon p2 ON fv.is_aansprakelijke_id = p2.id
+    LEFT JOIN
+        hr_natuurlijkpersoon np2 ON np2.id::text = p2.natuurlijkpersoon_id::text
+        """),    # noqa
+    ]

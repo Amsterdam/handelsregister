@@ -101,10 +101,10 @@ DATABASES = {
 }
 
 VBO_URI = "https://api.datapunt.amsterdam.nl/bag/verblijfsobject/"
-CBS_URI = 'http://sbi.cbs.nl/cbs.typeermodule.typeerservicewebapi/api/sbianswer/getNextQuestion/{}'
-CSB_SEARCH = 'http://sbi.cbs.nl/cbs.typeermodule.typeerservicewebapi/api/SBISearch/search/{}'
-CBS_SECTIONS_URI = 'http://sbi.cbs.nl/cbs.typeermodule.typeerservicewebapi/api/SBIData/Sections'
-CBS_SECTIONSTREE_URI = 'http://sbi.cbs.nl/cbs.typeermodule.typeerservicewebapi/api/SBIData/SectionChildrenTree/{}'
+CBS_URI = 'http://sbi.cbs.nl/cbs.typeermodule.typeerservicewebapi/api/sbianswer/getNextQuestion/{}'         # noqa
+CSB_SEARCH = 'http://sbi.cbs.nl/cbs.typeermodule.typeerservicewebapi/api/SBISearch/search/{}'               # noqa
+CBS_SECTIONS_URI = 'http://sbi.cbs.nl/cbs.typeermodule.typeerservicewebapi/api/SBIData/Sections'            # noqa
+CBS_SECTIONSTREE_URI = 'http://sbi.cbs.nl/cbs.typeermodule.typeerservicewebapi/api/SBIData/SectionChildrenTree/{}' # noqa
 
 # SECURITY WARNING: keep the secret key used in production secret!
 insecure_key = 'insecure'
@@ -125,7 +125,7 @@ PROJECT_APPS = [
     'geo_views',
 ]
 
-DATAPUNT_API_URL = 'https://api.datapunt.amsterdam.nl/'
+DATAPUNT_API_URL = 'https://api.data.amsterdam.nl/'
 
 # Application definition
 INSTALLED_APPS = PROJECT_APPS + [
@@ -133,9 +133,8 @@ INSTALLED_APPS = PROJECT_APPS + [
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
-    'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.sites',
+    'django_filters',
 
     'django_extensions',
 
@@ -149,19 +148,15 @@ INSTALLED_APPS = PROJECT_APPS + [
 INTERNAL_IPS = ('127.0.0.1', '0.0.0.0')
 
 if DEBUG:
-    INSTALLED_APPS += (
-        'debug_toolbar', 'explorer')
-
-SITE_ID = 1
+    INSTALLED_APPS += ('debug_toolbar',)
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
@@ -189,21 +184,6 @@ WSGI_APPLICATION = 'handelsregister.wsgi.application'
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
 
-AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
-]
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
 
@@ -219,10 +199,13 @@ USE_TZ = True
 
 DUMP_DIR = 'mks-dump'
 
+ELK_PORT = os.getenv(OVERRIDE_EL_PORT_VAR, '9200')
+
 ELASTIC_OPTIONS = {
     LocationKey.docker: ["http://elasticsearch:9200"],
     LocationKey.local: [f"http://{get_docker_host()}:9200"],
-    LocationKey.override: [f"http://{os.getenv(OVERRIDE_EL_HOST_VAR)}:{os.getenv(OVERRIDE_EL_PORT_VAR, '9200')}"],
+    LocationKey.override: [
+        f"http://{os.getenv(OVERRIDE_EL_HOST_VAR)}:{ELK_PORT}"],    # noqa
 }
 ELASTIC_SEARCH_HOSTS = ELASTIC_OPTIONS[get_database_key()]
 
