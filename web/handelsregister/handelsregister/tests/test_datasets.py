@@ -1,7 +1,5 @@
 # Packages
 from rest_framework.test import APITestCase
-from unittest.mock import Mock
-from django.http import HttpResponse
 # Project
 from datasets.hr.tests import factories as factories_hr
 
@@ -25,6 +23,28 @@ class BrowseDatasetsTestCase(APITestCase):
         factories_hr.VestigingFactory.create()
         factories_hr.FunctievervullingFactory.create()
 
+    def test_index_pages(self):
+        url = 'handelsregister'
+
+        response = self.client.get('/{}/'.format(url))
+
+        self.assertEqual(
+                response.status_code,
+                200, 'Wrong response code for {}'.format(url))
+
+    def valid_html_response(self, url, response):
+        """
+        Helper method to check common status/json
+        """
+
+        self.assertEqual(
+            200, response.status_code,
+            'Wrong response code for {}'.format(url))
+
+        self.assertEqual(
+            'text/html; charset=utf-8', response['Content-Type'],
+            'Wrong Content-Type for {}'.format(url))
+
     def test_lists(self):
         for url in self.datasets:
             response = self.client.get('/{}/'.format(url))
@@ -32,9 +52,23 @@ class BrowseDatasetsTestCase(APITestCase):
             self.assertEqual(
                 response.status_code,
                 200, 'Wrong response code for {}'.format(url))
+
             self.assertEqual(
                 response['Content-Type'], 'application/json',
                 'Wrong Content-Type for {}'.format(url))
+
+            self.assertIn(
+                'count', response.data, 'No count attribute in {}'.format(url))
+            self.assertNotEqual(
+                response.data['count'],
+                0, 'Wrong result count for {}'.format(url))
+
+    def test_lists_html(self):
+
+        for url in self.datasets:
+            response = self.client.get('/{}/?format=api'.format(url))
+
+            self.valid_html_response(url, response)
 
             self.assertIn(
                 'count', response.data, 'No count attribute in {}'.format(url))
@@ -56,5 +90,17 @@ class BrowseDatasetsTestCase(APITestCase):
             self.assertEqual(
                 detail['Content-Type'],
                 'application/json', 'Wrong Content-Type for {}'.format(url))
+
+            self.assertIn('_display', detail.data)
+
+    def test_details_html(self):
+        for url in self.datasets:
+            response = self.client.get('/{}/?format=api'.format(url))
+
+            url = response.data['results'][0]['_links']['self']['href']
+
+            detail = self.client.get(url)
+
+            self.valid_html_response(url, response)
 
             self.assertIn('_display', detail.data)

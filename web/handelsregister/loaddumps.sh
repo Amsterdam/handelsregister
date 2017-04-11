@@ -6,16 +6,16 @@ set -u
 # wait for database to load
 source docker-wait.sh
 
-echo 'unzipping latest kvk dump files'
+echo 'extracting latest kvk dump files'
 
-unzip -o $(ls -Art data/*.zip | tail -n 1) -d /app/unzipped/
+for f in data/*.gz; do
+    STEM=$(basename "${f}" .gz)
+    gunzip -c "${f}" > unzipped/"${STEM}"
+done
 
 psql -d handelsregister -h database -U handelsregister -f dropallkvk.sql
 
 cd /app/unzipped/
-
-# extract gz files if needed
-gunzip -f *.gz
 
 #Load all sql files
 

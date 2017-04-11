@@ -4,7 +4,7 @@ import logging
 
 import requests
 from django.conf import settings
-from django_filters import MethodFilter
+# from django_filters import Filter
 
 from django_filters.rest_framework import filters
 from django_filters.rest_framework import FilterSet
@@ -28,6 +28,8 @@ class MacFilter(FilterSet):
             'eigenaar',
             'naam'
         )
+
+    ordering = ('id',)
 
 
 class MaatschappelijkeActiviteitViewSet(rest.AtlasViewSet):
@@ -56,6 +58,8 @@ class MaatschappelijkeActiviteitViewSet(rest.AtlasViewSet):
 
     filter_class = MacFilter
 
+    ordering = ('naam',)
+
 
 class PersoonFilter(FilterSet):
 
@@ -70,6 +74,8 @@ class PersoonFilter(FilterSet):
             'naam',
             'soort',
             'niet_natuurlijkpersoon__rsin')
+
+    ordering = ('naam',)
 
 
 class PersoonViewSet(rest.AtlasViewSet):
@@ -96,16 +102,18 @@ class PersoonViewSet(rest.AtlasViewSet):
     serializer_class = serializers.Persoon
     filter_class = PersoonFilter
 
+    ordering = ('id',)
+
 
 class VestigingFilter(FilterSet):
     """
     Filter on nummeraanduiging and vestigingid
     """
 
-    nummeraanduiding = MethodFilter(action='nummeraanduiding_filter')
-    verblijfsobject = MethodFilter(action='verblijfsobject_filter')
-    pand = MethodFilter(action='pand_filter')
-    kadastraal_object = MethodFilter(action='kot_filter')
+    nummeraanduiding = filters.CharFilter(method='nummeraanduiding_filter')
+    verblijfsobject = filters.CharFilter(method='verblijfsobject_filter')
+    pand = filters.CharFilter(method='pand_filter')
+    kadastraal_object = filters.CharFilter(method='kot_filter')
 
     bezoekadres__bag_numid = filters.CharFilter()
     maatschappelijke_activiteit = filters.CharFilter()
@@ -121,7 +129,7 @@ class VestigingFilter(FilterSet):
             'bezoekadres__correctie'
         )
 
-    def nummeraanduiding_filter(self, queryset, value):
+    def nummeraanduiding_filter(self, queryset, name, value):
         """
         Filter Vestiging op nummeraanduiding
         """
@@ -133,7 +141,7 @@ class VestigingFilter(FilterSet):
 
         return q1 | q2
 
-    def verblijfsobject_filter(self, queryset, value):
+    def verblijfsobject_filter(self, queryset, name, value):
         """
         Filter Vestiging op verblijfsobject
         """
@@ -195,7 +203,7 @@ class VestigingFilter(FilterSet):
 
         return stop
 
-    def pand_filter(self, queryset, value):
+    def pand_filter(self, queryset, name, value):
         """
         Given a pand id pick up all verblijfsobjecten
         and find all vestigingen.
@@ -204,14 +212,15 @@ class VestigingFilter(FilterSet):
         vbo_ids = self._collect_landelijke_ids(
             'panden__landelijk_id', value)
 
-        locations = models.Locatie.objects.filter(bag_vbid__in=vbo_ids).values('id')
+        locations = models.Locatie.objects.filter(bag_vbid__in=vbo_ids)
+        locations = locations.values('id')
 
         q1 = queryset.filter(bezoekadres__in=locations)
         q2 = queryset.filter(postadres__in=locations)
 
         return q1 | q2
 
-    def kot_filter(self, queryset, value):
+    def kot_filter(self, queryset, name, value):
         """
         Given a kadastraal object find all
         """
@@ -219,7 +228,8 @@ class VestigingFilter(FilterSet):
         vbo_ids = self._collect_landelijke_ids(
             'kadastrale_objecten__id', value)
 
-        locations = models.Locatie.objects.filter(bag_vbid__in=vbo_ids).values('id')
+        locations = models.Locatie.objects.filter(
+            bag_vbid__in=vbo_ids).values('id')
 
         q1 = queryset.filter(bezoekadres__in=locations)
         q2 = queryset.filter(postadres__in=locations)
@@ -273,7 +283,7 @@ class VestigingViewSet(rest.AtlasViewSet):
 
     ordering_fields = '__all__'
 
-    # ordering = ('naam',)
+    ordering = ('naam',)
 
     filter_class = VestigingFilter
 
@@ -290,6 +300,8 @@ class FunctievervullingFilter(FilterSet):
             'heeft_aansprakelijke',
             'is_aansprakelijke'
         )
+
+    ordering = ('id',)
 
 
 class FunctievervullingViewSet(rest.AtlasViewSet):
@@ -310,3 +322,5 @@ class FunctievervullingViewSet(rest.AtlasViewSet):
     serializer_class = serializers.Functievervulling
 
     filter_class = FunctievervullingFilter
+
+    ordering = ('id',)
