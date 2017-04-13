@@ -104,9 +104,9 @@ services:
       - ./backups/elasticsearch:/tmp/backups
     user: root
     command: >
-      bash -c "curl -X PUT http://elasticsearch:9200/_snapshot/backup -d '{ \"type\": \"fs\", \"settings\": { \"location\": \"/tmp/backups\" }}' \
-              && curl -X PUT http://elasticsearch:9200/_snapshot/backup/handelsregister?wait_for_completion=true -d '{ \"indices\": \"handelsregister\" }' \
-              && chown -R 997:997 /tmp/backups"
+      bash -c "chmod -R 777 /tmp/backups \
+      curl -X PUT http://elasticsearch:9200/_snapshot/backup -d '{ \"type\": \"fs\", \"settings\": { \"location\": \"/tmp/backups\" }}' \
+              && curl -X PUT http://elasticsearch:9200/_snapshot/backup/handelsregister?wait_for_completion=true -d '{ \"indices\": \"handelsregister\" }'"
 
 volumes:
    tmpdatabase:
