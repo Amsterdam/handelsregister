@@ -17,6 +17,7 @@ import sys
 import logging
 import time
 
+
 from collections import OrderedDict
 
 from requests import Session
@@ -60,7 +61,7 @@ WORKERS = 10
 if SLOW:
     WORKERS = 1  # 25
 
-ACC = "https://api-acc.datapunt.amsterdam.nl"
+ACC = "https://acc.api.data.amsterdam.nl"
 # We search against ACC to not pollute graphs in kibana
 SEARCH_ADRES_URL = '{}/atlas/search/adres/'.format(ACC)
 # ?huisnummer=105&postcode=1018WR"
@@ -68,7 +69,7 @@ PCODE_URL = "{}/bag/nummeraanduiding/".format(ACC)
 
 
 # These urls are used to be SAVED at the locaton object
-ROOT = "https://api.datapunt.amsterdam.nl"
+ROOT = "https://api.datA.amsterdam.nl"
 NUM_URL = "{}/bag/nummeraanduiding".format(ROOT)
 VBO_URL = "{}/bag/verblijfsobject".format(ROOT)
 
@@ -393,13 +394,37 @@ class SearchTask():
                 if hit_toevoeging.startswith(suggestion):
                     return hit
 
+    # def filter_hits(self, hits):
+    #     """
+    #     straatnaam
+
+    #     # filtering.
+    #     """
+    #     new_hits = []
+
+    #     for hit in hits:
+    #         # pass
+    #         hit_straat = hit['straatnaam'].lower()
+    #         if editdistance(hit_straat, self.straatnaam) == 0:
+    #             new_hits.append(hit)
+
+    #     # no matchingstreetname..
+    #     if not new_hits:
+    #         return hits
+
     def look_in_hits(self, hits, nummer):
         """
         Look in hits for matching hit to see if there is a
         hit with a correct / matching toevoeging
 
+        # TODO mach streetnames!
+        # OR make relevancy search endpoint available..
+
         H hit is better then.
         """
+        # filter hits by streetname
+        # hits = filter_hits(self, hits)
+
         # Try to find hit in hits that exactly matches toevoegingen
         for tindex, tv_optie in enumerate(self.toevoegingen):
             # find exact hits
@@ -995,11 +1020,16 @@ buggy_voorbeelden = [
 
     ('Geleenstraat 46 I 1078LG Amsterdam', 'Geleenstraat 46-1',),
     ('Ruysdaelstraat 49 B 7 1071XA Amsterdam', 'Ruysdaelstraat 49B-7'),
-    # WONTFIX
-    # ('Oude Schans t/o 14 1011LK Amsterdam', '?'),
     ('Nieuwe Ridderstraat 4 - 6 1011CP Amsterdam', 'Nieuwe Ridderstraat 6'),
     ('Raadhuisstraat 22 1016DE Amsterdam', 'Raadhuisstraat 20'),  # even nummer
     ('Vossiusstraat 52 1071AK Amsterdam', 'Vossiusstraat 50-H'),
+
+    # known failure
+    ('Nes 33 1012KC Amsterdam', 'Nes 33-1'),
+
+    # WONTFIX
+    # ('Oude Schans t/o 14 1011LK Amsterdam', '?'),
+
 ]
 
 

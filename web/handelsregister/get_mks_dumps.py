@@ -4,11 +4,14 @@ We use the objectstore to get the latest and greatest of the mks dump
 
 import os
 import logging
+
 from swiftclient.client import Connection
+
+import datetime
 
 from dateutil import parser
 
-log = logging.getLogger(__name__)
+log = logging.getLogger('objectstore')
 
 assert os.getenv('HANDELSREGISTER_OBJECTSTORE_PASSWORD')
 
@@ -31,6 +34,19 @@ logging.getLogger("swiftclient").setLevel(logging.WARNING)
 DATA_DIR = 'data/'
 
 store = OBJECTSTORE
+
+
+EXPECTED_FILES = [
+    'kvkadr.sql.gz',
+    'kvkbeshdn.sql.gz',
+    'kvkhdn.sql.gz',
+    'kvkmac.sql.gz',
+    'kvkprs.sql.gz',
+    'kvkprsash.sql.gz',
+    'kvkves.sql.gz',
+    'kvkveshis.sql.gz',
+]
+
 
 handelsregister_conn = Connection(
     authurl=store['AUTHURL'],
@@ -66,34 +82,49 @@ def get_full_container_list(conn, container, **kwargs):
     return seed
 
 
-def get_latest_zipfile():
+def download_files(file_list):
+    # Download the latest data
+    for _, source_data_file in file_list:
+        sql_gz_name = source_data_file['name'].split('/')[-1]
+        msg = 'Downloading: %s' % (sql_gz_name)
+        log.debug(msg)
+
+        new_data = get_store_object(source_data_file)
+
+        # save output to file!
+        with open('data/{}'.format(sql_gz_name), 'wb') as outputzip:
+            outputzip.write(new_data)
+
+
+def get_latest_hr_files():
     """
-    Get latest zipfile uploaded by mks
+    Download the expected files provided by mks / kpn
     """
-    zip_list = []
+    file_list = []
 
     meta_data = get_full_container_list(
         handelsregister_conn, 'handelsregister')
 
     for o_info in meta_data:
-        if o_info['content_type'] == 'application/zip':
-            dt = parser.parse(o_info['last_modified'])
-            zip_list.append((dt, o_info))
+        for expected_file in EXPECTED_FILES:
+            if o_info['name'].endswith(expected_file):
+                dt = parser.parse(o_info['last_modified'])
+                now = datetime.datetime.now()
 
-    zips_sorted_by_time = sorted(zip_list)
+                delta = now - dt
 
-    time, object_meta_data = zips_sorted_by_time[-1]
+                log.debug('AGE: %d %s', delta.days, expected_file)
 
-    # Download the latest data
-    zipname = object_meta_data['name'].split('/')[-1]
-    msg = 'Downloading: %s %s' % (time, zipname)
-    log.debug(msg)
-    print(msg)
+                if delta.days > 10:
+                    log.error('DELEVERY IMPORTED FILES ARE TOO OLD!')
+                    raise ValueError
 
-    latest_zip = get_store_object(object_meta_data)
+                log.debug('%s %s', expected_file, dt)
+                file_list.append((dt, o_info))
 
-    # save output to file!
-    with open('data/{}'.format(zipname), 'wb') as outputzip:
-        outputzip.write(latest_zip)
+    download_files(file_list)
 
-get_latest_zipfile()
+
+if __name__ == '__main__':
+    logging.basicConfig(level=logging.DEBUG)
+    get_latest_hr_files()

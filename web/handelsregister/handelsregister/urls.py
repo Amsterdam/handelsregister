@@ -13,9 +13,12 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
+
+import collections
+import operator
+
 from django.conf import settings
 from django.conf.urls import url, include
-from django.contrib import admin
 from rest_framework import routers, renderers, schemas, response
 from rest_framework.decorators import api_view, renderer_classes
 from rest_framework_swagger.renderers import OpenAPIRenderer
@@ -23,6 +26,10 @@ from rest_framework_swagger.renderers import SwaggerUIRenderer
 
 from datasets.hr import views as hr_views
 from search import views as search_views
+
+
+from rest_framework.reverse import reverse
+from rest_framework.response import Response
 
 
 class HandelsregisterRouter(routers.DefaultRouter):
@@ -39,8 +46,27 @@ class HandelsregisterRouter(routers.DefaultRouter):
         view = super().get_api_root_view(**kwargs)
         cls = view.cls
 
+        api_root_dict = {}
+        list_name = self.routes[0].name
+        for prefix, viewset, basename in self.registry:
+            api_root_dict[prefix] = list_name.format(basename=basename)
+
         class Handelsregister(cls):
-            pass
+            _ignore_model_permissions = True
+
+            def get(self, request, format=None):
+                ret = {}
+
+                for key, url_name in api_root_dict.items():
+                    ret[key] = reverse(
+                        url_name, request=request, format=format)
+
+                sorted_endpoints = sorted(
+                        ret.items(), key=operator.itemgetter(0))
+
+                sorted_ret = collections.OrderedDict(sorted_endpoints)
+
+                return Response(sorted_ret)
 
         Handelsregister.__doc__ = self.__doc__
         return Handelsregister.as_view()
@@ -124,6 +150,4 @@ if settings.DEBUG:
 
     urlpatterns.extend([
         url(r'^__debug__/', include(debug_toolbar.urls)),
-        url(r'^admin/', admin.site.urls),
-        url(r'^explorer/', include('explorer.urls')),
     ])

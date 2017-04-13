@@ -49,6 +49,7 @@ def _fill_cbsbi_table():
     vraag_url = settings.CBS_URI
 
     data = _request_exec(vraag_url.format(code))
+
     if data:
         _process_data_from_cbs(data, vraag_url)
         _fill_complete_cbsbi_tables()

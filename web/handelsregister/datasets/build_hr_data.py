@@ -5,7 +5,8 @@ fill the stelselpedia dumps
 import logging
 
 from django import db
-# from django.conf import settings
+from django.conf import settings
+
 
 from datasets.hr.models import Vestiging
 
@@ -142,9 +143,9 @@ INSERT INTO hr_locatie (
       postbusnummer,
       identificatieaoa,
       identificatietgo,
-      'https://api.datapunt.amsterdam.nl/bag/nummeraanduiding/' ||
+      'https://api.data.amsterdam.nl/bag/nummeraanduiding/' ||
             identificatieaoa || '/',
-      'https://api.datapunt.amsterdam.nl/bag/verblijfsobject/' ||
+      'https://api.data.amsterdam.nl/bag/verblijfsobject/' ||
             identificatietgo || '/',
       straathuisnummer,
       postcodewoonplaats,
@@ -635,7 +636,7 @@ def _build_joined_geo_table(cursor):
     assert(r[0] > 0)
 
     cursor.execute("TRUNCATE TABLE hr_geovestigingen")
-    cursor.execute("""
+    cursor.execute(f"""
 INSERT INTO hr_geovestigingen (
     vestigingsnummer,
     sbi_code_int,
@@ -659,7 +660,7 @@ INSERT INTO hr_geovestigingen (
     a.activiteitsomschrijving,
     CAST('handelsregister/vestiging' AS text) as subtype,
     vs.naam,
-    site.domain || 'handelsregister/vestiging/' ||
+    '{settings.DATAPUNT_API_URL}' || 'handelsregister/vestiging/' ||
         vs.vestigingsnummer || '/' AS uri,
     vs.hoofdvestiging,
     CASE
@@ -686,7 +687,6 @@ INSERT INTO hr_geovestigingen (
     JOIN hr_cbs_sbi_subcat sc
     ON sbi.sub_cat_id = sc.scat
     JOIN hr_cbs_sbi_hoofdcat hc
-    ON sc.hcat_id = hc.hcat,
-        django_site site
-  WHERE site.name = 'API Domain'"""
+    ON sc.hcat_id = hc.hcat;
+    """
                    )

@@ -4,11 +4,15 @@ from datasets import build_cbs_sbi
 from ..models import CBS_sbi_endcode, CBS_sbi_hoofdcat, CBS_sbi_subcat, \
     CBS_sbi_section, CBS_sbi_rootnode, CBS_sbicode
 
+from unittest import skip
+
+
 log = logging.getLogger(__name__)
 
 
 class ImportCSBIntegrationTest(APITestCase):
 
+    @skip("Needs internet")
     def test_live_cbs_import(self):
 
         build_cbs_sbi._clear_cbsbi_table()

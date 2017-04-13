@@ -629,7 +629,7 @@ class Handelsnaam(models.Model):
     handelsnaam = models.CharField(max_length=500, blank=True, null=True)
 
     def __str__(self):
-        return "{} ({})".format(self.handelsnaam, self.onderneming.kvk_nummer)
+        return "{}".format(self.handelsnaam)
 
 
 class Communicatiegegevens(models.Model):
