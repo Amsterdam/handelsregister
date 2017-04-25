@@ -26,6 +26,7 @@ services:
       DATABASE_PASSWORD: insecure
       HANDELSREGISTER_OBJECTSTORE_PASSWORD:
       PGPASSWORD: insecure
+      DATAPUNT_API_URL: ${DATAPUNT_API_URL:-https://api.datapunt.amsterdam.nl/}
     command: >
       bash -c "/app/docker-wait.sh \
                && python manage.py migrate geo_views zero \
@@ -43,6 +44,7 @@ services:
       DATABASE_NAME: handelsregister
       DATABASE_USER: handelsregister
       DATABASE_PASSWORD: insecure
+      DATAPUNT_API_URL: ${DATAPUNT_API_URL:-https://api.datapunt.amsterdam.nl/}
     command: >
       bash -c "/app/docker-wait.sh \
               && python manage.py build_index --partial=1/3 --build"
@@ -56,6 +58,7 @@ services:
       DATABASE_NAME: handelsregister
       DATABASE_USER: handelsregister
       DATABASE_PASSWORD: insecure
+      DATAPUNT_API_URL: ${DATAPUNT_API_URL:-https://api.datapunt.amsterdam.nl/}
     command: >
       bash -c "/app/docker-wait.sh \
               && python manage.py build_index --partial=2/3 --build"
@@ -69,6 +72,7 @@ services:
       DATABASE_NAME: handelsregister
       DATABASE_USER: handelsregister
       DATABASE_PASSWORD: insecure
+      DATAPUNT_API_URL: ${DATAPUNT_API_URL:-https://api.datapunt.amsterdam.nl/}
     command: >
       bash -c "/app/docker-wait.sh \
               && python manage.py build_index --partial=3/3 --build"
