@@ -1,17 +1,16 @@
 FROM amsterdam/docker_python:latest
-MAINTAINER datapunt.ois@amsterdam.nl
+MAINTAINER datapunt@amsterdam.nl
 
 ENV PYTHONUNBUFFERED 1
 
 EXPOSE 8000
 
-RUN apt-get update \
-	&& apt-get install -y \
-		netcat \
-		gdal-bin \
-		libgeos-dev \
-		unzip \
-		postgresql-client-9.4 \
+RUN apt-get install -y \
+	netcat \
+	gdal-bin \
+	libgeos-dev \
+	unzip \
+	postgresql-client-9.4 \
 	&& apt-get clean \
 	&& rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
