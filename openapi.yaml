@@ -1,0 +1,611 @@
+swagger: '2.0'
+
+info:
+  title: Handelsregister API
+  description: TODO
+  # termsOfService: Op deze dienst zijn van toepassing de algemene voorwaarden...
+  contact:
+    name: Datapunt Amsterdam
+    url: https://datapunt.amsterdam.nl/
+    email: datapunt.ois@amsterdam.nl
+  # license:
+  #   name: Datapunt Public License
+  #   url: https://datapunt.amsterdam.nl/license
+  version: '1.0.0'
+
+host: api.data.amsterdam.nl
+
+basePath: /handelsregister
+
+schemes:
+  - https
+
+produces:
+  - application/json
+  #- application/hal+json
+
+
+parameters:
+  page:
+    name: page
+    in: query
+    description: "The page number to return. Requires the `page_size` parameter."
+    required: false
+    type: string
+    pattern: "^[1-9]\\d*$"
+  page_size:
+    name: page_size
+    in: query
+    description: "The maximum number of items to return in one response."
+    required: false
+    type: string
+    pattern: >-
+      ^[1-9]\d*$
+
+
+responses: {}
+
+
+securityDefinitions:
+
+  OAuth2:
+    type: oauth2
+    scopes:
+      grnt: Grant rights to others
+    description: >-
+      OAuth2 autorisatie op basis van authenticatie bij Toegangsmakelaar
+      Amsterdam (TMA).
+    flow: accessCode
+    authorizationUrl: 'https://api.data.amsterdam.nl/oauth2/authz'
+    tokenUrl: 'https://api.data.amsterdam.nl/oauth2/token'
+
+  API-key:
+    type: apiKey
+    description: |
+      Use `apikey` as the authorization scheme.
+      For example: `Authorization: apikey foo...bar`.
+    in: header
+    name: Authorization
+
+  None:
+    type: apiKey
+    description: >
+      Dummy [Security Scheme
+      Object](//swagger.io/specification/#securitySchemeObject);
+
+      used in some [Security Definitions
+      Objects](//swagger.io/specification/#securityDefinitionsObject)
+
+      to indicate that authorization is _optional._
+    in: header
+    name: Authorization
+
+
+definitions:
+
+
+  HRef:
+    description: |
+      Its value is either a URI [RFC3986] or a URI Template [RFC6570]. If
+      the value is a URI Template then the Link Object SHOULD have a
+      "templated" attribute whose value is true.
+    type: string
+    pattern: >-
+      ^(?:(?:https?|h2):)?(?://(?:[\w\-]+\.?)+)?/(?:[\w\-.]+/?)*(?:\?[^#]*)?(?:#.*)?$
+
+
+  Name:
+    description: |
+      Its value MAY be used as a secondary key for selecting Link Objects
+      which share the same relation type.
+    type: string
+
+
+  Link:
+    title: Link Object
+    description: |
+      A Link Object represents a hyperlink from the containing resource to a
+      URI.
+    type: object
+    required:
+      - href
+    properties:
+      href:
+        $ref: '#/definitions/HRef'
+      templated:
+        description: |
+          Its value is boolean and SHOULD be true when the Link Object's "href"
+          property is a URI Template. Its value SHOULD be considered false if it
+          is undefined or any other value than true.
+        type: boolean
+      type:
+        description: |
+          Its value is a string used as a hint to indicate the media type
+          expected when dereferencing the target resource.
+        type: string
+      deprecation:
+        description: |
+          Its presence indicates that the link is to be deprecated (i.e.
+          removed) at a future date. Its value is a URL that SHOULD provide
+          further information about the deprecation. A client SHOULD provide
+          some notification (for example, by logging a warning message) whenever
+          it traverses over a link that has this property. The notification
+          SHOULD include the deprecation property's value so that a client
+          maintainer can easily find information about the deprecation.
+        type: string
+      name:
+        $ref: '#/definitions/Name'
+      profile:
+        description: |
+          Its value is a string which is a URI that hints about the profile
+          [RFC6906] of the target resource.
+        type: string
+      title:
+        description: |
+          Its value is a string and is intended for labelling the link with a
+          human-readable identifier (as defined by [RFC5988]).
+        type: string
+      hreflang:
+        description: |
+          Its value is a string and is intended for indicating the language of
+          the target resource (as defined by [RFC5988]).
+        type: string
+
+
+  # CuriesLink:
+  #   description: |
+  #     Custom link relation types (Extension Relation Types in [RFC5988]) SHOULD
+  #     be URIs that when dereferenced in a web browser provide relevant
+  #     documentation, in the form of an HTML page, about the meaning and/or
+  #     behaviour of the target Resource. This will improve the discoverability of
+  #     the API. The CURIE Syntax [W3C.NOTE-curie-20101216] MAY be used for
+  #     brevity for these URIs. CURIEs are established within a HAL document via a
+  #     set of Link Objects with the relation type "curies" on the root Resource
+  #     Object. These links contain a URI Template with the token 'rel', and are
+  #     named via the "name" property.
+  #   allOf:
+  #     - $ref: '#/definitions/Link'
+  #     - required:
+  #         - href
+  #         - name
+  #         - templated
+  #       properties:
+  #         href:
+  #           $ref: '#/definitions/HRef'
+  #         name:
+  #           $ref: '#/definitions/Name'
+  #         templated:
+  #           enum:
+  #             - true
+
+  Resource:
+    title: Resource Object
+    description: |
+      A Resource Object represents a resource. It has two reserved properties:
+      (1) "_links" which contain links to other resources, and (2) "_embedded"
+      which contain embedded resources. All other properties MUST be valid JSON,
+      and represent the current state of the resource.
+    type: object
+    properties:
+      _links:
+        description: |
+          It is an object whose property names are link relation types (as
+          defined by [RFC5988]) and values are either a Link Object or an array
+          of Link Objects.  The subject resource of these links is the Resource
+          Object of which the containing "_links" object is a property.
+        type: object
+        required:
+          - self
+        properties:
+          self:
+            $ref: '#/definitions/Link'
+          items:
+            type: array
+            items:
+              $ref: '#/definitions/Link'
+          # curies:
+          #   type: array
+          #   items:
+          #     $ref: '#/definitions/CuriesLink'
+        additionalProperties:
+          $ref: '#/definitions/Link'
+      _embedded:
+        description: |
+          It is an object whose property names are link relation types (as
+          defined by [RFC5988]) and values are either a Resource Object or an
+          array of Resource Objects. Embedded Resources MAY be a full, partial,
+          or inconsistent version of the representation served from the target
+          URI.
+        type: object
+        additionalProperties:
+          $ref: '#/definitions/Resource'
+
+
+  Functievervulling:
+    type: object
+    allOf:
+      - $ref: '#/definitions/Resource'
+    description: |
+      Een Functievervulling is een vervulling door een Persoon van een functie
+      voor een Persoon. Een Functievervulling geeft de relatie weer van de
+      Persoon als functionaris en de Persoon als eigenaar van de
+      Onderneming of MaatschappelijkeActiviteit.
+
+      **TODO**  
+      Er zitten links naar andere resources in deze resource. Die links horen
+      in de `_links` sectie te zitten.
+    required:
+      - _display
+    properties:
+      _display:
+        type: string
+      functietitel:
+        type: string
+      soortbevoegdheid:
+        type: string
+        enum:
+          - BeperktBevoegd
+          - OnbeperktBevoegd
+      heeft_aansprakelijke:
+        $ref: '#/definitions/HRef'
+      is_aansprakelijke:
+        $ref: '#/definitions/HRef'
+
+
+paths:
+
+
+  /docs/api-docs/:
+    get:
+      responses:
+        '200':
+          description: OK
+      tags:
+        - docs
+
+
+  /dummypath/:
+    get:
+      security:
+        - OAuth2:
+          - grnt
+        - API-key: []
+        - None: []
+      responses:
+        '200':
+          description: OK
+
+
+  /functievervulling/:
+    get:
+      summary: Functievervullingen
+      tags:
+        - functievervulling
+        - collectie
+      responses:
+        '200':
+          description: OK
+          schema:
+            allOf:
+              - $ref: '#/definitions/Resource'
+            properties:
+              count:
+                type: integer
+              results:
+                type: array
+                items:
+                  $ref: '#/definitions/Functievervulling'
+    parameters:
+      - $ref: '#/parameters/page'
+      - $ref: '#/parameters/page_size'
+      - name: heeft_aansprakelijke
+        required: false
+        in: query
+        type: string
+      - name: is_aansprakelijke
+        required: false
+        in: query
+        type: string
+
+
+  '/functievervulling/{id}/':
+    get:
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Functievervulling'
+      parameters:
+        - name: id
+          required: true
+          in: path
+          type: string
+          pattern: ^\d+$
+      description: |
+        Een Functievervulling is een vervulling door een Persoon van een functie
+        voor een Persoon. Een Functievervulling geeft de relatie weer van de
+        Persoon als functionaris en de Persoon als eigenaar van de
+        Onderneming of MaatschappelijkeActiviteit.
+
+        **TODO**  
+        Er zitten links naar andere resources in deze resource. Die links horen
+        in de `_links` sectie te zitten.
+      summary: Functievervulling (FVV)
+      tags:
+        - functievervulling
+
+
+  /maatschappelijkeactiviteit/:
+    get:
+      responses:
+        '200':
+          description: OK
+      summary: Maatschappelijke Activiteiten
+      tags:
+        - maatschappelijkeactiviteit
+        - collectie
+    parameters:
+      - $ref: '#/parameters/page'
+      - $ref: '#/parameters/page_size'
+      - name: eigenaar
+        required: false
+        in: query
+        description: ''
+        type: string
+      - name: naam
+        required: false
+        in: query
+        description: ''
+        type: string
+
+
+  '/maatschappelijkeactiviteit/{kvk_nummer}/':
+    get:
+      responses:
+        '200':
+          description: ''
+      parameters:
+        - name: kvk_nummer
+          required: true
+          in: path
+          description: ''
+          type: string
+      description: |
+        Maatschappelijke Activiteit (MAC)
+
+        Een MaatschappelijkeActiviteit is de activiteit van een
+        NatuurlijkPersoon of NietNatuurlijkPersoon. De
+        MaatschappelijkeActiviteit is het totaal van alle activiteiten
+        uitgeoefend door een NatuurlijkPersoon of een NietNatuurlijkPersoon.
+        Een MaatschappelijkeActiviteit kan ook als Onderneming voorkomen.
+      summary: Maatschappelijke Activiteit (MAC)
+      tags:
+        - maatschappelijkeactiviteit
+
+
+  /persoon/:
+    get:
+      responses:
+        '200':
+          description: ''
+      parameters:
+        - name: page
+          required: false
+          in: query
+          description: ''
+          type: string
+        - name: page_size
+          required: false
+          in: query
+          description: ''
+          type: string
+        - name: typering
+          required: false
+          in: query
+          description: ''
+          type: string
+        - name: naam
+          required: false
+          in: query
+          description: ''
+          type: string
+        - name: soort
+          required: false
+          in: query
+          description: ''
+          type: string
+        - name: niet_natuurlijkpersoon__rsin
+          required: false
+          in: query
+          description: ''
+          type: string
+      description: >
+        Een Persoon is een ieder die rechten en plichten kan hebben. Persoon
+        wordt gebruikt als overkoepelend begrip (een verzamelnaam voor
+        NatuurlijkPersoon, NietNatuurlijkPersoon en NaamPersoon) om er over
+        te kunnen communiceren. Iedere in het handelsregister voorkomende
+        Persoon heeft ofwel een Eigenaarschap en/ of minstens één
+        Functievervulling waarmee de rol van de Persoon is vastgelegd.
+      summary: Persoon (PRS)
+      tags:
+        - persoon
+
+
+  '/persoon/{id}/':
+    get:
+      responses:
+        '200':
+          description: ''
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: ''
+          type: string
+      description: >
+        Een Persoon is een ieder die rechten en plichten kan hebben. Persoon
+        wordt gebruikt als overkoepelend begrip (een verzamelnaam voor
+        NatuurlijkPersoon, NietNatuurlijkPersoon en NaamPersoon) om er over
+        te kunnen communiceren. Iedere in het handelsregister voorkomende
+        Persoon heeft ofwel een Eigenaarschap en/ of minstens één
+        Functievervulling waarmee de rol van de Persoon is vastgelegd.
+      summary: Persoon (PRS)
+      tags:
+        - persoon
+
+
+  /search/maatschappelijkeactiviteit/:
+    get:
+      responses:
+        '200':
+          description: ''
+      parameters: []
+      description: Create a response list
+      summary: Create a response list
+      tags:
+        - search
+
+
+  /search/vestiging/:
+    get:
+      responses:
+        '200':
+          description: ''
+      parameters: []
+      description: Create a response list
+      summary: Create a response list
+      tags:
+        - search
+
+
+  /typeahead/:
+    get:
+      responses:
+        '200':
+          description: ''
+      parameters: []
+      description: Returns matching result options
+      summary: Returns matching result options
+      tags:
+        - typeahead
+
+
+  /vestiging/:
+    get:
+      responses:
+        '200':
+          description: ''
+      parameters:
+        - name: page
+          required: false
+          in: query
+          description: ''
+          type: string
+        - name: page_size
+          required: false
+          in: query
+          description: ''
+          type: string
+        - name: maatschappelijke_activiteit
+          required: false
+          in: query
+          description: ''
+          type: string
+        - name: nummeraanduiding
+          required: false
+          in: query
+          description: ''
+          type: string
+        - name: verblijfsobject
+          required: false
+          in: query
+          description: ''
+          type: string
+        - name: bezoekadres__bag_numid
+          required: false
+          in: query
+          description: ''
+          type: string
+        - name: bezoekadres__correctie
+          required: false
+          in: query
+          description: ''
+          type: string
+        - name: pand
+          required: false
+          in: query
+          description: ''
+          type: string
+        - name: kadastraal_object
+          required: false
+          in: query
+          description: ''
+          type: string
+      description: >
+        Een Vestiging is gebouw of een complex van gebouwen waar duurzame
+        uitoefening van activiteiten van een Onderneming of Rechtspersoon
+        plaatsvindt. De vestiging is een combinatie van Activiteiten en
+        Locatie.
+
+
+        Filteren is mogelijk op:
+
+
+        - maatschappelijke_activiteit
+        - nummeraanduiding
+        - verblijfsobject
+        - bezoekadres__bag_numid
+        - pand
+
+
+        Zoeken op landelijk pand id van de Waag op de nieuwmarkt:
+        `https://api-acc.datapunt.amsterdam.nl/handelsregister/vestiging/?pand=0363100012171850`
+
+
+        Zoeken op kadastraal object id voorbeeld:
+        `https://api-acc.datapunt.amsterdam.nl/handelsregister/vestiging/?kadastraal_object=NL.KAD.OnroerendeZaak.11450749270000`
+      summary: Vestiging (VES)
+      tags:
+        - vestiging
+
+
+  '/vestiging/{vestigingsnummer}/':
+    get:
+      responses:
+        '200':
+          description: ''
+      parameters:
+        - name: vestigingsnummer
+          required: true
+          in: path
+          description: ''
+          type: string
+      description: >
+        Vestiging (VES)
+
+
+        Een Vestiging is gebouw of een complex van gebouwen waar duurzame
+        uitoefening van activiteiten van een Onderneming of Rechtspersoon
+        plaatsvindt. De vestiging is een combinatie van Activiteiten en
+        Locatie.
+
+
+        Filteren is mogelijk op:
+
+
+        - maatschappelijke_activiteit
+        - nummeraanduiding
+        - verblijfsobject
+        - bezoekadres__bag_numid
+        - pand
+
+
+        Zoeken op landelijk pand id van de Waag op de nieuwmarkt:
+        `https://api-acc.datapunt.amsterdam.nl/handelsregister/vestiging/?pand=0363100012171850`
+
+
+        Zoeken op kadastraal object id voorbeeld:
+        `https://api-acc.datapunt.amsterdam.nl/handelsregister/vestiging/?kadastraal_object=NL.KAD.OnroerendeZaak.11450749270000`
+      summary: Vestiging (VES)
+      tags:
+        - vestiging
