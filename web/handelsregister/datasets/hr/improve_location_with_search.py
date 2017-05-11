@@ -591,7 +591,14 @@ class SearchTask():
         """
         New adition location data is found, save it
         """
-        geometrie = normalize_geo(point)
+        try:
+            geometrie = normalize_geo(point)
+        except TypeError:
+            log.error('/n/n/n')
+            log.error(point)
+            log.error('/n/n/n')
+            return
+
         assert geometrie
         self.locatie.geometrie = geometrie
         self.geometrie = geometrie
@@ -636,7 +643,13 @@ def async_determine_rd_coordinates():
     while not SEARCHES_QUEUE.empty():
         args = SEARCHES_QUEUE.get()
         task = SearchTask(*args)
-        task.determine_rd_coordinates()
+        try:
+            task.determine_rd_coordinates()
+        except Exception as exp:
+            # when tasks fails.. continue..
+            log.error('\n\n\n')
+            log.error(exp)
+            log.error('\n\n\n')
 
 
 def normalize_geo(point):

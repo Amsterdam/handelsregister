@@ -29,8 +29,8 @@ class BrowseDatasetsTestCase(APITestCase):
         response = self.client.get('/{}/'.format(url))
 
         self.assertEqual(
-                response.status_code,
-                200, 'Wrong response code for {}'.format(url))
+            response.status_code,
+            200, 'Wrong response code for {}'.format(url))
 
     def valid_html_response(self, url, response):
         """
