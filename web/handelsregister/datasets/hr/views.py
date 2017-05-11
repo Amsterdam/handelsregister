@@ -43,7 +43,7 @@ class MaatschappelijkeActiviteitViewSet(rest.AtlasViewSet):
     Een MaatschappelijkeActiviteit kan ook als Onderneming voorkomen.
     """
 
-    queryset = (models.MaatschappelijkeActiviteit.objects.all())
+    queryset = (models.MaatschappelijkeActiviteit.objects.all().order_by('id'))
     queryset_detail = (models.MaatschappelijkeActiviteit.objects
                        .select_related('onderneming')
                        .select_related('hoofdvestiging')
@@ -90,7 +90,7 @@ class PersoonViewSet(rest.AtlasViewSet):
     waarmee de rol van de Persoon is vastgelegd.
     """
 
-    queryset = models.Persoon.objects.all()
+    queryset = models.Persoon.objects.all().order_by('id')
 
     queryset_detail = (models.Persoon.objects
                        .select_related('natuurlijkpersoon')
@@ -129,7 +129,7 @@ class VestigingFilter(FilterSet):
             'bezoekadres__correctie'
         )
 
-    def nummeraanduiding_filter(self, queryset, name, value):
+    def nummeraanduiding_filter(self, queryset, _name, value):
         """
         Filter Vestiging op nummeraanduiding
         """
@@ -141,7 +141,7 @@ class VestigingFilter(FilterSet):
 
         return q1 | q2
 
-    def verblijfsobject_filter(self, queryset, name, value):
+    def verblijfsobject_filter(self, queryset, _name, value):
         """
         Filter Vestiging op verblijfsobject
         """
@@ -203,7 +203,7 @@ class VestigingFilter(FilterSet):
 
         return stop
 
-    def pand_filter(self, queryset, name, value):
+    def pand_filter(self, queryset, _name, value):
         """
         Given a pand id pick up all verblijfsobjecten
         and find all vestigingen.
@@ -220,7 +220,7 @@ class VestigingFilter(FilterSet):
 
         return q1 | q2
 
-    def kot_filter(self, queryset, name, value):
+    def kot_filter(self, queryset, _name, value):
         """
         Given a kadastraal object find all
         """
@@ -266,7 +266,7 @@ class VestigingViewSet(rest.AtlasViewSet):
     queryset = (models.Vestiging.objects
                 .select_related('postadres')
                 .select_related('bezoekadres')
-                .all())
+                .all().order_by('id'))
 
     queryset_detail = (models.Vestiging.objects
                        .select_related('maatschappelijke_activiteit')
@@ -316,7 +316,7 @@ class FunctievervullingViewSet(rest.AtlasViewSet):
 
     queryset = (models.Functievervulling.objects
                 .select_related('is_aansprakelijke')
-                .select_related('heeft_aansprakelijke'))
+                .select_related('heeft_aansprakelijke').order_by('id'))
 
     serializer_detail_class = serializers.FunctievervullingDetail
     serializer_class = serializers.Functievervulling
