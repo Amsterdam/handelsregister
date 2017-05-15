@@ -2,6 +2,7 @@
 Elasticsearch index document defenitions
 """
 import logging
+import re
 # import json
 
 from django.conf import settings
@@ -33,6 +34,8 @@ def get_centroid(geom, transform=None):
 class MaatschappelijkeActiviteit(es.DocType):
 
     _display = es.String(index='not_analyzed')
+
+    _kvk_display = es.String(index='not_analyzed')
 
     kvk_nummer = es.String(
         analyzer=analyzers.autocomplete,
@@ -74,6 +77,8 @@ class MaatschappelijkeActiviteit(es.DocType):
             'ngram': es.String(
                 analyzer=analyzers.autocomplete, search_analyzer='standard')})
 
+    bezoekadres_correctie = es.Boolean()
+
     # hoofdvestiging
 
     centroid = es.GeoPoint()
@@ -86,6 +91,7 @@ class MaatschappelijkeActiviteit(es.DocType):
 class Vestiging(es.DocType):
 
     _display = es.String(index='not_analyzed')
+    _kvk_display = es.String(index='not_analyzed')
 
     vestigingsnummer = es.String(
         analyzer=analyzers.autocomplete,
@@ -159,7 +165,7 @@ def from_mac(mac: models.MaatschappelijkeActiviteit):
     """
     doc = MaatschappelijkeActiviteit(_id=mac.id)
 
-    doc._display = str(mac)
+    doc._display = str(mac)  # pylint: disable=protected-access
 
     doc.naam = mac.naam
     doc.kvk_nummer = mac.kvk_nummer
@@ -173,7 +179,9 @@ def from_mac(mac: models.MaatschappelijkeActiviteit):
 
     if mac.bezoekadres:
         doc.bezoekadres = mac.bezoekadres.volledig_adres
+        doc.bezoekadres_correctie = mac.bezoekadres.correctie
         doc.centroid = get_centroid(mac.bezoekadres.geometrie, 'wgs84')
+
     if mac.postadres:
         doc.postadres = mac.postadres.volledig_adres
 
@@ -187,9 +195,9 @@ def from_vestiging(ves: models.Vestiging):
 
     doc = Vestiging(_id=ves.id)
 
-    doc._display = str(ves)
-
+    doc._display = str(ves)         # pylint: disable=protected-access
     doc.vestigingsnummer = ves.vestigingsnummer
+
     doc.hoofdvestiging = ves.hoofdvestiging
 
     doc.naam = ves.naam
@@ -206,6 +214,10 @@ def from_vestiging(ves: models.Vestiging):
     if ves.bezoekadres:
         doc.bezoekadres = ves.bezoekadres.volledig_adres
         doc.centroid = get_centroid(ves.bezoekadres.geometrie, 'wgs84')
+
+        doc._kvk_display = re.split(    # pylint: disable=protected-access
+            r"\d\d\d\d[a-z][a-z]", doc.bezoekadres)
+
     if ves.postadres:
         doc.postadres = ves.bezoekadres.volledig_adres
 

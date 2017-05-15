@@ -845,7 +845,7 @@ def create_search_for_addr(loc, addr):
 
     huisnummer_i = is_straat_huisnummer(tokens)
 
-    toevoeging = None
+    # toevoeging = None
 
     postcode = re.search("\d\d\d\d[a-z][a-z]", addr)
 
