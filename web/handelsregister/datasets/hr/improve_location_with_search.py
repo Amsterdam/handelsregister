@@ -589,7 +589,7 @@ class SearchTask():
     def save_corrected_geo_infomation(
             self, num, point, bag_id, num_id, correctie_level):
         """
-        New adition location data is found, save it
+        New additional location data is found, save it
         """
         try:
             geometrie = normalize_geo(point)
@@ -600,6 +600,7 @@ class SearchTask():
             return
 
         assert geometrie
+
         self.locatie.geometrie = geometrie
         self.geometrie = geometrie
 

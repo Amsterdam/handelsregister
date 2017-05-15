@@ -44,6 +44,8 @@ class LocatieVestiging(serializers.ModelSerializer):
 
     toevoeging = serializers.SerializerMethodField()
 
+    kvk_adres = serializers.CharField(source='volledig_adres')
+
     class Meta(object):
         model = models.Locatie
         fields = (
@@ -52,6 +54,8 @@ class LocatieVestiging(serializers.ModelSerializer):
             'postcode',
             'huisnummer',
             'toevoeging',
+            'correctie',
+            'kvk_adres',
         )
 
     def get_toevoeging(self, obj):
@@ -321,6 +325,7 @@ class Vestiging(rest.HALSerializer):
     class Meta(object):
         model = models.Vestiging
         lookup_field = 'vestigingsnummer'
+
         extra_kwargs = {
             '_links': {'lookup_field': 'vestigingsnummer'}
         }

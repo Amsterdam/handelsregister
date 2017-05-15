@@ -90,6 +90,16 @@ def fill_stelselpedia(keep_outside_amsterdam=False):
 
 
 def fill_location_with_bag():
+    """
+    Update attributes of location data with BAG data.
+
+    NOTE:
+
+    When search correction is done locations contain
+    new bag_id / num_id and with this funtion
+    the fields get updated with bag data.
+
+    """
     with db.connection.cursor() as cursor:
         log.info("VUL geo tabel locaties met bag geometrie")
         _update_location_table_with_bag(cursor)

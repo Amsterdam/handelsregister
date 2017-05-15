@@ -126,7 +126,7 @@ class VestigingFilter(FilterSet):
             'nummeraanduiding',
             'verblijfsobject',
             'bezoekadres__bag_numid',
-            'bezoekadres__correctie'
+            'bezoekadres__correctie',
         )
 
     def nummeraanduiding_filter(self, queryset, _name, value):

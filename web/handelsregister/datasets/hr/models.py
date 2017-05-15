@@ -489,6 +489,7 @@ class Vestiging(models.Model):
                 self.bezoekadres.huisnummer,
                 toevoeging,
             )
+
         elif self.postadres:
             adres = "{} (post)".format(self.postadres.volledig_adres)
 
