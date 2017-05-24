@@ -2,6 +2,7 @@
 
 from django.contrib.gis.db import models
 from django.contrib.postgres.fields import JSONField
+import re
 
 
 class Persoon(models.Model):
@@ -404,6 +405,9 @@ class NietCommercieleVestiging(models.Model):
     verkorte_naam = models.CharField(max_length=60, null=True, blank=True)
 
 
+KVK_ADRES = re.compile(r' \d\d\d\d[A-Z][A-Z] ')
+
+
 class Vestiging(models.Model):
     """
     Vestiging (VES)
@@ -504,11 +508,16 @@ class Vestiging(models.Model):
 
     def __str__(self):
 
+        kvk_adres_short = None
         handelsnaam = "{}".format(self.naam)
-        adres = self._adres
+        # adres = self._adres
 
-        if adres:
-            return "{} - {}".format(handelsnaam, adres)
+        if self.locatie:
+            kvk_adres = self.locatie.volledig_adres
+            kvk_adres_short = KVK_ADRES.split(kvk_adres)[0]
+
+        if kvk_adres_short:
+            return "{} - {}".format(handelsnaam, kvk_adres_short)
 
         return handelsnaam
 
