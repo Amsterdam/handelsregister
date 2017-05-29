@@ -3,7 +3,6 @@ Elasticsearch index document defenitions
 """
 import logging
 import re
-# import json
 
 from django.conf import settings
 

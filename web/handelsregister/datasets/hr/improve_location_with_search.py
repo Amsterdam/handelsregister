@@ -594,9 +594,9 @@ class SearchTask():
         try:
             geometrie = normalize_geo(point)
         except TypeError:
-            log.error('/n/n/n')
+            log.error('\n\n\n')
             log.error(point)
-            log.error('/n/n/n')
+            log.error('\n\n\n')
             return
 
         assert geometrie
@@ -898,6 +898,8 @@ def create_qs_of_invalid_locations(gemeente):
         .filter(volledig_adres__endswith=gemeente)
         .exclude(volledig_adres__startswith='Postbus')
         .filter(correctie__isnull=True)
+        #
+        # keep commented code as reference for now
         # .extra(
         #    tables=['hr_vestiging'],
         #    where=[
