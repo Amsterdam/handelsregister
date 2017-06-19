@@ -4,10 +4,13 @@ set -u   # crash on missing env variables
 set -e   # stop on any error
 
 echo 'Downloading latest mks dumps'
+# uses data and unzipped dir
 python get_mks_dumps.py
 
 echo 'Store mks dumps in database'
 source loaddumps.sh
+# to test locally
+# source loaddumps_local.sh
 
 # import sbicodes
 python /app/manage.py run_import --cbs_sbi

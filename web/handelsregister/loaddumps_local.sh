@@ -8,20 +8,15 @@ export DATABASE_PORT_5432_TCP_ADDR=127.0.0.1
 export DATABASE_PORT_5432_TCP_PORT=5406
 export PGPASSWORD="insecure"
 
-# wait for database to load
-source docker-wait.sh
-
-echo 'unzipping latest kvk dump files'
-
-unzip -o $(ls -Art data/*.zip | tail -n 1) -d unzipped/
+echo 'extracting latest kvk dump files'
+for f in data/*.gz; do
+    STEM=$(basename "${f}" .gz)
+    gunzip -c "${f}" > unzipped/"${STEM}"
+done
 
 psql -d handelsregister -h ${DATABASE_PORT_5432_TCP_ADDR} -p ${DATABASE_PORT_5432_TCP_PORT} -U handelsregister -f dropallkvk.sql
 
 cd unzipped/
-
-rm -rf *.sql
-# Extract gz files if needed
-gunzip *.gz
 
 # Load all sql files
 
