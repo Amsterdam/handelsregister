@@ -303,7 +303,8 @@ DATAPUNT_AUTHZ = {
     'JWT_SECRET_KEY': os.getenv(
         'JWT_SHARED_SECRET_KEY', 'insecureeeeeeeeeeeeeee'),
     'JWT_ALGORITHM': 'HS256',
-    'MIN_SCOPE': authorization_levels.LEVEL_EMPLOYEE
+    'MIN_SCOPE': authorization_levels.LEVEL_EMPLOYEE,
+    'FORCED_ANONYMOUS_ROUTES': ('/status/',)
 }
 
 LOGGING = {
