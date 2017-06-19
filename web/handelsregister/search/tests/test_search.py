@@ -4,9 +4,9 @@ import string
 import random
 # Packages
 from rest_framework.test import APITestCase
-from datasets.hr.tests import factories
 # Project
-
+from datasets.hr.tests import factories
+from handelsregister.tests import authorization
 from search import build_index
 
 import logging
@@ -14,7 +14,10 @@ import logging
 log = logging.getLogger(__name__)
 
 
-class SearchTest(APITestCase):
+class SearchTest(APITestCase, authorization.AuthorizationSetup):
+
+    def setUp(self):
+        self.setUpAuthorization()
 
     @classmethod
     def setUpClass(cls):
@@ -102,6 +105,8 @@ class SearchTest(APITestCase):
             keylist = [random.choice(source) for i in range(key_len)]
             query = "".join(keylist)
 
+            self.client.credentials(
+                HTTP_AUTHORIZATION='Bearer {}'.format(self.token_employee))
             response = self.client.get(url, {
                 'q': "".join(query)})
 
@@ -111,6 +116,8 @@ class SearchTest(APITestCase):
 
         url = '/handelsregister/search/maatschappelijkeactiviteit/'
         query = '011'
+        self.client.credentials(
+            HTTP_AUTHORIZATION='Bearer {}'.format(self.token_employee))
         response = self.client.get(url, {'q': query})
         self.assertIn('results', response.data)
         self.assertIn('count', response.data)
@@ -118,6 +125,8 @@ class SearchTest(APITestCase):
         self.assertEqual(response.data['count'], 2)
 
         query = '0112'
+        self.client.credentials(
+            HTTP_AUTHORIZATION='Bearer {}'.format(self.token_employee))
         response = self.client.get(url, {'q': query})
         self.assertEqual(response.data['count'], 1)
 
@@ -127,12 +136,16 @@ class SearchTest(APITestCase):
 
         url = '/handelsregister/search/maatschappelijkeactiviteit/'
         query = 'mac'
+        self.client.credentials(
+            HTTP_AUTHORIZATION='Bearer {}'.format(self.token_employee))
         response = self.client.get(url, {'q': query})
         self.assertIn('results', response.data)
         self.assertIn('count', response.data)
         self.assertEqual(response.data['count'], 3)
 
         query = 'mac3'
+        self.client.credentials(
+            HTTP_AUTHORIZATION='Bearer {}'.format(self.token_employee))
         response = self.client.get(url, {'q': query})
 
         # logging.error(json.dumps(response.data['results'], indent=4))
@@ -148,6 +161,8 @@ class SearchTest(APITestCase):
 
         query = 'handelsnaammac'
 
+        self.client.credentials(
+            HTTP_AUTHORIZATION='Bearer {}'.format(self.token_employee))
         response = self.client.get(url, {'q': query})
 
         self.assertEqual(response.data['count'], 1)
@@ -162,12 +177,16 @@ class SearchTest(APITestCase):
 
         url = '/handelsregister/search/vestiging/'
         query = 9999
+        self.client.credentials(
+            HTTP_AUTHORIZATION='Bearer {}'.format(self.token_employee))
         response = self.client.get(url, {'q': query})
         self.assertIn('results', response.data)
         self.assertIn('count', response.data)
         self.assertEqual(response.data['count'], 2)
 
         query = 99998
+        self.client.credentials(
+            HTTP_AUTHORIZATION='Bearer {}'.format(self.token_employee))
         response = self.client.get(url, {'q': query})
         self.assertEqual(response.data['count'], 1)
 
@@ -177,6 +196,8 @@ class SearchTest(APITestCase):
     def test_vest_zeros_in_id(self):
         url = '/handelsregister/search/vestiging/'
         query = 6
+        self.client.credentials(
+            HTTP_AUTHORIZATION='Bearer {}'.format(self.token_employee))
         response = self.client.get(url, {'q': query})
         self.assertIn('results', response.data)
         self.assertIn('count', response.data)
@@ -189,12 +210,16 @@ class SearchTest(APITestCase):
 
         url = '/handelsregister/search/vestiging/'
         query = 'test'
+        self.client.credentials(
+            HTTP_AUTHORIZATION='Bearer {}'.format(self.token_employee))
         response = self.client.get(url, {'q': query})
         self.assertIn('results', response.data)
         self.assertIn('count', response.data)
         self.assertEqual(response.data['count'], 4)
 
         query = 'test3'
+        self.client.credentials(
+            HTTP_AUTHORIZATION='Bearer {}'.format(self.token_employee))
         response = self.client.get(url, {'q': query})
 
         # logging.error(json.dumps(response.data['results'], indent=4))
@@ -207,6 +232,8 @@ class SearchTest(APITestCase):
     def test_ves_handelsnaam(self):
         url = '/handelsregister/search/vestiging/'
         query = 'handelsnaam3'
+        self.client.credentials(
+            HTTP_AUTHORIZATION='Bearer {}'.format(self.token_employee))
         response = self.client.get(url, {'q': query})
 
         # logging.error(json.dumps(response.data['results'], indent=4))

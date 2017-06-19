@@ -8,12 +8,13 @@ from rest_framework.test import APITestCase
 from datasets.hr.tests import factories as factories_hr
 from datasets.hr import models as models_hr
 from .fixtures import patch_filter_requests
+from . import authorization
 
 LOG = logging.getLogger(__name__)
 
 
 @patch_filter_requests
-class VestingFilterTest(APITestCase):
+class VestingFilterTest(APITestCase, authorization.AuthorizationSetup):
 
     # create some factory stuff
 
@@ -21,6 +22,7 @@ class VestingFilterTest(APITestCase):
         """
         For x bag panden
         """
+        self.setUpAuthorization()
         factories_hr.restore_cbs_sbi()
         self.vestigingen = factories_hr.create_x_vestigingen()
 
@@ -30,6 +32,8 @@ class VestingFilterTest(APITestCase):
         """
         test_id = self.vestigingen[0].vestigingsnummer
 
+        self.client.credentials(
+            HTTP_AUTHORIZATION='Bearer {}'.format(self.token_employee))
         response = self.client.get(
             '/handelsregister/vestiging/{}/'.format(test_id))
 
@@ -43,6 +47,8 @@ class VestingFilterTest(APITestCase):
            postadres__bag_numid='p0',
         )
 
+        self.client.credentials(
+            HTTP_AUTHORIZATION='Bearer {}'.format(self.token_employee))
         response_b = self.client.get(
             '/handelsregister/vestiging/?nummeraanduiding=0')
 
@@ -50,6 +56,8 @@ class VestingFilterTest(APITestCase):
         self.assertEquals(200, response_b.status_code)
         self.assertEquals(vestigingen.count(), data_b['count'])
 
+        self.client.credentials(
+            HTTP_AUTHORIZATION='Bearer {}'.format(self.token_employee))
         response_p = self.client.get(
             '/handelsregister/vestiging/?nummeraanduiding=p0')
 
@@ -64,6 +72,8 @@ class VestingFilterTest(APITestCase):
            bezoekadres__bag_vbid=5,
         )
 
+        self.client.credentials(
+            HTTP_AUTHORIZATION='Bearer {}'.format(self.token_employee))
         response = self.client.get(
             '/handelsregister/vestiging/?verblijfsobject=0363010000758545')
 
@@ -83,6 +93,8 @@ class VestingFilterTest(APITestCase):
            bezoekadres__bag_numid=4,
         )
 
+        self.client.credentials(
+            HTTP_AUTHORIZATION='Bearer {}'.format(self.token_employee))
         response = self.client.get(
             '/handelsregister/vestiging/?pand=0363010000758545')
 
@@ -110,6 +122,8 @@ class VestingFilterTest(APITestCase):
         )
 
         # Trigger a filter request with kot object id
+        self.client.credentials(
+            HTTP_AUTHORIZATION='Bearer {}'.format(self.token_employee))
         response = self.client.get(
             '/handelsregister/vestiging/?kadastraal_object=NL.KAD.OnroerendeZaak.11450749270000')
 
@@ -125,11 +139,15 @@ class VestingFilterTest(APITestCase):
     def test_unknown_vbo_is_200(self):
         """
         """
+        self.client.credentials(
+            HTTP_AUTHORIZATION='Bearer {}'.format(self.token_employee))
         response = self.client.get(
             '/handelsregister/vestiging/?verblijfsobject=9999')
 
         self.assertEquals(200, response.status_code)
 
     def test_dataselectie_filter(self):
+        self.client.credentials(
+            HTTP_AUTHORIZATION='Bearer {}'.format(self.token_employee))
         response = self.client.get(
             '/handelsregister/dataselectie/?sbi_code=1073')
