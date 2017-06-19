@@ -2,9 +2,10 @@
 from rest_framework.test import APITestCase
 # Project
 from datasets.hr.tests import factories as factories_hr
+from . import authorization
 
 
-class BrowseDatasetsTestCase(APITestCase):
+class BrowseDatasetsTestCase(APITestCase, authorization.AuthorizationSetup):
     """
     Verifies that browsing the API works correctly.
     """
@@ -17,6 +18,7 @@ class BrowseDatasetsTestCase(APITestCase):
     ]
 
     def setUp(self):
+        self.setUpAuthorization()
         factories_hr.MaatschappelijkeActiviteitFactory.create(
             id=900000000000000000)
         factories_hr.PersoonFactory.create()
@@ -26,6 +28,8 @@ class BrowseDatasetsTestCase(APITestCase):
     def test_index_pages(self):
         url = 'handelsregister'
 
+        self.client.credentials(
+            HTTP_AUTHORIZATION='Bearer {}'.format(self.token_employee))
         response = self.client.get('/{}/'.format(url))
 
         self.assertEqual(
@@ -47,6 +51,8 @@ class BrowseDatasetsTestCase(APITestCase):
 
     def test_lists(self):
         for url in self.datasets:
+            self.client.credentials(
+                HTTP_AUTHORIZATION='Bearer {}'.format(self.token_employee))
             response = self.client.get('/{}/'.format(url))
 
             self.assertEqual(
@@ -66,6 +72,8 @@ class BrowseDatasetsTestCase(APITestCase):
     def test_lists_html(self):
 
         for url in self.datasets:
+            self.client.credentials(
+                HTTP_AUTHORIZATION='Bearer {}'.format(self.token_employee))
             response = self.client.get('/{}/?format=api'.format(url))
 
             self.valid_html_response(url, response)
@@ -78,6 +86,8 @@ class BrowseDatasetsTestCase(APITestCase):
 
     def test_details(self):
         for url in self.datasets:
+            self.client.credentials(
+                HTTP_AUTHORIZATION='Bearer {}'.format(self.token_employee))
             response = self.client.get('/{}/'.format(url))
 
             url = response.data['results'][0]['_links']['self']['href']
@@ -95,6 +105,8 @@ class BrowseDatasetsTestCase(APITestCase):
 
     def test_details_html(self):
         for url in self.datasets:
+            self.client.credentials(
+                HTTP_AUTHORIZATION='Bearer {}'.format(self.token_employee))
             response = self.client.get('/{}/?format=api'.format(url))
 
             url = response.data['results'][0]['_links']['self']['href']

@@ -13,6 +13,8 @@ import os
 import re
 import sys
 
+from authorization_django import levels as authorization_levels
+
 
 def get_docker_host():
     """
@@ -159,6 +161,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'authorization_django.authorization_middleware',
 ]
 
 ROOT_URLCONF = 'handelsregister.urls'
@@ -294,6 +297,14 @@ STATIC_URL = '/static/'
 STATIC_ROOT = '/static/'
 
 HEALTH_MODEL = 'hr.MaatschappelijkeActiviteit'
+
+# Security
+DATAPUNT_AUTHZ = {
+    'JWT_SECRET_KEY': os.getenv(
+        'JWT_SHARED_SECRET_KEY', 'insecureeeeeeeeeeeeeee'),
+    'JWT_ALGORITHM': 'HS256',
+    'MIN_SCOPE': authorization_levels.LEVEL_EMPLOYEE
+}
 
 LOGGING = {
     'version': 1,
