@@ -5,7 +5,7 @@ Handelsregister (HR)
 
 Serve a stelselpedia API of Handelsregister items
 
-Data source is Makelaarssuite (mks)
+Data source is Makelaarssuite (mks) / cbs voor sbi codes
 
 
 Requirements
@@ -80,7 +80,7 @@ Finally build the dataselectie view (if you need it....)
 
 Quickstart Import
 -----------------
-    Download a prepared database..
+    Download a prepared database..works only within 'gemeente Amsterdam network'
 
     docker-compose exec database update-db.sh handelsregister
 
