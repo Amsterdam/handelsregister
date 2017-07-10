@@ -7,8 +7,13 @@ import logging
 from django import db
 from django.conf import settings
 import requests
-from datasets.hr.models import CBS_sbi_endcode, CBS_sbi_hoofdcat, CBS_sbi_subcat, \
-                               CBS_sbi_section, CBS_sbi_rootnode, CBS_sbicode
+
+from datasets.hr.models import CBS_sbi_endcode
+from datasets.hr.models import CBS_sbi_hoofdcat
+from datasets.hr.models import CBS_sbi_subcat
+from datasets.hr.models import CBS_sbi_section
+from datasets.hr.models import CBS_sbi_rootnode
+from datasets.hr.models import CBS_sbicode
 
 log = logging.getLogger(__name__)
 

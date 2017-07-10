@@ -1,0 +1,33 @@
+{
+ "Code": "01", 
+ "Description": "Landbouw, jacht en dienstverlening voor de landbouw en jacht", 
+ "Path": [
+  {
+   "Code": "01", 
+   "HasChildren": true, 
+   "Id": 36882, 
+   "IsRoot": true, 
+   "ParentId": 36861, 
+   "Title": "Landbouw, jacht en dienstverlening voor de landbouw en jacht"
+  }
+ ], 
+ "Siblings": [
+  {
+   "Code": "02", 
+   "HasChildren": true, 
+   "Id": 36883, 
+   "IsRoot": true, 
+   "ParentId": 36861, 
+   "Title": "Bosbouw, exploitatie van bossen en dienstverlening voor de bosbouw"
+  }, 
+  {
+   "Code": "03", 
+   "HasChildren": true, 
+   "Id": 36884, 
+   "IsRoot": true, 
+   "ParentId": 36861, 
+   "Title": "Visserij en kweken van vis en schaaldieren"
+  }
+ ], 
+ "Title": "Landbouw, jacht en dienstverlening voor de landbouw en jacht"
+}
