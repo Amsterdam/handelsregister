@@ -678,7 +678,7 @@ INSERT INTO hr_geovestigingen (
       WHEN vs.postadres_id = loc.id THEN 'P'
     END as locatie_type,
     loc.geometrie as geometrie,
-    sc.subcategorie as sbi_detailgroep,
+    sc.subcategorie as sbi_detail_group,
     vs.postadres_id,
     vs.bezoekadres_id,
     loc.bag_vbid,
@@ -698,5 +698,4 @@ INSERT INTO hr_geovestigingen (
     ON sbi.sub_cat_id = sc.scat
     JOIN hr_cbs_sbi_hoofdcat hc
     ON sc.hcat_id = hc.hcat;
-    """
-                   )
+    """)

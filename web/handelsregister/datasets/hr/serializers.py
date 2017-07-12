@@ -1,9 +1,10 @@
 from rest_framework import serializers
+from rest_framework.reverse import reverse
 
 from datapunt import rest
-from . import models
+from datasets.sbicodes import models as sbimodels
 
-from rest_framework.reverse import reverse
+from . import models
 
 
 class Communicatiegegevens(serializers.ModelSerializer):
@@ -85,29 +86,15 @@ class NietCommercieleVestiging(serializers.ModelSerializer):
             'id',
         )
 
-class CBS_sbi_hoofdcat(serializers.ModelSerializer):
-    class Meta(object):
-        model = models.CBS_sbi_hoofdcat
-        fields = '__all__'
 
-
-class CBS_sbi_subcat(serializers.ModelSerializer):
-    hcat = CBS_sbi_hoofdcat(read_only=True)
+class SBICodeHierarchy(serializers.ModelSerializer):
 
     class Meta(object):
-        model = models.CBS_sbi_subcat
-        fields = '__all__'
-
-
-class CBS_sbicode(serializers.ModelSerializer):
-    sub_cat = CBS_sbi_subcat(read_only=True)
-
-    class Meta(object):
-        model = models.CBS_sbicode
+        model = sbimodels.SBICodeHierarchy
         fields = (
-            'sbi_code',
+            'code',
             'title',
-            'sub_cat'
+            'sbi_tree'
         )
 
 
@@ -120,7 +107,7 @@ class Activiteit(serializers.ModelSerializer):
 
 
 class ActiviteitDataselectie(serializers.ModelSerializer):
-    sbi_code_link = CBS_sbicode()
+    sbi_code_link = SBICodeHierarchy()
 
     class Meta(object):
         model = models.Activiteit
@@ -130,6 +117,7 @@ class ActiviteitDataselectie(serializers.ModelSerializer):
             'hoofdactiviteit',
             'sbi_code_link',
         )
+
 
 class MaatschappelijkeActiviteit(rest.HALSerializer):
     dataset = 'hr'
@@ -153,12 +141,12 @@ class MaatschappelijkeActiviteit(rest.HALSerializer):
 
 class BijzondereRechtsToestand(serializers.ModelSerializer):
 
-        class Meta(object):
-            model = models.Persoon
+    class Meta(object):
+        model = models.Persoon
 
-            fields = (
-                'faillissement',
-            )
+        fields = (
+            'faillissement',
+        )
 
 
 class MaatschappelijkeActiviteitDetail(rest.HALSerializer):
@@ -202,6 +190,7 @@ class MaatschappelijkeActiviteitDetail(rest.HALSerializer):
             'activiteiten',
             '_bijzondere_rechts_toestand'
         )
+
 
 class PersoonDataselectie(serializers.ModelSerializer):
     class Meta(object):
@@ -405,4 +394,3 @@ class FunctievervullingDetail(rest.HALSerializer):
     class Meta(object):
         model = models.Functievervulling
         fields = '__all__'
-

@@ -16,10 +16,12 @@ Deze code wordt onder andere gebruikte bij het
 https://data.amsterdam.nl portaal.
 
 """
+import os
 import json
 import logging
 import requests
 
+from .models import SBICodeHierarchy
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -32,6 +34,13 @@ sbi_data = "http://sbi.cbs.nl/cbs.typeermodule.typeerservicewebapi/api/SBIData/S
 
 REFRESH = False
 
+DIRECTORY = os.path.dirname(__file__)
+
+
+def get_fixture_path(filename):
+    file_path = f'{DIRECTORY}/fixtures/{filename}'
+    return file_path
+
 
 def load_sections(cache=True):
     """
@@ -42,7 +51,8 @@ def load_sections(cache=True):
 
     # load from file
     if cache:
-        with open('sections.json', 'r') as sectionsfile:
+        file_path = get_fixture_path('sections.json')
+        with open(file_path, 'r') as sectionsfile:
             cbs_sections = json.load(sectionsfile)
             return cbs_sections
 
@@ -65,7 +75,9 @@ def load_section_selections(all_sections, cache=True):
 
     # load from file
     if cache:
-        with open('section_tree.json', 'r') as sectionsfile:
+
+        section_tree_path = get_fixture_path('section_tree.json')
+        with open(section_tree_path, 'r') as sectionsfile:
             sections_tree = json.load(sectionsfile)
             return sections_tree
 
@@ -129,8 +141,8 @@ def map_nodes_from_sections(all_sections):
             id_map[node_id] = node
             code_map[code] = node
 
-    log.debug('Codes: %s', len(code_map))
-    log.debug('ids  : %s', len(id_map))
+    # log.debug('Codes: %s', len(code_map))
+    # log.debug('ids  : %s', len(id_map))
 
     return code_map, id_map
 
@@ -143,10 +155,28 @@ def load_description_for_each_code():
     pass
 
 
-def make_csv(code_map, id_map):
+def create_sbi_row(parent_list):
+    """
+    Given sbi parents create list of [(sbi_code, descriptions)..]
+    """
+    line = ""
+    db_row = []
+
+    for parent in parent_list[::-1]:
+        next_code = parent['Code']
+        next_title = parent['Title']
+        line = f"{line}{next_code},"
+        db_row.append((next_code, next_title))
+
+    log.debug(line)
+
+    return db_row
+
+
+def create_sbi_table(code_map, id_map):
     """
     Given mapping of codes and id's
-    create hiararchy for each node
+    create hiararchy for each sbi code
     [(code, title), ...]
     """
 
@@ -172,7 +202,7 @@ def make_csv(code_map, id_map):
 
         sbi_details.append(db_row)
 
-    log.debug(len(sbi_details))
+    log.debug('Nodes in sbi hiararchy %s', len(sbi_details))
     return sbi_details
 
 
@@ -182,26 +212,37 @@ def store_sbi_details(sbi_details):
 
     store in database
     """
+    # remove old data
+    SBICodeHierarchy.objects.all().delete()
 
     for row in sbi_details:
 
         levels = [
-            'hoofcategorie',
-            'subcategorie',
-            'subsubcategorie',
-            'subsubsubcategorie',
+            'main_category',
+            'sub_category',
+            'sub_sub_category',
+            'sub_sub_sub_category',
             'sbicode'
         ]
 
         sbiobject = {}
 
-        row.reverse()
-
         for (code, description), level in zip(row, levels):
-
             sbiobject[level] = (code, description)
 
-        log.debug(sbiobject)
+        # log.debug(sbiobject)
+
+        row.reverse()
+
+        new_sbi_code = SBICodeHierarchy.objects.create(
+            code=row[0][0],
+            title=row[0][1],
+            sbi_tree=sbiobject
+        )
+
+        new_sbi_code.save()
+
+    log.debug('SBI_codes in DB %s', SBICodeHierarchy.objects.count())
 
 
 def save_json(data, filename):
@@ -223,13 +264,15 @@ def build_csb_sbi_code_tree():
     sections = load_sections(cache=use_cache)
 
     if not use_cache:
-        save_json(sections, 'sections.json')
+        section_path = get_fixture_path('sections.json')
+        save_json(sections, section_path)
 
     # 01 , 02, 03
     section_tree = load_section_selections(sections, cache=use_cache)
 
     if not use_cache:
-        save_json(section_tree, 'section_tree.json')
+        section_tree_path = get_fixture_path('section_tree.json')
+        save_json(section_tree, section_tree_path)
 
     code_map, id_map = map_nodes_from_sections(section_tree)
 
@@ -241,5 +284,4 @@ def build_csb_sbi_code_tree():
 
 
 if __name__ == '__main__':
-
     build_csb_sbi_code_tree()

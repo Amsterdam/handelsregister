@@ -4,6 +4,8 @@ from django.contrib.gis.db import models
 from django.contrib.postgres.fields import JSONField
 import re
 
+from datasets.sbicodes.models import SBICodeHierarchy
+
 
 class Persoon(models.Model):
     """
@@ -228,10 +230,13 @@ class Activiteit(models.Model):
             De omschrijving van de activiteiten die de
             Vestiging of Rechtspersoon uitoefent"""
     )
+
     # This is actually a foreign key to the CBS_sbicode table
     # However, not all data is included which leads to foreign
     # constrain failures
+
     sbi_code = models.CharField(
+        db_index=True,
         max_length=6,
         help_text="De codering van de activiteit conform de SBI2008"
     )
@@ -249,13 +254,12 @@ class Activiteit(models.Model):
     def sbi_code_link(self):
         """
         Since sbi_code cannot be used as foreign key because
-        of missing data, this property provides a link functionality
+        of missing data, this provides a link functionality
         """
         try:
-            return CBS_sbicode.objects.get(pk=self.sbi_code)
-        except CBS_sbicode.DoesNotExist:
+            return SBICodeHierarchy.objects.get(code=self.sbi_code)
+        except SBICodeHierarchy.DoesNotExist:
             return None
-            return CBS_sbicode()
 
 
 class MaatschappelijkeActiviteit(models.Model):
@@ -712,42 +716,7 @@ class Kapitaal(models.Model):
     het gestorte deel daarvan, onderverdeeld naar soort indien er verschillende
     soorten aandelen zijn.
     """
-
-
-class CBS_sbi_hoofdcat(models.Model):
-    hcat = models.CharField(max_length=20, primary_key=True)
-    hoofdcategorie = models.CharField(max_length=255, blank=False, null=False)
-
-
-class CBS_sbi_subcat(models.Model):
-    scat = models.CharField(max_length=20, primary_key=True)
-    subcategorie = models.CharField(max_length=255, blank=False, null=False)
-    hcat = models.ForeignKey(CBS_sbi_hoofdcat, on_delete=models.CASCADE)
-
-
-class CBS_sbi_section(models.Model):
-    code = models.CharField(max_length=1, primary_key=True)
-    title = models.CharField(max_length=255, blank=False, null=False)
-
-
-class CBS_sbi_endcode(models.Model):
-    sbi_code = models.CharField(max_length=14, primary_key=True)
-    scat = models.ForeignKey(CBS_sbi_subcat, on_delete=models.CASCADE)
-    sub_sub_categorie = models.CharField(max_length=140, blank=False, null=False)
-
-
-class CBS_sbi_rootnode(models.Model):
-    code = models.CharField(max_length=2, primary_key=True)
-    title = models.CharField(max_length=255, blank=False, null=False)
-    section = models.ForeignKey(CBS_sbi_section, on_delete=models.CASCADE)
-
-
-class CBS_sbicode(models.Model):
-    sbi_code = models.CharField(max_length=10, primary_key=True)
-    title = models.CharField(max_length=255, blank=False, null=False)
-    sub_cat = models.ForeignKey(CBS_sbi_subcat, on_delete=models.CASCADE)
-    root_node = models.ForeignKey(CBS_sbi_rootnode, on_delete=models.CASCADE)
-    is_leaf = models.BooleanField(default=False)
+    pass
 
 
 class GeoVestigingen(models.Model):

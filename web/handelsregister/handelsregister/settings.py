@@ -124,6 +124,7 @@ PROJECT_APPS = [
     'handelsregister',
     'datasets.kvkdump',
     'datasets.hr',
+    'datasets.sbicodes',
     'geo_views',
 ]
 

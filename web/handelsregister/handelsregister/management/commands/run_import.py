@@ -6,7 +6,9 @@ import logging
 
 from django.core.management import BaseCommand
 
-from datasets import build_cbs_sbi
+# from datasets import build_cbs_sbi
+
+from datasets.sbicodes import load_sbi_codes
 from datasets import build_ds_data
 from datasets import build_hr_data
 from datasets.hr import improve_location_with_search
@@ -101,7 +103,7 @@ class Command(BaseCommand):
             build_hr_data.fill_geo_table()
             location_stats.log_rapport_counts(action='map')
         elif options['cbs_sbi']:
-            build_cbs_sbi.cbsbi_table()
+            load_sbi_codes.build_csb_sbi_code_tree()
         elif options['dataselectie']:
             build_ds_data.write_dataselectie_data()
             # location_stats.log_rapport_counts(action='ds')
