@@ -12,42 +12,43 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RemoveField(
-            model_name='cbs_sbi_endcode',
-            name='scat',
-        ),
-        migrations.RemoveField(
-            model_name='cbs_sbi_rootnode',
-            name='section',
-        ),
-        migrations.RemoveField(
-            model_name='cbs_sbi_subcat',
-            name='hcat',
-        ),
-        migrations.RemoveField(
-            model_name='cbs_sbicode',
-            name='root_node',
-        ),
-        migrations.RemoveField(
-            model_name='cbs_sbicode',
-            name='sub_cat',
-        ),
-        migrations.DeleteModel(
-            name='CBS_sbi_endcode',
-        ),
-        migrations.DeleteModel(
-            name='CBS_sbi_hoofdcat',
-        ),
-        migrations.DeleteModel(
-            name='CBS_sbi_rootnode',
-        ),
-        migrations.DeleteModel(
-            name='CBS_sbi_section',
-        ),
-        migrations.DeleteModel(
-            name='CBS_sbi_subcat',
-        ),
-        migrations.DeleteModel(
-            name='CBS_sbicode',
-        ),
+        #migrations.RemoveField(
+        #    model_name='cbs_sbi_endcode',
+        #    name='scat',
+        #),
+        #migrations.RemoveField(
+        #    model_name='cbs_sbi_rootnode',
+        #    name='section',
+        #),
+        #migrations.RemoveField(
+        #    model_name='cbs_sbi_subcat',
+        #    name='hcat',
+        #),
+        #migrations.RemoveField(
+        #    model_name='cbs_sbicode',
+        #    name='root_node',
+        #),
+        #migrations.RemoveField(
+        #    model_name='cbs_sbicode',
+        #    name='sub_cat',
+        #),
+
+        #migrations.DeleteModel(
+        #    name='CBS_sbi_endcode',
+        #),
+        #migrations.DeleteModel(
+        #    name='CBS_sbi_hoofdcat',
+        #),
+        #migrations.DeleteModel(
+        #    name='CBS_sbi_rootnode',
+        #),
+        #migrations.DeleteModel(
+        #    name='CBS_sbi_section',
+        #),
+        #migrations.DeleteModel(
+        #    name='CBS_sbi_subcat',
+        #),
+        #migrations.DeleteModel(
+        #    name='CBS_sbicode',
+        #),
     ]

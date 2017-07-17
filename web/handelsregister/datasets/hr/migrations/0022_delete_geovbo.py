@@ -12,7 +12,7 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-         migrations.DeleteModel(
-             name='GeoVBO',
-         ),
+         #migrations.DeleteModel(
+         #    name='GeoVBO',
+         #),
     ]

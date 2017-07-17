@@ -3,7 +3,6 @@
 from __future__ import unicode_literals
 
 from django.db import migrations, models
-import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
@@ -13,18 +12,14 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RemoveField(
-            model_name='dataselectie',
-            name='bag_vbid',
-        ),
-        migrations.AlterField(
-            model_name='activiteit',
-            name='sbi_code',
-            field=models.ForeignKey(help_text='De codering van de activiteit conform de SBI2008', on_delete=django.db.models.deletion.CASCADE, related_name='activiteiten', to='hr.CBS_sbicode'),
-        ),
-        migrations.AlterField(
-            model_name='dataselectie',
-            name='bag_numid',
-            field=models.CharField(blank=True, max_length=16, null=True),
-        ),
+        #migrations.RemoveField(
+        #    model_name='dataselectie',
+        #    name='bag_vbid',
+        #),
+
+        #migrations.AlterField(
+        #    model_name='dataselectie',
+        #    name='bag_numid',
+        #    field=models.CharField(blank=True, max_length=16, null=True),
+        #),
     ]

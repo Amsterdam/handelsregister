@@ -259,6 +259,13 @@ class Activiteit(models.Model):
         try:
             return SBICodeHierarchy.objects.get(code=self.sbi_code)
         except SBICodeHierarchy.DoesNotExist:
+            pass
+
+        try:
+            # add zero maybe more luck..
+            alt_code = f'0{self.sbi_code}'
+            return SBICodeHierarchy.objects.get(code=alt_code)
+        except SBICodeHierarchy.DoesNotExist:
             return None
 
 
@@ -748,6 +755,7 @@ class GeoVestigingen(models.Model):
             Vestiging of Rechtspersoon uitoefent"""
     )
 
+    # type indicatie gebruikt door geosearch services
     subtype = models.CharField(
         db_index=True,
         max_length=200, null=True, blank=True,
@@ -772,11 +780,13 @@ class GeoVestigingen(models.Model):
 
     geometrie = models.PointField(srid=28992, blank=True, null=True)
 
-    sbi_detail_group = models.CharField(
-        db_index=True,
-        max_length=200, null=True, blank=True,
-        help_text="De codering van de activiteit conform de SBI2008"
-    )
+    sbi_tree = JSONField(null=True)
+    sbi_main_category = models.CharField(
+        max_length=1, db_index=True, null=True)
+    sbi_sub_category = models.CharField(
+        max_length=2, db_index=True, null=True)
+    sbi_sub_sub_category = models.CharField(
+        max_length=3, db_index=True, null=True)
 
     postadres = models.ForeignKey(
         'Locatie', related_name="+", blank=True, null=True,

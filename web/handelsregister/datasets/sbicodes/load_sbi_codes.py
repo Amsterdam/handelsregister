@@ -1,10 +1,14 @@
 """
-
 Om Handelsregister vestigingen te kunnen
 selecteren en sorteren op verschillende categorien
 en activiteiten maken we gebruik van de sbi codes.
 
-SBI codes zitten in een hiërarchie. Voor actuele
+SBI codes zitten in een hiërarchie(n).  Er is een
+vraag antwoord hiërarchie en de officiele indeling.
+De vraag antwoord hiërarchie is wat makkelijker in gebruik
+We willen BEIDEN soorten hiërarchien ondersteunen.
+
+Voor actuele
 gegevens is een koppeling nodig naar de SBI-hiërarchie
 waarvan het CBS bronhouder is.
 

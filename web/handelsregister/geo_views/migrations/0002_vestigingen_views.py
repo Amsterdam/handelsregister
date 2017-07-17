@@ -10,6 +10,7 @@ WHERE hr_geovestigingen.sbi_detail_group IN (SELECT subcategorie FROM hr_cbs_sbi
     SELECT hcat FROM hr_cbs_sbi_hoofdcat WHERE hoofdcategorie = '{}'
 ))
 """
+
 geovestigingen_naamquery_template = """
 SELECT row_number() OVER () AS id, geometrie, naam, locatie_type
 from hr_geovestigingen
@@ -82,7 +83,7 @@ class Migration(migrations.Migration):
             sql=geovestigingen_template.format("horeca")
         ),
 
-        # NAAM QUERIES
+        # NAAM QUERIES / LABELS mapserver
         migrate.ManageView(
             view_name="geo_hr_vestiging_locaties_bouw_naam",
             sql=geovestigingen_naamquery_template.format("bouw")

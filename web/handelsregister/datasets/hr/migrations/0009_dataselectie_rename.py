@@ -12,14 +12,10 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RenameField(
-            model_name='dataselectie',
-            old_name='vestiging_id',
-            new_name='id',
-        ),
-        migrations.AlterField(
-            model_name='geovestigingen',
-            name='sbi_detail_group',
-            field=models.CharField(blank=True, db_index=True, help_text='De codering van de activiteit conform de SBI2008', max_length=200, null=True),
-        ),
+
+        #migrations.AlterField(
+        #    model_name='geovestigingen',
+        #    name='sbi_detail_group',
+        #    field=models.CharField(blank=True, db_index=True, help_text='De codering van de activiteit conform de SBI2008', max_length=200, null=True),
+        #),
     ]

@@ -7,7 +7,9 @@ import logging
 from django import db
 from django.conf import settings
 
+from datasets.sbicodes.models import SBICodeHierarchy
 
+from datasets.hr.models import GeoVestigingen
 from datasets.hr.models import Vestiging
 
 log = logging.getLogger(__name__)
@@ -640,12 +642,29 @@ WHERE correctie IS NOT NULL
     """)
 
 
-def _build_joined_geo_table(cursor):
-    cursor.execute("SELECT COUNT(*) from hr_cbs_sbicode")
-    r = cursor.fetchone()
-    assert(r[0] > 0)
+def _fix_0_missing_in_hr_activiteiten(cursor):
+    """
+    There are missing '0' for sbi codes which are ambiguous
+    with other codes. By looking at the descroption we can
+    correct those
 
-    cursor.execute("TRUNCATE TABLE hr_geovestigingen")
+    """
+
+    pass
+
+
+def _build_joined_geo_table(cursor):
+    """
+    We create vestigingen geo table for use with
+    mapserver and geo_views and also dataselectie.
+    """
+
+    # Make sure we have sbi codes
+    assert SBICodeHierarchy.objects.count() > 0
+
+    # clear existing geovestigingen
+    GeoVestigingen.objects.all().delete()
+
     cursor.execute(f"""
 INSERT INTO hr_geovestigingen (
     vestigingsnummer,
@@ -658,7 +677,10 @@ INSERT INTO hr_geovestigingen (
     hoofdvestiging,
     locatie_type,
     geometrie,
-    sbi_detail_group,
+    sbi_tree,
+    sbi_main_category,
+    sbi_sub_category,
+    sbi_sub_sub_category,
     postadres_id,
     bezoekadres_id,
     bag_vbid,
@@ -669,20 +691,29 @@ INSERT INTO hr_geovestigingen (
     a.sbi_code,
     a.activiteitsomschrijving,
     CAST('handelsregister/vestiging' AS text) as subtype,
+
     vs.naam,
     '{settings.DATAPUNT_API_URL}' || 'handelsregister/vestiging/' ||
         vs.vestigingsnummer || '/' AS uri,
     vs.hoofdvestiging,
+
     CASE
       WHEN vs.bezoekadres_id = loc.id THEN 'B'
       WHEN vs.postadres_id = loc.id THEN 'P'
     END as locatie_type,
+
     loc.geometrie as geometrie,
-    sc.subcategorie as sbi_detail_group,
+
+    sbi.sbi_tree,
+    sbi.sbi_tree->'main_category'->>0,
+    sbi.sbi_tree->'sub_category'->>0,
+    sbi.sbi_tree->'sub_sub_category'->>0,
+
     vs.postadres_id,
     vs.bezoekadres_id,
     loc.bag_vbid,
     loc.correctie
+
   FROM hr_vestiging_activiteiten hr_a
     JOIN hr_vestiging vs
     ON hr_a.vestiging_id = vs.id
@@ -692,10 +723,6 @@ INSERT INTO hr_geovestigingen (
     ON (vs.bezoekadres_id = loc.id
         OR vs.postadres_id = loc.id)
         AND ST_IsValid(loc.geometrie)
-    JOIN hr_cbs_sbicode sbi
-    ON a.sbi_code = sbi.sbi_code
-    JOIN hr_cbs_sbi_subcat sc
-    ON sbi.sub_cat_id = sc.scat
-    JOIN hr_cbs_sbi_hoofdcat hc
-    ON sc.hcat_id = hc.hcat;
+    JOIN sbicodes_sbicodehierarchy sbi
+    ON sbi.code = a.sbi_code
     """)
