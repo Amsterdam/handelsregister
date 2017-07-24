@@ -1,0 +1,52 @@
+[
+ {
+  "Code": "0121",
+  "Score": 0.95,
+  "Title": "Teelt van druiven"
+ },
+ {
+  "Code": "01241",
+  "Score": 0.95,
+  "Title": "Teelt van appels en peren"
+ },
+ {
+  "Code": "01242",
+  "Score": 0.95,
+  "Title": "Teelt van steenvruchten"
+ },
+ {
+  "Code": "01251",
+  "Score": 0.95,
+  "Title": "Teelt van aardbeien in de volle grond"
+ },
+ {
+  "Code": "01252",
+  "Score": 0.95,
+  "Title": "Teelt van aardbeien onder glas"
+ },
+ {
+  "Code": "01253",
+  "Score": 0.95,
+  "Title": "Teelt van houtig klein fruit in de volle grond (incl. overige boomvruchten en noten)"
+ },
+ {
+  "Code": "01254",
+  "Score": 0.95,
+  "Title": "Teelt van houtig klein fruit onder glas"
+ },
+ {
+  "Code": "0127",
+  "Score": 0.95,
+  "Title": "Teelt van gewassen bestemd voor de vervaardiging van dranken"
+ },
+ {
+  "Code": "0128",
+  "Score": 0.95,
+  "Title": "Teelt van specerijgewassen en van aromatische en medicinale gewassen"
+ },
+ {
+  "Code": "0129",
+  "Score": 0.95,
+  "Title": "Teelt van overige meerjarige gewassen"
+ }
+]

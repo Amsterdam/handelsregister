@@ -1,0 +1,37 @@
+[
+ {
+  "Code": "3321",
+  "Score": 0.95,
+  "Title": "Installatie van ketels en tanks"
+ },
+ {
+  "Code": "33221",
+  "Score": 0.95,
+  "Title": "Installatie van machines voor algemeen gebruik (geen gereedschap)"
+ },
+ {
+  "Code": "33222",
+  "Score": 0.95,
+  "Title": "Installatie van pneumatisch en elektrisch gereedschap en gereedschapswerktuigen"
+ },
+ {
+  "Code": "33223",
+  "Score": 0.95,
+  "Title": "Installatie van machines voor een specifieke bedrijfstak"
+ },
+ {
+  "Code": "3323",
+  "Score": 0.95,
+  "Title": "Installatie van elektronische en optische apparatuur"
+ },
+ {
+  "Code": "3324",
+  "Score": 0.95,
+  "Title": "Installatie van elektrische apparatuur"
+ },
+ {
+  "Code": "3329",
+  "Score": 0.95,
+  "Title": "Installatie van overige toebehoren"
+ }
+]

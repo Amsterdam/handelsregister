@@ -1,0 +1,37 @@
+[
+ {
+  "Code": "59111",
+  "Score": 0.95,
+  "Title": "Productie van films (geen televisiefilms)"
+ },
+ {
+  "Code": "59112",
+  "Score": 0.95,
+  "Title": "Productie van televisieprogramma's"
+ },
+ {
+  "Code": "5912",
+  "Score": 0.95,
+  "Title": "Facilitaire activiteiten voor film- en televisieproductie"
+ },
+ {
+  "Code": "5913",
+  "Score": 0.95,
+  "Title": "Distributie van films en televisieproducties"
+ },
+ {
+  "Code": "5914",
+  "Score": 0.95,
+  "Title": "Bioscopen"
+ },
+ {
+  "Code": "6010",
+  "Score": 0.95,
+  "Title": "Radio-omroepen"
+ },
+ {
+  "Code": "6020",
+  "Score": 0.95,
+  "Title": "Televisie-omroepen"
+ }
+]

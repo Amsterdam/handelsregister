@@ -1,0 +1,172 @@
+[
+ {
+  "Code": "86101",
+  "Score": 0.95,
+  "Title": "Universitair medische centra"
+ },
+ {
+  "Code": "86102",
+  "Score": 0.95,
+  "Title": "Algemene ziekenhuizen"
+ },
+ {
+  "Code": "86103",
+  "Score": 0.95,
+  "Title": "Categorale ziekenhuizen"
+ },
+ {
+  "Code": "86104",
+  "Score": 0.95,
+  "Title": "Geestelijke gezondheids- en verslavingszorg met overnachting"
+ },
+ {
+  "Code": "8621",
+  "Score": 0.95,
+  "Title": "Praktijken van huisartsen"
+ },
+ {
+  "Code": "86221",
+  "Score": 0.95,
+  "Title": "Praktijken van medisch specialisten en medische dagbehandelcentra (geen tandheelkunde of psychiatrie)"
+ },
+ {
+  "Code": "86222",
+  "Score": 0.95,
+  "Title": "Praktijken van psychiaters en dagbehandelcentra voor geestelijke gezondheids- en verslavingszorg"
+ },
+ {
+  "Code": "86231",
+  "Score": 0.95,
+  "Title": "Praktijken van tandartsen"
+ },
+ {
+  "Code": "86232",
+  "Score": 0.95,
+  "Title": "Praktijken van tandheelkundig specialisten"
+ },
+ {
+  "Code": "86911",
+  "Score": 0.95,
+  "Title": "Praktijken van verloskundigen"
+ },
+ {
+  "Code": "86912",
+  "Score": 0.95,
+  "Title": "Praktijken van fysiotherapeuten"
+ },
+ {
+  "Code": "86913",
+  "Score": 0.95,
+  "Title": "Praktijken van psychotherapeuten en psychologen"
+ },
+ {
+  "Code": "86919",
+  "Score": 0.95,
+  "Title": "Overige paramedische praktijken (geen fysiotherapie of psychologie) en alternatieve genezers"
+ },
+ {
+  "Code": "86921",
+  "Score": 0.95,
+  "Title": "Gezondheidscentra"
+ },
+ {
+  "Code": "86922",
+  "Score": 0.95,
+  "Title": "Arbobegeleiding en re-integratie"
+ },
+ {
+  "Code": "86923",
+  "Score": 0.95,
+  "Title": "Preventieve gezondheidszorg (geen arbobegeleiding)"
+ },
+ {
+  "Code": "86924",
+  "Score": 0.95,
+  "Title": "Medische laboratoria, trombosediensten en overig behandelingsondersteunend onderzoek"
+ },
+ {
+  "Code": "86925",
+  "Score": 0.95,
+  "Title": "Ambulancediensten en centrale posten"
+ },
+ {
+  "Code": "86929",
+  "Score": 0.95,
+  "Title": "Samenwerkingsorganen op het gebied van gezondheidszorg en overige gezondheidszorgondersteunende diensten"
+ },
+ {
+  "Code": "8710",
+  "Score": 0.95,
+  "Title": "Verpleeghuizen"
+ },
+ {
+  "Code": "8720",
+  "Score": 0.95,
+  "Title": "Huizen en dagverblijven voor verstandelijk gehandicapten "
+ },
+ {
+  "Code": "87301",
+  "Score": 0.95,
+  "Title": "Huizen en dagverblijven voor niet-verstandelijk gehandicapten"
+ },
+ {
+  "Code": "87302",
+  "Score": 0.95,
+  "Title": "Verzorgingshuizen"
+ },
+ {
+  "Code": "87901",
+  "Score": 0.95,
+  "Title": "Jeugdzorg met overnachting en dagverblijven voor jeugdzorg"
+ },
+ {
+  "Code": "87902",
+  "Score": 0.95,
+  "Title": "Maatschappelijk opvang met overnachting"
+ },
+ {
+  "Code": "88101",
+  "Score": 0.95,
+  "Title": "Thuiszorg"
+ },
+ {
+  "Code": "88102",
+  "Score": 0.95,
+  "Title": "Welzijnswerk voor ouderen"
+ },
+ {
+  "Code": "88103",
+  "Score": 0.95,
+  "Title": "Ondersteuning en begeleiding van gehandicapten"
+ },
+ {
+  "Code": "88911",
+  "Score": 0.95,
+  "Title": "Kinderopvang"
+ },
+ {
+  "Code": "88912",
+  "Score": 0.95,
+  "Title": "Peuterspeelzaalwerk"
+ },
+ {
+  "Code": "88991",
+  "Score": 0.95,
+  "Title": "Ambulante jeugdzorg"
+ },
+ {
+  "Code": "88992",
+  "Score": 0.95,
+  "Title": "Maatschappelijk werk"
+ },
+ {
+  "Code": "88993",
+  "Score": 0.95,
+  "Title": "Lokaal welzijnswerk"
+ },
+ {
+  "Code": "88999",
+  "Score": 0.95,
+  "Title": "Overig maatschappelijk advies, gemeenschapshuizen en samenwerkingsorganen op het gebied van welzijn"
+ }
+]

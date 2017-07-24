@@ -1,0 +1,52 @@
+[
+ {
+  "Code": "0111",
+  "Score": 0.95,
+  "Title": "Teelt van granen, peulvruchten en oliehoudende zaden"
+ },
+ {
+  "Code": "01131",
+  "Score": 0.95,
+  "Title": "Teelt van groenten in volle grond"
+ },
+ {
+  "Code": "01132",
+  "Score": 0.95,
+  "Title": "Teelt van groenten onder glas"
+ },
+ {
+  "Code": "01133",
+  "Score": 0.95,
+  "Title": "Teelt van paddenstoelen"
+ },
+ {
+  "Code": "01134",
+  "Score": 0.95,
+  "Title": "Teelt van aardappels en overige wortel- en knolgewassen"
+ },
+ {
+  "Code": "0116",
+  "Score": 0.95,
+  "Title": "Teelt van vezelgewassen"
+ },
+ {
+  "Code": "01191",
+  "Score": 0.95,
+  "Title": "Teelt van snijbloemen en snijheesters in de volle grond"
+ },
+ {
+  "Code": "01192",
+  "Score": 0.95,
+  "Title": "Teelt van snijbloemen en snijheesters onder glas"
+ },
+ {
+  "Code": "01193",
+  "Score": 0.95,
+  "Title": "Teelt van voedergewassen"
+ },
+ {
+  "Code": "01199",
+  "Score": 0.95,
+  "Title": "Teelt van overige eenjarige gewassen (rest)"
+ }
+]

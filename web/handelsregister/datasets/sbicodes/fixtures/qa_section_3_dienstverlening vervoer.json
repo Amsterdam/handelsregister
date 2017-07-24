@@ -1,0 +1,37 @@
+[
+ {
+  "Code": "5221",
+  "Score": 0.95,
+  "Title": "Dienstverlening voor vervoer over land"
+ },
+ {
+  "Code": "5222",
+  "Score": 0.95,
+  "Title": "Dienstverlening voor vervoer over water"
+ },
+ {
+  "Code": "5223",
+  "Score": 0.95,
+  "Title": "Dienstverlening voor de luchtvaart"
+ },
+ {
+  "Code": "52241",
+  "Score": 0.95,
+  "Title": "Laad-, los- en overslagactiviteiten voor zeevaart"
+ },
+ {
+  "Code": "52242",
+  "Score": 0.95,
+  "Title": "Laad-, los- en overslagactiviteiten niet voor zeevaart"
+ },
+ {
+  "Code": "52291",
+  "Score": 0.95,
+  "Title": "Expediteurs, cargadoors, bevrachters en andere tussenpersonen in het goederenvervoer"
+ },
+ {
+  "Code": "52292",
+  "Score": 0.95,
+  "Title": "Weging en meting"
+ }
+]

@@ -1,0 +1,19 @@
+{
+ "Answers": [
+  {
+   "Key": "productie",
+   "Value": "22273_12_22214_11"
+  },
+  {
+   "Key": "installatie (geen bouw)",
+   "Value": "22273_12_22215_11"
+  },
+  {
+   "Key": "reparatie (geen bouw)",
+   "Value": "22273_12_22216_11"
+  }
+ ],
+ "Mode": "r",
+ "NextStep": 2,
+ "Question": "Kunt u een subcategorie aangeven?"
+}

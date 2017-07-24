@@ -1,0 +1,17 @@
+[
+ {
+  "Code": "52101",
+  "Score": 0.95,
+  "Title": "Opslag in tanks"
+ },
+ {
+  "Code": "52102",
+  "Score": 0.95,
+  "Title": "Opslag in koelhuizen e.d."
+ },
+ {
+  "Code": "52109",
+  "Score": 0.95,
+  "Title": "Opslag in distributiecentra en overige opslag (niet in tanks, koelhuizen e.d.)"
+ }
+]

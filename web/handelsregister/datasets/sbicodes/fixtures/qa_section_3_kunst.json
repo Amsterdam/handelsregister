@@ -1,0 +1,37 @@
+[
+ {
+  "Code": "90011",
+  "Score": 0.95,
+  "Title": "Beoefening van podiumkunst"
+ },
+ {
+  "Code": "90012",
+  "Score": 0.95,
+  "Title": "Producenten van podiumkunst"
+ },
+ {
+  "Code": "90013",
+  "Score": 0.95,
+  "Title": "Circus en vari\u00e9t\u00e9"
+ },
+ {
+  "Code": "9002",
+  "Score": 0.95,
+  "Title": "Dienstverlening voor uitvoerende kunsten"
+ },
+ {
+  "Code": "9003",
+  "Score": 0.95,
+  "Title": "Schrijven en overige scheppende kunsten"
+ },
+ {
+  "Code": "90041",
+  "Score": 0.95,
+  "Title": "Theaters en schouwburgen"
+ },
+ {
+  "Code": "90042",
+  "Score": 0.95,
+  "Title": "Evenementenhallen"
+ }
+]

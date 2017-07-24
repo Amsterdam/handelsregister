@@ -1,0 +1,122 @@
+[
+ {
+  "Code": "74201",
+  "Score": 0.95,
+  "Title": "Fotografie"
+ },
+ {
+  "Code": "74202",
+  "Score": 0.95,
+  "Title": "Ontwikkelwinkels"
+ },
+ {
+  "Code": "74203",
+  "Score": 0.95,
+  "Title": "Ontwikkelcentrales"
+ },
+ {
+  "Code": "7430",
+  "Score": 0.95,
+  "Title": "Vertalers en tolken"
+ },
+ {
+  "Code": "7490",
+  "Score": 0.95,
+  "Title": "Overige specialistische zakelijke dienstverlening"
+ },
+ {
+  "Code": "8010",
+  "Score": 0.95,
+  "Title": "Particuliere beveiliging"
+ },
+ {
+  "Code": "8020",
+  "Score": 0.95,
+  "Title": "Beveiliging via beveiligingssystemen"
+ },
+ {
+  "Code": "8030",
+  "Score": 0.95,
+  "Title": "Opsporing"
+ },
+ {
+  "Code": "8110",
+  "Score": 0.95,
+  "Title": "Facility management"
+ },
+ {
+  "Code": "8121",
+  "Score": 0.95,
+  "Title": "Interieurreiniging van gebouwen"
+ },
+ {
+  "Code": "81221",
+  "Score": 0.95,
+  "Title": "Glazenwassers"
+ },
+ {
+  "Code": "81222",
+  "Score": 0.95,
+  "Title": "Schoorsteenvegers"
+ },
+ {
+  "Code": "81229",
+  "Score": 0.95,
+  "Title": "Overige gespecialiseerde reiniging "
+ },
+ {
+  "Code": "8129",
+  "Score": 0.95,
+  "Title": "Overige reiniging"
+ },
+ {
+  "Code": "8130",
+  "Score": 0.95,
+  "Title": "Landschapsverzorging"
+ },
+ {
+  "Code": "8211",
+  "Score": 0.95,
+  "Title": "Brede administratieve dienstverlening"
+ },
+ {
+  "Code": "8219",
+  "Score": 0.95,
+  "Title": "Secretari\u00eble dienstverlening"
+ },
+ {
+  "Code": "8220",
+  "Score": 0.95,
+  "Title": "Call centers"
+ },
+ {
+  "Code": "8230",
+  "Score": 0.95,
+  "Title": "Organiseren van congressen en beurzen"
+ },
+ {
+  "Code": "8291",
+  "Score": 0.95,
+  "Title": "Kredietinformatie- en incassobureaus"
+ },
+ {
+  "Code": "8292",
+  "Score": 0.95,
+  "Title": "Pakken, sorteren e.d. in loon"
+ },
+ {
+  "Code": "82991",
+  "Score": 0.95,
+  "Title": "Veilingen van landbouw-, tuinbouw- en visserijproducten"
+ },
+ {
+  "Code": "82992",
+  "Score": 0.95,
+  "Title": "Veilingen van huisraad, kunst, antiek, machines e.d. roerende goederen"
+ },
+ {
+  "Code": "82999",
+  "Score": 0.95,
+  "Title": "Overige zakelijke dienstverlening (rest)"
+ }
+]

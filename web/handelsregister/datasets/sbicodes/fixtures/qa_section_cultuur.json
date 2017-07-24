@@ -1,0 +1,23 @@
+{
+ "Answers": [
+  {
+   "Key": "kunst",
+   "Value": "22281_12_22259_11"
+  },
+  {
+   "Key": "musea, bibliotheken, kunstuitleen",
+   "Value": "22281_12_22260_11"
+  },
+  {
+   "Key": "sport",
+   "Value": "22281_12_22261_11"
+  },
+  {
+   "Key": "recreatie",
+   "Value": "22281_12_22262_11"
+  }
+ ],
+ "Mode": "r",
+ "NextStep": 2,
+ "Question": "Kunt u een subcategorie aangeven?"
+}

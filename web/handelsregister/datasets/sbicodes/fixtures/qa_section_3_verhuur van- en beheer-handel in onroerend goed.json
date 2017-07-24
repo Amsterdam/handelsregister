@@ -1,0 +1,37 @@
+[
+ {
+  "Code": "6810",
+  "Score": 0.95,
+  "Title": "Handel in eigen onroerend goed"
+ },
+ {
+  "Code": "68201",
+  "Score": 0.95,
+  "Title": "Woningbouwverenigingen en -stichtingen"
+ },
+ {
+  "Code": "68202",
+  "Score": 0.95,
+  "Title": "Gemeentelijke woningbedrijven"
+ },
+ {
+  "Code": "68203",
+  "Score": 0.95,
+  "Title": "Verhuur van overige woonruimte"
+ },
+ {
+  "Code": "68204",
+  "Score": 0.95,
+  "Title": "Verhuur van onroerend goed (niet van woonruimte)"
+ },
+ {
+  "Code": "6831",
+  "Score": 0.95,
+  "Title": "Bemiddeling bij handel, huur of verhuur van onroerend goed"
+ },
+ {
+  "Code": "6832",
+  "Score": 0.95,
+  "Title": "Beheer van onroerend goed"
+ }
+]

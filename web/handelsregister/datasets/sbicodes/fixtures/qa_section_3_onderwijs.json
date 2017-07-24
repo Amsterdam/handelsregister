@@ -1,0 +1,107 @@
+[
+ {
+  "Code": "85201",
+  "Score": 0.95,
+  "Title": "Basisonderwijs voor leerplichtigen"
+ },
+ {
+  "Code": "85202",
+  "Score": 0.95,
+  "Title": "Speciaal basisonderwijs"
+ },
+ {
+  "Code": "85203",
+  "Score": 0.95,
+  "Title": "Speciaal onderwijs in expertisecentra"
+ },
+ {
+  "Code": "85311",
+  "Score": 0.95,
+  "Title": "Havo en vwo"
+ },
+ {
+  "Code": "85312",
+  "Score": 0.95,
+  "Title": "Voorbereidend middelbaar beroepsonderwijs"
+ },
+ {
+  "Code": "85313",
+  "Score": 0.95,
+  "Title": "Praktijkonderwijs"
+ },
+ {
+  "Code": "85314",
+  "Score": 0.95,
+  "Title": "Brede scholengemeenschappen voor voortgezet onderwijs"
+ },
+ {
+  "Code": "85321",
+  "Score": 0.95,
+  "Title": "Middelbaar beroepsonderwijs"
+ },
+ {
+  "Code": "85322",
+  "Score": 0.95,
+  "Title": "Educatie"
+ },
+ {
+  "Code": "85323",
+  "Score": 0.95,
+  "Title": "Middelbaar beroepsonderwijs en educatie (gecombineerd)"
+ },
+ {
+  "Code": "8541",
+  "Score": 0.95,
+  "Title": "Niet-universitair hoger onderwijs"
+ },
+ {
+  "Code": "8542",
+  "Score": 0.95,
+  "Title": "Universitair hoger onderwijs"
+ },
+ {
+  "Code": "85511",
+  "Score": 0.95,
+  "Title": "Zeil- en surfscholen"
+ },
+ {
+  "Code": "85519",
+  "Score": 0.95,
+  "Title": "Overig sport- en recreatieonderwijs"
+ },
+ {
+  "Code": "85521",
+  "Score": 0.95,
+  "Title": "Dansscholen"
+ },
+ {
+  "Code": "85522",
+  "Score": 0.95,
+  "Title": "Kunstzinnige vorming van amateurs (geen dansscholen)"
+ },
+ {
+  "Code": "8553",
+  "Score": 0.95,
+  "Title": "Auto- en motorrijscholen"
+ },
+ {
+  "Code": "85591",
+  "Score": 0.95,
+  "Title": "Afstandsonderwijs"
+ },
+ {
+  "Code": "85592",
+  "Score": 0.95,
+  "Title": "Bedrijfsopleiding en -training"
+ },
+ {
+  "Code": "85599",
+  "Score": 0.95,
+  "Title": "Studiebegeleiding, vorming en onderwijs (rest)"
+ },
+ {
+  "Code": "8560",
+  "Score": 0.95,
+  "Title": "Dienstverlening voor het onderwijs"
+ }
+]

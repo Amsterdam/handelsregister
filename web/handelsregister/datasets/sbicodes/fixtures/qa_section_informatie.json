@@ -1,0 +1,23 @@
+{
+ "Answers": [
+  {
+   "Key": "uitgeverijen",
+   "Value": "22277_12_22237_11"
+  },
+  {
+   "Key": "activiteiten  op gebied van film, tv, radio, audio",
+   "Value": "22277_12_22238_11"
+  },
+  {
+   "Key": "telecommunicatie",
+   "Value": "22277_12_22239_11"
+  },
+  {
+   "Key": "activiteiten op het gebied van ict",
+   "Value": "22277_12_22240_11"
+  }
+ ],
+ "Mode": "r",
+ "NextStep": 2,
+ "Question": "Kunt u een subcategorie aangeven?"
+}

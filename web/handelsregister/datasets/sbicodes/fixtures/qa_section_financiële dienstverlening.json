@@ -1,0 +1,23 @@
+{
+ "Answers": [
+  {
+   "Key": "financi\u00eble dienstverlening en verzekeringen",
+   "Value": "22278_12_22241_11"
+  },
+  {
+   "Key": "holdings",
+   "Value": "22278_12_22242_11"
+  },
+  {
+   "Key": "verhuur van- en beheer/handel in onroerend goed",
+   "Value": "22278_12_22243_11"
+  },
+  {
+   "Key": "verhuur van roerende goederen",
+   "Value": "22278_12_22244_11"
+  }
+ ],
+ "Mode": "r",
+ "NextStep": 2,
+ "Question": "Kunt u een subcategorie aangeven?"
+}

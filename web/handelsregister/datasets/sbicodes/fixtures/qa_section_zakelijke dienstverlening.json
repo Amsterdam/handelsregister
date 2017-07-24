@@ -1,0 +1,51 @@
+{
+ "Answers": [
+  {
+   "Key": "public relationsbureaus",
+   "Value": "22279_12_22245_11"
+  },
+  {
+   "Key": "managementadvies, economisch advies",
+   "Value": "22279_12_22246_11"
+  },
+  {
+   "Key": "advocaten rechtskundige diensten, notarissen",
+   "Value": "22279_12_22247_11"
+  },
+  {
+   "Key": "accountancy, administratie",
+   "Value": "22279_12_22248_11"
+  },
+  {
+   "Key": "architecten",
+   "Value": "22279_12_22249_11"
+  },
+  {
+   "Key": "interieurarchitecten",
+   "Value": "22279_12_22250_11"
+  },
+  {
+   "Key": "technisch ontwerp, advies, keuring/research",
+   "Value": "22279_12_22251_11"
+  },
+  {
+   "Key": "arbeidsbemiddeling, uitzendbureaus, uitleenbureaus",
+   "Value": "22279_12_22252_11"
+  },
+  {
+   "Key": "reclame en marktonderzoek",
+   "Value": "22279_12_22253_11"
+  },
+  {
+   "Key": "design",
+   "Value": "22279_12_22254_11"
+  },
+  {
+   "Key": "overige zakelijke dienstverlening",
+   "Value": "22279_12_22255_11"
+  }
+ ],
+ "Mode": "d",
+ "NextStep": 2,
+ "Question": "Kunt u een subcategorie aangeven?"
+}

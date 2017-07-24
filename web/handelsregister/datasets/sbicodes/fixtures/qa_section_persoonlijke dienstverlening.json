@@ -1,0 +1,27 @@
+{
+ "Answers": [
+  {
+   "Key": "kappers",
+   "Value": "22282_12_22263_11"
+  },
+  {
+   "Key": "schoonheidsverzorging",
+   "Value": "22282_12_22264_11"
+  },
+  {
+   "Key": "sauna, solaria",
+   "Value": "22282_12_22265_11"
+  },
+  {
+   "Key": "uitvaart, crematoria",
+   "Value": "22282_12_22266_11"
+  },
+  {
+   "Key": "overige dienstverlening",
+   "Value": "22282_12_22267_11"
+  }
+ ],
+ "Mode": "r",
+ "NextStep": 2,
+ "Question": "Kunt u een subcategorie aangeven?"
+}

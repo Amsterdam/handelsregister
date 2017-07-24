@@ -1,0 +1,22 @@
+[
+ {
+  "Code": "6110",
+  "Score": 0.95,
+  "Title": "Draadgebonden telecommunicatie"
+ },
+ {
+  "Code": "6120",
+  "Score": 0.95,
+  "Title": "Draadloze telecommunicatie"
+ },
+ {
+  "Code": "6130",
+  "Score": 0.95,
+  "Title": "Telecommunicatie via satelliet"
+ },
+ {
+  "Code": "6190",
+  "Score": 0.95,
+  "Title": "Overige telecommunicatie"
+ }
+]

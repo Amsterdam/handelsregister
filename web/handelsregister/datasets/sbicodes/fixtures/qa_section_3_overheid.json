@@ -1,0 +1,52 @@
+[
+ {
+  "Code": "8411",
+  "Score": 0.95,
+  "Title": "Algemeen overheidsbestuur"
+ },
+ {
+  "Code": "8412",
+  "Score": 0.95,
+  "Title": "Openbaar bestuur op het gebied van gezondheidszorg, onderwijs, cultuur en welzijn (geen sociale verzekeringen)"
+ },
+ {
+  "Code": "8413",
+  "Score": 0.95,
+  "Title": "Openbaar bestuur op het gebied van het bedrijfsleven"
+ },
+ {
+  "Code": "8421",
+  "Score": 0.95,
+  "Title": "Buitenlandse zaken"
+ },
+ {
+  "Code": "8422",
+  "Score": 0.95,
+  "Title": "Defensie"
+ },
+ {
+  "Code": "84231",
+  "Score": 0.95,
+  "Title": "Rechtspraak"
+ },
+ {
+  "Code": "84232",
+  "Score": 0.95,
+  "Title": "Ministerie van Justitie en gevangeniswezen"
+ },
+ {
+  "Code": "8424",
+  "Score": 0.95,
+  "Title": "Politie"
+ },
+ {
+  "Code": "8425",
+  "Score": 0.95,
+  "Title": "Brandweer"
+ },
+ {
+  "Code": "8430",
+  "Score": 0.95,
+  "Title": "Verplichte sociale verzekeringen"
+ }
+]

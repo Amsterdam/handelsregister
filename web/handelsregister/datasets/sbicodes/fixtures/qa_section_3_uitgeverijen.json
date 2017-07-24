@@ -1,0 +1,37 @@
+[
+ {
+  "Code": "5811",
+  "Score": 0.95,
+  "Title": "Uitgeverijen van boeken"
+ },
+ {
+  "Code": "5813",
+  "Score": 0.95,
+  "Title": "Uitgeverijen van kranten"
+ },
+ {
+  "Code": "5814",
+  "Score": 0.95,
+  "Title": "Uitgeverijen van tijdschriften"
+ },
+ {
+  "Code": "5819",
+  "Score": 0.95,
+  "Title": "Overige uitgeverijen (niet van software)"
+ },
+ {
+  "Code": "5821",
+  "Score": 0.95,
+  "Title": "Uitgeverijen van computerspellen"
+ },
+ {
+  "Code": "5829",
+  "Score": 0.95,
+  "Title": "Overige uitgeverijen van software"
+ },
+ {
+  "Code": "5920",
+  "Score": 0.95,
+  "Title": "Maken en uitgeven van geluidsopnamen"
+ }
+]

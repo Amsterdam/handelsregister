@@ -1,0 +1,19 @@
+{
+ "Answers": [
+  {
+   "Key": "overheid",
+   "Value": "22280_12_22256_11"
+  },
+  {
+   "Key": "onderwijs",
+   "Value": "22280_12_22257_11"
+  },
+  {
+   "Key": "gezondheids- en welzijnszorg",
+   "Value": "22280_12_22258_11"
+  }
+ ],
+ "Mode": "r",
+ "NextStep": 2,
+ "Question": "Kunt u een subcategorie aangeven?"
+}

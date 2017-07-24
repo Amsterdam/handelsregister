@@ -1,0 +1,182 @@
+[
+ {
+  "Code": "6411",
+  "Score": 0.95,
+  "Title": "Centrale banken"
+ },
+ {
+  "Code": "64191",
+  "Score": 0.95,
+  "Title": "Co\u00f6peratief georganiseerde banken"
+ },
+ {
+  "Code": "64192",
+  "Score": 0.95,
+  "Title": "Effectenkredietinstellingen"
+ },
+ {
+  "Code": "64193",
+  "Score": 0.95,
+  "Title": "Spaarbanken"
+ },
+ {
+  "Code": "64194",
+  "Score": 0.95,
+  "Title": "Algemene banken"
+ },
+ {
+  "Code": "6420",
+  "Score": 0.95,
+  "Title": "Financi\u00eble holdings"
+ },
+ {
+  "Code": "64301",
+  "Score": 0.95,
+  "Title": "Beleggingsinstellingen in financi\u00eble activa"
+ },
+ {
+  "Code": "64302",
+  "Score": 0.95,
+  "Title": "Beleggingsinstellingen in vaste activa"
+ },
+ {
+  "Code": "64303",
+  "Score": 0.95,
+  "Title": "Beleggingsinstellingen met beperkte toetreding"
+ },
+ {
+  "Code": "6491",
+  "Score": 0.95,
+  "Title": "Financi\u00eble lease"
+ },
+ {
+  "Code": "64921",
+  "Score": 0.95,
+  "Title": "Hypotheekbanken en bouwfondsen"
+ },
+ {
+  "Code": "64922",
+  "Score": 0.95,
+  "Title": "Volkskredietbanken en commerci\u00eble financieringsmaatschappijen"
+ },
+ {
+  "Code": "64923",
+  "Score": 0.95,
+  "Title": "Participatiemaatschappijen"
+ },
+ {
+  "Code": "64924",
+  "Score": 0.95,
+  "Title": "Wisselmakelaars en overige kredietverstrekking"
+ },
+ {
+  "Code": "6499",
+  "Score": 0.95,
+  "Title": "Overige financi\u00eble intermediatie"
+ },
+ {
+  "Code": "65111",
+  "Score": 0.95,
+  "Title": "Levensverzekeringen (geen herverzekering)"
+ },
+ {
+  "Code": "65112",
+  "Score": 0.95,
+  "Title": "Naturaverzekeringen"
+ },
+ {
+  "Code": "65113",
+  "Score": 0.95,
+  "Title": "Spaarkassen"
+ },
+ {
+  "Code": "6512",
+  "Score": 0.95,
+  "Title": "Schadeverzekeringen (geen herverzekering)"
+ },
+ {
+  "Code": "6520",
+  "Score": 0.95,
+  "Title": "Herverzekering"
+ },
+ {
+  "Code": "65301",
+  "Score": 0.95,
+  "Title": "Bedrijfstakpensioenfondsen"
+ },
+ {
+  "Code": "65302",
+  "Score": 0.95,
+  "Title": "Ondernemingspensioenfondsen en -spaarfondsen"
+ },
+ {
+  "Code": "65303",
+  "Score": 0.95,
+  "Title": "Beroepspensioenfondsen"
+ },
+ {
+  "Code": "65309",
+  "Score": 0.95,
+  "Title": "Overige pensioenfondsen"
+ },
+ {
+  "Code": "6611",
+  "Score": 0.95,
+  "Title": "Beheer van financi\u00eble markten"
+ },
+ {
+  "Code": "6612",
+  "Score": 0.95,
+  "Title": "Commissionairs en makelaars in effecten, beleggingsadviseurs e.d."
+ },
+ {
+  "Code": "66191",
+  "Score": 0.95,
+  "Title": "Administratiekantoren voor aandelen en obligaties"
+ },
+ {
+  "Code": "66192",
+  "Score": 0.95,
+  "Title": "Marketmakers"
+ },
+ {
+  "Code": "66193",
+  "Score": 0.95,
+  "Title": "Hypotheek- en kredietbemiddeling, geldwisselkantoren, bank- en spaaragentschappen e.d."
+ },
+ {
+  "Code": "6621",
+  "Score": 0.95,
+  "Title": "Risicoanalisten en schadetaxateurs"
+ },
+ {
+  "Code": "6622",
+  "Score": 0.95,
+  "Title": "Assurantietussenpersonen"
+ },
+ {
+  "Code": "66291",
+  "Score": 0.95,
+  "Title": "Verzekeringsbeurzen"
+ },
+ {
+  "Code": "66292",
+  "Score": 0.95,
+  "Title": "Actuari\u00eble en pensioenadviesbureaus; beheer en administratie van pensioenvermogens"
+ },
+ {
+  "Code": "66293",
+  "Score": 0.95,
+  "Title": "Waarborgfondsen"
+ },
+ {
+  "Code": "66299",
+  "Score": 0.95,
+  "Title": "Overige dienstverlening in verband met verzekeringen en pensioenfondsen "
+ },
+ {
+  "Code": "6630",
+  "Score": 0.95,
+  "Title": "Vermogensbeheer"
+ }
+]

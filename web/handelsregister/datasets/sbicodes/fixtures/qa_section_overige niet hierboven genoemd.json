@@ -1,0 +1,23 @@
+{
+ "Answers": [
+  {
+   "Key": "belangenorganisaties",
+   "Value": "22283_12_22268_11"
+  },
+  {
+   "Key": "idie\u00eble organisaties",
+   "Value": "22283_12_22269_11"
+  },
+  {
+   "Key": "hobbyclubs",
+   "Value": "22283_12_22270_11"
+  },
+  {
+   "Key": "overige",
+   "Value": "22283_12_22271_11"
+  }
+ ],
+ "Mode": "r",
+ "NextStep": 2,
+ "Question": "Kunt u een subcategorie aangeven?"
+}

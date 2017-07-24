@@ -1,0 +1,35 @@
+{
+ "Answers": [
+  {
+   "Key": "hotel-restaurant",
+   "Value": "22276_12_22230_11"
+  },
+  {
+   "Key": "hotel, pension",
+   "Value": "22276_12_22231_11"
+  },
+  {
+   "Key": "restaurant, caf\u00e9-restaurant",
+   "Value": "22276_12_22232_11"
+  },
+  {
+   "Key": "cafetaria, snackbar, ijssalon",
+   "Value": "22276_12_22233_11"
+  },
+  {
+   "Key": "caf\u00e9",
+   "Value": "22276_12_22234_11"
+  },
+  {
+   "Key": "kantine, catering",
+   "Value": "22276_12_22235_11"
+  },
+  {
+   "Key": "overig, te weten",
+   "Value": "22276_12_22236_11"
+  }
+ ],
+ "Mode": "r",
+ "NextStep": 2,
+ "Question": "Kunt u een subcategorie aangeven?"
+}

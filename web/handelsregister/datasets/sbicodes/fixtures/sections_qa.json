@@ -1,0 +1,55 @@
+{
+ "Answers": [
+  {
+   "Key": "handel, vervoer, opslag",
+   "Value": "22272_12"
+  },
+  {
+   "Key": "productie, installatie, reparatie",
+   "Value": "22273_12"
+  },
+  {
+   "Key": "bouw",
+   "Value": "22274_12"
+  },
+  {
+   "Key": "landbouw",
+   "Value": "22275_12"
+  },
+  {
+   "Key": "horeca",
+   "Value": "22276_12"
+  },
+  {
+   "Key": "informatie, telecommunicatie",
+   "Value": "22277_12"
+  },
+  {
+   "Key": "financi\u00eble dienstverlening,verhuur van roerend en onroerend goed",
+   "Value": "22278_12"
+  },
+  {
+   "Key": "zakelijke dienstverlening",
+   "Value": "22279_12"
+  },
+  {
+   "Key": "overheid, onderwijs, zorg",
+   "Value": "22280_12"
+  },
+  {
+   "Key": "cultuur, sport, recreatie",
+   "Value": "22281_12"
+  },
+  {
+   "Key": "persoonlijke dienstverlening",
+   "Value": "22282_12"
+  },
+  {
+   "Key": "overige niet hierboven genoemd",
+   "Value": "22283_12"
+  }
+ ],
+ "Mode": "d",
+ "NextStep": 1,
+ "Question": "Kunt u de hoofdcategorie aangeven?"
+}

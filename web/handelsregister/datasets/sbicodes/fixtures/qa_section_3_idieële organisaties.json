@@ -1,0 +1,27 @@
+[
+ {
+  "Code": "94911",
+  "Score": 0.95,
+  "Title": "Religieuze organisaties"
+ },
+ {
+  "Code": "94919",
+  "Score": 0.95,
+  "Title": "Overige levensbeschouwelijke organisaties"
+ },
+ {
+  "Code": "9492",
+  "Score": 0.95,
+  "Title": "Politieke organisaties"
+ },
+ {
+  "Code": "94993",
+  "Score": 0.95,
+  "Title": "Steunfondsen (geen steunfondsen op het gebied van welzijnszorg)"
+ },
+ {
+  "Code": "94996",
+  "Score": 0.95,
+  "Title": "Overige ide\u00eble organisaties (rest)"
+ }
+]

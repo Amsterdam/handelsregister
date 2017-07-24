@@ -1,0 +1,82 @@
+[
+ {
+  "Code": "77111",
+  "Score": 0.95,
+  "Title": "Verhuur van personenauto's en lichte bedrijfsauto's (geen operational lease)"
+ },
+ {
+  "Code": "77112",
+  "Score": 0.95,
+  "Title": "Operational lease van personenauto's en lichte bedrijfsauto's"
+ },
+ {
+  "Code": "7712",
+  "Score": 0.95,
+  "Title": "Verhuur en lease van vrachtwagens, autobussen caravans en aanhangwagens"
+ },
+ {
+  "Code": "7721",
+  "Score": 0.95,
+  "Title": "Verhuur van sport- en recreatieartikelen"
+ },
+ {
+  "Code": "7722",
+  "Score": 0.95,
+  "Title": "Videotheken"
+ },
+ {
+  "Code": "77291",
+  "Score": 0.95,
+  "Title": "Verhuur van leesportefeuilles"
+ },
+ {
+  "Code": "77292",
+  "Score": 0.95,
+  "Title": "Verhuur van kleding en huishoudelijke artikelen"
+ },
+ {
+  "Code": "77299",
+  "Score": 0.95,
+  "Title": "Verhuur van overige consumentenartikelen (rest)"
+ },
+ {
+  "Code": "7731",
+  "Score": 0.95,
+  "Title": "Verhuur en lease van landbouwmachines en -werktuigen"
+ },
+ {
+  "Code": "7732",
+  "Score": 0.95,
+  "Title": "Verhuur en lease van machines en installaties voor de bouw"
+ },
+ {
+  "Code": "7733",
+  "Score": 0.95,
+  "Title": "Verhuur en lease van computers en kantoorapparatuur"
+ },
+ {
+  "Code": "7734",
+  "Score": 0.95,
+  "Title": "Verhuur en lease van schepen"
+ },
+ {
+  "Code": "7735",
+  "Score": 0.95,
+  "Title": "Verhuur en lease van vliegtuigen"
+ },
+ {
+  "Code": "77391",
+  "Score": 0.95,
+  "Title": "Verhuur van automaten"
+ },
+ {
+  "Code": "77399",
+  "Score": 0.95,
+  "Title": "Verhuur en lease van overige machines en werktuigen en van overige goederen neg (geen automaten)"
+ },
+ {
+  "Code": "7740",
+  "Score": 0.95,
+  "Title": "Lease van niet-financi\u00eble immateri\u00eble activa"
+ }
+]

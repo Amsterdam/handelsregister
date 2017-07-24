@@ -1,0 +1,35 @@
+{
+ "Answers": [
+  {
+   "Key": "bouw/utiliteitsbouw algemeen",
+   "Value": "22274_12_22217_11"
+  },
+  {
+   "Key": "grond, water, wegenbouw",
+   "Value": "22274_12_22218_11"
+  },
+  {
+   "Key": "bouwinstallatie",
+   "Value": "22274_12_22219_11"
+  },
+  {
+   "Key": "afwerking van gebouwen",
+   "Value": "22274_12_22220_11"
+  },
+  {
+   "Key": "dak- en overige gespecialiseerde bouw",
+   "Value": "22274_12_22221_11"
+  },
+  {
+   "Key": "klussenbedrijf",
+   "Value": "22274_12_22222_11"
+  },
+  {
+   "Key": "bouw overig",
+   "Value": "22274_12_22223_11"
+  }
+ ],
+ "Mode": "r",
+ "NextStep": 2,
+ "Question": "Kunt u een subcategorie aangeven?"
+}
