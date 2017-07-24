@@ -20,75 +20,80 @@ def fill_stelselpedia(keep_outside_amsterdam=False):
     Go through all tables and fill Stelselpedia tables.
     """
     with db.connection.cursor() as cursor:
+        sql_steps(
+            cursor, keep_outside_amsterdam=keep_outside_amsterdam)
 
-        log.info("Converteren locaties")
-        _converteer_locaties(cursor)
 
-        log.info("Converteren onderneming")
-        _converteer_onderneming(cursor)
+def sql_steps(cursor):
 
-        log.info("Converteren maatschappelijke activiteit")
-        _converteer_maatschappelijke_activiteit(cursor)
+    log.info("Converteren locaties")
+    _converteer_locaties(cursor)
 
-        log.info("Converteren handelsnaam")
-        _converteer_handelsnaam(cursor)
+    log.info("Converteren onderneming")
+    _converteer_onderneming(cursor)
 
-        for i in (1, 2, 3):
-            log.info("Converteren MAC communicatie-gegevens-{0}".format(i))
-            _converteer_mac_communicatiegegevens(cursor, i)
+    log.info("Converteren maatschappelijke activiteit")
+    _converteer_maatschappelijke_activiteit(cursor)
 
-        log.info("Converteren commerciële vestiging")
-        _converteer_commerciele_vestiging(cursor)
+    log.info("Converteren handelsnaam")
+    _converteer_handelsnaam(cursor)
 
-        log.info("Converteren niet-commerciële vestiging")
-        _converteer_niet_commerciele_vestiging(cursor)
+    for i in (1, 2, 3):
+        log.info("Converteren MAC communicatie-gegevens-{0}".format(i))
+        _converteer_mac_communicatiegegevens(cursor, i)
 
-        log.info("Converteren vestiging")
+    log.info("Converteren commerciële vestiging")
+    _converteer_commerciele_vestiging(cursor)
 
-        _converteer_vestiging(cursor)
+    log.info("Converteren niet-commerciële vestiging")
+    _converteer_niet_commerciele_vestiging(cursor)
 
-        for i in (1, 2, 3):
-            log.info("Converteren VES communicatie-gegevens-{0}".format(i))
-            _converteer_ves_communicatiegegevens(cursor, i)
+    log.info("Converteren vestiging")
 
-        log.info("Converteren hoofdactiviteit")
-        _converteer_hoofdactiviteit(cursor)
-        for i in (1, 2, 3):
-            log.info("Converteren nevenactiviteit-{0}".format(i))
-            _converteer_nevenactiviteit(cursor, i)
+    _converteer_vestiging(cursor)
 
-        log.info("Converteren handelsnaam vestiging")
-        _converteer_handelsnaam_ves(cursor)
+    for i in (1, 2, 3):
+        log.info("Converteren VES communicatie-gegevens-{0}".format(i))
+        _converteer_ves_communicatiegegevens(cursor, i)
 
-        log.info("Converteren hoofdvestiging")
-        _converteer_hoofdvestiging(cursor)
+    log.info("Converteren hoofdactiviteit")
+    _converteer_hoofdactiviteit(cursor)
+    for i in (1, 2, 3):
+        log.info("Converteren nevenactiviteit-{0}".format(i))
+        _converteer_nevenactiviteit(cursor, i)
 
-        log.info("Converteren natuurlijk_persoon")
-        _converteer_natuurlijk_persoon(cursor)
+    log.info("Converteren handelsnaam vestiging")
+    _converteer_handelsnaam_ves(cursor)
 
-        log.info("Converteren NIET natuurlijk_persoon")
-        _converteer_niet_natuurlijk_persoon(cursor)
+    log.info("Converteren hoofdvestiging")
+    _converteer_hoofdvestiging(cursor)
 
-        log.info("Converteren persoon")
-        _converteer_persoon(cursor)
+    log.info("Converteren natuurlijk_persoon")
+    _converteer_natuurlijk_persoon(cursor)
 
-        log.info("Converteren functievervulling")
-        _converteer_functievervulling(cursor)
+    log.info("Converteren NIET natuurlijk_persoon")
+    _converteer_niet_natuurlijk_persoon(cursor)
 
-        log.info("Converteer eigenaren")
-        _converteer_mac_eigenaar_id(cursor)
+    log.info("Converteren persoon")
+    _converteer_persoon(cursor)
 
-        # eigenaren zitten niet in zonde export..
-        log.info("Converteer onbekende mac mks eigenaren")
-        _converteer_onbekende_mac_eigenaar_id(cursor)
+    log.info("Converteren functievervulling")
+    _converteer_functievervulling(cursor)
 
-        # Dropall outside of Amsterdam
-        # if not settings.TESTING:
-        if not keep_outside_amsterdam:
-            log.info("Verwijder vestigingen met bezoekadres buiten Amsterdam")
-            deleted = Vestiging.objects.exclude(
-                bezoekadres__volledig_adres__endswith='Amsterdam').delete()
-            log.info(deleted)
+    log.info("Converteer eigenaren")
+    _converteer_mac_eigenaar_id(cursor)
+
+    # eigenaren zitten niet in zonde export..
+    log.info("Converteer onbekende mac mks eigenaren")
+    _converteer_onbekende_mac_eigenaar_id(cursor)
+
+    # Dropall outside of Amsterdam
+    # if not settings.TESTING:
+    if not keep_outside_amsterdam:
+        log.info("Verwijder vestigingen met bezoekadres buiten Amsterdam")
+        deleted = Vestiging.objects.exclude(
+            bezoekadres__volledig_adres__endswith='Amsterdam').delete()
+        log.info(deleted)
 
 
 def fill_location_with_bag():

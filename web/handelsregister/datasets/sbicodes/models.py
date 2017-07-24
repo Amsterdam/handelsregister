@@ -13,3 +13,5 @@ class SBICodeHierarchy(models.Model):
     title = models.TextField()
 
     sbi_tree = JSONField()
+
+    qa_tree = JSONField(null=True)

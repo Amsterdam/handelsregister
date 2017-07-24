@@ -9,6 +9,7 @@ from django.core.management import BaseCommand
 # from datasets import build_cbs_sbi
 
 from datasets.sbicodes import load_sbi_codes
+from datasets.sbicodes import validate_codes
 from datasets import build_ds_data
 from datasets import build_hr_data
 from datasets.hr import improve_location_with_search
@@ -83,11 +84,25 @@ class Command(BaseCommand):
             help='Fill cbs sbi-codes')
 
         parser.add_argument(
+            '--cbs_sbi_stats',
+            action='store_true',
+            dest='cbs_sbi_stats',
+            default=False,
+            help='Tellingen cbs sbi-codes')
+
+        parser.add_argument(
             '--dataselectie',
             action='store_true',
             dest='dataselectie',
             default=False,
             help='Fill dataselectie view')
+
+        parser.add_argument(
+            '--nocache',
+            action='store_false',
+            dest='use_cache',
+            default=True,
+            help='save/update json response data in fixtures')
 
     def handle(self, *args, **options):
         """
@@ -102,8 +117,13 @@ class Command(BaseCommand):
         elif options['geo_vest']:
             build_hr_data.fill_geo_table()
             location_stats.log_rapport_counts(action='map')
+        elif options['cbs_sbi_stats']:
+            validate_codes.validate()
         elif options['cbs_sbi']:
-            load_sbi_codes.build_csb_sbi_code_tree()
+            use_cache = options['use_cache']
+            # load_sbi_codes.build_csb_sbi_code_tree(use_cache=use_cache)
+            # load_sbi_codes.build_qa_sbi_code_tree(use_cache=use_cache)
+            load_sbi_codes.build_all_sbi_code_trees(use_cache=use_cache)
         elif options['dataselectie']:
             build_ds_data.write_dataselectie_data()
             # location_stats.log_rapport_counts(action='ds')

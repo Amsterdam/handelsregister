@@ -158,48 +158,48 @@ class FunctievervullingFactory(factory.DjangoModelFactory):
     heeft_aansprakelijke = factory.SubFactory(PersoonFactory)
 
 
-class SBIHoofdcatFactory(factory.DjangoModelFactory):
-    class Meta:
-        model = models.CBS_sbi_hoofdcat
-
-    hcat = fuzzy.FuzzyInteger(low=100, high=109)
-    hoofdcategorie = fuzzy.FuzzyText(prefix='hfdcat')
-
-
-class SBISubcatFactory(factory.DjangoModelFactory):
-    class Meta:
-        model = models.CBS_sbi_subcat
-
-    scat = fuzzy.FuzzyInteger(low=1000, high=1009)
-    hcat = factory.SubFactory(SBIHoofdcatFactory)
-    subcategorie = fuzzy.FuzzyText(prefix='subcat')
-
-
-class SBISectionFactory(factory.DjangoModelFactory):
-    class Meta:
-        model = models.CBS_sbi_section
-
-    code = 'X'
-    title = fuzzy.FuzzyText(prefix='section')
-
-
-class SBIRootNodeFactory(factory.DjangoModelFactory):
-    class Meta:
-        model = models.CBS_sbi_rootnode
-
-    code = '00'
-    section = factory.SubFactory(SBISectionFactory)
-    title = fuzzy.FuzzyText(prefix='rootnode')
-
-
-class SBIcatFactory(factory.DjangoModelFactory):
-    class Meta:
-        model = models.CBS_sbicode
-
-    sbi_code = fuzzy.FuzzyInteger(low=10000, high=10009)
-    title = fuzzy.FuzzyText(prefix='sbi')
-    sub_cat = factory.SubFactory(SBISubcatFactory)
-    root_node = factory.SubFactory(SBIRootNodeFactory)
+#class SBIHoofdcatFactory(factory.DjangoModelFactory):
+#    class Meta:
+#        model = models.CBS_sbi_hoofdcat
+#
+#    hcat = fuzzy.FuzzyInteger(low=100, high=109)
+#    hoofdcategorie = fuzzy.FuzzyText(prefix='hfdcat')
+#
+#
+#class SBISubcatFactory(factory.DjangoModelFactory):
+#    class Meta:
+#        model = models.CBS_sbi_subcat
+#
+#    scat = fuzzy.FuzzyInteger(low=1000, high=1009)
+#    hcat = factory.SubFactory(SBIHoofdcatFactory)
+#    subcategorie = fuzzy.FuzzyText(prefix='subcat')
+#
+#
+#class SBISectionFactory(factory.DjangoModelFactory):
+#    class Meta:
+#        model = models.CBS_sbi_section
+#
+#    code = 'X'
+#    title = fuzzy.FuzzyText(prefix='section')
+#
+#
+#class SBIRootNodeFactory(factory.DjangoModelFactory):
+#    class Meta:
+#        model = models.CBS_sbi_rootnode
+#
+#    code = '00'
+#    section = factory.SubFactory(SBISectionFactory)
+#    title = fuzzy.FuzzyText(prefix='rootnode')
+#
+#
+#class SBIcatFactory(factory.DjangoModelFactory):
+#    class Meta:
+#        model = models.CBS_sbicode
+#
+#    sbi_code = fuzzy.FuzzyInteger(low=10000, high=10009)
+#    title = fuzzy.FuzzyText(prefix='sbi')
+#    sub_cat = factory.SubFactory(SBISubcatFactory)
+#    root_node = factory.SubFactory(SBIRootNodeFactory)
 
 
 def create_x_vestigingen(x=5):

@@ -134,22 +134,27 @@ class ImportVestigingTest(TestCase):
             exportactiviteit='Nee',
             fulltimewerkzamepersonen=0,
             importactiviteit='Ja',
-            omschrijvingactiviteit='Groothandel in bouwmaterialen algemeen assortiment',
+            omschrijvingactiviteit='Groothandel in bouwmaterialen algemeen assortiment',  # noqa
             parttimewerkzamepersonen=0,
             registratietijdstip=20160322120335496,
             sbicodehoofdactiviteit=46739,
-            sbiomschrijvinghoofdact='Groothandel in bouwmaterialen algemeen assortiment',
+            sbiomschrijvinghoofdact='Groothandel in bouwmaterialen algemeen assortiment',   # noqa
             totaalwerkzamepersonen=0,
         )
 
         vestiging = self._convert(kvk_vestiging)
 
         self.assertIsNotNone(vestiging.commerciele_vestiging)
-        self.assertEqual(0, vestiging.commerciele_vestiging.totaal_werkzame_personen)
-        self.assertEqual(0, vestiging.commerciele_vestiging.fulltime_werkzame_personen)
-        self.assertEqual(0, vestiging.commerciele_vestiging.parttime_werkzame_personen)
-        self.assertEqual(False, vestiging.commerciele_vestiging.export_activiteit)
-        self.assertEqual(True, vestiging.commerciele_vestiging.import_activiteit)
+        self.assertEqual(
+            0, vestiging.commerciele_vestiging.totaal_werkzame_personen)
+        self.assertEqual(
+            0, vestiging.commerciele_vestiging.fulltime_werkzame_personen)
+        self.assertEqual(
+            0, vestiging.commerciele_vestiging.parttime_werkzame_personen)
+        self.assertEqual(
+            False, vestiging.commerciele_vestiging.export_activiteit)
+        self.assertEqual(
+            True, vestiging.commerciele_vestiging.import_activiteit)
 
     def test_import_niet_commercieel(self):
         kvk_vestiging = kvk.KvkVestiging.objects.create(
@@ -171,8 +176,10 @@ class ImportVestigingTest(TestCase):
 
         self.assertEqual('Stichting', vestiging.naam)
         self.assertIsNotNone(vestiging.niet_commerciele_vestiging)
-        self.assertEqual('Superstichting', vestiging.niet_commerciele_vestiging.ook_genoemd)
-        self.assertEqual('Sprst', vestiging.niet_commerciele_vestiging.verkorte_naam)
+        self.assertEqual(
+            'Superstichting', vestiging.niet_commerciele_vestiging.ook_genoemd)
+        self.assertEqual(
+            'Sprst', vestiging.niet_commerciele_vestiging.verkorte_naam)
 
     def test_import_adressen(self):
         kvk_vestiging = kvk.KvkVestiging.objects.create(
@@ -188,7 +195,6 @@ class ImportVestigingTest(TestCase):
             totaalwerkzamepersonen=0,
         )
 
-        
         vestiging = self._convert(kvk_vestiging)
 
         self.assertIsNotNone(vestiging.postadres)
@@ -255,7 +261,8 @@ class ImportVestigingTest(TestCase):
         handelsnamen = list(vestiging.handelsnamen.all())
         self.assertNotEqual([], handelsnamen)
 
-        self.assertListEqual(['Handelsnaam B.V.'], [h.handelsnaam for h in handelsnamen])
+        self.assertListEqual(
+            ['Handelsnaam B.V.'], [h.handelsnaam for h in handelsnamen])
 
     def test_import_hoofdvestiging(self):
 

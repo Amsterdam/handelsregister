@@ -10,6 +10,7 @@ from datasets.hr import models
 from datasets.kvkdump import models as kvk
 from datasets.kvkdump import utils
 
+
 class ImportActiviteitenTest(TestCase):
     def setUp(self):
         utils.generate_schema()
@@ -81,6 +82,7 @@ class ImportActiviteitenTest(TestCase):
             sbiomschrijvingnevenact2='Verhuur van overige woonruimte',
         )
         acts = self._convert(m)
+
         self.assertActEqual([models.Activiteit(
             activiteitsomschrijving='De exploitatie van een hotel, restaurant, bar en vergaderruimtes.',
             sbi_code='55101',

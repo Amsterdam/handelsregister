@@ -1,8 +1,6 @@
-# import uuid
-
+import re
 from django.contrib.gis.db import models
 from django.contrib.postgres.fields import JSONField
-import re
 
 from datasets.sbicodes.models import SBICodeHierarchy
 
@@ -496,8 +494,8 @@ class Vestiging(models.Model):
 
             if self.bezoekadres.huisnummertoevoeging:
                 toevoeging = "{}-{}".format(
-                        toevoeging,
-                        self.bezoekadres.huisnummertoevoeging)
+                    toevoeging,
+                    self.bezoekadres.huisnummertoevoeging)
 
             adres = "{} {}{}".format(
                 self.bezoekadres.straatnaam,
