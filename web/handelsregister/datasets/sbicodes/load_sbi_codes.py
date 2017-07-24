@@ -58,7 +58,7 @@ id_map = {}            # nodes have their own id (given by the sbi.cbs api
 
 # Question / Answers SBI tree mappings
 sbi_qa_mapping = {}    # mapping of sbi codes to parent QA nodes
-qa_tree = {}           # QA tree 0 = root.
+qa_tree = {}           # QA tree 0 = root
 
 
 def get_fixture_path(filename):
@@ -276,7 +276,7 @@ def create_qa_mapping():
     return sbi_qa_details
 
 
-def store_sbi_details(sbi_details, sbi_qa_mapping):
+def store_sbi_details(sbi_details):
     """
     params: list of sbi codes and parents
 
@@ -376,8 +376,6 @@ def load_qa_sub_sub_sections(parent, qa_sections, use_cache=True):
     """
     parse 3rd level questions
     """
-    # use_cache = True
-
     qa_sub_sections = [(i['Key'], i['Value']) for i in qa_sections]
 
     for i, (description, code) in enumerate(qa_sub_sections):
@@ -406,7 +404,7 @@ def load_qa_sub_sub_sections(parent, qa_sections, use_cache=True):
 
         # load the final sbi codes
         sbicodes_for_subsubcategory(
-            node, qa_sub_sub_sections['Answers'], use_cache=True)
+            node, qa_sub_sub_sections['Answers'], use_cache=use_cache)
 
 
 def sbicodes_for_subsubcategory(parent, qa_sub_sub_sections, use_cache=True):
@@ -436,8 +434,8 @@ def sbicodes_for_subsubcategory(parent, qa_sub_sub_sections, use_cache=True):
         log.debug(sbicode)
 
         sbi_qa_mapping[sbicode] = {
-                'parent': parent,
-                'title': sbi['Title'],
+            'parent': parent,
+            'title': sbi['Title'],
         }
 
 
@@ -500,9 +498,9 @@ def build_all_sbi_code_trees(use_cache=True):
     sbi_details = create_sbi_lists()
 
     # store data in database with QA tree if possible
-    store_sbi_details(sbi_details, qa_mapping)
+    store_sbi_details(sbi_details)
 
     # after different mappins have been parserd from the sbi.cbs.nl website
     # we use them to fill a table of sbi codes and their tree data
     # save result into database
-    #store_sbi_details(sbi_details)
+    # store_sbi_details(sbi_details)

@@ -115,7 +115,6 @@ def find_ambiguous_sbicodes():
 
 
 sbi_0_sql = """
-
 SELECT
     vs.id,
     vs.naam,
@@ -133,12 +132,12 @@ SELECT
     '0' || a.sbi_code as altcode,
     sbi_tree::json->'sub_category'->>0 as sub_cat
 FROM hr_activiteit a,  sbicodes_sbicodehierarchy h
-where '0' || a.sbi_code = h.code
+WHERE '0' || a.sbi_code = h.code
 
 ) as codes, hr_vestiging_activiteiten vsa, hr_vestiging vs
 
-where codes.id = vsa.activiteit_id AND vsa.vestiging_id = vs.id
-order by codes.sbi_code, vs.naam;
+WHERE codes.id = vsa.activiteit_id AND vsa.vestiging_id = vs.id
+ORDER BY codes.sbi_code, vs.naam;
 """
 
 
