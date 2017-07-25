@@ -58,7 +58,7 @@ id_map = {}            # nodes have their own id (given by the sbi.cbs api
 
 # Question / Answers SBI tree mappings
 sbi_qa_mapping = {}    # mapping of sbi codes to parent QA nodes
-qa_tree = {}           # QA tree 0 = root
+raw_qa_tree = {}       # QA tree 0 = root, raw json
 
 
 def get_fixture_path(filename):
@@ -246,16 +246,16 @@ def create_qa_mapping():
 
     {
         'sbicodeX': {
-            title: 'landbouw x'
-            q2: title2,
-            q1: title1,
+            q1: 'question 1',
+            q2: 'question 2',
+            q3: 'landbouw x',
         }
         ..
         ..
     }
 
     """
-    sbi_qa_details = {}
+    qa_tree = {}
 
     for code, parent_qa in sbi_qa_mapping.items():
         pqa = parent_qa
@@ -263,20 +263,20 @@ def create_qa_mapping():
         parent1 = pqa['parent']
         parent2 = pqa['parent']['parent']
 
-        sbi_qa_details[code] = {
-            'title': pqa['title'],
+        qa_tree[code] = {
+            'q3': pqa['title'],
             'q2': parent1['short_description'],
             'q1': parent2['description'],
         }
 
-        log.debug(sbi_qa_details[code])
+        log.debug(qa_tree[code])
 
-    log.debug('sbi qa mapping: %s', len(sbi_qa_details))
+    log.debug('sbi qa mapping: %s', len(qa_tree))
 
-    return sbi_qa_details
+    return qa_tree
 
 
-def store_sbi_details(sbi_details):
+def store_sbi_details(sbi_details, qa_normalized_sbi_tree):
     """
     params: list of sbi codes and parents
 
@@ -284,6 +284,9 @@ def store_sbi_details(sbi_details):
     anotated with the 'level'
 
     sbi_tree = {{main_category: ['01', blabla], sub_ ...}
+
+    if there is a qa_tree available for sbicode store
+    that too. sbi_deatils ~ 1400 nodes, qa-tree ~ 700 nodes
     """
     # remove old data
     SBICodeHierarchy.objects.all().delete()
@@ -303,21 +306,21 @@ def store_sbi_details(sbi_details):
         for (code, description), level in zip(row, levels):
             sbiobject[level] = (code, description)
 
-        # log.debug(sbiobject)
-
-        qa_tree = sbi_qa_mapping.get(code)
-
         row.reverse()
+        code = row[0][0]   # fetch the sbicode
+
+        # lookup qa tree if any
+        x_qa_tree = qa_normalized_sbi_tree.get(code)
 
         new_sbi_code = SBICodeHierarchy.objects.create(
-            code=row[0][0],
+            code=code,
             title=row[0][1],
             sbi_tree=sbiobject
         )
 
         # add qa tree
-        if qa_tree:
-            new_sbi_code.qa_tree = qa_tree
+        if x_qa_tree:
+            new_sbi_code.qa_tree = x_qa_tree
 
         new_sbi_code.save()
 
@@ -341,7 +344,7 @@ def load_qa_sub_sections(qa_sections, use_cache=False):
     qa has a bunch of follow up questions (qa..) this is the
     second level of 3 levels. qa_sub_sections
     """
-    qa_tree[0] = {
+    raw_qa_tree[0] = {
         'description': 'root',
         'code': 0,
         'parent': None
@@ -357,7 +360,7 @@ def load_qa_sub_sections(qa_sections, use_cache=False):
             'parent': 0,
         }
 
-        qa_tree[code] = node
+        raw_qa_tree[code] = node
 
         qa_section_description = description.split(',')[0]
         qa_section_filename = f'qa_section_{qa_section_description}.json'
@@ -389,7 +392,7 @@ def load_qa_sub_sub_sections(parent, qa_sections, use_cache=True):
             'short_description':  None
         }
 
-        qa_tree[code] = node
+        raw_qa_tree[code] = node
 
         qa_section_description = description.split(',')[0].replace(' ', '_')
         qa_section_description = description.split(',')[0].replace('/', '-')
@@ -453,7 +456,7 @@ def build_qa_sbi_code_tree(use_cache=True):
     load_qa_sub_sections(
         qa_sections['Answers'], use_cache=use_cache)
 
-    log.debug(len(qa_tree))
+    log.debug(len(raw_qa_tree))
     log.debug(len(sbi_qa_mapping))
 
 
@@ -492,15 +495,14 @@ def build_all_sbi_code_trees(use_cache=True):
         build_qa_sbi_code_tree(use_cache=use_cache)
         build_csb_sbi_code_tree(use_cache=use_cache)
 
-    qa_mapping = create_qa_mapping()
+    normalized_qa_tree = create_qa_mapping()
 
     # from official tree create code lists for earch sbi
     sbi_details = create_sbi_lists()
 
     # store data in database with QA tree if possible
-    store_sbi_details(sbi_details)
+    store_sbi_details(sbi_details, normalized_qa_tree)
 
     # after different mappins have been parserd from the sbi.cbs.nl website
     # we use them to fill a table of sbi codes and their tree data
     # save result into database
-    # store_sbi_details(sbi_details)

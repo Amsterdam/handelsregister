@@ -2,11 +2,12 @@
 We validate the HR sbicodes with the official cbs ones
 """
 import logging
-import editdistance
 
 from operator import itemgetter
-from datasets.hr import models as hrmodels
 
+import editdistance
+
+from datasets.hr import models as hrmodels
 from django import db
 
 
@@ -121,7 +122,8 @@ SELECT
     codes.sbi_code,
     codes.altcode,
     codes.title,
-    codes.sub_cat
+    codes.sub_cat,
+    codes.sbi_omschrijving
 FROM (
 
 /* codes met leading 0  s0*/
@@ -176,11 +178,50 @@ def not_placeable(invalid_sbi, zero_sbi):
     return impossible_to_correct
 
 
-def fix_placable(ambiguous, zeo):
+def fix_missing_0(ambiguous, zero):
     """
-    Fix sbi codes that miss a zero
+    Fix sbi codes that miss a zero and are not ambiguous
+
+    ~500 zero, ~200 ambiguous
+
+    zero = [
+        [
+            0 vs.id,
+            1 vs.naam,
+            2 codes.sbi_code,
+            3 codes.altcode,
+            4 codes.title,
+            5 codes.sub_cat
+            6 codes.sbi_omschrijving
+        ],
+        ...
+        ...
+    ]
+
     """
-    pass
+    ambiguous_set = set([a[2] for a in ambiguous])
+
+    for row in zero:
+        if row[2] in ambiguous_set:
+            # ambiguous cases are not solved here
+            continue
+
+        original_code = row[2]
+        code_with_zero = row[3]
+        # not ambiguous replace with existing code
+        ves = hrmodels.Vestiging.objects.get(id=row[0])
+        missing_zero_activiteit = ves.activiteiten.get(
+            sbi_code=original_code)
+        missing_zero_activiteit.sbi_code = code_with_zero
+        # fix the correction
+        missing_zero_activiteit.save()
+
+        log.debug(
+            '0 FIX: %s, %s, %s, %s, %s, %s',
+            ves.id, ves.naam,
+            original_code, code_with_zero,
+            row[6], row[4]
+        )
 
 
 def fix_ambiguous(ambiguous_sbi):
@@ -219,7 +260,7 @@ def fix_ambiguous(ambiguous_sbi):
             ves = hrmodels.Vestiging.objects.get(id=row[0])
             invalid_activiteit = ves.activiteiten.get(sbi_code=normalcode)
             # fix the code
-            invalid_activiteit.sbi_code=zerocode
+            invalid_activiteit.sbi_code = zerocode
             # save the corrected sbi code
             invalid_activiteit.save()
             # now save updated code
@@ -229,7 +270,7 @@ def fix_ambiguous(ambiguous_sbi):
 
         log.debug(f'{normalcode}, {zerocode}, {desc1[:18]}, {desc2[:18]}, {original[:18]}, {distance_desc1}, {distance_desc2}')  # noqa
 
-    log.debug("%s - %s = Original, Suggestion", original_count, suggestion_count)
+    log.debug("%s-%s = Original-Suggestion", original_count, suggestion_count)
 
 
 def validate():
@@ -244,4 +285,4 @@ def validate():
 
     fix_ambiguous(ambiguous)
 
-    fix_placable(ambiguous, zero)
+    fix_missing_0(ambiguous, zero)

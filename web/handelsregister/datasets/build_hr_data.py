@@ -115,7 +115,7 @@ def fill_location_with_bag():
 def fill_geo_table():
     with db.connection.cursor() as cursor:
         # bouw de hr_geo_table
-        log.info("Bouw geo tabel vestigingen")
+        log.info("Bouw geo tabel vestigingen met SBI informatie")
         _build_joined_geo_table(cursor)
 
 
@@ -673,9 +673,10 @@ def _build_joined_geo_table(cursor):
     cursor.execute(f"""
 INSERT INTO hr_geovestigingen (
     vestigingsnummer,
-    sbi_code_int,
+
     sbi_code,
     activiteitsomschrijving,
+
     subtype,
     naam,
     uri,
@@ -686,15 +687,20 @@ INSERT INTO hr_geovestigingen (
     sbi_main_category,
     sbi_sub_category,
     sbi_sub_sub_category,
+
+    q1,
+    q2,
+    q3,
+
     postadres_id,
     bezoekadres_id,
     bag_vbid,
     correctie
 ) SELECT
     vs.vestigingsnummer,
-    CAST((COALESCE(a.sbi_code,'0')) AS INTEGER),
     a.sbi_code,
     a.activiteitsomschrijving,
+
     CAST('handelsregister/vestiging' AS text) as subtype,
 
     vs.naam,
@@ -710,9 +716,13 @@ INSERT INTO hr_geovestigingen (
     loc.geometrie as geometrie,
 
     sbi.sbi_tree,
-    sbi.sbi_tree->'main_category'->>0,
-    sbi.sbi_tree->'sub_category'->>0,
-    sbi.sbi_tree->'sub_sub_category'->>0,
+    sbi.sbi_tree->'main_category'->>0  as sbi_main_category,
+    sbi.sbi_tree->'sub_category'->>0  as sbi_sub_category,
+    sbi.sbi_tree->'sub_sub_category'->>0 as sbi_sub_sub_category,
+
+    sbi.qa_tree->>'q1'::text as q1,
+    sbi.qa_tree->>'q2'::text as q2,
+    sbi.qa_tree->>'q3'::text as q3,
 
     vs.postadres_id,
     vs.bezoekadres_id,

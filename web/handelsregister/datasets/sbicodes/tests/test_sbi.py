@@ -1,4 +1,6 @@
 
+import logging
+
 from django.test import TestCase
 
 from datasets.hr import models as hrmodels
@@ -6,7 +8,6 @@ from datasets.hr.tests import factories as hrfactories
 from datasets.sbicodes import load_sbi_codes
 from datasets.sbicodes import validate_codes
 
-import logging
 
 log = logging.getLogger(__name__)
 
@@ -57,6 +58,7 @@ class ValidateSBICodeTest(TestCase):
 
         cls.zeros_codes = [
             hrmodels.Activiteit.objects.create(
+                id="000",
                 activiteitsomschrijving='ik mis een nul',
                 sbi_code='111',  # non ambiguous, just missing a zero
                 sbi_omschrijving="Teelt van granen, peulvruchten en oliehoudende zaden",  # noqa
@@ -89,8 +91,9 @@ class ValidateSBICodeTest(TestCase):
                 activiteiten=[activiteit]
             )
 
-    def test_fix_voorloop_null(self):
+    def test_fix_ambiguous_zero(self):
         """
+        Fix cases which are ambiguous
         """
         ambiguous = validate_codes.find_ambiguous_sbicodes()
         self.assertEqual(len(ambiguous), 2)
@@ -103,22 +106,31 @@ class ValidateSBICodeTest(TestCase):
         self.assertEqual(len(v), 1)
         self.assertEqual(a.activiteitsomschrijving, 'Melkveebedrijf')
 
+    def test_fix_missing_zero(self):
+        """
+        Some codes miss zero's and are valid with zero's
+        """
+        # invalid = find_invalid_activiteiten()
+        ambiguous = validate_codes.find_ambiguous_sbicodes()
+        zero = validate_codes.find_0_sbicodes()
+        validate_codes.fix_missing_0(ambiguous, zero)
+        a = hrmodels.Activiteit.objects.get(id='000')
+        self.assertEqual(a.sbi_code, '0111')
 
     def test_detection_invalid(self):
         """
+        Some codes are invalid, test that we find them
         """
         invalid = validate_codes.find_invalid_activiteiten()
         log.debug(invalid)
+        # find all codes that have a valid 0 couterpart
         zero = validate_codes.find_0_sbicodes()
         log.debug(zero)
+
+        # find all codes that are invalid and do not have
+        # a zero counterparkt
         not_placeable = validate_codes.not_placeable(invalid, zero)
 
         log.debug(not_placeable)
         self.assertEqual(len(not_placeable), 1)
         self.assertEqual(not_placeable[0][3], 'ik ben fout')
-
-    def test_fix_missing_zeros(self):
-        """
-        some codes miss zero's
-        """
-        pass

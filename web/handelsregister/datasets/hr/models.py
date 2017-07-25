@@ -257,14 +257,8 @@ class Activiteit(models.Model):
         try:
             return SBICodeHierarchy.objects.get(code=self.sbi_code)
         except SBICodeHierarchy.DoesNotExist:
+            # only ~10 sbi codes do not exist
             pass
-
-        try:
-            # add zero maybe more luck..
-            alt_code = f'0{self.sbi_code}'
-            return SBICodeHierarchy.objects.get(code=alt_code)
-        except SBICodeHierarchy.DoesNotExist:
-            return None
 
 
 class MaatschappelijkeActiviteit(models.Model):
@@ -735,11 +729,6 @@ class GeoVestigingen(models.Model):
         help_text="Betreft het identificerende gegeven voor de Vestiging"
     )
 
-    sbi_code_int = models.IntegerField(
-        db_index=True,
-        help_text="De codering van de activiteit conform de SBI2008"
-    )
-
     sbi_code = models.CharField(
         db_index=True,
         max_length=5,
@@ -785,6 +774,12 @@ class GeoVestigingen(models.Model):
         max_length=2, db_index=True, null=True)
     sbi_sub_sub_category = models.CharField(
         max_length=3, db_index=True, null=True)
+
+    # qa_tree = JSONField(null=True)
+    # sbi QA options
+    q1 = models.TextField(null=True, db_index=True)
+    q2 = models.TextField(null=True, db_index=True)
+    q3 = models.TextField(null=True, db_index=True)
 
     postadres = models.ForeignKey(
         'Locatie', related_name="+", blank=True, null=True,

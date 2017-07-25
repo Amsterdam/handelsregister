@@ -181,8 +181,7 @@ def geovestigingen_stats():
     geoves = models.GeoVestigingen.objects.all()
     dataselectie = models.DataSelectie.objects.all()
 
-    geoves_sbi = geoves.filter(
-        sbi_code_int__isnull=True)
+    geoves_sbi = geoves.filter(sbi_code__isnull=True)
 
     geoves_post = geoves.filter(locatie_type='P')
     geoves_bezoek = geoves.filter(locatie_type='B')
