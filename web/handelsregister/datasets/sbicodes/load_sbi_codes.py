@@ -484,7 +484,7 @@ def build_csb_sbi_code_tree(use_cache=True):
 
 def build_all_sbi_code_trees(use_cache=True):
     """
-    Build both QA en Official sbi code tree
+    Build both QA and Official sbi code tree
     """
     # We use some globals.
     # if already present/filled do not bother to load them
@@ -500,9 +500,8 @@ def build_all_sbi_code_trees(use_cache=True):
     # from official tree create code lists for earch sbi
     sbi_details = create_sbi_lists()
 
-    # store data in database with QA tree if possible
-    store_sbi_details(sbi_details, normalized_qa_tree)
-
-    # after different mappins have been parserd from the sbi.cbs.nl website
+    # after different mappings have been parsed
+    # from the sbi.cbs.nl website
     # we use them to fill a table of sbi codes and their tree data
     # save result into database
+    store_sbi_details(sbi_details, normalized_qa_tree)

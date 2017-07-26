@@ -66,8 +66,27 @@ class ValidateSBICodeTest(TestCase):
             )
         ]
 
+        cls.too_short = [
+            hrmodels.Activiteit.objects.create(
+                id="024",
+                activiteitsomschrijving='nul too short',
+                sbi_code='024',  # non ambiguous, just missing a zero
+                sbi_omschrijving="Dienstverlening voor de bosbouw",  # noqa
+                hoofdactiviteit=True
+            ),
+            hrmodels.Activiteit.objects.create(
+                id="8520",
+                activiteitsomschrijving='missing 1 2 3',
+                sbi_code='8520',  # non ambiguous, just missing a zero
+                sbi_omschrijving="Primair en speciaal onderwijs",  # noqa
+                hoofdactiviteit=True
+            )
+
+        ]
+
         cls.all_activities.extend(cls.bad_codes)
         cls.all_activities.extend(cls.zeros_codes)
+        cls.all_activities.extend(cls.too_short)
 
         def save_activiteit(act):
             t_act = hrmodels.Activiteit.objects.create(
@@ -134,3 +153,19 @@ class ValidateSBICodeTest(TestCase):
         log.debug(not_placeable)
         self.assertEqual(len(not_placeable), 1)
         self.assertEqual(not_placeable[0][3], 'ik ben fout')
+
+
+    def add_missing_activities(self):
+        """
+        if code is for company is too short to be an official
+        sbi_code, expand the activities of vestiging with
+        extra fields
+        """
+
+        # find too short codes
+
+        # add new activities for vestigingen
+
+        # validate they are created
+
+

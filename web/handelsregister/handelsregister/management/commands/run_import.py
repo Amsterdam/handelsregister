@@ -84,9 +84,9 @@ class Command(BaseCommand):
             help='Fill cbs sbi-codes')
 
         parser.add_argument(
-            '--cbs_sbi_stats',
+            '--cbs_sbi_validate',
             action='store_true',
-            dest='cbs_sbi_stats',
+            dest='cbs_sbi_validate',
             default=False,
             help='Tellingen cbs sbi-codes')
 
@@ -117,7 +117,8 @@ class Command(BaseCommand):
         elif options['geo_vest']:
             build_hr_data.fill_geo_table()
             location_stats.log_rapport_counts(action='map')
-        elif options['cbs_sbi_stats']:
+        elif options['cbs_sbi_validate']:
+            # make sure everything has a valid sbi code
             validate_codes.validate()
         elif options['cbs_sbi']:
             use_cache = options['use_cache']

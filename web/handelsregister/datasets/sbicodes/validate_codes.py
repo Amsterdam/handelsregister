@@ -51,7 +51,7 @@ WHERE
 
 def find_invalid_activiteiten():
     """
-    find sbi codes which are not defined in the
+    Find sbi codes which are not defined in the
     official sbi codes
     """
 
@@ -59,6 +59,112 @@ def find_invalid_activiteiten():
     log.debug('%s = invalid (fix might be possible)', len(invalid))
 
     return invalid
+
+missing_qa_tree = """
+SELECT
+    vs.id,
+    vs.naam,
+    a.sbi_code,
+    a.sbi_omschrijving
+FROM
+    hr_activiteit a,
+    hr_vestiging_activiteiten vsa,
+    hr_vestiging vs
+WHERE
+    vsa.vestiging_id = vs.id
+    AND a.id = vsa.activiteit_id
+    AND a.sbi_code IN (
+        select code from sbicodes_sbicodehierarchy
+        where sbicodes_sbicodehierarchy.qa_tree is null
+    )
+"""
+
+sbi_prefix_matches = """
+
+SELECT
+    noqa.sbi_code,
+    h.code,
+    noqa.sbi_omschrijving,
+    h.title
+FROM (
+SELECT
+    vs.id,
+    vs.naam,
+    a.sbi_code,
+    a.sbi_omschrijving,
+    h.title
+FROM
+    hr_activiteit a,
+    hr_vestiging_activiteiten vsa,
+    hr_vestiging vs,
+    sbicodes_sbicodehierarchy h
+WHERE
+    vsa.vestiging_id = vs.id
+    AND a.id = vsa.activiteit_id
+    and character_length(a.sbi_code) > 3  /* moet geen root node zijn */
+    and h.code = a.sbi_code
+    AND h.qa_tree is null                 /* match valide leaf nodes in met qa_boom */
+) AS noqa, sbicodes_sbicodehierarchy h
+  WHERE (h.code LIKE noqa.sbi_code || '%'  OR noqa.sbi_code LIKE h.code || '%'
+  AND h.qa_tree is not null;
+
+
+SELECT
+    vs.id,
+    vs.naam,
+    a.sbi_code,
+    h.code as validcode,
+    a.sbi_omschrijving,
+    h.title
+FROM
+    hr_activiteit a,
+    hr_vestiging_activiteiten vsa,
+    hr_vestiging vs,
+    sbicodes_sbicodehierarchy h
+WHERE
+    vsa.vestiging_id = vs.id
+    AND a.id = vsa.activiteit_id
+    AND character_length(a.sbi_code) > 3  /* moet geen root node zijn */
+    AND h.qa_tree is not null             /* match valide leaf nodes in met qa_boom */
+    AND h.code != a.sbi_code              /* match geen activiteiten die valide zijn */
+    AND (
+         h.code LIKE a.sbi_code || '%'    /* match codes die elkaar prefixen */
+         OR a.sbi_code LIKE h.code || '%');
+""" # noqa
+
+
+def find_too_short_sbi():
+    """
+    Find activiteiten which do not have a qa_tree
+    and thus have sbi_codes that are too short.
+
+    the QA tree only works on fully expanded sbi codes
+    but those are not always used by the HR mks source
+    """
+    too_short = fetchrows(sbi_prefix_matches)
+    log.debug('%s = too_short', len(too_short))
+    for row in too_short:
+        log.debug('TOO SHORT %s %s', row[2], row[1])
+
+    return too_short
+
+
+def fix_too_short(too_short_rows):
+    """
+    For sbi codes die niet in QA boom vallen vul de missende activiteiten aan
+
+    vs.id,
+    vs.naam,
+    a.sbi_code,
+    h.code as validcode,
+    a.sbi_omschrijving,
+    h.title
+
+    """
+
+    for row in too_short_rows:
+        #
+        pass
 
 
 ambiguous_0_sql = """
@@ -217,8 +323,8 @@ def fix_missing_0(ambiguous, zero):
         missing_zero_activiteit.save()
 
         log.debug(
-            '0 FIX: %s, %s, %s, %s, %s, %s',
-            ves.id, ves.naam,
+            'ZERO FIX: %s, %s, %s, %s, %s',
+            ves.naam,
             original_code, code_with_zero,
             row[6], row[4]
         )
@@ -286,3 +392,5 @@ def validate():
     fix_ambiguous(ambiguous)
 
     fix_missing_0(ambiguous, zero)
+
+    find_too_short_sbi()
