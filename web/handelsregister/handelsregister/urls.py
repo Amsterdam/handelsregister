@@ -106,6 +106,8 @@ search = SearchRouter()
 
 typeahead = SearchRouter()
 
+geosearch = SearchRouter()
+
 typeahead.register(
     r'', search_views.TypeaheadViewSet, base_name='typeahead')
 
@@ -118,6 +120,9 @@ search.register(
     search_views.SearchMacViewSet,
     base_name='search/maatschappelijke_activiteit')
 
+geosearch.register(
+    r'', search_views.GeoSearchViewSet, base_name='geosearch')
+
 grouped_url_patterns = {
     'base_patterns': [
         url(r'^status/', include('health.urls', namespace='health')),
@@ -129,6 +134,9 @@ grouped_url_patterns = {
     'typeahead_patterns': [
         url(r'^handelsregister/typeahead/', include(typeahead.urls)),
     ],
+    'geosearch-patterns': [
+        url(r'^handelsregister/geosearch/', include(geosearch.urls)),
+    ]
 }
 
 

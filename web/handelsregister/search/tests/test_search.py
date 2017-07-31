@@ -86,6 +86,7 @@ class SearchTest(APITestCase, authorization.AuthorizationSetup):
             '/handelsregister/typeahead/',
             '/handelsregister/search/vestiging/',
             '/handelsregister/search/maatschappelijkeactiviteit/',
+            '/handelsregister/geosearch/',
         ]
 
         for url in search_endpoints:
@@ -242,3 +243,15 @@ class SearchTest(APITestCase, authorization.AuthorizationSetup):
                         response.data['results'][0]['handelsnamen']]
 
         self.assertTrue('handelsnaam3' in handelsnamen)
+
+
+    def test_geosearch(self):
+        url = '/handelsregister/geosearch/'
+        self.client.credentials(
+            HTTP_AUTHORIZATION='Bearer {}'.format(self.token_employee))
+        response = self.client.get(url, {'item': 'horeca',
+                                         'x': 121944,
+                                         'y': 487722,
+                                         'radius': 100})
+
+        self.assertEqual(response.status_code, 200)

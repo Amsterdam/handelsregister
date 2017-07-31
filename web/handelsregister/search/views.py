@@ -9,7 +9,7 @@ from collections import defaultdict
 from urllib.parse import quote, urlparse
 
 from django.conf import settings
-# from django.contrib.gis.geos import Point
+from django.db import connection
 from elasticsearch import Elasticsearch
 from elasticsearch.exceptions import TransportError
 from elasticsearch_dsl import Search
@@ -19,6 +19,7 @@ from rest_framework.reverse import reverse
 
 from search.queries import vestiging_query
 from search.queries import mac_query
+from search.geo_params import get_request_coord
 
 
 from search.input_analyzer import InputQAnalyzer
@@ -376,3 +377,43 @@ class SearchMacViewSet(SearchViewSet):
         """
         search = mac_query(analyzer).to_elasticsearch_object(client)
         return search
+
+
+class GeoSearchViewSet(viewsets.ViewSet):
+    """
+    Given a query parameter `item`, `lat/lon` or `x/y combo` and optional `radius` parameter
+     this function returns a subset of vestigingen.
+    """
+    url_name = 'geosearch'
+
+    def list(self, request):
+        if 'item' not in request.query_params:
+            return Response([])
+
+        hr_item = request.query_params['item']
+        geoview_name = f"geo_hr_vestiging_locaties_{hr_item}_naam"
+
+        x, y = get_request_coord(request.query_params)
+        if not x or not y:
+            return Response([])
+
+        radius = request.query_params['radius'] if 'radius' in request.query_params else 30
+        results = self.run_query(geoview_name, x, y, radius)
+
+        return Response(results)
+
+    def run_query(self, view, x, y, radius):
+        sql = f"""
+SELECT id, naam, locatie_type, ST_Distance(geometrie, ST_GeomFromText(\'POINT(%s %s)\', 28992)) as distance
+FROM {view}
+WHERE ST_DWithin(geometrie, ST_GeomFromText(\'POINT(%s %s)\', 28992), %s)
+ORDER BY distance """
+
+        results = []
+        with connection.cursor() as cursor:
+            cursor.execute(sql, (x, y, x, y, radius))
+            columns = [col[0] for col in cursor.description]
+            for row in cursor.fetchall():
+                results.append(dict(zip(columns, row)))
+
+        return results

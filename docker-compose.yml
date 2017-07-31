@@ -23,7 +23,7 @@ services:
   web:
     build: ./web
     ports:
-      - "8102:8000"
+      - "8102:8080"
     links:
       - database
       - elasticsearch
@@ -34,9 +34,19 @@ services:
       DATABASE_USER: handelsregister
       DATABASE_PASSWORD: insecure
       PGPASSWORD: insecure
+      UWSGI_HTTP: ":8080"
+      UWSGI_MODULE: "handelsregister.wsgi:application"
+      UWSGI_PROCESSES: 4
+      UWSGI_MASTER: 1
+      UWSGI_STATIC_MAP: "/static=/static"
+      UWSGI_VACUUM: 1
+      UWSGI_HARAKIRI: 15
+      UWSGI_DIE_ON_TERM: 1
       command: >
             bash -c "/app/docker-wait.sh \
                     && /app/docker-migrate.sh \
                     && /app/docker-run.sh"
+
+
 volumes:
    tmpdatabase:
