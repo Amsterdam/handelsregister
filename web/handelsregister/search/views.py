@@ -416,7 +416,7 @@ class GeoSearchViewSet(viewsets.ViewSet):
         radius = request.query_params['radius'] if 'radius' in request.query_params else 30
         features = self.run_query(hr_item, x, y, radius)
 
-        return Response(features)
+        return Response({"features": features})
 
     def run_query(self, view, x, y, radius):
         sql = f"""
