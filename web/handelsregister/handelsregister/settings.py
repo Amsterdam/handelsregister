@@ -127,7 +127,10 @@ PROJECT_APPS = [
     'geo_views',
 ]
 
-DATAPUNT_API_URL = 'https://api.data.amsterdam.nl/'
+DATAPUNT_API_URL = os.getenv(
+    # note the ending /
+    'DATAPUNT_API_URL', 'https://api.data.amsterdam.nl/')
+
 
 # Application definition
 INSTALLED_APPS = PROJECT_APPS + [
