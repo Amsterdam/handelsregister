@@ -49,6 +49,21 @@ _autocomplete_group_sizes = {
     'Maatschappelijke activiteiten': 5
 }
 
+_allowed_geoviews = [
+    "bouw",
+    "overheid_onderwijs_zorg",
+    "productie_installatie_reparatie",
+    "zakelijke_dienstverlening",
+    "handel_vervoer_opslag",
+    "landbouw",
+    "persoonlijke_dienstverlening",
+    "informatie_telecommunicatie",
+    "cultuur_sport_recreatie",
+    "financiele_dienstverlening_verhuur",
+    "overige",
+    "horeca",
+]
+
 
 def get_links(view_name, kwargs=None, request=None):
     result = OrderedDict([
@@ -391,21 +406,22 @@ class GeoSearchViewSet(viewsets.ViewSet):
             return Response([])
 
         hr_item = request.query_params['item']
-        geoview_name = f"geo_hr_vestiging_locaties_{hr_item}_naam"
+        if hr_item not in _allowed_geoviews:
+            return Response([])
 
         x, y = get_request_coord(request.query_params)
         if not x or not y:
             return Response([])
 
         radius = request.query_params['radius'] if 'radius' in request.query_params else 30
-        results = self.run_query(geoview_name, x, y, radius)
+        features = self.run_query(hr_item, x, y, radius)
 
-        return Response(results)
+        return Response(features)
 
     def run_query(self, view, x, y, radius):
         sql = f"""
-SELECT id, naam, locatie_type, ST_Distance(geometrie, ST_GeomFromText(\'POINT(%s %s)\', 28992)) as distance
-FROM {view}
+SELECT naam as display, uri, 'handelsregister/vestiging' as type, ST_Distance(geometrie, ST_GeomFromText(\'POINT(%s %s)\', 28992)) as distance
+FROM geo_hr_vestiging_locaties_{view}
 WHERE ST_DWithin(geometrie, ST_GeomFromText(\'POINT(%s %s)\', 28992), %s)
 ORDER BY distance """
 
@@ -414,6 +430,6 @@ ORDER BY distance """
             cursor.execute(sql, (x, y, x, y, radius))
             columns = [col[0] for col in cursor.description]
             for row in cursor.fetchall():
-                results.append(dict(zip(columns, row)))
+                results.append({"properties": dict(zip(columns, row))})
 
         return results
