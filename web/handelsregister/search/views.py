@@ -420,7 +420,7 @@ class GeoSearchViewSet(viewsets.ViewSet):
 
     def run_query(self, view, x, y, radius):
         sql = f"""
-SELECT naam as display, uri, 'handelsregister/vestiging' as type, ST_Distance(geometrie, ST_GeomFromText(\'POINT(%s %s)\', 28992)) as distance
+SELECT DISTINCT naam as display, uri, 'handelsregister/vestiging' as type, ST_Distance(geometrie, ST_GeomFromText(\'POINT(%s %s)\', 28992)) as distance
 FROM geo_hr_vestiging_locaties_{view}
 WHERE ST_DWithin(geometrie, ST_GeomFromText(\'POINT(%s %s)\', 28992), %s)
 ORDER BY distance """
