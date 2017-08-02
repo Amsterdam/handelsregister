@@ -26,7 +26,7 @@ services:
       DATABASE_PASSWORD: insecure
       HANDELSREGISTER_OBJECTSTORE_PASSWORD:
       PGPASSWORD: insecure
-      DATAPUNT_API_URL: ${DATAPUNT_API_URL:-https://api.data.amsterdam.nl/}
+      DATAPUNT_API_URL:
     command: >
       bash -c "/app/docker-wait.sh \
                && python manage.py migrate geo_views zero \
