@@ -2,6 +2,7 @@
 We validate the HR sbicodes with the official cbs ones
 """
 import logging
+import os
 
 from operator import itemgetter
 
@@ -12,6 +13,12 @@ from django import db
 
 
 log = logging.getLogger(__name__)
+
+DIRECTORY = os.path.dirname(__file__)
+
+def get_fixture_path(filename):
+    file_path = f'{DIRECTORY}/fixtures/{filename}'
+    return file_path
 
 
 def fetchrows(sql):
@@ -378,6 +385,55 @@ def fix_ambiguous(ambiguous_sbi):
     log.debug("%s-%s = Original-Suggestion", original_count, suggestion_count)
 
 
+sbicodes_not_in_qa_tree = """
+select code, title from sbicodes_sbicodehierarchy h1
+where h1.qa_tree is null
+and character_length(code) > 3
+and not exists (
+    select h2.code from sbicodes_sbicodehierarchy h2
+    where h2.qa_tree is not null
+    and h2.code like h1.code || '%'
+)
+"""
+
+
+def loadmanual_fixes():
+    manual_fixes = {}
+
+    with open(get_fixture_path('manual_sbicodes_201708071719.csv')) as manualfixes:
+        for line in manualfixes.readlines()[1:]:
+            if not line:
+                continue
+            # log.debug(line)
+            manual, sbicode, _ = line.split(';')
+            manual = manual.replace('"', '').strip()
+            sbicode = sbicode.replace('"', '').strip()
+
+            log.debug(sbicode)
+            manual_fixes[sbicode] = manual
+
+    print(manual_fixes)
+
+    return manual_fixes
+
+
+def fix_manual_missing_qa():
+    """
+    For a few sbi_codes we have a manual fixes
+    """
+    # load sql
+    missing_qa = fetchrows(sbicodes_not_in_qa_tree)
+
+    manual_fixes = loadmanual_fixes()
+
+    assert missing_qa
+
+    for code, title in missing_qa:
+        solution = manual_fixes[code]
+        assert solution
+        log.debug('%s %s Resolved', code, solution)
+
+
 def validate():
     """
     Validate the sbi codes present in HR database
@@ -400,6 +456,4 @@ def validate():
     fix_too_short(short_sbi_codes)
 
     # fix bouw / productie codes
-
-
-
+    fix_manual_missing_qa()
