@@ -70,14 +70,14 @@ class ValidateSBICodeTest(TestCase):
             hrmodels.Activiteit.objects.create(
                 id="024",
                 activiteitsomschrijving='nul too short',
-                sbi_code='024',  # non ambiguous, just missing a zero
+                sbi_code='024',  # missing a 1
                 sbi_omschrijving="Dienstverlening voor de bosbouw",  # noqa
                 hoofdactiviteit=True
             ),
             hrmodels.Activiteit.objects.create(
                 id="8520",
                 activiteitsomschrijving='missing 1 2 3',
-                sbi_code='8520',  # non ambiguous, just missing a zero
+                sbi_code='8520',  # missing 2
                 sbi_omschrijving="Primair en speciaal onderwijs",  # noqa
                 hoofdactiviteit=True
             )
@@ -154,18 +154,34 @@ class ValidateSBICodeTest(TestCase):
         self.assertEqual(len(not_placeable), 1)
         self.assertEqual(not_placeable[0][3], 'ik ben fout')
 
-
-    def add_missing_activities(self):
+    def test_add_missing_activities(self):
         """
         if code is for company is too short to be an official
         sbi_code, expand the activities of vestiging with
         extra fields
         """
 
-        # find too short codes
+        ves = hrmodels.Vestiging.objects.get(naam='test_8520')
+        self.assertEqual(ves.activiteiten.count(), 1)
+        # find too short codes / not matched codes
+        short_sbi_codes = validate_codes.find_expanded_sbi_for_too_short_sbi()
+        log.debug(short_sbi_codes)
+        self.assertEqual(len(short_sbi_codes), 3)
+        validate_codes.fix_too_short(short_sbi_codes)
+
+        # now missing activities should be added
+        ves = hrmodels.Vestiging.objects.get(naam='test_8520')
+        self.assertEqual(ves.activiteiten.count(), 4)
 
         # add new activities for vestigingen
 
         # validate they are created
+
+    def test_correct_bouw_productie(self):
+        """
+        2 categories have more then 100 sbi codes
+        and are not properly downloaded...
+        """
+        pass
 
 

@@ -688,9 +688,9 @@ INSERT INTO hr_geovestigingen (
     sbi_sub_category,
     sbi_sub_sub_category,
 
-    q1,
-    q2,
-    q3,
+    q1,  /* question 1 */
+    q2,  /* question 2 */
+    q3,  /* question 3 */
 
     postadres_id,
     bezoekadres_id,
@@ -716,9 +716,9 @@ INSERT INTO hr_geovestigingen (
     loc.geometrie as geometrie,
 
     sbi.sbi_tree,
-    sbi.sbi_tree->'main_category'->>0  as sbi_main_category,
-    sbi.sbi_tree->'sub_category'->>0  as sbi_sub_category,
-    sbi.sbi_tree->'sub_sub_category'->>0 as sbi_sub_sub_category,
+    sbi.sbi_tree->'l1'->>0 as sbi_main_category,
+    sbi.sbi_tree->'l2'->>0 as sbi_sub_category,
+    sbi.sbi_tree->'l3'->>0 as sbi_sub_sub_category,
 
     sbi.qa_tree->>'q1'::text as q1,
     sbi.qa_tree->>'q2'::text as q2,
@@ -740,4 +740,5 @@ INSERT INTO hr_geovestigingen (
         AND ST_IsValid(loc.geometrie)
     JOIN sbicodes_sbicodehierarchy sbi
     ON sbi.code = a.sbi_code
-    """)
+    """
+    )

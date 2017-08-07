@@ -80,60 +80,39 @@ WHERE
 """
 
 sbi_prefix_matches = """
-
 SELECT
+    noqa.id,
+    noqa.naam,
     noqa.sbi_code,
     h.code,
     noqa.sbi_omschrijving,
     h.title
 FROM (
-SELECT
-    vs.id,
-    vs.naam,
-    a.sbi_code,
-    a.sbi_omschrijving,
-    h.title
-FROM
-    hr_activiteit a,
-    hr_vestiging_activiteiten vsa,
-    hr_vestiging vs,
-    sbicodes_sbicodehierarchy h
-WHERE
-    vsa.vestiging_id = vs.id
-    AND a.id = vsa.activiteit_id
-    and character_length(a.sbi_code) > 3  /* moet geen root node zijn */
-    and h.code = a.sbi_code
-    AND h.qa_tree is null                 /* match valide leaf nodes in met qa_boom */
-) AS noqa, sbicodes_sbicodehierarchy h
-  WHERE (h.code LIKE noqa.sbi_code || '%'  OR noqa.sbi_code LIKE h.code || '%'
-  AND h.qa_tree is not null;
-
-
-SELECT
-    vs.id,
-    vs.naam,
-    a.sbi_code,
-    h.code as validcode,
-    a.sbi_omschrijving,
-    h.title
-FROM
-    hr_activiteit a,
-    hr_vestiging_activiteiten vsa,
-    hr_vestiging vs,
-    sbicodes_sbicodehierarchy h
-WHERE
-    vsa.vestiging_id = vs.id
-    AND a.id = vsa.activiteit_id
-    AND character_length(a.sbi_code) > 3  /* moet geen root node zijn */
-    AND h.qa_tree is not null             /* match valide leaf nodes in met qa_boom */
-    AND h.code != a.sbi_code              /* match geen activiteiten die valide zijn */
-    AND (
-         h.code LIKE a.sbi_code || '%'    /* match codes die elkaar prefixen */
-         OR a.sbi_code LIKE h.code || '%');
+    SELECT
+        vs.id,
+        vs.naam,
+        a.sbi_code,
+        a.sbi_omschrijving
+    FROM
+        hr_activiteit a,
+        hr_vestiging_activiteiten vsa,
+        hr_vestiging vs,
+        sbicodes_sbicodehierarchy h
+    WHERE
+        vsa.vestiging_id = vs.id
+        AND a.id = vsa.activiteit_id
+        AND character_length(a.sbi_code) > 3  /* moet geen root node zijn */
+        AND h.qa_tree is null                 /* match invalide leaf nodes */
+        AND h.code = a.sbi_code
+) as noqa, sbicodes_sbicodehierarchy h
+WHERE (h.code LIKE noqa.sbi_code || '%')
+  AND h.code != noqa.sbi_code
+  AND h.qa_tree IS NOT null
+ORDER BY sbi_code;
 """ # noqa
 
 
-def find_too_short_sbi():
+def find_expanded_sbi_for_too_short_sbi():
     """
     Find activiteiten which do not have a qa_tree
     and thus have sbi_codes that are too short.
@@ -144,7 +123,7 @@ def find_too_short_sbi():
     too_short = fetchrows(sbi_prefix_matches)
     log.debug('%s = too_short', len(too_short))
     for row in too_short:
-        log.debug('TOO SHORT %s %s', row[2], row[1])
+        log.debug('TOO SHORT %s %s %s', row[2], row[3], row[1])
 
     return too_short
 
@@ -153,18 +132,38 @@ def fix_too_short(too_short_rows):
     """
     For sbi codes die niet in QA boom vallen vul de missende activiteiten aan
 
-    vs.id,
-    vs.naam,
-    a.sbi_code,
-    h.code as validcode,
-    a.sbi_omschrijving,
-    h.title
+    0 noqa.id,
+    1 noqa.naam,
+    2 noqa.sbi_code,
+    3 h.code,
+    4 noqa.sbi_omschrijving,
+    5 h.title
 
     """
 
     for row in too_short_rows:
-        #
-        pass
+        log.debug('ADD %s to %s %s', row[3], row[2], row[1])
+
+        ves = hrmodels.Vestiging.objects.get(id=row[0])
+
+        a_count = ves.activiteiten.count()
+
+        already_present = ves.activiteiten.filter(sbi_code=row[3])
+        # log.debug(ERR)
+        if len(already_present):
+            continue
+
+        new_activiteit = hrmodels.Activiteit.objects.create(
+           #  create id
+           id = '%sF%s' % (row[0], a_count + 1),
+           sbi_code = row[3],   # extra gevonden activiteit
+           sbi_omschrijving = row[5],
+           hoofdactiviteit = False
+        )
+
+        ves.activiteiten.add(new_activiteit)
+        ves.save()
+
 
 
 ambiguous_0_sql = """
@@ -382,6 +381,7 @@ def fix_ambiguous(ambiguous_sbi):
 def validate():
     """
     Validate the sbi codes present in HR database
+    and fix issues.
     """
     invalid = find_invalid_activiteiten()
     zero = find_0_sbicodes()
@@ -393,4 +393,13 @@ def validate():
 
     fix_missing_0(ambiguous, zero)
 
-    find_too_short_sbi()
+    # some production items do not show on map.
+    # fix_production(missing_qa_tree)
+    # some groothandel stuff does not show on map.
+    short_sbi_codes = find_expanded_sbi_for_too_short_sbi()
+    fix_too_short(short_sbi_codes)
+
+    # fix bouw / productie codes
+
+
+

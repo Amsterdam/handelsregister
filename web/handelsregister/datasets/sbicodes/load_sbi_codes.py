@@ -294,11 +294,11 @@ def store_sbi_details(sbi_details, qa_normalized_sbi_tree):
     for row in sbi_details:
 
         levels = [
-            'main_category',
-            'sub_category',
-            'sub_sub_category',
-            'sub_sub_sub_category',
-            'sbicode'
+            'l1',
+            'l2',
+            'l3',
+            'l4',
+            'l5'
         ]
 
         sbiobject = {}

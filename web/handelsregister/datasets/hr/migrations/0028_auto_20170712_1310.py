@@ -18,16 +18,7 @@ class Migration(migrations.Migration):
             model_name='geovestigingen',
             name='sbi_detail_group',
         ),
-        migrations.AddField(
-            model_name='dataselectie',
-            name='bag_numid',
-            field=models.CharField(blank=True, max_length=16, null=True),
-        ),
-        migrations.AddField(
-            model_name='geovestigingen',
-            name='bag_vbid',
-            field=models.CharField(blank=True, max_length=16, null=True),
-        ),
+
         migrations.AddField(
             model_name='geovestigingen',
             name='sbi_main_category',
