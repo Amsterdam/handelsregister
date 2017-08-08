@@ -185,4 +185,5 @@ class ValidateSBICodeTest(TestCase):
         missing_qa = validate_codes.find_missing_qa()
         self.assertTrue(len(missing_qa) > 0)
         validate_codes.fix_manual_missing_qa(missing_qa)
+        missing_qa = validate_codes.find_missing_qa()
         self.assertEqual(len(missing_qa), 0)

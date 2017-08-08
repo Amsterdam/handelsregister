@@ -41,7 +41,7 @@ def sql_steps(cursor, keep_outside_amsterdam=False):
     _converteer_handelsnaam(cursor)
 
     for i in (1, 2, 3):
-        log.info("Converteren MAC communicatie-gegevens-{0}".format(i))
+        log.info("Converteren MAC communicatie-gegevens-%s", i)
         _converteer_mac_communicatiegegevens(cursor, i)
 
     log.info("Converteren commerciële vestiging")
@@ -55,13 +55,13 @@ def sql_steps(cursor, keep_outside_amsterdam=False):
     _converteer_vestiging(cursor)
 
     for i in (1, 2, 3):
-        log.info("Converteren VES communicatie-gegevens-{0}".format(i))
+        log.info("Converteren VES communicatie-gegevens-%s", i)
         _converteer_ves_communicatiegegevens(cursor, i)
 
     log.info("Converteren hoofdactiviteit")
     _converteer_hoofdactiviteit(cursor)
     for i in (1, 2, 3):
-        log.info("Converteren nevenactiviteit-{0}".format(i))
+        log.info("Converteren nevenactiviteit-%s", i)
         _converteer_nevenactiviteit(cursor, i)
 
     log.info("Converteren handelsnaam vestiging")
@@ -651,17 +651,6 @@ WHERE correctie IS NOT NULL
     """)
 
 
-def _fix_0_missing_in_hr_activiteiten(cursor):
-    """
-    There are missing '0' for sbi codes which are ambiguous
-    with other codes. By looking at the descroption we can
-    correct those
-
-    """
-
-    pass
-
-
 def _build_joined_geo_table(cursor):
     """
     We create vestigingen geo table for use with
@@ -744,5 +733,4 @@ INSERT INTO hr_geovestigingen (
         AND ST_IsValid(loc.geometrie)
     JOIN sbicodes_sbicodehierarchy sbi
     ON sbi.code = a.sbi_code
-    """
-    )
+    """)
