@@ -140,9 +140,6 @@ def create_x_vestigingen(x=5):
 
     vestigingen = []
 
-    # required to allow for build of geo_vestiging
-    load_sbi_codes.build_all_sbi_code_trees()
-
     mac = MaatschappelijkeActiviteitFactory.create()
     a1 = Activiteit.create()
 
@@ -194,8 +191,11 @@ def create_dataselectie_set():
     """
     Create a test set for dataselectie
     """
-    create_x_vestigingen(x=5)
 
+    # required to allow for build of geo_vestiging
+    load_sbi_codes.build_all_sbi_code_trees()
+
+    create_x_vestigingen(x=5)
     macs = models.MaatschappelijkeActiviteit.objects.all()
 
     personen = models.Persoon.objects.all()
