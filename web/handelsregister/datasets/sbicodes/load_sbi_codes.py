@@ -17,6 +17,8 @@ waarvan het CBS bronhouder is.
 Ze hebben een API deze is echter niet zo makkelijk te gebruiken
 dus hierbij kant en klaart json en csv output van de CBS hiërarchie
 die met onderstaande code bijgewerkt kan worden
+Sommige categorien hebben meer dan 100 sbi codes en deze
+komen dan niet allemaal terug (groothandel, productie)
 
 Deze code wordt onder andere gebruikte bij het
 https://data.amsterdam.nl portaal.
@@ -265,7 +267,7 @@ def create_qa_mapping():
 
         qa_tree[code] = {
             'q3': pqa['title'],
-            'q2': parent1['short_description'],
+            'q2': parent1['description'],
             'q1': parent2['description'],
         }
 
@@ -389,16 +391,14 @@ def load_qa_sub_sub_sections(parent, qa_sections, use_cache=True):
             'description': description,
             'code': code,
             'parent': parent,
-            'short_description':  None
         }
 
         raw_qa_tree[code] = node
 
-        qa_section_description = description.split(',')[0].replace(' ', '_')
-        qa_section_description = description.split(',')[0].replace('/', '-')
-        qa_section_filename = f'qa_section_2_{i}{qa_section_description}.json'
+        qa_section_description = description.split()[0].replace('/', '-')
+        qa_section_filename = f'qa_section_2_{i}_{qa_section_description}.json'
 
-        node['short_description'] = qa_section_description
+        file_title = f'{i}_{qa_section_description}'
 
         qa_sub_sub_sections = get_json_sections(
             url=f'{qa_url}/{code}/1',
@@ -407,10 +407,12 @@ def load_qa_sub_sub_sections(parent, qa_sections, use_cache=True):
 
         # load the final sbi codes
         sbicodes_for_subsubcategory(
-            node, qa_sub_sub_sections['Answers'], use_cache=use_cache)
+            node, file_title,
+            qa_sub_sub_sections['Answers'], use_cache=use_cache)
 
 
-def sbicodes_for_subsubcategory(parent, qa_sub_sub_sections, use_cache=True):
+def sbicodes_for_subsubcategory(
+        parent, file_title, qa_sub_sub_sections, use_cache=True):
     """
     find the sbi codes involved leave node
     """
@@ -422,8 +424,6 @@ def sbicodes_for_subsubcategory(parent, qa_sub_sub_sections, use_cache=True):
     assert len(final_section) == 1
 
     code = final_section[0][0]
-
-    file_title = parent["short_description"]
 
     qa_section_sbi_filename = f'qa_section_3_{file_title}.json'
 

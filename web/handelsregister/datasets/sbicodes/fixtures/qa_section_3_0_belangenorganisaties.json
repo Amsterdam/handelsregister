@@ -1,0 +1,22 @@
+[
+ {
+  "Code": "9411",
+  "Score": 0.95,
+  "Title": "Bedrijfs- en werkgeversorganisaties"
+ },
+ {
+  "Code": "9412",
+  "Score": 0.95,
+  "Title": "Beroepsorganisaties"
+ },
+ {
+  "Code": "9420",
+  "Score": 0.95,
+  "Title": "Werknemersorganisaties"
+ },
+ {
+  "Code": "94997",
+  "Score": 0.95,
+  "Title": "Overige belangenbehartiging (rest)"
+ }
+]

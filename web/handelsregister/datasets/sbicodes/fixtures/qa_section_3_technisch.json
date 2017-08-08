@@ -1,0 +1,62 @@
+[
+ {
+  "Code": "7112",
+  "Score": 0.95,
+  "Title": "Ingenieurs en overig technisch ontwerp en advies"
+ },
+ {
+  "Code": "71201",
+  "Score": 0.95,
+  "Title": "Keuring en controle van agrarische producten en voedingsmiddelen"
+ },
+ {
+  "Code": "71202",
+  "Score": 0.95,
+  "Title": "Keuring en controle van machines, apparaten en materialen"
+ },
+ {
+  "Code": "71203",
+  "Score": 0.95,
+  "Title": "Overige keuring en controle"
+ },
+ {
+  "Code": "72111",
+  "Score": 0.95,
+  "Title": "Biotechnologisch speur- en ontwikkelingswerk op het gebied van agrarische producten en processen"
+ },
+ {
+  "Code": "72112",
+  "Score": 0.95,
+  "Title": "Biotechnologisch speur- en ontwikkelingswerk op het gebied van medische producten en farmaceutische processen en van voeding"
+ },
+ {
+  "Code": "72113",
+  "Score": 0.95,
+  "Title": "Biotechnologisch speur- en ontwikkelingswerk voor overige toepassingen"
+ },
+ {
+  "Code": "72191",
+  "Score": 0.95,
+  "Title": "Speur- en ontwikkelingswerk op het gebied van landbouw en visserij (niet biotechnologisch)"
+ },
+ {
+  "Code": "72192",
+  "Score": 0.95,
+  "Title": "Technisch speur- en ontwikkelingswerk"
+ },
+ {
+  "Code": "72193",
+  "Score": 0.95,
+  "Title": "Speur- en ontwikkelingswerk op het gebied van gezondheid en voeding (niet biotechnologisch)"
+ },
+ {
+  "Code": "72199",
+  "Score": 0.95,
+  "Title": "Overig natuurwetenschappelijk speur- en ontwikkelingswerk (niet biotechnologisch)"
+ },
+ {
+  "Code": "7220",
+  "Score": 0.95,
+  "Title": "Speur- en ontwikkelingswerk op het gebied van de maatschappij- en geesteswetenschappen"
+ }
+]

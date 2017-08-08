@@ -1,0 +1,82 @@
+[
+ {
+  "Code": "01411",
+  "Score": 0.95,
+  "Title": "Houden van melkvee"
+ },
+ {
+  "Code": "01412",
+  "Score": 0.95,
+  "Title": "Opfokken van jongvee voor de melkveehouderij"
+ },
+ {
+  "Code": "01421",
+  "Score": 0.95,
+  "Title": "Houden van vleeskalveren"
+ },
+ {
+  "Code": "01422",
+  "Score": 0.95,
+  "Title": "Overige vleesveehouderij en zoogkoeienbedrijven"
+ },
+ {
+  "Code": "0143",
+  "Score": 0.95,
+  "Title": "Fokken en houden van paarden en ezels"
+ },
+ {
+  "Code": "01451",
+  "Score": 0.95,
+  "Title": "Fokken en houden van schapen"
+ },
+ {
+  "Code": "01452",
+  "Score": 0.95,
+  "Title": "Fokken en houden van geiten"
+ },
+ {
+  "Code": "01461",
+  "Score": 0.95,
+  "Title": "Fokvarkens- en vermeerderingsbedrijven"
+ },
+ {
+  "Code": "01462",
+  "Score": 0.95,
+  "Title": "Vleesvarkensbedrijven"
+ },
+ {
+  "Code": "01463",
+  "Score": 0.95,
+  "Title": "Gesloten en deels gesloten varkensbedrijven"
+ },
+ {
+  "Code": "01471",
+  "Score": 0.95,
+  "Title": "Opfokken en/of houden van leghennen"
+ },
+ {
+  "Code": "01472",
+  "Score": 0.95,
+  "Title": "Opfokken en/of houden van vleeskuikens"
+ },
+ {
+  "Code": "01473",
+  "Score": 0.95,
+  "Title": "Opfokken en/of houden van ouderdieren van leghennen en vleeskuikens"
+ },
+ {
+  "Code": "01479",
+  "Score": 0.95,
+  "Title": "Opfokken en/of houden van overig pluimvee"
+ },
+ {
+  "Code": "01491",
+  "Score": 0.95,
+  "Title": "Fokken en houden van edelpelsdieren"
+ },
+ {
+  "Code": "01499",
+  "Score": 0.95,
+  "Title": "Fokken en houden van overige dieren (rest)"
+ }
+]

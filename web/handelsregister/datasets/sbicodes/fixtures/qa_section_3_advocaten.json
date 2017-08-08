@@ -1,0 +1,27 @@
+[
+ {
+  "Code": "69101",
+  "Score": 0.95,
+  "Title": "Advocatenkantoren"
+ },
+ {
+  "Code": "69102",
+  "Score": 0.95,
+  "Title": "Rechtskundige adviesbureaus"
+ },
+ {
+  "Code": "69103",
+  "Score": 0.95,
+  "Title": "Notariskantoren"
+ },
+ {
+  "Code": "69104",
+  "Score": 0.95,
+  "Title": "Deurwaarderskantoren"
+ },
+ {
+  "Code": "69105",
+  "Score": 0.95,
+  "Title": "Octrooibureaus"
+ }
+]

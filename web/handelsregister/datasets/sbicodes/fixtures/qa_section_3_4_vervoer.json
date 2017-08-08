@@ -1,0 +1,102 @@
+[
+ {
+  "Code": "4910",
+  "Score": 0.95,
+  "Title": "Personenvervoer per spoor (geen tram of metro)"
+ },
+ {
+  "Code": "4920",
+  "Score": 0.95,
+  "Title": "Goederenvervoer per spoor"
+ },
+ {
+  "Code": "4931",
+  "Score": 0.95,
+  "Title": "Openbaar vervoer binnen steden"
+ },
+ {
+  "Code": "4932",
+  "Score": 0.95,
+  "Title": "Vervoer per taxi"
+ },
+ {
+  "Code": "49391",
+  "Score": 0.95,
+  "Title": "Ongeregeld personenvervoer over de weg"
+ },
+ {
+  "Code": "49392",
+  "Score": 0.95,
+  "Title": "Openbaar interlokaal personenvervoer over de weg"
+ },
+ {
+  "Code": "49393",
+  "Score": 0.95,
+  "Title": "Geregeld besloten personenvervoer over de weg"
+ },
+ {
+  "Code": "4941",
+  "Score": 0.95,
+  "Title": "Goederenvervoer over de weg (geen verhuizingen)"
+ },
+ {
+  "Code": "4942",
+  "Score": 0.95,
+  "Title": "Verhuisvervoer"
+ },
+ {
+  "Code": "4950",
+  "Score": 0.95,
+  "Title": "Transport via pijpleidingen"
+ },
+ {
+  "Code": "5010",
+  "Score": 0.95,
+  "Title": "Zee- en kustvaart (passagiersvaart en veerdienst)"
+ },
+ {
+  "Code": "50201",
+  "Score": 0.95,
+  "Title": "Zee- en kustvaart (vracht- en tankvaart; geen sleepvaart)"
+ },
+ {
+  "Code": "50202",
+  "Score": 0.95,
+  "Title": "Zee- en kustsleepvaart"
+ },
+ {
+  "Code": "5030",
+  "Score": 0.95,
+  "Title": "Binnenvaart (passagiersvaart en veerdiensten)"
+ },
+ {
+  "Code": "50401",
+  "Score": 0.95,
+  "Title": "Binnenvaart (vrachtvaart)"
+ },
+ {
+  "Code": "50402",
+  "Score": 0.95,
+  "Title": "Binnenvaart (tankvaart)"
+ },
+ {
+  "Code": "50403",
+  "Score": 0.95,
+  "Title": "Binnenvaart (sleep- en duwvaart)"
+ },
+ {
+  "Code": "5110",
+  "Score": 0.95,
+  "Title": "Personenvervoer door de lucht"
+ },
+ {
+  "Code": "5121",
+  "Score": 0.95,
+  "Title": "Goederenvervoer door de lucht"
+ },
+ {
+  "Code": "53202",
+  "Score": 0.95,
+  "Title": "Koeriers"
+ }
+]

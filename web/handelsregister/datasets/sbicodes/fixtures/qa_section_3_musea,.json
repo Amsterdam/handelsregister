@@ -1,0 +1,27 @@
+[
+ {
+  "Code": "91011",
+  "Score": 0.95,
+  "Title": "Openbare bibliotheken"
+ },
+ {
+  "Code": "91012",
+  "Score": 0.95,
+  "Title": "Kunstuitleencentra"
+ },
+ {
+  "Code": "91019",
+  "Score": 0.95,
+  "Title": "Overige culturele uitleencentra en openbare archieven"
+ },
+ {
+  "Code": "91021",
+  "Score": 0.95,
+  "Title": "Musea"
+ },
+ {
+  "Code": "91022",
+  "Score": 0.95,
+  "Title": "Kunstgalerie\u00ebn en \u2013expositieruimten"
+ }
+]

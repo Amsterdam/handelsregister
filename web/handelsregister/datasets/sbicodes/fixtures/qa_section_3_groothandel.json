@@ -1,0 +1,502 @@
+[
+ {
+  "Code": "46211",
+  "Score": 0.95,
+  "Title": "Groothandel in granen"
+ },
+ {
+  "Code": "46212",
+  "Score": 0.95,
+  "Title": "Groothandel in zaden, pootgoed en peulvruchten"
+ },
+ {
+  "Code": "46213",
+  "Score": 0.95,
+  "Title": "Groothandel in hooi, stro en ruwvoeder"
+ },
+ {
+  "Code": "46214",
+  "Score": 0.95,
+  "Title": "Groothandel in meng- en krachtvoeder"
+ },
+ {
+  "Code": "46215",
+  "Score": 0.95,
+  "Title": "Groothandel in veevoeder (geen ruw-, meng- en krachtvoeder)"
+ },
+ {
+  "Code": "46216",
+  "Score": 0.95,
+  "Title": "Groothandel in ruwe plantaardige en dierlijke oli\u00ebn en vetten en oliehoudende grondstoffen"
+ },
+ {
+  "Code": "46217",
+  "Score": 0.95,
+  "Title": "Groothandel in ruwe tabak"
+ },
+ {
+  "Code": "46218",
+  "Score": 0.95,
+  "Title": "Groothandel in akkerbouwproducten en veevoeder algemeen assortiment"
+ },
+ {
+  "Code": "46219",
+  "Score": 0.95,
+  "Title": "Groothandel in overige akkerbouwproducten"
+ },
+ {
+  "Code": "4622",
+  "Score": 0.95,
+  "Title": "Groothandel in bloemen en planten"
+ },
+ {
+  "Code": "46231",
+  "Score": 0.95,
+  "Title": "Groothandel in levend vee"
+ },
+ {
+  "Code": "46232",
+  "Score": 0.95,
+  "Title": "Groothandel in huisdieren, siervissen, siervogels en wilde dieren"
+ },
+ {
+  "Code": "46241",
+  "Score": 0.95,
+  "Title": "Groothandel in huiden en vellen"
+ },
+ {
+  "Code": "46242",
+  "Score": 0.95,
+  "Title": "Groothandel in leer en halffabrikaten van leer"
+ },
+ {
+  "Code": "46311",
+  "Score": 0.95,
+  "Title": "Groothandel in groenten en fruit"
+ },
+ {
+  "Code": "46312",
+  "Score": 0.95,
+  "Title": "Groothandel in consumptie-aardappelen"
+ },
+ {
+  "Code": "4632",
+  "Score": 0.95,
+  "Title": "Groothandel in vlees en vleeswaren en in wild en gevogelte (niet levend)"
+ },
+ {
+  "Code": "46331",
+  "Score": 0.95,
+  "Title": "Groothandel in zuivelproducten en spijsoli\u00ebn en -vetten"
+ },
+ {
+  "Code": "46332",
+  "Score": 0.95,
+  "Title": "Groothandel in eieren"
+ },
+ {
+  "Code": "4634",
+  "Score": 0.95,
+  "Title": "Groothandel in dranken (geen zuivel)"
+ },
+ {
+  "Code": "4635",
+  "Score": 0.95,
+  "Title": "Groothandel in tabaksproducten en rokersbenodigdheden"
+ },
+ {
+  "Code": "4636",
+  "Score": 0.95,
+  "Title": "Groothandel in suiker, chocolade en suikerwerk"
+ },
+ {
+  "Code": "4637",
+  "Score": 0.95,
+  "Title": "Groothandel in koffie, thee, cacao en specerijen (geen ruwe)"
+ },
+ {
+  "Code": "46381",
+  "Score": 0.95,
+  "Title": "Groothandel in snacks"
+ },
+ {
+  "Code": "46382",
+  "Score": 0.95,
+  "Title": "Groothandel in vis-, schaal- en weekdieren"
+ },
+ {
+  "Code": "46383",
+  "Score": 0.95,
+  "Title": "Gespecialiseerde groothandel in overige voedings- en genotmiddelen (rest)"
+ },
+ {
+  "Code": "46384",
+  "Score": 0.95,
+  "Title": "Groothandel in bakkerijgrondstoffen"
+ },
+ {
+  "Code": "46389",
+  "Score": 0.95,
+  "Title": "Gespecialiseerde groothandel in overige grondstoffen en halffabrikaten voor de voedings- en genotmiddelenindustrie (rest)"
+ },
+ {
+  "Code": "4639",
+  "Score": 0.95,
+  "Title": "Groothandel in voedings- en genotmiddelen algemeen assortiment"
+ },
+ {
+  "Code": "46411",
+  "Score": 0.95,
+  "Title": "Groothandel in kledingstoffen en fournituren"
+ },
+ {
+  "Code": "46412",
+  "Score": 0.95,
+  "Title": "Groothandel in huishoudtextiel en beddengoed"
+ },
+ {
+  "Code": "46421",
+  "Score": 0.95,
+  "Title": "Groothandel in bovenkleding"
+ },
+ {
+  "Code": "46422",
+  "Score": 0.95,
+  "Title": "Groothandel in werkkleding"
+ },
+ {
+  "Code": "46423",
+  "Score": 0.95,
+  "Title": "Groothandel in onderkleding"
+ },
+ {
+  "Code": "46424",
+  "Score": 0.95,
+  "Title": "Groothandel in schoenen"
+ },
+ {
+  "Code": "46425",
+  "Score": 0.95,
+  "Title": "Groothandel in mode-artikelen"
+ },
+ {
+  "Code": "46429",
+  "Score": 0.95,
+  "Title": "Groothandel in textielwaren algemeen assortiment"
+ },
+ {
+  "Code": "46431",
+  "Score": 0.95,
+  "Title": "Groothandel in witgoed"
+ },
+ {
+  "Code": "46432",
+  "Score": 0.95,
+  "Title": "Groothandel in elektrische huishoudelijke apparatuur (geen witgoed, audio en video)"
+ },
+ {
+  "Code": "46433",
+  "Score": 0.95,
+  "Title": "Groothandel in audio- en video-apparatuur"
+ },
+ {
+  "Code": "46434",
+  "Score": 0.95,
+  "Title": "Groothandel in fotografische artikelen"
+ },
+ {
+  "Code": "46435",
+  "Score": 0.95,
+  "Title": "Groothandel in beeld- en geluidsdragers"
+ },
+ {
+  "Code": "46436",
+  "Score": 0.95,
+  "Title": "Groothandel in optische artikelen"
+ },
+ {
+  "Code": "46441",
+  "Score": 0.95,
+  "Title": "Groothandel in glas, porselein en aardewerk"
+ },
+ {
+  "Code": "46442",
+  "Score": 0.95,
+  "Title": "Groothandel in was-, poets- en reinigingsmiddelen"
+ },
+ {
+  "Code": "4645",
+  "Score": 0.95,
+  "Title": "Groothandel in parfums en cosmetica"
+ },
+ {
+  "Code": "46461",
+  "Score": 0.95,
+  "Title": "Groothandel in farmaceutische producten"
+ },
+ {
+  "Code": "46462",
+  "Score": 0.95,
+  "Title": "Groothandel in medische en tandheelkundige instrumenten, verpleeg- en orthopedische artikelen en laboratoriumbenodigdheden"
+ },
+ {
+  "Code": "46471",
+  "Score": 0.95,
+  "Title": "Groothandel in huismeubilair"
+ },
+ {
+  "Code": "46472",
+  "Score": 0.95,
+  "Title": "Groothandel in woningtextiel en vloerbedekking"
+ },
+ {
+  "Code": "46473",
+  "Score": 0.95,
+  "Title": "Groothandel in verlichtingsartikelen"
+ },
+ {
+  "Code": "4648",
+  "Score": 0.95,
+  "Title": "Groothandel in juweliersartikelen en uurwerken"
+ },
+ {
+  "Code": "46491",
+  "Score": 0.95,
+  "Title": "Groothandel in fietsen en bromfietsen"
+ },
+ {
+  "Code": "46492",
+  "Score": 0.95,
+  "Title": "Groothandel in watersportartikelen"
+ },
+ {
+  "Code": "46493",
+  "Score": 0.95,
+  "Title": "Groothandel in kampeerartikelen (geen caravans)"
+ },
+ {
+  "Code": "46494",
+  "Score": 0.95,
+  "Title": "Groothandel in speelgoed"
+ },
+ {
+  "Code": "46495",
+  "Score": 0.95,
+  "Title": "Groothandel in muziekinstrumenten"
+ },
+ {
+  "Code": "46496",
+  "Score": 0.95,
+  "Title": "Groothandel in sportartikelen (geen watersport)"
+ },
+ {
+  "Code": "46497",
+  "Score": 0.95,
+  "Title": "Groothandel in papier- en kartonwaren (geen verpakkingsmateriaal)"
+ },
+ {
+  "Code": "46498",
+  "Score": 0.95,
+  "Title": "Groothandel in boeken, tijdschriften en overig drukwerk"
+ },
+ {
+  "Code": "46499",
+  "Score": 0.95,
+  "Title": "Groothandel in overige consumentenartikelen (non-food) (rest)"
+ },
+ {
+  "Code": "4651",
+  "Score": 0.95,
+  "Title": "Groothandel in computers, randapparatuur en software"
+ },
+ {
+  "Code": "4652",
+  "Score": 0.95,
+  "Title": "Groothandel in elektronische en telecommunicatieapparatuur en bijbehorende onderdelen"
+ },
+ {
+  "Code": "4661",
+  "Score": 0.95,
+  "Title": "Groothandel in landbouwmachines, werktuigen en tractoren"
+ },
+ {
+  "Code": "4662",
+  "Score": 0.95,
+  "Title": "Groothandel in gereedschapswerktuigen"
+ },
+ {
+  "Code": "4663",
+  "Score": 0.95,
+  "Title": "Groothandel in machines voor de bouw"
+ },
+ {
+  "Code": "4664",
+  "Score": 0.95,
+  "Title": "Groothandel in machines voor de textielindustrie en in naai- en breimachines"
+ },
+ {
+  "Code": "4665",
+  "Score": 0.95,
+  "Title": "Groothandel in bedrijfsmeubels"
+ },
+ {
+  "Code": "4666",
+  "Score": 0.95,
+  "Title": "Groothandel in kantoormachines (geen computers)"
+ },
+ {
+  "Code": "46681",
+  "Score": 0.95,
+  "Title": "Groothandel in machines voor de grafische industrie"
+ },
+ {
+  "Code": "46682",
+  "Score": 0.95,
+  "Title": "Groothandel in machines voor de voedings- en genotmiddelenindustrie"
+ },
+ {
+  "Code": "46691",
+  "Score": 0.95,
+  "Title": "Groothandel in intern transportmaterieel"
+ },
+ {
+  "Code": "46692",
+  "Score": 0.95,
+  "Title": "Groothandel in machines en apparaten voor warmte-, koel- en vriestechniek"
+ },
+ {
+  "Code": "46693",
+  "Score": 0.95,
+  "Title": "Groothandel in verbrandingsmotoren, pompen en compressoren"
+ },
+ {
+  "Code": "46694",
+  "Score": 0.95,
+  "Title": "Groothandel in appendages, technische toebehoren e.d."
+ },
+ {
+  "Code": "46695",
+  "Score": 0.95,
+  "Title": "Groothandel in meet- en regelapparaten"
+ },
+ {
+  "Code": "46696",
+  "Score": 0.95,
+  "Title": "Groothandel in emballage"
+ },
+ {
+  "Code": "46697",
+  "Score": 0.95,
+  "Title": "Groothandel in scheepsbenodigdheden en visserij-artikelen"
+ },
+ {
+  "Code": "46699",
+  "Score": 0.95,
+  "Title": "Groothandel in overige machines, apparaten en toebehoren voor industrie en handel (rest)"
+ },
+ {
+  "Code": "46711",
+  "Score": 0.95,
+  "Title": "Groothandel in vaste brandstoffen"
+ },
+ {
+  "Code": "46712",
+  "Score": 0.95,
+  "Title": "Groothandel in vloeibare en gasvormige brandstoffen"
+ },
+ {
+  "Code": "46713",
+  "Score": 0.95,
+  "Title": "Groothandel in minerale olieproducten (geen brandstoffen)"
+ },
+ {
+  "Code": "46721",
+  "Score": 0.95,
+  "Title": "Groothandel in metaalertsen"
+ },
+ {
+  "Code": "46722",
+  "Score": 0.95,
+  "Title": "Groothandel in ferrometalen en -halffabrikaten"
+ },
+ {
+  "Code": "46723",
+  "Score": 0.95,
+  "Title": "Groothandel in non-ferrometalen en -halffabrikaten"
+ },
+ {
+  "Code": "46731",
+  "Score": 0.95,
+  "Title": "Groothandel in hout en plaatmateriaal"
+ },
+ {
+  "Code": "46732",
+  "Score": 0.95,
+  "Title": "Groothandel in verf en verfwaren"
+ },
+ {
+  "Code": "46733",
+  "Score": 0.95,
+  "Title": "Groothandel in behang"
+ },
+ {
+  "Code": "46734",
+  "Score": 0.95,
+  "Title": "Groothandel in vlakglas"
+ },
+ {
+  "Code": "46735",
+  "Score": 0.95,
+  "Title": "Groothandel in zand en grind"
+ },
+ {
+  "Code": "46736",
+  "Score": 0.95,
+  "Title": "Groothandel in tegels en plavuizen"
+ },
+ {
+  "Code": "46737",
+  "Score": 0.95,
+  "Title": "Groothandel in sanitaire artikelen en sanitair installatiemateriaal"
+ },
+ {
+  "Code": "46738",
+  "Score": 0.95,
+  "Title": "Groothandel gespecialiseerd in overige bouwmaterialen"
+ },
+ {
+  "Code": "46739",
+  "Score": 0.95,
+  "Title": "Groothandel in bouwmaterialen algemeen assortiment"
+ },
+ {
+  "Code": "46741",
+  "Score": 0.95,
+  "Title": "Groothandel in ijzer- en metaalwaren"
+ },
+ {
+  "Code": "46742",
+  "Score": 0.95,
+  "Title": "Groothandel in verwarmingsapparaten"
+ },
+ {
+  "Code": "46751",
+  "Score": 0.95,
+  "Title": "Groothandel in chemische grondstoffen en chemicali\u00ebn voor industri\u00eble toepassing"
+ },
+ {
+  "Code": "46752",
+  "Score": 0.95,
+  "Title": "Groothandel in bestrijdingsmiddelen en kunstmeststoffen"
+ },
+ {
+  "Code": "46759",
+  "Score": 0.95,
+  "Title": "Groothandel in overige chemische producten"
+ },
+ {
+  "Code": "46761",
+  "Score": 0.95,
+  "Title": "Groothandel in textielgrondstoffen en -halffabrikaten"
+ }
+]

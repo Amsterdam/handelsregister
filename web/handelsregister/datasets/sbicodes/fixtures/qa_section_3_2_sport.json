@@ -1,0 +1,157 @@
+[
+ {
+  "Code": "93111",
+  "Score": 0.95,
+  "Title": "Zwembaden"
+ },
+ {
+  "Code": "93112",
+  "Score": 0.95,
+  "Title": "Sporthallen, sportzalen en gymzalen"
+ },
+ {
+  "Code": "93113",
+  "Score": 0.95,
+  "Title": "Sportvelden"
+ },
+ {
+  "Code": "93119",
+  "Score": 0.95,
+  "Title": "Overige sportaccommodaties"
+ },
+ {
+  "Code": "93121",
+  "Score": 0.95,
+  "Title": "Veldvoetbal"
+ },
+ {
+  "Code": "93122",
+  "Score": 0.95,
+  "Title": "Veldsport in teamverband (geen voetbal)"
+ },
+ {
+  "Code": "93123",
+  "Score": 0.95,
+  "Title": "Atletiek"
+ },
+ {
+  "Code": "93124",
+  "Score": 0.95,
+  "Title": "Tennis"
+ },
+ {
+  "Code": "93125",
+  "Score": 0.95,
+  "Title": "Paardensport en maneges"
+ },
+ {
+  "Code": "93126",
+  "Score": 0.95,
+  "Title": "Wielersport"
+ },
+ {
+  "Code": "93127",
+  "Score": 0.95,
+  "Title": "Auto- en motorsport"
+ },
+ {
+  "Code": "93128",
+  "Score": 0.95,
+  "Title": "Wintersport"
+ },
+ {
+  "Code": "93129",
+  "Score": 0.95,
+  "Title": "Overige buitensport"
+ },
+ {
+  "Code": "9313",
+  "Score": 0.95,
+  "Title": "Fitnesscentra"
+ },
+ {
+  "Code": "93141",
+  "Score": 0.95,
+  "Title": "Individuele zaalsport"
+ },
+ {
+  "Code": "93142",
+  "Score": 0.95,
+  "Title": "Zaalsport in teamverband"
+ },
+ {
+  "Code": "93143",
+  "Score": 0.95,
+  "Title": "Kracht- en vechtsport"
+ },
+ {
+  "Code": "93144",
+  "Score": 0.95,
+  "Title": "Bowlen, kegelen, biljarten e.d."
+ },
+ {
+  "Code": "93145",
+  "Score": 0.95,
+  "Title": "Denksport"
+ },
+ {
+  "Code": "93146",
+  "Score": 0.95,
+  "Title": "Sportscholen"
+ },
+ {
+  "Code": "93149",
+  "Score": 0.95,
+  "Title": "Overige binnensport en omnisport"
+ },
+ {
+  "Code": "93151",
+  "Score": 0.95,
+  "Title": "Zwem- en onderwatersport"
+ },
+ {
+  "Code": "93152",
+  "Score": 0.95,
+  "Title": "Roei-, kano-, zeil- en surfsport e.d."
+ },
+ {
+  "Code": "93191",
+  "Score": 0.95,
+  "Title": "Beroepssportlieden"
+ },
+ {
+  "Code": "93192",
+  "Score": 0.95,
+  "Title": "Hengelsport"
+ },
+ {
+  "Code": "93193",
+  "Score": 0.95,
+  "Title": "Verzorgen van vistochten"
+ },
+ {
+  "Code": "93194",
+  "Score": 0.95,
+  "Title": "Supportersverenigingen (sport)"
+ },
+ {
+  "Code": "93195",
+  "Score": 0.95,
+  "Title": "Organiseren van sportevenementen"
+ },
+ {
+  "Code": "93196",
+  "Score": 0.95,
+  "Title": "Overkoepelende organen en samenwerkings- en adviesorganen op het gebied van sport"
+ },
+ {
+  "Code": "93199",
+  "Score": 0.95,
+  "Title": "Overige sportactiviteiten (rest)"
+ },
+ {
+  "Code": "93291",
+  "Score": 0.95,
+  "Title": "Jachthavens"
+ }
+]

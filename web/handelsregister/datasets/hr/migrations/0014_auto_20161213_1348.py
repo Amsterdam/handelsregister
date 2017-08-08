@@ -12,14 +12,16 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        #migrations.AddField(
-        #    model_name='dataselectie',
-        #    name='bag_numid',
-        #    field=models.CharField(blank=True, db_index=True, max_length=16, null=True),
-        #),
-        #migrations.AlterField(
-        #    model_name='dataselectie',
-        #    name='bag_vbid',
-        #    field=models.CharField(blank=True, max_length=16, null=True),
-        #),
+
+        migrations.AddField(
+            model_name='dataselectie',
+            name='bag_numid',
+            field=models.CharField(blank=True, db_index=True, max_length=16, null=True),
+        ),
+
+        migrations.AddField(
+            model_name='dataselectie',
+            name='bag_vbid',
+            field=models.CharField(blank=True, max_length=16, null=True),
+        ),
     ]

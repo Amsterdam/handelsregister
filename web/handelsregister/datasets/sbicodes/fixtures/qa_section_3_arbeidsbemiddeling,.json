@@ -1,0 +1,27 @@
+[
+ {
+  "Code": "7810",
+  "Score": 0.95,
+  "Title": "Arbeidsbemiddeling"
+ },
+ {
+  "Code": "78201",
+  "Score": 0.95,
+  "Title": "Uitzendbureaus"
+ },
+ {
+  "Code": "78202",
+  "Score": 0.95,
+  "Title": "Uitleenbureaus"
+ },
+ {
+  "Code": "78203",
+  "Score": 0.95,
+  "Title": "Banenpools (werkgelegenheidsprojecten)"
+ },
+ {
+  "Code": "7830",
+  "Score": 0.95,
+  "Title": "Payrolling (personeelsbeheer)"
+ }
+]

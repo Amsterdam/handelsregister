@@ -1,0 +1,502 @@
+[
+ {
+  "Code": "1011",
+  "Score": 0.95,
+  "Title": "Slachterijen (geen pluimvee)"
+ },
+ {
+  "Code": "1012",
+  "Score": 0.95,
+  "Title": "Pluimveeslachterijen"
+ },
+ {
+  "Code": "1013",
+  "Score": 0.95,
+  "Title": "Vleesverwerking (niet tot maaltijden)"
+ },
+ {
+  "Code": "1020",
+  "Score": 0.95,
+  "Title": "Visverwerking"
+ },
+ {
+  "Code": "1031",
+  "Score": 0.95,
+  "Title": "Vervaardiging van aardappelprodukten"
+ },
+ {
+  "Code": "1032",
+  "Score": 0.95,
+  "Title": "Vervaardiging van fruit- en groentesap"
+ },
+ {
+  "Code": "1039",
+  "Score": 0.95,
+  "Title": "Verwerking van groente en fruit (niet tot sap en maaltijden)"
+ },
+ {
+  "Code": "1041",
+  "Score": 0.95,
+  "Title": "Vervaardiging van plantaardige en dierlijke oli\u00ebn en vetten (geen margarine en andere spijsvetten)"
+ },
+ {
+  "Code": "1042",
+  "Score": 0.95,
+  "Title": "Vervaardiging van margarine en overige spijsvetten"
+ },
+ {
+  "Code": "1051",
+  "Score": 0.95,
+  "Title": "Vervaardiging van zuivelproducten (geen consumptie-ijs)"
+ },
+ {
+  "Code": "1052",
+  "Score": 0.95,
+  "Title": "vervaardiging van consumptie-ijs"
+ },
+ {
+  "Code": "1061",
+  "Score": 0.95,
+  "Title": "Vervaardiging van meel (geen zetmeel)"
+ },
+ {
+  "Code": "1062",
+  "Score": 0.95,
+  "Title": "Vervaardiging van zetmeel en zetmeelproducten"
+ },
+ {
+  "Code": "1071",
+  "Score": 0.95,
+  "Title": "Vervaardiging van brood en vers banketbakkerswerk"
+ },
+ {
+  "Code": "1072",
+  "Score": 0.95,
+  "Title": "Vervaardiging van beschuit en koekjes en van ander houdbaar banketbakkerswerk"
+ },
+ {
+  "Code": "1073",
+  "Score": 0.95,
+  "Title": "Vervaardiging van deegwaren"
+ },
+ {
+  "Code": "1081",
+  "Score": 0.95,
+  "Title": "Vervaardiging van suiker"
+ },
+ {
+  "Code": "10821",
+  "Score": 0.95,
+  "Title": "Verwerking van cacao"
+ },
+ {
+  "Code": "10822",
+  "Score": 0.95,
+  "Title": "Vervaardiging van chocolade en suikerwerk"
+ },
+ {
+  "Code": "1083",
+  "Score": 0.95,
+  "Title": "Verwerking van koffie en thee"
+ },
+ {
+  "Code": "1084",
+  "Score": 0.95,
+  "Title": "Vervaardiging van specerijen, sauzen en kruiderijen; zoutraffinage"
+ },
+ {
+  "Code": "1085",
+  "Score": 0.95,
+  "Title": "Vervaardiging van kant- en klaarmaaltijden en snacks"
+ },
+ {
+  "Code": "1086",
+  "Score": 0.95,
+  "Title": "Vervaardiging van gehomogeniseerde voedingspreparaten en dieetvoeding"
+ },
+ {
+  "Code": "1089",
+  "Score": 0.95,
+  "Title": "Vervaardiging van overige voedingsmiddelen (rest)"
+ },
+ {
+  "Code": "1091",
+  "Score": 0.95,
+  "Title": "Vervaardiging van veevoeders"
+ },
+ {
+  "Code": "1092",
+  "Score": 0.95,
+  "Title": "Vervaardiging van voeders voor huisdieren"
+ },
+ {
+  "Code": "1101",
+  "Score": 0.95,
+  "Title": "Vervaardiging van sterk alcoholische dranken door distilleren, rectificeren en mengen"
+ },
+ {
+  "Code": "1102",
+  "Score": 0.95,
+  "Title": "Vervaardiging van wijn uit druiven"
+ },
+ {
+  "Code": "1103",
+  "Score": 0.95,
+  "Title": "Vervaardiging van cider en van overige vruchtenwijnen"
+ },
+ {
+  "Code": "1104",
+  "Score": 0.95,
+  "Title": "Vervaardiging van overige niet-gedistilleerde gegiste dranken"
+ },
+ {
+  "Code": "1105",
+  "Score": 0.95,
+  "Title": "Vervaardiging van bier"
+ },
+ {
+  "Code": "1106",
+  "Score": 0.95,
+  "Title": "Mouterijen"
+ },
+ {
+  "Code": "1107",
+  "Score": 0.95,
+  "Title": "Vervaardiging van frisdranken; productie van mineraalwater en overig gebotteld water"
+ },
+ {
+  "Code": "1200",
+  "Score": 0.95,
+  "Title": "Vervaardiging van tabaksproducten"
+ },
+ {
+  "Code": "1310",
+  "Score": 0.95,
+  "Title": "Bewerken en spinnen van textielvezels"
+ },
+ {
+  "Code": "1320",
+  "Score": 0.95,
+  "Title": "Weven van textiel"
+ },
+ {
+  "Code": "1330",
+  "Score": 0.95,
+  "Title": "Textielveredeling"
+ },
+ {
+  "Code": "1391",
+  "Score": 0.95,
+  "Title": "Vervaardiging van gebreide en gehaakte stoffen"
+ },
+ {
+  "Code": "1392",
+  "Score": 0.95,
+  "Title": "Vervaardiging van geconfectioneerde artikelen van textiel (geen kleding)"
+ },
+ {
+  "Code": "1393",
+  "Score": 0.95,
+  "Title": "Vervaardiging van vloerkleden en tapijt"
+ },
+ {
+  "Code": "1394",
+  "Score": 0.95,
+  "Title": "Vervaardiging van koord, bindgaren, touw en netten"
+ },
+ {
+  "Code": "1395",
+  "Score": 0.95,
+  "Title": "Vervaardiging van gebonden textielvlies en artikelen daarvan (geen kleding)"
+ },
+ {
+  "Code": "1396",
+  "Score": 0.95,
+  "Title": "Vervaardiging van technisch en industrieel textiel"
+ },
+ {
+  "Code": "1399",
+  "Score": 0.95,
+  "Title": "Vervaardiging van overige textielproducten (rest)"
+ },
+ {
+  "Code": "1411",
+  "Score": 0.95,
+  "Title": "Vervaardiging van kleding van leer"
+ },
+ {
+  "Code": "1412",
+  "Score": 0.95,
+  "Title": "Vervaardiging van werkkleding"
+ },
+ {
+  "Code": "1413",
+  "Score": 0.95,
+  "Title": "Vervaardiging van overige bovenkleding"
+ },
+ {
+  "Code": "1414",
+  "Score": 0.95,
+  "Title": "Vervaardiging van onderkleding"
+ },
+ {
+  "Code": "1419",
+  "Score": 0.95,
+  "Title": "Vervaardiging van overige baby- en sportkleding en kledingaccessoires"
+ },
+ {
+  "Code": "1420",
+  "Score": 0.95,
+  "Title": "Vervaardiging van artikelen van bont"
+ },
+ {
+  "Code": "1431",
+  "Score": 0.95,
+  "Title": "Vervaardiging van gebreide en gehaakte kousen en sokken"
+ },
+ {
+  "Code": "1439",
+  "Score": 0.95,
+  "Title": "Vervaardiging van gebreide en gehaakte kleding (geen kousen en sokken)"
+ },
+ {
+  "Code": "1511",
+  "Score": 0.95,
+  "Title": "Looien en bereiden van leer; bereiden en verven van bont"
+ },
+ {
+  "Code": "1512",
+  "Score": 0.95,
+  "Title": "Vervaardiging van koffers, tassen en dergelijke en van zadel- en tuigmakerswerk"
+ },
+ {
+  "Code": "1520",
+  "Score": 0.95,
+  "Title": "Vervaardiging van schoenen"
+ },
+ {
+  "Code": "16101",
+  "Score": 0.95,
+  "Title": "Zagen en schaven en overige primaire houtbewerking"
+ },
+ {
+  "Code": "16102",
+  "Score": 0.95,
+  "Title": "Verduurzamen van hout"
+ },
+ {
+  "Code": "1621",
+  "Score": 0.95,
+  "Title": "Vervaardiging van fineer en plaatmateriaal op basis van hout"
+ },
+ {
+  "Code": "1622",
+  "Score": 0.95,
+  "Title": "Vervaardiging van panelen voor parketvloeren"
+ },
+ {
+  "Code": "16231",
+  "Score": 0.95,
+  "Title": "Vervaardiging van deuren, ramen en kozijnen van hout"
+ },
+ {
+  "Code": "16239",
+  "Score": 0.95,
+  "Title": "Vervaardiging van overige timmerwerk voor de bouw (geen deuren, ramen en kozijnen)"
+ },
+ {
+  "Code": "1624",
+  "Score": 0.95,
+  "Title": "Vervaardiging van houten emballage"
+ },
+ {
+  "Code": "1629",
+  "Score": 0.95,
+  "Title": "Vervaardiging van overige artikelen van hout en van artikelen van kurk, riet en vlechtwerk (geen meubels)"
+ },
+ {
+  "Code": "1711",
+  "Score": 0.95,
+  "Title": "Vervaardiging van papierpulp"
+ },
+ {
+  "Code": "17121",
+  "Score": 0.95,
+  "Title": "Vervaardiging van grafisch papier en karton"
+ },
+ {
+  "Code": "17122",
+  "Score": 0.95,
+  "Title": "Vervaardiging van papier en karton voor verpakking"
+ },
+ {
+  "Code": "17129",
+  "Score": 0.95,
+  "Title": "Vervaardiging van papier en karton (geen grafisch en niet voor verpakking)"
+ },
+ {
+  "Code": "17211",
+  "Score": 0.95,
+  "Title": "Vervaardiging van verpakkingsmiddelen van papier en karton"
+ },
+ {
+  "Code": "17212",
+  "Score": 0.95,
+  "Title": "Vervaardiging van golfpapier en -karton"
+ },
+ {
+  "Code": "1722",
+  "Score": 0.95,
+  "Title": "Vervaardiging van huishoudelijke en sanitaire papierwaren"
+ },
+ {
+  "Code": "1723",
+  "Score": 0.95,
+  "Title": "Vervaardiging van kantoorbenodigdheden van papier"
+ },
+ {
+  "Code": "1724",
+  "Score": 0.95,
+  "Title": "Vervaardiging van behangselpapier"
+ },
+ {
+  "Code": "1729",
+  "Score": 0.95,
+  "Title": "Vervaardiging van overige papier- en kartonwaren"
+ },
+ {
+  "Code": "1811",
+  "Score": 0.95,
+  "Title": "Drukkerijen van dagbladen"
+ },
+ {
+  "Code": "18121",
+  "Score": 0.95,
+  "Title": "Drukkerijen van boeken e.d."
+ },
+ {
+  "Code": "18122",
+  "Score": 0.95,
+  "Title": "Drukkerijen van tijdschriften"
+ },
+ {
+  "Code": "18123",
+  "Score": 0.95,
+  "Title": "Drukkerijen van reclame"
+ },
+ {
+  "Code": "18124",
+  "Score": 0.95,
+  "Title": "Drukkerijen van verpakkingen"
+ },
+ {
+  "Code": "18125",
+  "Score": 0.95,
+  "Title": "Drukkerijen van formulieren"
+ },
+ {
+  "Code": "18129",
+  "Score": 0.95,
+  "Title": "Overige drukkerijen (rest)"
+ },
+ {
+  "Code": "1813",
+  "Score": 0.95,
+  "Title": "Prepress- en premedia-activiteiten"
+ },
+ {
+  "Code": "1814",
+  "Score": 0.95,
+  "Title": "Grafische afwerking en overige activiteiten verwant aan de drukkerij"
+ },
+ {
+  "Code": "1820",
+  "Score": 0.95,
+  "Title": "Reproductie van opgenomen media"
+ },
+ {
+  "Code": "1910",
+  "Score": 0.95,
+  "Title": "Vervaardiging van cokesovenproducten"
+ },
+ {
+  "Code": "19201",
+  "Score": 0.95,
+  "Title": "Aardolieraffinage"
+ },
+ {
+  "Code": "19202",
+  "Score": 0.95,
+  "Title": "Aardolieverwerking (geen -raffinage)"
+ },
+ {
+  "Code": "2011",
+  "Score": 0.95,
+  "Title": "Vervaardiging van industri\u00eble gassen"
+ },
+ {
+  "Code": "2012",
+  "Score": 0.95,
+  "Title": "Vervaardiging van kleur- en verfstoffen"
+ },
+ {
+  "Code": "2013",
+  "Score": 0.95,
+  "Title": "Vervaardiging van overige anorganische basischemicali\u00ebn"
+ },
+ {
+  "Code": "20141",
+  "Score": 0.95,
+  "Title": "Vervaardiging van petrochemische producten"
+ },
+ {
+  "Code": "20149",
+  "Score": 0.95,
+  "Title": "Vervaardiging van organische basischemicali\u00ebn (geen petrochemische producten)"
+ },
+ {
+  "Code": "2015",
+  "Score": 0.95,
+  "Title": "Vervaardiging van kunstmeststoffen en stikstofverbindingen"
+ },
+ {
+  "Code": "2016",
+  "Score": 0.95,
+  "Title": "Vervaardiging van kunststof in primaire vorm"
+ },
+ {
+  "Code": "2017",
+  "Score": 0.95,
+  "Title": "Vervaardiging van synthetische rubber in primaire vorm"
+ },
+ {
+  "Code": "2020",
+  "Score": 0.95,
+  "Title": "Vervaardiging van verdelgingsmiddelen en overige landbouwchemicali\u00ebn"
+ },
+ {
+  "Code": "2030",
+  "Score": 0.95,
+  "Title": "Vervaardiging van verf, vernis e.d., drukinkt en mastiek"
+ },
+ {
+  "Code": "2041",
+  "Score": 0.95,
+  "Title": "Vervaardiging van zeep en wasmiddelen, poets- en reinigingsmiddelen"
+ },
+ {
+  "Code": "2042",
+  "Score": 0.95,
+  "Title": "Vervaardiging van parfums en cosmetica"
+ },
+ {
+  "Code": "2051",
+  "Score": 0.95,
+  "Title": "Vervaardiging van kruit en springstoffen en van lucifers"
+ },
+ {
+  "Code": "2052",
+  "Score": 0.95,
+  "Title": "Vervaardiging van lijm en bereide kleefmiddelen"
+ }
+]

@@ -1,0 +1,42 @@
+[
+ {
+  "Code": "42111",
+  "Score": 0.95,
+  "Title": "Wegenbouw"
+ },
+ {
+  "Code": "42112",
+  "Score": 0.95,
+  "Title": "Stratenmaken"
+ },
+ {
+  "Code": "4212",
+  "Score": 0.95,
+  "Title": "Bouw van boven- en ondergrondse spoorwegen"
+ },
+ {
+  "Code": "4213",
+  "Score": 0.95,
+  "Title": "Bouw van kunstwerken"
+ },
+ {
+  "Code": "4221",
+  "Score": 0.95,
+  "Title": "Leggen van rioleringen, buizen en pijpleidingen; aanleg van bronbemaling"
+ },
+ {
+  "Code": "4222",
+  "Score": 0.95,
+  "Title": "Leggen van elektriciteits- en telecommunicatiekabels"
+ },
+ {
+  "Code": "4291",
+  "Score": 0.95,
+  "Title": "Natte waterbouw"
+ },
+ {
+  "Code": "4299",
+  "Score": 0.95,
+  "Title": "Bouw van overige civieltechnische werken (rest)"
+ }
+]

@@ -1,0 +1,92 @@
+[
+ {
+  "Code": "3311",
+  "Score": 0.95,
+  "Title": "Reparatie van producten van metaal"
+ },
+ {
+  "Code": "33121",
+  "Score": 0.95,
+  "Title": "Reparatie en onderhoud van machines voor algemeen gebruik en machine-onderdelen (geen gereedschap)"
+ },
+ {
+  "Code": "33122",
+  "Score": 0.95,
+  "Title": "Reparatie en onderhoud van pneumatisch en elektrisch gereedschap en gereedschapswerktuigen"
+ },
+ {
+  "Code": "33123",
+  "Score": 0.95,
+  "Title": "Reparatie en onderhoud van machines voor een specifieke bedrijfstak"
+ },
+ {
+  "Code": "3313",
+  "Score": 0.95,
+  "Title": "Reparatie en onderhoud van elektronische en optische apparatuur"
+ },
+ {
+  "Code": "3314",
+  "Score": 0.95,
+  "Title": "Reparatie van elektrische apparatuur"
+ },
+ {
+  "Code": "3315",
+  "Score": 0.95,
+  "Title": "Reparatie en onderhoud van schepen"
+ },
+ {
+  "Code": "3316",
+  "Score": 0.95,
+  "Title": "Reparatie en onderhoud van vliegtuigen"
+ },
+ {
+  "Code": "3317",
+  "Score": 0.95,
+  "Title": "Reparatie en onderhoud van overige transportmiddelen"
+ },
+ {
+  "Code": "3319",
+  "Score": 0.95,
+  "Title": "Reparatie en onderhoud van overige toebehoren"
+ },
+ {
+  "Code": "9511",
+  "Score": 0.95,
+  "Title": "Reparatie van computers en randapparatuur"
+ },
+ {
+  "Code": "9512",
+  "Score": 0.95,
+  "Title": "Reparatie van communicatieapparatuur"
+ },
+ {
+  "Code": "9521",
+  "Score": 0.95,
+  "Title": "Reparatie van consumentenelektronica (geen computers)"
+ },
+ {
+  "Code": "9522",
+  "Score": 0.95,
+  "Title": "Reparatie van elektrische huishoudelijke apparaten"
+ },
+ {
+  "Code": "9523",
+  "Score": 0.95,
+  "Title": "Reparatie van schoenen en lederwaren"
+ },
+ {
+  "Code": "9524",
+  "Score": 0.95,
+  "Title": "Reparatie en stoffering van meubels"
+ },
+ {
+  "Code": "9525",
+  "Score": 0.95,
+  "Title": "Reparatie van uurwerken en juweliersartikelen"
+ },
+ {
+  "Code": "9529",
+  "Score": 0.95,
+  "Title": "Reparatie van overige consumentenartikelen"
+ }
+]

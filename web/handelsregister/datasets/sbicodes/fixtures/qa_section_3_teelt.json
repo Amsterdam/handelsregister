@@ -1,0 +1,32 @@
+[
+ {
+  "Code": "01301",
+  "Score": 0.95,
+  "Title": "Teelt van bloembollen"
+ },
+ {
+  "Code": "01302",
+  "Score": 0.95,
+  "Title": "Teelt van perkplanten in de volle grond"
+ },
+ {
+  "Code": "01303",
+  "Score": 0.95,
+  "Title": "Teelt van perkplanten onder glas"
+ },
+ {
+  "Code": "01304",
+  "Score": 0.95,
+  "Title": "Teelt van potplanten onder glas"
+ },
+ {
+  "Code": "01305",
+  "Score": 0.95,
+  "Title": "Teelt van boomkwekerijgewassen in de volle grond"
+ },
+ {
+  "Code": "01309",
+  "Score": 0.95,
+  "Title": "Teelt van overige sierplanten in de volle grond"
+ }
+]

@@ -1,0 +1,237 @@
+[
+ {
+  "Code": "0170",
+  "Score": 0.95,
+  "Title": "Jacht"
+ },
+ {
+  "Code": "0210",
+  "Score": 0.95,
+  "Title": "Bosbouw"
+ },
+ {
+  "Code": "0220",
+  "Score": 0.95,
+  "Title": "Exploitatie van bossen"
+ },
+ {
+  "Code": "0240",
+  "Score": 0.95,
+  "Title": "Dienstverlening voor de bosbouw"
+ },
+ {
+  "Code": "0311",
+  "Score": 0.95,
+  "Title": "Zee- en kustvisserij"
+ },
+ {
+  "Code": "0312",
+  "Score": 0.95,
+  "Title": "Binnenvisserij"
+ },
+ {
+  "Code": "0321",
+  "Score": 0.95,
+  "Title": "Kweken van zeevis en -schaaldieren"
+ },
+ {
+  "Code": "0322",
+  "Score": 0.95,
+  "Title": "Kweken van zoetwatervis en -schaaldieren"
+ },
+ {
+  "Code": "0610",
+  "Score": 0.95,
+  "Title": "Winning van aardolie"
+ },
+ {
+  "Code": "0620",
+  "Score": 0.95,
+  "Title": "Winning van aardgas"
+ },
+ {
+  "Code": "0812",
+  "Score": 0.95,
+  "Title": "Winning van zand, grind en klei"
+ },
+ {
+  "Code": "0892",
+  "Score": 0.95,
+  "Title": "Winning van turf"
+ },
+ {
+  "Code": "0893",
+  "Score": 0.95,
+  "Title": "winning van zout"
+ },
+ {
+  "Code": "0899",
+  "Score": 0.95,
+  "Title": "Winning van overige delfstoffen (rest)"
+ },
+ {
+  "Code": "0910",
+  "Score": 0.95,
+  "Title": "Dienstverlening voor de winning van aardolie- en aardgas"
+ },
+ {
+  "Code": "0990",
+  "Score": 0.95,
+  "Title": "Dienstverlening voor de winning van delfstoffen (geen olie en gas)"
+ },
+ {
+  "Code": "3600",
+  "Score": 0.95,
+  "Title": "Winning en distributie van water"
+ },
+ {
+  "Code": "3700",
+  "Score": 0.95,
+  "Title": "Afvalwaterinzameling en -behandeling"
+ },
+ {
+  "Code": "3811",
+  "Score": 0.95,
+  "Title": "Inzameling van onschadelijk afval"
+ },
+ {
+  "Code": "3812",
+  "Score": 0.95,
+  "Title": "Inzameling van schadelijk afval"
+ },
+ {
+  "Code": "3821",
+  "Score": 0.95,
+  "Title": "Behandeling van onschadelijk afval"
+ },
+ {
+  "Code": "3822",
+  "Score": 0.95,
+  "Title": "Behandeling van schadelijk afval"
+ },
+ {
+  "Code": "3831",
+  "Score": 0.95,
+  "Title": "Sloop van schepen, witgoed, computers e.d."
+ },
+ {
+  "Code": "3832",
+  "Score": 0.95,
+  "Title": "Gesorteerd materiaal voorbereiden tot recycling"
+ },
+ {
+  "Code": "3900",
+  "Score": 0.95,
+  "Title": "Sanering en overig afvalbeheer"
+ },
+ {
+  "Code": "4110",
+  "Score": 0.95,
+  "Title": "Projectontwikkeling"
+ },
+ {
+  "Code": "5310",
+  "Score": 0.95,
+  "Title": "Nationale post met universele dienstverplichting"
+ },
+ {
+  "Code": "53201",
+  "Score": 0.95,
+  "Title": "Post zonder universele dienstverplichting"
+ },
+ {
+  "Code": "6311",
+  "Score": 0.95,
+  "Title": "Gegevensverwerking, webhosting en aanverwante activiteiten"
+ },
+ {
+  "Code": "6312",
+  "Score": 0.95,
+  "Title": "Webportals"
+ },
+ {
+  "Code": "6391",
+  "Score": 0.95,
+  "Title": "Persagentschappen"
+ },
+ {
+  "Code": "6399",
+  "Score": 0.95,
+  "Title": "Overige dienstverlenende activiteiten op het gebied van informatie (rest)"
+ },
+ {
+  "Code": "70101",
+  "Score": 0.95,
+  "Title": "Concerndiensten binnen eigen concern"
+ },
+ {
+  "Code": "7500",
+  "Score": 0.95,
+  "Title": "Veterinaire dienstverlening"
+ },
+ {
+  "Code": "7911",
+  "Score": 0.95,
+  "Title": "Reisbemiddeling"
+ },
+ {
+  "Code": "7912",
+  "Score": 0.95,
+  "Title": "Reisorganisatoren"
+ },
+ {
+  "Code": "7990",
+  "Score": 0.95,
+  "Title": "Informatieverstrekking op het gebied van toerisme en reserveringsbureaus"
+ },
+ {
+  "Code": "9103",
+  "Score": 0.95,
+  "Title": "Monumentenzorg"
+ },
+ {
+  "Code": "91041",
+  "Score": 0.95,
+  "Title": "Dieren- en plantentuinen, kinderboerderijen"
+ },
+ {
+  "Code": "91042",
+  "Score": 0.95,
+  "Title": "Natuurbehoud"
+ },
+ {
+  "Code": "92001",
+  "Score": 0.95,
+  "Title": "Loterijen en kansspelen (geen amusementsautomaten)"
+ },
+ {
+  "Code": "92009",
+  "Score": 0.95,
+  "Title": "Exploitatie van amusements- en speelautomaten"
+ },
+ {
+  "Code": "93212",
+  "Score": 0.95,
+  "Title": "Kermisattracties"
+ },
+ {
+  "Code": "93299",
+  "Score": 0.95,
+  "Title": "Overige recreatie (rest)(geen jachthavens)"
+ },
+ {
+  "Code": "94991",
+  "Score": 0.95,
+  "Title": "Gezelligheidsverenigingen"
+ },
+ {
+  "Code": "94994",
+  "Score": 0.95,
+  "Title": "Vriendenkringen op het gebied van cultuur, fanclubs en overige kunstbevordering"
+ },
+ {
+  "Code": "94995",
+  "Score": 0.95,
+  "Title": "Overkoepelende organen en samenwerkings- en adviesorganen (niet op het gebied van gezondheids- en welzijnszorg, sport en recreatie)"
+ }
+]

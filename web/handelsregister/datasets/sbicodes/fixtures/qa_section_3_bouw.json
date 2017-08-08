@@ -1,0 +1,132 @@
+[
+ {
+  "Code": "4120",
+  "Score": 0.95,
+  "Title": "Algemene burgerlijke en utiliteitsbouw"
+ },
+ {
+  "Code": "42111",
+  "Score": 0.95,
+  "Title": "Wegenbouw"
+ },
+ {
+  "Code": "42112",
+  "Score": 0.95,
+  "Title": "Stratenmaken"
+ },
+ {
+  "Code": "4212",
+  "Score": 0.95,
+  "Title": "Bouw van boven- en ondergrondse spoorwegen"
+ },
+ {
+  "Code": "4213",
+  "Score": 0.95,
+  "Title": "Bouw van kunstwerken"
+ },
+ {
+  "Code": "4221",
+  "Score": 0.95,
+  "Title": "Leggen van rioleringen, buizen en pijpleidingen; aanleg van bronbemaling"
+ },
+ {
+  "Code": "4222",
+  "Score": 0.95,
+  "Title": "Leggen van elektriciteits- en telecommunicatiekabels"
+ },
+ {
+  "Code": "4291",
+  "Score": 0.95,
+  "Title": "Natte waterbouw"
+ },
+ {
+  "Code": "4299",
+  "Score": 0.95,
+  "Title": "Bouw van overige civieltechnische werken (rest)"
+ },
+ {
+  "Code": "4311",
+  "Score": 0.95,
+  "Title": "Slopen van bouwwerken"
+ },
+ {
+  "Code": "4312",
+  "Score": 0.95,
+  "Title": "Grondverzet"
+ },
+ {
+  "Code": "4313",
+  "Score": 0.95,
+  "Title": "Proefboren"
+ },
+ {
+  "Code": "4321",
+  "Score": 0.95,
+  "Title": "Elektrotechnische bouwinstallatie"
+ },
+ {
+  "Code": "43221",
+  "Score": 0.95,
+  "Title": "Loodgieters- en fitterswerk; installatie van sanitair"
+ },
+ {
+  "Code": "43222",
+  "Score": 0.95,
+  "Title": "Installatie van verwarmings- en luchtbehandelingsapparatuur"
+ },
+ {
+  "Code": "4329",
+  "Score": 0.95,
+  "Title": "Overige bouwinstallatie"
+ },
+ {
+  "Code": "4331",
+  "Score": 0.95,
+  "Title": "Stukadoren"
+ },
+ {
+  "Code": "4332",
+  "Score": 0.95,
+  "Title": "Bouwtimmeren"
+ },
+ {
+  "Code": "4333",
+  "Score": 0.95,
+  "Title": "Afwerken van vloeren en wanden"
+ },
+ {
+  "Code": "4334",
+  "Score": 0.95,
+  "Title": "Schilderen en glaszetten"
+ },
+ {
+  "Code": "4339",
+  "Score": 0.95,
+  "Title": "Overige afwerken van gebouwen"
+ },
+ {
+  "Code": "4391",
+  "Score": 0.95,
+  "Title": "Dakdekken en bouwen van dakconstructies"
+ },
+ {
+  "Code": "43991",
+  "Score": 0.95,
+  "Title": "Heien en andere funderingswerkzaamheden"
+ },
+ {
+  "Code": "43992",
+  "Score": 0.95,
+  "Title": "Vlechten van betonstaal"
+ },
+ {
+  "Code": "43993",
+  "Score": 0.95,
+  "Title": "Metselen en voegen"
+ },
+ {
+  "Code": "43999",
+  "Score": 0.95,
+  "Title": "Overige gespecialiseerde werkzaamheden in de bouw (rest)"
+ }
+]

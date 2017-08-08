@@ -1,0 +1,42 @@
+[
+ {
+  "Code": "55101",
+  "Score": 0.95,
+  "Title": "Hotel-restaurants"
+ },
+ {
+  "Code": "55102",
+  "Score": 0.95,
+  "Title": "Hotels (geen hotel-restaurants), pensions en conferentie-oorden"
+ },
+ {
+  "Code": "5590",
+  "Score": 0.95,
+  "Title": "Overige logiesverstrekking"
+ },
+ {
+  "Code": "56101",
+  "Score": 0.95,
+  "Title": "Restaurants"
+ },
+ {
+  "Code": "56102",
+  "Score": 0.95,
+  "Title": "Fastfoodrestaurants, cafetaria's, ijssalons, eetkramen e.d."
+ },
+ {
+  "Code": "5621",
+  "Score": 0.95,
+  "Title": "Eventcatering"
+ },
+ {
+  "Code": "5629",
+  "Score": 0.95,
+  "Title": "Kantines en contractcatering"
+ },
+ {
+  "Code": "5630",
+  "Score": 0.95,
+  "Title": "Caf\u00e9s"
+ }
+]

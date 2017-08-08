@@ -1,0 +1,22 @@
+[
+ {
+  "Code": "4321",
+  "Score": 0.95,
+  "Title": "Elektrotechnische bouwinstallatie"
+ },
+ {
+  "Code": "43221",
+  "Score": 0.95,
+  "Title": "Loodgieters- en fitterswerk; installatie van sanitair"
+ },
+ {
+  "Code": "43222",
+  "Score": 0.95,
+  "Title": "Installatie van verwarmings- en luchtbehandelingsapparatuur"
+ },
+ {
+  "Code": "4329",
+  "Score": 0.95,
+  "Title": "Overige bouwinstallatie"
+ }
+]

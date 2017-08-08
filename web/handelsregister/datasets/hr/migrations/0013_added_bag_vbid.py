@@ -19,9 +19,9 @@ class Migration(migrations.Migration):
         #    field=models.CharField(blank=True, db_index=True, max_length=16, null=True),
         #),
 
-        #migrations.AddField(
-        #    model_name='geovestigingen',
-        #    name='bag_vbid',
-        #    field=models.CharField(blank=True, max_length=16, null=True),
-        #),
+        migrations.AddField(
+            model_name='geovestigingen',
+            name='bag_vbid',
+            field=models.CharField(blank=True, max_length=16, null=True),
+        ),
     ]

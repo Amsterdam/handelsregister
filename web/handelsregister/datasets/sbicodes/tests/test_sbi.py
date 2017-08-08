@@ -132,7 +132,7 @@ class ValidateSBICodeTest(TestCase):
         # invalid = find_invalid_activiteiten()
         ambiguous = validate_codes.find_ambiguous_sbicodes()
         zero = validate_codes.find_0_sbicodes()
-        validate_codes.fix_missing_0(ambiguous, zero)
+        validate_codes.fix_missing_zero(ambiguous, zero)
         a = hrmodels.Activiteit.objects.get(id='000')
         self.assertEqual(a.sbi_code, '0111')
 
@@ -182,6 +182,7 @@ class ValidateSBICodeTest(TestCase):
         2 categories have more then 100 sbi codes
         and are not properly downloaded...
         """
-        pass
-
-
+        missing_qa = validate_codes.find_missing_qa()
+        self.assertTrue(len(missing_qa) > 0)
+        validate_codes.fix_manual_missing_qa(missing_qa)
+        self.assertEqual(len(missing_qa), 0)

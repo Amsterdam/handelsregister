@@ -11,10 +11,12 @@ import editdistance
 from datasets.hr import models as hrmodels
 from django import db
 
+from .models import SBICodeHierarchy
 
 log = logging.getLogger(__name__)
 
 DIRECTORY = os.path.dirname(__file__)
+
 
 def get_fixture_path(filename):
     file_path = f'{DIRECTORY}/fixtures/{filename}'
@@ -149,7 +151,6 @@ def fix_too_short(too_short_rows):
     """
 
     for row in too_short_rows:
-        log.debug('ADD %s to %s %s', row[3], row[2], row[1])
 
         ves = hrmodels.Vestiging.objects.get(id=row[0])
 
@@ -157,20 +158,22 @@ def fix_too_short(too_short_rows):
 
         already_present = ves.activiteiten.filter(sbi_code=row[3])
         # log.debug(ERR)
-        if len(already_present):
+
+        if list(already_present):
             continue
 
+        log.debug('ADD %s to %s %s', row[3], row[2], row[1])
+
         new_activiteit = hrmodels.Activiteit.objects.create(
-           #  create id
-           id = '%sF%s' % (row[0], a_count + 1),
-           sbi_code = row[3],   # extra gevonden activiteit
-           sbi_omschrijving = row[5],
-           hoofdactiviteit = False
+            #  create id
+            id='%sF%s' % (row[0], a_count + 1),
+            sbi_code=row[3],   # extra gevonden activiteit
+            sbi_omschrijving=row[5],
+            hoofdactiviteit=False
         )
 
         ves.activiteiten.add(new_activiteit)
         ves.save()
-
 
 
 ambiguous_0_sql = """
@@ -290,7 +293,7 @@ def not_placeable(invalid_sbi, zero_sbi):
     return impossible_to_correct
 
 
-def fix_missing_0(ambiguous, zero):
+def fix_missing_zero(ambiguous, zero):
     """
     Fix sbi codes that miss a zero and are not ambiguous
 
@@ -311,11 +314,14 @@ def fix_missing_0(ambiguous, zero):
     ]
 
     """
+
     ambiguous_set = set([a[2] for a in ambiguous])
 
     for row in zero:
         if row[2] in ambiguous_set:
             # ambiguous cases are not solved here
+            log.debug('NO 0 FIX %s', row[2])
+            print(row[2])
             continue
 
         original_code = row[2]
@@ -328,6 +334,7 @@ def fix_missing_0(ambiguous, zero):
         # fix the correction
         missing_zero_activiteit.save()
 
+        log.debug('ZERO FIX')
         log.debug(
             'ZERO FIX: %s, %s, %s, %s, %s',
             ves.naam,
@@ -398,9 +405,15 @@ and not exists (
 
 
 def loadmanual_fixes():
+    """
+    Load manual fixes from csv
+
+    which contains question 2 from qa_tree, sbicode and title
+    """
     manual_fixes = {}
 
-    with open(get_fixture_path('manual_sbicodes_201708071719.csv')) as manualfixes:
+    manual_path = get_fixture_path('manual_sbicodes_201708071719.csv')
+    with open(manual_path) as manualfixes:
         for line in manualfixes.readlines()[1:]:
             if not line:
                 continue
@@ -412,26 +425,62 @@ def loadmanual_fixes():
             log.debug(sbicode)
             manual_fixes[sbicode] = manual
 
-    print(manual_fixes)
-
     return manual_fixes
 
 
-def fix_manual_missing_qa():
+def find_missing_qa():
+    """
+    Find sbi nodes with no qa tree, which needs manual fix
+    because sbc.cbs has a limit 100 on some items..
+    """
+    return fetchrows(sbicodes_not_in_qa_tree)
+
+
+def fix_manual_missing_qa(missing_qa):
     """
     For a few sbi_codes we have a manual fixes
+
+    we build a new qa_tree for each sbi item using the manual
+    fixes this code will fix mostly sbi codes belonging to
+    production
     """
     # load sql
-    missing_qa = fetchrows(sbicodes_not_in_qa_tree)
 
     manual_fixes = loadmanual_fixes()
 
-    assert missing_qa
+    if not missing_qa:
+        log.debug("Nothing to fix")
+        return
 
-    for code, title in missing_qa:
-        solution = manual_fixes[code]
-        assert solution
-        log.debug('%s %s Resolved', code, solution)
+    q2_q1_map = {
+        'productie': 'productie, installatie, reparatie',
+        'sport': 'cultuur, sport, recreatie',
+        'overige': 'overige niet hierboven genoemd',
+        'groothandel': 'handel, vervoer, opslag'
+    }
+
+    for sbicode, _title in missing_qa:
+        q2_solution = manual_fixes[sbicode]
+        assert q2_solution
+        log.debug('%s %s Resolved', sbicode, q2_solution)
+
+        sbi_missing_qa = SBICodeHierarchy.objects.get(code=sbicode)
+
+        q2_fix = q2_solution
+
+        if q2_solution == 'groothandel':
+            q2_fix = 'groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)'  # noqa
+
+        qa_tree = {
+            'q1': q2_q1_map[q2_solution],
+            'q2': q2_fix,
+            'q3': sbi_missing_qa.title,
+            'fixed': True,
+        }
+
+        sbi_missing_qa.qa_tree = qa_tree
+        # fix the missing qa tree
+        sbi_missing_qa.save()
 
 
 def validate():
@@ -443,11 +492,13 @@ def validate():
     zero = find_0_sbicodes()
     ambiguous = find_ambiguous_sbicodes()
 
-    not_placeable(invalid, zero)
+    fix_missing_zero(ambiguous, zero)
+
+    log.debug(len(ambiguous))
+    log.debug(len(zero))
 
     fix_ambiguous(ambiguous)
-
-    fix_missing_0(ambiguous, zero)
+    not_placeable(invalid, zero)
 
     # some production items do not show on map.
     # fix_production(missing_qa_tree)
@@ -456,4 +507,5 @@ def validate():
     fix_too_short(short_sbi_codes)
 
     # fix bouw / productie codes
-    fix_manual_missing_qa()
+    missing_qa = find_missing_qa()
+    fix_manual_missing_qa(missing_qa)

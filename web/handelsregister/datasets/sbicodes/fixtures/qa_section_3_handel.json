@@ -1,0 +1,82 @@
+[
+ {
+  "Code": "45111",
+  "Score": 0.95,
+  "Title": "Import van nieuwe personenauto\u2019s en lichte bedrijfsauto's"
+ },
+ {
+  "Code": "45112",
+  "Score": 0.95,
+  "Title": "Handel in en reparatie van personenauto\u2019s en lichte bedrijfswagens (geen import van nieuwe)"
+ },
+ {
+  "Code": "45191",
+  "Score": 0.95,
+  "Title": "Import van nieuwe bedrijfsauto's"
+ },
+ {
+  "Code": "45192",
+  "Score": 0.95,
+  "Title": "Handel in en reparatie van zwaardere bedrijfsauto's (geen import van nieuwe)"
+ },
+ {
+  "Code": "45193",
+  "Score": 0.95,
+  "Title": "Handel in en reparatie van aanhangwagens en opleggers (geen caravans)"
+ },
+ {
+  "Code": "45194",
+  "Score": 0.95,
+  "Title": "Handel in en reparatie van caravans"
+ },
+ {
+  "Code": "45201",
+  "Score": 0.95,
+  "Title": "Auto-onderdelenservicebedrijven"
+ },
+ {
+  "Code": "45202",
+  "Score": 0.95,
+  "Title": "Bandenservicebedrijven"
+ },
+ {
+  "Code": "45203",
+  "Score": 0.95,
+  "Title": "Reparatie van specifieke auto-onderdelen"
+ },
+ {
+  "Code": "45204",
+  "Score": 0.95,
+  "Title": "Carrosserieherstel"
+ },
+ {
+  "Code": "45205",
+  "Score": 0.95,
+  "Title": "Overige gespecialiseerde reparatie en slepen van auto's"
+ },
+ {
+  "Code": "45311",
+  "Score": 0.95,
+  "Title": "Groothandel en handelsbemiddeling in auto-onderdelen en accessoires (geen banden)"
+ },
+ {
+  "Code": "45312",
+  "Score": 0.95,
+  "Title": "Groothandel en handelsbemiddeling in banden"
+ },
+ {
+  "Code": "4532",
+  "Score": 0.95,
+  "Title": "Detailhandel in auto-onderdelen en accessoires"
+ },
+ {
+  "Code": "45401",
+  "Score": 0.95,
+  "Title": "Groothandel en handelsbemiddeling in motorfietsen en onderdelen daarvan"
+ },
+ {
+  "Code": "45402",
+  "Score": 0.95,
+  "Title": "Detailhandel in en reparatie van motorfietsen en onderdelen daarvan"
+ }
+]

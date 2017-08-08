@@ -9,6 +9,8 @@ from django.conf import settings
 
 from datasets.sbicodes.models import SBICodeHierarchy
 
+from datasets.hr.models import Locatie
+from datasets.hr.models import Onderneming
 from datasets.hr.models import GeoVestigingen
 from datasets.hr.models import Vestiging
 
@@ -24,7 +26,7 @@ def fill_stelselpedia(keep_outside_amsterdam=False):
             cursor, keep_outside_amsterdam=keep_outside_amsterdam)
 
 
-def sql_steps(cursor):
+def sql_steps(cursor, keep_outside_amsterdam=False):
 
     log.info("Converteren locaties")
     _converteer_locaties(cursor)
@@ -126,6 +128,7 @@ def clear_autocorrect():
 
 
 def _converteer_locaties(cursor):
+    Locatie.objects.all().delete()
     cursor.execute("""
 INSERT INTO hr_locatie (
   id,
@@ -180,6 +183,7 @@ INSERT INTO hr_locatie (
 
 
 def _converteer_onderneming(cursor):
+    Onderneming.objects.all().delete()
     cursor.execute("""
 INSERT INTO hr_onderneming (
   id,
