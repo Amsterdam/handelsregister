@@ -94,7 +94,8 @@ class SBICodeHierarchy(serializers.ModelSerializer):
         fields = (
             'code',
             'title',
-            'sbi_tree'
+            'sbi_tree',
+            'qa_tree',
         )
 
 
@@ -107,7 +108,7 @@ class Activiteit(serializers.ModelSerializer):
 
 
 class ActiviteitDataselectie(serializers.ModelSerializer):
-    sbi_code_link = SBICodeHierarchy()
+    sbi_code_tree = SBICodeHierarchy()
 
     class Meta(object):
         model = models.Activiteit
@@ -115,7 +116,7 @@ class ActiviteitDataselectie(serializers.ModelSerializer):
             'sbi_code',
             'sbi_omschrijving',
             'hoofdactiviteit',
-            'sbi_code_link',
+            'sbi_code_tree',
         )
 
 

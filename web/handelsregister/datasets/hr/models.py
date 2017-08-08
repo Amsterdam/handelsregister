@@ -248,17 +248,14 @@ class Activiteit(models.Model):
             hoofdactiviteit is"""
     )
 
-    @property
-    def sbi_code_link(self):
-        """
-        Since sbi_code cannot be used as foreign key because
-        of missing data, this provides a link functionality
-        """
-        try:
-            return SBICodeHierarchy.objects.get(code=self.sbi_code)
-        except SBICodeHierarchy.DoesNotExist:
-            # only ~10 sbi codes do not exist
-            pass
+    sbi_code_tree = models.ForeignKey(
+        SBICodeHierarchy, null=True, blank=True,
+        on_delete=models.DO_NOTHING
+    )
+
+    # @property
+    # def sbi_code_tree(self):
+    #    return SBICodeHierarchy.objects.get(code=self.sbi_code)
 
 
 class MaatschappelijkeActiviteit(models.Model):

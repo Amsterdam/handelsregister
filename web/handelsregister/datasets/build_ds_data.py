@@ -1,4 +1,7 @@
+import logging
 from datasets.hr import models, serializers
+
+log = logging.getLogger(__name__)
 
 
 def get_vestigingen(offset: int = 0, size: int = None) -> object:
@@ -12,6 +15,7 @@ def get_vestigingen(offset: int = 0, size: int = None) -> object:
         .select_related('bezoekadres') \
         .select_related('postadres') \
         .prefetch_related('activiteiten') \
+        .prefetch_related('activiteiten__sbi_code_tree') \
         .prefetch_related('handelsnamen') \
         .order_by('id')
     if size:
@@ -19,7 +23,7 @@ def get_vestigingen(offset: int = 0, size: int = None) -> object:
     return qs
 
 
-def write_dataselectie_data(step: int = 5000):
+def write_dataselectie_data(step: int = 500):
     """
     Writes dataselectie data to the database from the HR data
 
@@ -33,20 +37,19 @@ def write_dataselectie_data(step: int = 5000):
     while qs:
         bulk = []
         for item in qs:
-            try:
-                bag_numid = item.locatie.bag_numid
-            except Exception as e:
-                print(e)
-                bag_numid = None
-            bulk.append(models.DataSelectie(
-                id=item.id,
-                bag_numid=bag_numid,
-                api_json=serializers.VestigingDataselectie(item).data)
+            bag_numid = item.locatie.bag_numid
+
+            bulk.append(
+                models.DataSelectie(
+                    id=item.id,
+                    bag_numid=bag_numid,
+                    api_json=serializers.VestigingDataselectie(item).data
+                )
             )
 
         # Using bulk save to save on ORM handling
         # and db connections
         models.DataSelectie.objects.bulk_create(bulk)
         offset += step  # Moving to the next step
-        print(f'{offset} items imported')
+        log.debug(f'{offset} items imported')
         qs = get_vestigingen(offset, offset+step)

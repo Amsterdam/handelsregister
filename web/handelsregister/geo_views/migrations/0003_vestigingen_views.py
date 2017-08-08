@@ -27,6 +27,14 @@ geovestigingen_naamquery_template = """
     GROUP BY geometrie, naam, locatie_type;
 """
 
+geovestigingen_naamquery = """
+    SELECT
+        row_number() OVER () AS id,
+        geometrie, naam, locatie_type
+    FROM hr_geovestigingen
+    GROUP BY geometrie, naam, locatie_type;
+"""
+
 
 class Migration(migrations.Migration):
     dependencies = [
@@ -36,6 +44,12 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
+
+        migrate.ManageView(
+            view_name="geo_hr_vestiging_locaties",
+            sql="SELECT * FROM hr_geovestigingen"
+        ),
+
         migrate.ManageView(
             view_name="geo_hr_vestiging_locaties_bouw",
             sql=geovestigingen_template.format("bouw")
@@ -107,6 +121,11 @@ class Migration(migrations.Migration):
         ),
 
         # NAAM QUERIES / LABELS mapserver
+        migrate.ManageView(
+            view_name="geo_hr_vestiging_locaties_naam",
+            sql=geovestigingen_naamquery
+        ),
+
         migrate.ManageView(
             view_name="geo_hr_vestiging_locaties_bouw_naam",
             sql=geovestigingen_naamquery_template.format("bouw")

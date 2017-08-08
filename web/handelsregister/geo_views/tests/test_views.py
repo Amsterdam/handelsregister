@@ -7,6 +7,7 @@ from datasets import build_hr_data
 
 from datasets.hr import models
 from datasets.hr.tests import factories as hr_factories
+from datasets.sbicodes import load_sbi_codes
 
 from django.conf import settings
 
@@ -18,8 +19,14 @@ URL = settings.DATAPUNT_API_URL
 
 class ViewsTest(TestCase):
 
-    def setUp(self):
-        hr_factories.restore_cbs_sbi()
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        load_sbi_codes.build_all_sbi_code_trees()
+
+    @classmethod
+    def tearDownClass(cls):
+        super().tearDownClass()
 
     def get_row(self, view_name):
         cursor = connection.cursor()
@@ -31,7 +38,7 @@ class ViewsTest(TestCase):
 
     def test_vestiging_locaties(self):
         l = hr_factories.LocatieFactory.create(geometrie=point)
-        hr_factories.SBIcatFactory.create()
+        # hr_factories.SBIcatFactory.create()
         a1 = hr_factories.Activiteit.create(id='987')
         a2 = hr_factories.Activiteit.create(id='986')
 

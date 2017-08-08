@@ -18,13 +18,21 @@ class VestingFilterTest(APITestCase, authorization.AuthorizationSetup):
 
     # create some factory stuff
 
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.vestigingen = factories_hr.create_x_vestigingen()
+
+    @classmethod
+    def tearDownClass(cls):
+        super().tearDownClass()
+
     def setUp(self):
         """
         For x bag panden
         """
         self.setUpAuthorization()
-        factories_hr.restore_cbs_sbi()
-        self.vestigingen = factories_hr.create_x_vestigingen()
+        # factories_hr.restore_cbs_sbi()
 
     def test_simple_response(self):
         """

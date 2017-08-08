@@ -286,7 +286,7 @@ def not_placeable(invalid_sbi, zero_sbi):
             continue
         impossible_to_correct.append(item)
 
-        print('%s - %9s - %s - "%s"' % (item[0], item[2], item[1], item[3]))
+        # print('%s - %9s - %s - "%s"' % (item[0], item[2], item[1], item[3]))
 
     log.debug('%s impossible to correct', len(impossible_to_correct))
 
@@ -462,6 +462,7 @@ def fix_manual_missing_qa(missing_qa):
     for sbicode, _title in missing_qa:
         q2_solution = manual_fixes[sbicode]
         assert q2_solution
+
         log.debug('%s %s Resolved', sbicode, q2_solution)
 
         sbi_missing_qa = SBICodeHierarchy.objects.get(code=sbicode)
@@ -481,6 +482,20 @@ def fix_manual_missing_qa(missing_qa):
         sbi_missing_qa.qa_tree = qa_tree
         # fix the missing qa tree
         sbi_missing_qa.save()
+
+
+def update_activiteiten():
+
+    log.debug('update hr_activiteiten..')
+
+    with db.connection.cursor() as cursor:
+        cursor.execute("""
+UPDATE hr_activiteit a
+SET sbi_code_tree_id = h.code
+FROM sbicodes_sbicodehierarchy h
+WHERE h.code = a.sbi_code
+AND sbi_code_tree_id is null
+        """)
 
 
 def validate():
@@ -509,3 +524,6 @@ def validate():
     # fix bouw / productie codes
     missing_qa = find_missing_qa()
     fix_manual_missing_qa(missing_qa)
+
+    # fix foreign key relation
+    update_activiteiten()

@@ -2,40 +2,13 @@ import random
 from datetime import datetime
 
 import factory
-import json
 import pytz
 from django.contrib.gis.geos import Point
 from factory import fuzzy
 
 from .. import models
 from datasets.build_hr_data import fill_geo_table
-
-
-def restore_cbs_sbi():
-    _restore_json('./datasets/kvkdump/fixture_files/hcat.json', models.CBS_sbi_hoofdcat, 'hcat')
-    _restore_json('./datasets/kvkdump/fixture_files/scat.json', models.CBS_sbi_subcat, 'scat', ['hcat'])
-    _restore_json('./datasets/kvkdump/fixture_files/sbi_endcode.json',  models.CBS_sbi_endcode, 'sbi_code', ['scat'])
-    _restore_json('./datasets/kvkdump/fixture_files/section.json', models.CBS_sbi_section, 'code')
-    _restore_json('./datasets/kvkdump/fixture_files/rootnode.json', models.CBS_sbi_rootnode, 'code', ['section'])
-    _restore_json('./datasets/kvkdump/fixture_files/sbi_code.json', models.CBS_sbicode, 'sbi_code', ['root_node',
-                                                                                                     'sub_cat'])
-
-
-def _restore_json(filename, modelname, pkname='id', reference_fields=[]):
-    with open(filename, 'r') as injson:
-        indata = json.loads(injson.read())
-
-    for rows in indata:
-        newrow = modelname()
-        for key, value in rows.items():
-            if key == 'pk':
-                setattr(newrow, pkname, value)
-            elif key == 'fields':
-                for fldname, fldvalue in value.items():
-                    if fldname in reference_fields:
-                        fldname += '_id'
-                    setattr(newrow, fldname, fldvalue)
-        newrow.save()
+from datasets.sbicodes import load_sbi_codes
 
 
 class NatuurlijkePersoonFactory(factory.DjangoModelFactory):
@@ -158,50 +131,6 @@ class FunctievervullingFactory(factory.DjangoModelFactory):
     heeft_aansprakelijke = factory.SubFactory(PersoonFactory)
 
 
-#class SBIHoofdcatFactory(factory.DjangoModelFactory):
-#    class Meta:
-#        model = models.CBS_sbi_hoofdcat
-#
-#    hcat = fuzzy.FuzzyInteger(low=100, high=109)
-#    hoofdcategorie = fuzzy.FuzzyText(prefix='hfdcat')
-#
-#
-#class SBISubcatFactory(factory.DjangoModelFactory):
-#    class Meta:
-#        model = models.CBS_sbi_subcat
-#
-#    scat = fuzzy.FuzzyInteger(low=1000, high=1009)
-#    hcat = factory.SubFactory(SBIHoofdcatFactory)
-#    subcategorie = fuzzy.FuzzyText(prefix='subcat')
-#
-#
-#class SBISectionFactory(factory.DjangoModelFactory):
-#    class Meta:
-#        model = models.CBS_sbi_section
-#
-#    code = 'X'
-#    title = fuzzy.FuzzyText(prefix='section')
-#
-#
-#class SBIRootNodeFactory(factory.DjangoModelFactory):
-#    class Meta:
-#        model = models.CBS_sbi_rootnode
-#
-#    code = '00'
-#    section = factory.SubFactory(SBISectionFactory)
-#    title = fuzzy.FuzzyText(prefix='rootnode')
-#
-#
-#class SBIcatFactory(factory.DjangoModelFactory):
-#    class Meta:
-#        model = models.CBS_sbicode
-#
-#    sbi_code = fuzzy.FuzzyInteger(low=10000, high=10009)
-#    title = fuzzy.FuzzyText(prefix='sbi')
-#    sub_cat = factory.SubFactory(SBISubcatFactory)
-#    root_node = factory.SubFactory(SBIRootNodeFactory)
-
-
 def create_x_vestigingen(x=5):
     """
     Create some valid vestigingen with geo-location and sbi_codes
@@ -211,7 +140,9 @@ def create_x_vestigingen(x=5):
 
     vestigingen = []
 
-    restore_cbs_sbi()  # required to allow for build of geo_vestiging
+    # required to allow for build of geo_vestiging
+    load_sbi_codes.build_all_sbi_code_trees()
+
     mac = MaatschappelijkeActiviteitFactory.create()
     a1 = Activiteit.create()
 
@@ -247,28 +178,40 @@ def create_x_vestigingen(x=5):
     return vestigingen
 
 
+def _create_valid_actities():
+    sbicodes = models.SBICodeHierarchy.objects.all()
+    all_activities = list(models.Activiteit.objects.all())
+
+    for idx, activiteit in enumerate(all_activities):
+        # assign an sbi_code activitie to activiteit
+        if idx < len(sbicodes):
+            activiteit.sbi_code = sbicodes[idx].code
+            activiteit.sbi_code_tree = sbicodes[idx]
+            activiteit.save()
+
+
 def create_dataselectie_set():
-    # THIS IS A RANDOM AMOUNT
+    """
+    Create a test set for dataselectie
+    """
     create_x_vestigingen(x=5)
 
     macs = models.MaatschappelijkeActiviteit.objects.all()
+
     personen = models.Persoon.objects.all()
     fv = models.Functievervulling.objects.all()
-    for idx, m in enumerate(macs):
-        if idx < len(personen) and idx % 2 == 0:
-            m.eigenaar = personen[idx]
-        elif idx < len(fv):
-            m.eigenaar = fv[idx]
-        m.save()
 
-    sbicodes = models.CBS_sbi_endcode.objects.all()
-    acnrs = models.Activiteit.objects.count() - 1
-    for idx, ac in enumerate(models.Activiteit.objects.all()[:acnrs]):
-        if idx < len(sbicodes):
-            ac.sbi_code = sbicodes[idx].sbi_code
-            ac.save()
+    for idx, mac in enumerate(macs):
+        if idx < len(personen) and idx % 2 == 0:
+            mac.eigenaar = personen[idx]
+        elif idx < len(fv):
+            mac.eigenaar = fv[idx]
+        mac.save()
+
+    _create_valid_actities()
 
     fill_geo_table()
+
 
 def create_search_test_locaties():
     """
