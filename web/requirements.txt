@@ -24,6 +24,7 @@ djangorestframework==3.5.3
 drf-extensions==0.3.1
 drf-hal-json==0.9.1
 drf-nested-fields==0.9.3
+editdistance==0.3.1
 elasticsearch-dsl==2.1.0
 elasticsearch==2.4.0
 factory-boy==2.7.0
