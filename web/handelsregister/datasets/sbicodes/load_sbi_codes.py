@@ -260,18 +260,28 @@ def create_qa_mapping():
     qa_tree = {}
 
     for code, parent_qa in sbi_qa_mapping.items():
+
         pqa = parent_qa
 
         parent1 = pqa['parent']
         parent2 = pqa['parent']['parent']
 
-        qa_tree[code] = {
+        new_node = {
             'q3': pqa['title'],
             'q2': parent1['description'],
             'q1': parent2['description'],
         }
 
-        log.debug(qa_tree[code])
+        qa_tree[code] = new_node
+        if new_node['q1'] == 'horeca':
+            print(json.dumps(pqa, indent=4))
+
+        log.debug(
+            '%15s %20s %30s',
+            qa_tree[code]['q1'],
+            qa_tree[code]['q2'],
+            qa_tree[code]['q3'],
+        )
 
     log.debug('sbi qa mapping: %s', len(qa_tree))
 
@@ -362,6 +372,8 @@ def load_qa_sub_sections(qa_sections, use_cache=False):
             'parent': 0,
         }
 
+        assert raw_qa_tree.get(code) is None
+
         raw_qa_tree[code] = node
 
         qa_section_description = description.split(',')[0]
@@ -435,6 +447,12 @@ def sbicodes_for_subsubcategory(
     for sbi in sbi_codes:
         sbicode = sbi['Code']
         log.debug(sbicode)
+
+        if sbicode in sbi_qa_mapping:
+            # Code has already spot in QA tree.
+            # this happens a lot with 'overige'
+            log.debug('Skipped %s %s %s', sbicode, sbi['Title'], parent)
+            continue
 
         sbi_qa_mapping[sbicode] = {
             'parent': parent,
