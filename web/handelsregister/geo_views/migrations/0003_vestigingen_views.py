@@ -35,6 +35,22 @@ geovestigingen_naamquery = """
     GROUP BY geometrie, naam, locatie_type;
 """
 
+"""
+
+    horeca
+    bouw
+    persoonlijke dienstverlening
+    cultuur, sport, recreatie
+    overige niet hierboven genoemd
+    productie, installatie, reparatie
+    handel, vervoer, opslag
+    financiële dienstverlening,verhuur van roerend en onroerend goed
+    informatie, telecommunicatie
+    zakelijke dienstverlening
+    overheid, onderwijs, zorg
+
+"""
+
 
 class Migration(migrations.Migration):
     dependencies = [

@@ -33,6 +33,8 @@ import json
 import logging
 import requests
 
+from django import db
+
 from .models import SBICodeHierarchy
 
 logging.basicConfig(level=logging.DEBUG)
@@ -61,6 +63,23 @@ id_map = {}            # nodes have their own id (given by the sbi.cbs api
 # Question / Answers SBI tree mappings
 sbi_qa_mapping = {}    # mapping of sbi codes to parent QA nodes
 raw_qa_tree = {}       # QA tree 0 = root, raw json
+
+
+def clean_activiteiten_key():
+
+    """
+    Clear activiteiten keys
+    """
+
+    log.debug('clear activiteiten foreign key')
+    sql = """
+
+    UPDATE hr_activiteit SET sbi_code_tree_id = null
+    WHERE sbi_code_tree_id IS NOT null;
+    """
+
+    with db.connection.cursor() as cursor:
+        cursor.execute(sql)
 
 
 def get_fixture_path(filename):
@@ -504,6 +523,7 @@ def build_all_sbi_code_trees(use_cache=True):
     """
     Build both QA and Official sbi code tree
     """
+    clean_activiteiten_key()
     # We use some globals.
     # if already present/filled do not bother to load them
     # again
