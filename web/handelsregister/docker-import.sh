@@ -12,8 +12,6 @@ source loaddumps.sh
 # to test locally
 # source loaddumps_local.sh
 
-# import sbicodes
-python /app/manage.py run_import --cbs_sbi
 
 # we need BAG data to properly import HR.
 #docker-compose exec database update-table.sh bag bag_verblijfsobject public handelsregister
@@ -21,6 +19,11 @@ python /app/manage.py run_import --cbs_sbi
 
 # load mks data into HR models, complement with BAG information
 python /app/manage.py run_import
+
+# import sbicodes
+python /app/manage.py run_import --cbs_sbi
+# cleanup codes / ambiguity and make relation with activiteiten
+python /app/manage.py run_import --cbs_sbi_validate
 
 # autocorrect locations fields with search resultaten
 python /app/manage.py run_import --search
