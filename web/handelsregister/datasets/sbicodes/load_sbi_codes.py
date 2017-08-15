@@ -55,9 +55,9 @@ DIRECTORY = os.path.dirname(__file__)
 # Official SBI tree mappings
 #
 
-# code mapping
+# GLOBAL code mapping
 code_map = {}          # sbi code or partial  code. 'A' -> '01' -> '0102' -> ..
-# node id mapping
+# GLOBAL node id mapping
 id_map = {}            # nodes have their own id (given by the sbi.cbs api
 
 # Question / Answers SBI tree mappings
@@ -218,7 +218,8 @@ def create_sbi_row(parent_list):
 
 def create_sbi_lists():
     """
-    Given mapping of codes and id's
+    Given a filled GLOBAL 'code_map'
+    mapping of codes and id's
     create hiararchy for each sbi code
 
     sbi_details =
@@ -523,7 +524,9 @@ def build_all_sbi_code_trees(use_cache=True):
     """
     Build both QA and Official sbi code tree
     """
+    # clear foreing key relations in hr_activiteiten to sbi_codes
     clean_activiteiten_key()
+
     # We use some globals.
     # if already present/filled do not bother to load them
     # again
@@ -535,7 +538,7 @@ def build_all_sbi_code_trees(use_cache=True):
 
     normalized_qa_tree = create_qa_mapping()
 
-    # from official tree create code lists for earch sbi
+    # From official tree create code lists for earch sbi
     sbi_details = create_sbi_lists()
 
     # after different mappings have been parsed

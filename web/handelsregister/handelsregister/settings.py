@@ -103,10 +103,6 @@ DATABASES = {
 }
 
 VBO_URI = "https://api.data.amsterdam.nl/bag/verblijfsobject/"
-CBS_URI = 'http://sbi.cbs.nl/cbs.typeermodule.typeerservicewebapi/api/sbianswer/getNextQuestion/{}'         # noqa
-CSB_SEARCH = 'http://sbi.cbs.nl/cbs.typeermodule.typeerservicewebapi/api/SBISearch/search/{}'               # noqa
-CBS_SECTIONS_URI = 'http://sbi.cbs.nl/cbs.typeermodule.typeerservicewebapi/api/SBIData/Sections'            # noqa
-CBS_SECTIONSTREE_URI = 'http://sbi.cbs.nl/cbs.typeermodule.typeerservicewebapi/api/SBIData/SectionChildrenTree/{}' # noqa
 
 # SECURITY WARNING: keep the secret key used in production secret!
 insecure_key = 'insecure'
