@@ -7,7 +7,7 @@
 babel==2.3.4
 coreapi==2.0.9
 coverage==4.2
-datapunt-authorization-django==0.2.12
+datapunt-authorization-django==0.2.13
 datapunt-authorization-levels==0.1.0
 debtcollector==1.9.0
 django-braces==1.10.0
@@ -49,7 +49,7 @@ oslo.utils==3.17.0
 pbr==1.10.0
 positional==1.1.1
 psycopg2==2.6.2
-PyJWT==1.4.2
+PyJWT==1.5.2
 pyparsing==2.1.10
 pyslack-real==0.6.0
 python-dateutil==2.5.3
