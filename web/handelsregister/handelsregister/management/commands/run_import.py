@@ -127,7 +127,7 @@ class Command(BaseCommand):
             load_sbi_codes.build_all_sbi_code_trees(use_cache=use_cache)
         elif options['dataselectie']:
             build_ds_data.write_dataselectie_data()
-            # location_stats.log_rapport_counts(action='ds')
+            location_stats.log_rapport_counts(action='ds')
         elif options['searchapi']:
             improve_location_with_search.guess()
             # add extra bag information
