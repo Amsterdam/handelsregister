@@ -91,12 +91,9 @@ services:
               && chmod 600 ~/.pgpass \
               && pg_dump --clean \
                           -Fc \
-                          -t geo* \
-                          -t hr* \
-                          -t sbi* \
-                          -t kvk* \
-                          -t django_migrations  \
-                          -T auth*    \
+                          -t 'geo*' \
+                          -t 'hr*' \
+                          -t 'sbi*' \
                           -U handelsregister \
                           -h database -p 5432 \
                           handelsregister > /tmp/backups/database.dump"
