@@ -13,6 +13,7 @@ from datasets.hr.models import Locatie
 from datasets.hr.models import Onderneming
 from datasets.hr.models import GeoVestigingen
 from datasets.hr.models import Vestiging
+from datasets.hr import models as hrmodels
 
 log = logging.getLogger(__name__)
 
@@ -244,6 +245,7 @@ INSERT INTO hr_maatschappelijkeactiviteit (
 
 
 def _converteer_handelsnaam(cursor):
+    hrmodels.Handelsnaam.objects.delete()
     cursor.execute("""
 INSERT INTO hr_handelsnaam (id, handelsnaam)
   SELECT
@@ -267,7 +269,7 @@ INSERT INTO hr_vestiging_handelsnamen(vestiging_id, handelsnaam_id)
   SELECT
     vh.vesid,
     h.hdnid
-  FROM kvkveshdnm00 vh LEFT JOIN kvkhdnm00 h ON vh.veshdnid = h.hdnid
+  FROM kvkveshdnm00 vh LEFT JOIN kvkhdnm00 h ON vh.hdnid = h.hdnid
   WHERE h.hdnid IS NOT NULL
     """)
 

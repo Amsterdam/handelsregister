@@ -699,6 +699,7 @@ class RechterlijkeUitspraak(models.Model):
     abstractie om andere klassen daadwerkelijk van een
     RechtelijkeUitspraak gegevens te kunnen voorzien.
     """
+    pass
 
 
 class Kapitaal(models.Model):
