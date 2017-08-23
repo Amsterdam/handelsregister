@@ -131,10 +131,7 @@ DATAPUNT_API_URL = os.getenv(
 
 # Application definition
 INSTALLED_APPS = PROJECT_APPS + [
-    'django.contrib.admin',
-    'django.contrib.auth',
     'django.contrib.contenttypes',
-    'django.contrib.sessions',
     'django.contrib.staticfiles',
     'django_filters',
 
@@ -154,12 +151,7 @@ if DEBUG:
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
     'authorization_django.authorization_middleware',
 ]
@@ -175,8 +167,6 @@ TEMPLATES = [
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
             ],
         },
     },
@@ -227,6 +217,9 @@ BATCH_SETTINGS = dict(
 
 REST_FRAMEWORK = dict(
     PAGE_SIZE=100,
+
+    UNAUTHENTICATED_USER={},
+    UNAUTHENTICATED_TOKEN={},
 
     MAX_PAGINATE_BY=100,
     DEFAULT_AUTHENTICATION_CLASSES=(
