@@ -245,7 +245,7 @@ INSERT INTO hr_maatschappelijkeactiviteit (
 
 
 def _converteer_handelsnaam(cursor):
-    hrmodels.Handelsnaam.objects.delete()
+    hrmodels.Handelsnaam.objects.all().delete()
     cursor.execute("""
 INSERT INTO hr_handelsnaam (id, handelsnaam)
   SELECT
@@ -265,12 +265,14 @@ INSERT INTO hr_onderneming_handelsnamen(onderneming_id, handelsnaam_id)
 
 def _converteer_handelsnaam_ves(cursor):
     cursor.execute("""
-INSERT INTO hr_vestiging_handelsnamen(vestiging_id, handelsnaam_id)
-  SELECT
+ INSERT INTO hr_vestiging_handelsnamen(vestiging_id, handelsnaam_id)
+ SELECT
     vh.vesid,
     h.hdnid
-  FROM kvkveshdnm00 vh LEFT JOIN kvkhdnm00 h ON vh.hdnid = h.hdnid
-  WHERE h.hdnid IS NOT NULL
+  FROM kvkveshdnm00 vh
+  LEFT JOIN kvkhdnm00 h ON vh.hdnid = h.hdnid
+  LEFT join hr_vestiging vs ON vs.id = vh.vesid::text
+  WHERE h.hdnid IS NOT null and vs.id is not null
     """)
 
 
