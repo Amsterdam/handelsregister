@@ -240,7 +240,6 @@ class ImportVestigingTest(TestCase):
         )
 
         kvk_handelsnaam = kvk.KvkHandelsnaam.objects.create(
-            id=200,
             hdnid=1,
             macid_id=999999999999999999,
             handelsnaam='Handelsnaam B.V.',
