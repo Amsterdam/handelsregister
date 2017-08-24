@@ -34,7 +34,6 @@ python /app/manage.py run_import --geovestigingen
 # create dataselectie
 python /app/manage.py run_import --dataselectie
 
-
 # validate that all tables contain values
 # and enough counts
 python manage.py run_import --validate_import

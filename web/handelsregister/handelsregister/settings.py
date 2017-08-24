@@ -78,7 +78,8 @@ DATABASE_OPTIONS = {
         'USER': os.getenv('DATABASE_USER', 'handelsregister'),
         'PASSWORD': os.getenv('DATABASE_PASSWORD', 'insecure'),
         'HOST': 'database',
-        'PORT': '5432'
+        'PORT': '5432',
+        'CONN_MAX_AGE': 5,
     },
     LocationKey.local: {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
@@ -86,7 +87,8 @@ DATABASE_OPTIONS = {
         'USER': os.getenv('DATABASE_USER', 'handelsregister'),
         'PASSWORD': os.getenv('DATABASE_PASSWORD', 'insecure'),
         'HOST': get_docker_host(),
-        'PORT': '5406'
+        'PORT': '5406',
+        'CONN_MAX_AGE': 5,
     },
     LocationKey.override: {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
@@ -94,7 +96,8 @@ DATABASE_OPTIONS = {
         'USER': os.getenv('DATABASE_USER', 'handelsregister'),
         'PASSWORD': os.getenv('DATABASE_PASSWORD', 'insecure'),
         'HOST': os.getenv(OVERRIDE_HOST_ENV_VAR),
-        'PORT': os.getenv(OVERRIDE_PORT_ENV_VAR, '5432')
+        'PORT': os.getenv(OVERRIDE_PORT_ENV_VAR, '5432'),
+        'CONN_MAX_AGE': 5,
     },
 }
 
