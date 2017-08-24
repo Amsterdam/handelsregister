@@ -8,6 +8,7 @@ Collect status counts about location data in the Handelregister
 import os.path
 import json
 import logging
+from django.db import connection
 
 from . import models
 
@@ -43,6 +44,124 @@ def location_stats():
         a_loc_zg=empty_loc_no_postbus.count(),
         a_loc_postbus=postbus_loc.count()
     )
+
+
+def sql_count(table):
+
+    c_stmt = f"SELECT COUNT(*) FROM {table};"
+    count = 0
+
+    with connection.cursor() as c:
+        c.execute(c_stmt)
+        row = c.fetchone()
+        count += row[0]
+        LOG.debug('COUNT %-6s %s', count, table)
+
+    return count
+
+
+def check_table_targets():
+    """
+    For each table we have a target Count. Validate this.
+    """
+    tables_target = [
+        # Count  table
+        (412592, "hr_activiteit"),
+        (304922, "hr_commercielevestiging"),
+        (409539, "hr_communicatiegegevens"),
+        (217378, "hr_dataselectie"),
+        (45872, "hr_functievervulling"),
+        (609616, "hr_geovestigingen"),
+        (366330, "hr_handelsnaam"),
+        (656598, "hr_locatie"),
+        (323935, "hr_maatschappelijkeactiviteit"),
+        # (0,      "hr_maatschappelijkeactiviteit_activiteiten"),
+        (67414, "hr_maatschappelijkeactiviteit_communicatiegegevens"),
+        (176619, "hr_natuurlijkpersoon"),
+        (6760, "hr_nietcommercielevestiging"),
+        (193172, "hr_nietnatuurlijkpersoon"),
+        (271055, "hr_onderneming"),
+        (366330, "hr_onderneming_handelsnamen"),
+        (369808, "hr_persoon"),
+        (217397, "hr_vestiging"),
+        (321073, "hr_vestiging_activiteiten"),
+        (269566, "hr_vestiging_communicatiegegevens"),
+        (273455, "hr_vestiging_handelsnamen"),
+    ]
+
+    check_table_counts(tables_target)
+
+
+def check_geo_table_target_counts():
+
+    geo_table_targets = [
+        (18470, "geo_hr_vestiging_locaties_bouw"),
+        (15590, "geo_hr_vestiging_locaties_bouw_naam"),
+        (57052, "geo_hr_vestiging_locaties_cultuur_sport_recreatie"),
+        (49565, "geo_hr_vestiging_locaties_cultuur_sport_recreatie_naam"),
+        (123379, "geo_hr_vestiging_locaties_financiele_dienstverlening_verhuur"),     # noqa
+        (107173, "geo_hr_vestiging_locaties_financiele_dienstverlening_verhuur_na"),  # noqa
+        (83540, "geo_hr_vestiging_locaties_handel_vervoer_opslag"),
+        (63340, "geo_hr_vestiging_locaties_handel_vervoer_opslag_naam"),
+        (19561, "geo_hr_vestiging_locaties_horeca"),
+        (17677, "geo_hr_vestiging_locaties_horeca_naam"),
+        (46313, "geo_hr_vestiging_locaties_informatie_telecommunicatie"),
+        (37982, "geo_hr_vestiging_locaties_informatie_telecommunicatie_naam"),
+        (782, "geo_hr_vestiging_locaties_landbouw"),
+        (396, "geo_hr_vestiging_locaties_landbouw_naam"),
+        (409372, "geo_hr_vestiging_locaties_naam"),
+        (61864, "geo_hr_vestiging_locaties_overheid_onderwijs_zorg"),
+        (54511, "geo_hr_vestiging_locaties_overheid_onderwijs_zorg_naam"),
+        (145, "geo_hr_vestiging_locaties_overige"),
+        (18796, "geo_hr_vestiging_locaties_overige_naam"),
+        (12329, "geo_hr_vestiging_locaties_persoonlijke_dienstverlening"),
+        (11574, "geo_hr_vestiging_locaties_persoonlijke_dienstverlening_naam"),
+        (14707, "geo_hr_vestiging_locaties_productie_installatie_reparatie"),
+        (13107, "geo_hr_vestiging_locaties_productie_installatie_reparatie_naam"),  # noqa
+        (151804, "geo_hr_vestiging_locaties_zakelijke_dienstverlening"),
+        (124618, "geo_hr_vestiging_locaties_zakelijke_dienstverlening_naam"),
+    ]
+
+    check_table_counts(geo_table_targets)
+
+
+def check_table_counts(table_data):
+    for target, table in table_data:
+        count = sql_count(table)
+        if count < target - 5000 and count > 0:
+            LOG.debug(
+                'Table Count Mismatch. %s %s is not around %s',
+                table, count, target
+            )
+            raise ValueError()
+
+
+def check_sub_counts(counts):
+    """
+    Validate counts for variables / derived counts so
+    we can validate our import process
+    """
+
+    variable_target = [
+        # Min, Max, variable
+        (0, 200, 'ves_adam_zg')
+    ]
+
+    for _min, _max, variable in variable_target:
+        count = counts[variable]
+        if _min < count < _max:
+
+            LOG.info(
+                'Count OK for %s %d < %d < %d',
+                variable, _min, count, _max
+            )
+            continue
+
+        LOG.error(
+            'Count FAILED for %s %d < %d < %d',
+            variable, _min, count, _max
+        )
+        raise ValueError
 
 
 def vestiging_stats():
@@ -192,16 +311,25 @@ def geovestigingen_stats():
     )
 
 
-def log_rapport_counts(action=''):
+def log_rapport_counts(action='', fail_on_wrong_target=False):
     """
     Log the count rapports available
     """
+
+    # validate table counts
+    if fail_on_wrong_target:
+        check_table_targets()
+        check_geo_table_target_counts()
 
     counts = {'actie': action}
     counts.update(location_stats())
     counts.update(vestiging_stats())
     counts.update(mac_stats())
     counts.update(geovestigingen_stats())
+
+    # validate counts
+    if fail_on_wrong_target:
+        check_sub_counts(counts)
 
     STATS.append(counts)
 

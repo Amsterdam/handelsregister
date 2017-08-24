@@ -13,7 +13,7 @@ from datasets.sbicodes import validate_codes
 from datasets import build_ds_data
 from datasets import build_hr_data
 from datasets.hr import improve_location_with_search
-from datasets.hr import location_stats
+from datasets.hr import handelsregister_stats
 from datasets.hr import models
 
 LOG = logging.getLogger(__name__)
@@ -104,6 +104,13 @@ class Command(BaseCommand):
             default=True,
             help='save/update json response data in fixtures')
 
+        parser.add_argument(
+            '--validate_import',
+            action='store_true',
+            dest='validate_import',
+            default=False,
+            help='Validate table counts')
+
     def handle(self, *args, **options):
         """
         validate and execute import task
@@ -113,10 +120,10 @@ class Command(BaseCommand):
         if options['bag']:
             # copy_bag_to_hr script
             build_hr_data.fill_location_with_bag()
-            location_stats.log_rapport_counts(action='bag')
+            handelsregister_stats.log_rapport_counts(action='bag')
         elif options['geo_vest']:
             build_hr_data.fill_geo_table()
-            location_stats.log_rapport_counts(action='map')
+            handelsregister_stats.log_rapport_counts(action='map')
         elif options['cbs_sbi_validate']:
             # make sure everything has a valid sbi code
             validate_codes.validate()
@@ -127,23 +134,26 @@ class Command(BaseCommand):
             load_sbi_codes.build_all_sbi_code_trees(use_cache=use_cache)
         elif options['dataselectie']:
             build_ds_data.write_dataselectie_data()
-            location_stats.log_rapport_counts(action='ds')
+            # Count and Validate
+            handelsregister_stats.log_rapport_counts(action='ds')
+        elif options['validate_import']:
+            handelsregister_stats.log_rapport_counts(
+                action='validate', fail_on_wrong_target=True)
         elif options['searchapi']:
             improve_location_with_search.guess()
             # add extra bag information
             build_hr_data.fill_location_with_bag()
-            location_stats.log_rapport_counts(action='fix')
+            handelsregister_stats.log_rapport_counts(action='fix')
         elif options['clearsearch']:
             build_hr_data.clear_autocorrect()
         elif options['testsearch']:
             improve_location_with_search.test_bad_examples()
         elif options['stats']:
-            location_stats.log_rapport_counts()
+            handelsregister_stats.log_rapport_counts()
         else:
             # convert mks dump
             build_hr_data.fill_stelselpedia()
-            location_stats.log_rapport_counts()
-            location_stats.log_rapport_counts(action='mks')
+            handelsregister_stats.log_rapport_counts(action='mks')
             # now update mks locations with bag locations
             # check if bag data is correctly loaded
             # we need bag data to correct missing geometry data
@@ -151,4 +161,4 @@ class Command(BaseCommand):
             LOG.info('hr_geovestigingen %s', models.Locatie.objects.count())
             assert models.GeoVestigingen.objects.count() == 0
             assert models.Locatie.objects.count() > 200000
-            location_stats.log_rapport_counts(action='bag')
+            handelsregister_stats.log_rapport_counts(action='bag')
