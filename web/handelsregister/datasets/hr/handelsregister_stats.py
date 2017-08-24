@@ -1,10 +1,6 @@
 """
 Collect status counts about location data in the Handelregister
 """
-
-# FIXME work with format and dict
-
-
 import os.path
 import json
 import logging
