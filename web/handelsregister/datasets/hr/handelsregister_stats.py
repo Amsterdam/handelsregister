@@ -140,7 +140,8 @@ def check_sub_counts(counts):
 
     variable_target = [
         # Min, Max, variable
-        (0, 200, 'ves_adam_zg')
+        (0, 200, 'ves_adam_zg'),
+        (0, 150, 'ves_adam_zg_b')
     ]
 
     for _min, _max, variable in variable_target:
