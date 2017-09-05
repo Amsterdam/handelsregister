@@ -110,9 +110,32 @@ def fill_location_with_bag():
     the fields get updated with bag data.
 
     """
+    select = """
+UPDATE hr_locatie loc
+   SET geometrie = bag.geometrie,
+       huisnummer = bag.huisnummer,
+       huisletter = bag.huisletter,
+       huisnummertoevoeging = bag.huisnummer_toevoeging,
+       straatnaam = bag._openbare_ruimte_naam,
+       postcode = bag.postcode
+  FROM (SELECT v.id,
+               v.landelijk_id,
+               n.huisnummer,
+               n.huisletter,
+               n.huisnummer_toevoeging,
+               n._openbare_ruimte_naam,
+               n.postcode,
+               ST_Centroid(v.geometrie) as geometrie
+          FROM bag_nummeraanduiding n
+    INNER JOIN bag_{bagtype} v
+            ON n.{bagtype}_id = v.id
+         WHERE n.hoofdadres) bag
+ WHERE bag.landelijk_id = loc.bag_vbid OR bag.landelijk_id = loc.bag_numid
+    """
     with db.connection.cursor() as cursor:
         log.info("VUL geo tabel locaties met bag geometrie")
-        _update_location_table_with_bag(cursor)
+        for bagtype in ('verblijfsobject', 'ligplaats', 'standplaats'):
+            cursor.execute(select.format(bagtype=bagtype))
 
 
 def fill_geo_table():
@@ -617,29 +640,6 @@ SET eigenaar_mks_id = m.prsid
 FROM kvkmacm00 m
 WHERE m.macid = hrm.id AND NOT EXISTS (
     SELECT * FROM hr_persoon WHERE id = m.prsid)
-    """)
-
-
-def _update_location_table_with_bag(cursor):
-    cursor.execute("""
-UPDATE hr_locatie loc
-    SET geometrie = bag.geometrie,
-        huisnummer = bag.huisnummer,
-        huisletter = bag.huisletter,
-        huisnummertoevoeging = bag.huisnummer_toevoeging,
-        straatnaam = bag._openbare_ruimte_naam,
-        postcode = bag.postcode
-FROM (select v.id,
-      v.landelijk_id,
-      n.huisnummer,
-      n.huisletter,
-      n.huisnummer_toevoeging,
-      n._openbare_ruimte_naam,
-      n.postcode,
-      v.geometrie
-      FROM bag_nummeraanduiding n, bag_verblijfsobject v
-      WHERE n.verblijfsobject_id = v.id AND n.hoofdadres) bag
-WHERE bag.landelijk_id = loc.bag_vbid OR bag.landelijk_id = loc.bag_numid
     """)
 
 
