@@ -125,7 +125,7 @@ UPDATE hr_locatie loc
                n.huisnummer_toevoeging,
                n._openbare_ruimte_naam,
                n.postcode,
-               v.geometrie
+               ST_Centroid(v.geometrie) as geometrie
           FROM bag_nummeraanduiding n
     INNER JOIN bag_{bagtype} v
             ON n.{bagtype}_id = v.id
