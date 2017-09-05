@@ -127,7 +127,7 @@ UPDATE hr_locatie loc
                n.postcode,
                v.geometrie
           FROM bag_nummeraanduiding n
-    INNER JOIN bag_{type} v
+    INNER JOIN bag_{bagtype} v
             ON n.{bagtype}_id = v.id
          WHERE n.hoofdadres) bag
  WHERE bag.landelijk_id = loc.bag_vbid OR bag.landelijk_id = loc.bag_numid
