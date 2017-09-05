@@ -29,10 +29,12 @@ dc up -d database
 sleep 50
 
 # load latest bag into database
-echo "Load latest verblijfsobjecten en nummeraanduidingen in handelsregister database"
+echo "Load latest verblijfsobjecten, ligplaatsen, standplaatsen and nummeraanduidingen in handelsregister database"
 
 # dc exec -T database update-db.sh atlas
 dc exec -T database update-table.sh bag bag_verblijfsobject public handelsregister
+dc exec -T database update-table.sh bag bag_ligplaats public handelsregister
+dc exec -T database update-table.sh bag bag_standplaats public handelsregister
 dc exec -T database update-table.sh bag bag_nummeraanduiding public handelsregister
 
 echo "create hr api database / reset elastic index"
