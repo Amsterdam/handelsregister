@@ -4,13 +4,14 @@ selecteren en sorteren op verschillende categorien
 en activiteiten maken we gebruik van de sbi codes.
 
 SBI codes zitten in een hiërarchie(n):
-  - De vraag antwoord hiërarchie
+  - De vraag antwoord hiërarchie (QA)
   - officiele indeling.
 
-De vraag antwoord hiërarchie is wat makkelijker in gebruik
-We willen BEIDEN soorten hiërarchien ondersteunen.
+De vraag antwoord hiërarchie (QA) is wat makkelijker
+in gebruik. We willen BEIDEN soorten hiërarchien ondersteunen.
 
 Voor actuele
+
 gegevens is een koppeling nodig naar de SBI-hiërarchie
 waarvan het CBS bronhouder is.
 
@@ -58,17 +59,16 @@ DIRECTORY = os.path.dirname(__file__)
 # GLOBAL code mapping
 code_map = {}          # sbi code or partial  code. 'A' -> '01' -> '0102' -> ..
 # GLOBAL node id mapping
-id_map = {}            # nodes have their own id (given by the sbi.cbs api
+id_map = {}            # nodes have their own id (given by the sbi.cbs api)
 
 # Question / Answers SBI tree mappings
 sbi_qa_mapping = {}    # mapping of sbi codes to parent QA nodes
 raw_qa_tree = {}       # QA tree 0 = root, raw json
 
 
-def clean_activiteiten_key():
-
+def _clean_activiteiten_key():
     """
-    Clear activiteiten keys
+    Clear activiteiten keys, reset everything.
     """
 
     log.debug('clear activiteiten foreign key')
@@ -82,12 +82,12 @@ def clean_activiteiten_key():
         cursor.execute(sql)
 
 
-def get_fixture_path(filename):
+def _get_fixture_path(filename):
     file_path = f'{DIRECTORY}/fixtures/{filename}'
     return file_path
 
 
-def get_json_sections(
+def _get_json_sections(
         filename='sections.json', cache=True, url=section_url):
     """
     Load the sbi.cbs categories json responses
@@ -98,7 +98,7 @@ def get_json_sections(
 
     # load from file
     if cache:
-        file_path = get_fixture_path(filename)
+        file_path = _get_fixture_path(filename)
         with open(file_path, 'r') as sectionsfile:
             cbs_sections = json.load(sectionsfile)
             return cbs_sections
@@ -111,7 +111,7 @@ def get_json_sections(
 
     # save the json to file
     if not cache:
-        section_path = get_fixture_path(filename)
+        section_path = _get_fixture_path(filename)
         save_json(cbs_sections, section_path)
 
     return cbs_sections
@@ -129,7 +129,7 @@ def load_section_selections(all_sections, cache=True):
 
     # Load from file
     if cache:
-        section_tree_path = get_fixture_path('section_tree.json')
+        section_tree_path = _get_fixture_path('section_tree.json')
         with open(section_tree_path, 'r') as sectionsfile:
             sections_tree = json.load(sectionsfile)
             return sections_tree
@@ -216,7 +216,7 @@ def create_sbi_row(parent_list):
     return db_row
 
 
-def create_sbi_lists():
+def _create_sbi_lists():
     """
     Given a filled GLOBAL 'code_map'
     mapping of codes and id's
@@ -259,7 +259,7 @@ def create_sbi_lists():
     return sbi_details
 
 
-def create_qa_mapping():
+def _create_qa_mapping():
     """
     Given sbi_qa_mapping and  qa_tree build hierarchy of sbi
     codes
@@ -308,7 +308,7 @@ def create_qa_mapping():
     return qa_tree
 
 
-def store_sbi_details(sbi_details, qa_normalized_sbi_tree):
+def _store_sbi_details(sbi_details, qa_normalized_sbi_tree):
     """
     params: list of sbi codes and parents
 
@@ -399,7 +399,7 @@ def load_qa_sub_sections(qa_sections, use_cache=False):
         qa_section_description = description.split(',')[0]
         qa_section_filename = f'qa_section_{qa_section_description}.json'
 
-        sections = get_json_sections(
+        sections = _get_json_sections(
             url=f'{qa_url}/{code}/1',
             filename=qa_section_filename,
             cache=use_cache)
@@ -432,18 +432,18 @@ def load_qa_sub_sub_sections(parent, qa_sections, use_cache=True):
 
         file_title = f'{i}_{qa_section_description}'
 
-        qa_sub_sub_sections = get_json_sections(
+        qa_sub_sub_sections = _get_json_sections(
             url=f'{qa_url}/{code}/1',
             filename=qa_section_filename,
             cache=use_cache)
 
         # load the final sbi codes
-        sbicodes_for_subsubcategory(
+        _sbicodes_for_subsubcategory(
             node, file_title,
             qa_sub_sub_sections['Answers'], use_cache=use_cache)
 
 
-def sbicodes_for_subsubcategory(
+def _sbicodes_for_subsubcategory(
         parent, file_title, qa_sub_sub_sections, use_cache=True):
     """
     find the sbi codes involved leave node
@@ -459,7 +459,7 @@ def sbicodes_for_subsubcategory(
 
     qa_section_sbi_filename = f'qa_section_3_{file_title}.json'
 
-    sbi_codes = get_json_sections(
+    sbi_codes = _get_json_sections(
         url=f'{qa_search_url}/{code}',
         filename=qa_section_sbi_filename,
         cache=use_cache)
@@ -480,13 +480,13 @@ def sbicodes_for_subsubcategory(
         }
 
 
-def build_qa_sbi_code_tree(use_cache=True):
+def _build_qa_sbi_code_tree(use_cache=True):
     """
     Load the QA tree from sbi.cbs.nl
     """
     section_filename = 'sections_qa.json'
 
-    qa_sections = get_json_sections(
+    qa_sections = _get_json_sections(
         url=f'{qa_url}/start/0',
         filename=section_filename,
         cache=use_cache)
@@ -498,7 +498,7 @@ def build_qa_sbi_code_tree(use_cache=True):
     log.debug(len(sbi_qa_mapping))
 
 
-def build_csb_sbi_code_tree(use_cache=True):
+def _build_csb_sbi_code_tree(use_cache=True):
     """
     Load the official sbi tree from sbi.cbs.nl
 
@@ -506,13 +506,13 @@ def build_csb_sbi_code_tree(use_cache=True):
     """
 
     # A.. B .. C..
-    sections = get_json_sections(cache=use_cache)
+    sections = _get_json_sections(cache=use_cache)
 
     # 01 , 02, 03
     section_tree = load_section_selections(sections, cache=use_cache)
 
     if not use_cache:
-        section_tree_path = get_fixture_path('section_tree.json')
+        section_tree_path = _get_fixture_path('section_tree.json')
         save_json(section_tree, section_tree_path)
 
     map_nodes_from_sections(section_tree)
@@ -525,7 +525,7 @@ def build_all_sbi_code_trees(use_cache=True):
     Build both QA and Official sbi code tree
     """
     # clear foreing key relations in hr_activiteiten to sbi_codes
-    clean_activiteiten_key()
+    _clean_activiteiten_key()
 
     # We use some globals.
     # if already present/filled do not bother to load them
@@ -533,16 +533,16 @@ def build_all_sbi_code_trees(use_cache=True):
     if id_map:
         log.debug('codes already loaded')
     else:
-        build_qa_sbi_code_tree(use_cache=use_cache)
-        build_csb_sbi_code_tree(use_cache=use_cache)
+        _build_qa_sbi_code_tree(use_cache=use_cache)
+        _build_csb_sbi_code_tree(use_cache=use_cache)
 
-    normalized_qa_tree = create_qa_mapping()
+    normalized_qa_tree = _create_qa_mapping()
 
     # From official tree create code lists for earch sbi
-    sbi_details = create_sbi_lists()
+    sbi_details = _create_sbi_lists()
 
     # after different mappings have been parsed
     # from the sbi.cbs.nl website
     # we use them to fill a table of sbi codes and their tree data
     # save result into database
-    store_sbi_details(sbi_details, normalized_qa_tree)
+    _store_sbi_details(sbi_details, normalized_qa_tree)
