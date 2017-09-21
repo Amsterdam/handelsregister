@@ -32,6 +32,7 @@ class MaatschappelijkIndexer(index.ImportIndexTask):
         prefetch_related('postadres').
         prefetch_related('onderneming__handelsnamen').
         prefetch_related('bezoekadres').
+        filter(datum_einde__isnull=True).
         order_by('id').all())
 
     def convert(self, obj):
@@ -43,6 +44,7 @@ class VestigingenIndexer(index.ImportIndexTask):
 
     queryset = (
         Vestiging.objects.
+        filter(datum_einde__isnull=True).
         prefetch_related('postadres').
         prefetch_related('bezoekadres').
         prefetch_related('handelsnamen').

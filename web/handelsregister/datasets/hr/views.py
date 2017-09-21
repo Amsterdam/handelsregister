@@ -43,11 +43,17 @@ class MaatschappelijkeActiviteitViewSet(rest.AtlasViewSet):
     Een MaatschappelijkeActiviteit kan ook als Onderneming voorkomen.
     """
 
-    queryset = (models.MaatschappelijkeActiviteit.objects.all().order_by('id'))
-    queryset_detail = (models.MaatschappelijkeActiviteit.objects
-                       .select_related('onderneming')
-                       .select_related('hoofdvestiging')
-                       .all())
+    queryset = (
+        models.MaatschappelijkeActiviteit.objects.all().order_by('id')
+        .filter(datum_einde__isnull=True)
+    )
+    queryset_detail = (
+        models.MaatschappelijkeActiviteit.objects
+        .select_related('onderneming')
+        .select_related('hoofdvestiging')
+        .filter(datum_einde__isnull=True)
+        .all()
+    )
 
     serializer_detail_class = serializers.MaatschappelijkeActiviteitDetail
     serializer_class = serializers.MaatschappelijkeActiviteit
@@ -263,22 +269,26 @@ class VestigingViewSet(rest.AtlasViewSet):
     [https://acc.api.data.amsterdam.nl/handelsregister/vestiging/?kadastraal_object=NL.KAD.OnroerendeZaak.11450749270000](https://acc.api.data.amsterdam.nl/handelsregister/vestiging/?kadastraal_object=NL.KAD.OnroerendeZaak.11450749270000)
     """
 
-    queryset = (models.Vestiging.objects
-                .select_related('postadres')
-                .select_related('bezoekadres')
-                .all().order_by('id'))
+    queryset = (
+        models.Vestiging.objects
+        .filter(datum_einde__isnull=True)
+        .select_related('postadres')
+        .select_related('bezoekadres')
+        .order_by('id')
+    )
 
-    queryset_detail = (models.Vestiging.objects
-                       .select_related('maatschappelijke_activiteit')
-                       .select_related('postadres')
-                       .select_related('bezoekadres')
-                       .select_related('commerciele_vestiging')
-                       .select_related('niet_commerciele_vestiging')
-                       .all())
+    queryset_detail = (
+        models.Vestiging.objects
+        .filter(datum_einde__isnull=True)
+        .select_related('maatschappelijke_activiteit')
+        .select_related('postadres')
+        .select_related('bezoekadres')
+        .select_related('commerciele_vestiging')
+        .select_related('niet_commerciele_vestiging')
+    )
 
     serializer_detail_class = serializers.VestigingDetail
     serializer_class = serializers.Vestiging
-
     lookup_field = 'vestigingsnummer'
 
     ordering_fields = '__all__'

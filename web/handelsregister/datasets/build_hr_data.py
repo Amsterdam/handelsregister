@@ -737,4 +737,5 @@ INSERT INTO hr_geovestigingen (
         AND ST_IsValid(loc.geometrie)
     JOIN sbicodes_sbicodehierarchy sbi
     ON sbi.code = a.sbi_code
+  WHERE vs.datum_einde is null
     """)

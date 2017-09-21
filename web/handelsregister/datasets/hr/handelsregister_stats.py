@@ -176,12 +176,17 @@ def vestiging_stats():
         tables=['hr_vestiging'],
         where=[
             '''"hr_vestiging"."bezoekadres_id"="hr_locatie"."id"
-            OR "hr_vestiging"."postadres_id"="hr_locatie"."id" ''',
+            OR "hr_vestiging"."postadres_id"="hr_locatie"."id"
+            AND"hr_vestiging"."datum_einde" is null
+            ''',
         ])
 
     ves_locaties_bezoek = all_locations.extra(
         tables=['hr_vestiging'],
-        where=['''"hr_vestiging"."bezoekadres_id"="hr_locatie"."id"'''])
+        where=[
+            '''"hr_vestiging"."bezoekadres_id"="hr_locatie"."id"
+            AND"hr_vestiging"."datum_einde" is null
+            '''])
 
     ves_locaties_post = all_locations.extra(
         tables=['hr_vestiging'],
@@ -206,6 +211,7 @@ def vestiging_stats():
         where=[
             '"hr_vestiging"."bezoekadres_id"="hr_locatie"."id"',
             '"hr_locatie"."geometrie" is null',
+            '"hr_vestiging"."datum_einde" is null',
             '"hr_locatie"."volledig_adres" like \'%%Amsterdam\''
         ]
     )
