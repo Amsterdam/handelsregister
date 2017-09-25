@@ -67,7 +67,7 @@ def check_table_targets():
         (409539, "hr_communicatiegegevens"),
         (217378, "hr_dataselectie"),
         (45872, "hr_functievervulling"),
-        (609616, "hr_geovestigingen"),
+        (559616, "hr_geovestigingen"),
         (366330, "hr_handelsnaam"),
         (656598, "hr_locatie"),
         (323935, "hr_maatschappelijkeactiviteit"),
