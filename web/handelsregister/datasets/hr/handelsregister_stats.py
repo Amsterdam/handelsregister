@@ -108,7 +108,7 @@ def check_geo_table_target_counts():
         (359372, "geo_hr_vestiging_locaties_naam"),
         (61864, "geo_hr_vestiging_locaties_overheid_onderwijs_zorg"),
         (54511, "geo_hr_vestiging_locaties_overheid_onderwijs_zorg_naam"),
-        (145,   "geo_hr_vestiging_locaties_overige"),
+        (145, "geo_hr_vestiging_locaties_overige"),
         (18796, "geo_hr_vestiging_locaties_overige_naam"),
         (12329, "geo_hr_vestiging_locaties_persoonlijke_dienstverlening"),
         (11574, "geo_hr_vestiging_locaties_persoonlijke_dienstverlening_naam"),
