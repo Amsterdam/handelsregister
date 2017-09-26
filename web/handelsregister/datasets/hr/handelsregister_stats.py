@@ -115,7 +115,7 @@ def check_geo_table_target_counts():
         (14707, "geo_hr_vestiging_locaties_productie_installatie_reparatie"),
         (13107, "geo_hr_vestiging_locaties_productie_installatie_reparatie_naam"),  # noqa
         (131804, "geo_hr_vestiging_locaties_zakelijke_dienstverlening"),
-        (114618, "geo_hr_vestiging_locaties_zakelijke_dienstverlening_naam"),
+        (124618, "geo_hr_vestiging_locaties_zakelijke_dienstverlening_naam"),
     ]
 
     check_table_counts(geo_table_targets)

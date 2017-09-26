@@ -17,6 +17,7 @@ def get_vestigingen(offset: int = 0, size: int = None) -> object:
         .prefetch_related('activiteiten') \
         .prefetch_related('activiteiten__sbi_code_tree') \
         .prefetch_related('handelsnamen') \
+        .filter(datum_einde__isnull=True) \
         .order_by('id')
     if size:
         qs = qs[offset:size]
