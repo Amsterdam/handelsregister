@@ -95,27 +95,27 @@ def check_geo_table_target_counts():
         (15590, "geo_hr_vestiging_locaties_bouw_naam"),
         (57052, "geo_hr_vestiging_locaties_cultuur_sport_recreatie"),
         (49565, "geo_hr_vestiging_locaties_cultuur_sport_recreatie_naam"),
-        (123379, "geo_hr_vestiging_locaties_financiele_dienstverlening_verhuur"),     # noqa
-        (107173, "geo_hr_vestiging_locaties_financiele_dienstverlening_verhuur_na"),  # noqa
-        (83540, "geo_hr_vestiging_locaties_handel_vervoer_opslag"),
-        (63340, "geo_hr_vestiging_locaties_handel_vervoer_opslag_naam"),
+        (113379, "geo_hr_vestiging_locaties_financiele_dienstverlening_verhuur"),     # noqa
+        (77173, "geo_hr_vestiging_locaties_financiele_dienstverlening_verhuur_na"),  # noqa
+        (73540, "geo_hr_vestiging_locaties_handel_vervoer_opslag"),
+        (53340, "geo_hr_vestiging_locaties_handel_vervoer_opslag_naam"),
         (19561, "geo_hr_vestiging_locaties_horeca"),
         (17677, "geo_hr_vestiging_locaties_horeca_naam"),
         (46313, "geo_hr_vestiging_locaties_informatie_telecommunicatie"),
         (37982, "geo_hr_vestiging_locaties_informatie_telecommunicatie_naam"),
         (782, "geo_hr_vestiging_locaties_landbouw"),
         (396, "geo_hr_vestiging_locaties_landbouw_naam"),
-        (409372, "geo_hr_vestiging_locaties_naam"),
+        (359372, "geo_hr_vestiging_locaties_naam"),
         (61864, "geo_hr_vestiging_locaties_overheid_onderwijs_zorg"),
         (54511, "geo_hr_vestiging_locaties_overheid_onderwijs_zorg_naam"),
-        (145, "geo_hr_vestiging_locaties_overige"),
+        (145,   "geo_hr_vestiging_locaties_overige"),
         (18796, "geo_hr_vestiging_locaties_overige_naam"),
         (12329, "geo_hr_vestiging_locaties_persoonlijke_dienstverlening"),
         (11574, "geo_hr_vestiging_locaties_persoonlijke_dienstverlening_naam"),
         (14707, "geo_hr_vestiging_locaties_productie_installatie_reparatie"),
         (13107, "geo_hr_vestiging_locaties_productie_installatie_reparatie_naam"),  # noqa
-        (151804, "geo_hr_vestiging_locaties_zakelijke_dienstverlening"),
-        (124618, "geo_hr_vestiging_locaties_zakelijke_dienstverlening_naam"),
+        (131804, "geo_hr_vestiging_locaties_zakelijke_dienstverlening"),
+        (114618, "geo_hr_vestiging_locaties_zakelijke_dienstverlening_naam"),
     ]
 
     check_table_counts(geo_table_targets)
