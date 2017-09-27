@@ -340,6 +340,10 @@ class VestigingDetail(rest.HALSerializer):
     activiteiten = Activiteit(many=True)
     handelsnamen = Handelsnaam(many=True)
 
+    # niet volgens stelselpedia. hoort bij eigenaar / persoon
+    _bijzondere_rechts_toestand = BijzondereRechtsToestand(
+        source='maatschappelijke_activiteit.eigenaar')
+
     class Meta(object):
         model = models.Vestiging
         lookup_field = 'vestigingsnummer'
@@ -347,7 +351,26 @@ class VestigingDetail(rest.HALSerializer):
             '_links': {'lookup_field': 'vestigingsnummer'},
             'maatschappelijke_activiteit': {'lookup_field': 'kvk_nummer'},
         }
-        fields = '__all__'
+        fields = (
+            '_links',
+            '_display',
+            'maatschappelijke_activiteit',
+            'vestigingsnummer',
+            'hoofdvestiging',
+            'naam',
+            'datum_aanvang',
+            'datum_einde',
+            'datum_voortzetting',
+
+            'commerciele_vestiging',
+            'niet_commerciele_vestiging',
+            'communicatiegegevens',
+            'postadres',
+            'bezoekadres',
+            'activiteiten',
+            'handelsnamen',
+            '_bijzondere_rechts_toestand'
+        )
 
 
 class VestigingDataselectie(serializers.ModelSerializer):

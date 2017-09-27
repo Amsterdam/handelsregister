@@ -149,15 +149,18 @@ INSTALLED_APPS = PROJECT_APPS + [
 
 INTERNAL_IPS = ('127.0.0.1', '0.0.0.0')
 
-if DEBUG:
-    INSTALLED_APPS += ('debug_toolbar',)
-
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'authorization_django.authorization_middleware',
 ]
+
+if DEBUG:
+    INSTALLED_APPS += ('debug_toolbar',)
+    MIDDLEWARE += (
+        'debug_toolbar.middleware.DebugToolbarMiddleware',)
+
+
 
 ROOT_URLCONF = 'handelsregister.urls'
 

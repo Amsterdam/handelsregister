@@ -20,13 +20,17 @@ class MacFilter(FilterSet):
 
     naam = filters.CharFilter()
     eigenaar = filters.CharFilter()
+    eigenaar__faillissement = filters.BooleanFilter()
+    bezoekadres__correctie = filters.BooleanFilter()
 
     class Meta:
         model = models.MaatschappelijkeActiviteit
 
         fields = (
             'eigenaar',
-            'naam'
+            'naam',
+            'bezoekadres__correctie',
+            'eigenaar__faillissement',
         )
 
     ordering = ('id',)
@@ -51,6 +55,7 @@ class MaatschappelijkeActiviteitViewSet(rest.AtlasViewSet):
         models.MaatschappelijkeActiviteit.objects
         .select_related('onderneming')
         .select_related('hoofdvestiging')
+        .select_related('eigenaar')
         .filter(datum_einde__isnull=True)
         .all()
     )
@@ -60,7 +65,10 @@ class MaatschappelijkeActiviteitViewSet(rest.AtlasViewSet):
 
     lookup_field = 'kvk_nummer'
 
-    filter_fields = ('eigenaar', 'naam', 'bezoekadres__correctie')
+    filter_fields = (
+        'eigenaar', 'naam', 'bezoekadres__correctie',
+        '_bijzondere_rechts_toestand'
+    )
 
     filter_class = MacFilter
 
@@ -116,21 +124,35 @@ class VestigingFilter(FilterSet):
     Filter on nummeraanduiging and vestigingid
     """
 
-    nummeraanduiding = filters.CharFilter(method='nummeraanduiding_filter')
-    verblijfsobject = filters.CharFilter(method='verblijfsobject_filter')
-    pand = filters.CharFilter(method='pand_filter')
-    kadastraal_object = filters.CharFilter(method='kot_filter')
+    maatschappelijke_activiteit = filters.CharFilter()
+    maatschappelijke_activiteit__eigenaar_faillissement = \
+        filters.BooleanFilter()
+
+    nummeraanduiding = filters.CharFilter(
+        label='nummeraanduiding_id', method='nummeraanduiding_filter')
+    verblijfsobject = filters.CharFilter(
+        label='verblijfsobject_id', method='verblijfsobject_filter')
+
+    pand = filters.CharFilter(
+        label='pand_id', method='pand_filter')
+
+    kadastraal_object = filters.CharFilter(
+        label='kadastraal object', method='kot_filter')
 
     bezoekadres__bag_numid = filters.CharFilter()
-    maatschappelijke_activiteit = filters.CharFilter()
+    bezoekadres__correctie = filters.BooleanFilter()
 
     class Meta:
         model = models.Vestiging
 
         fields = (
             'maatschappelijke_activiteit',
+            'maatschappelijke_activiteit__eigenaar__faillissement',
             'nummeraanduiding',
             'verblijfsobject',
+            'pand',
+            'kadastraal_object',
+
             'bezoekadres__bag_numid',
             'bezoekadres__correctie',
         )
@@ -281,6 +303,7 @@ class VestigingViewSet(rest.AtlasViewSet):
         models.Vestiging.objects
         .filter(datum_einde__isnull=True)
         .select_related('maatschappelijke_activiteit')
+        .select_related('maatschappelijke_activiteit__eigenaar')
         .select_related('postadres')
         .select_related('bezoekadres')
         .select_related('commerciele_vestiging')
