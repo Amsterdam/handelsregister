@@ -102,20 +102,20 @@ def check_geo_table_target_counts():
         (19561, "geo_hr_vestiging_locaties_horeca"),
         (17677, "geo_hr_vestiging_locaties_horeca_naam"),
         (46313, "geo_hr_vestiging_locaties_informatie_telecommunicatie"),
-        (37982, "geo_hr_vestiging_locaties_informatie_telecommunicatie_naam"),
+        (34982, "geo_hr_vestiging_locaties_informatie_telecommunicatie_naam"),
         (782, "geo_hr_vestiging_locaties_landbouw"),
         (396, "geo_hr_vestiging_locaties_landbouw_naam"),
-        (359372, "geo_hr_vestiging_locaties_naam"),
+        (329372, "geo_hr_vestiging_locaties_naam"),
         (61864, "geo_hr_vestiging_locaties_overheid_onderwijs_zorg"),
-        (54511, "geo_hr_vestiging_locaties_overheid_onderwijs_zorg_naam"),
+        (53511, "geo_hr_vestiging_locaties_overheid_onderwijs_zorg_naam"),
         (145, "geo_hr_vestiging_locaties_overige"),
-        (18796, "geo_hr_vestiging_locaties_overige_naam"),
-        (12329, "geo_hr_vestiging_locaties_persoonlijke_dienstverlening"),
-        (11574, "geo_hr_vestiging_locaties_persoonlijke_dienstverlening_naam"),
-        (14707, "geo_hr_vestiging_locaties_productie_installatie_reparatie"),
-        (13107, "geo_hr_vestiging_locaties_productie_installatie_reparatie_naam"),  # noqa
-        (131804, "geo_hr_vestiging_locaties_zakelijke_dienstverlening"),
-        (124618, "geo_hr_vestiging_locaties_zakelijke_dienstverlening_naam"),
+        (17796, "geo_hr_vestiging_locaties_overige_naam"),
+        (11329, "geo_hr_vestiging_locaties_persoonlijke_dienstverlening"),
+        (10574, "geo_hr_vestiging_locaties_persoonlijke_dienstverlening_naam"),
+        (11707, "geo_hr_vestiging_locaties_productie_installatie_reparatie"),
+        (12107, "geo_hr_vestiging_locaties_productie_installatie_reparatie_naam"),  # noqa
+        (121804, "geo_hr_vestiging_locaties_zakelijke_dienstverlening"),
+        (114618, "geo_hr_vestiging_locaties_zakelijke_dienstverlening_naam"),
     ]
 
     check_table_counts(geo_table_targets)
