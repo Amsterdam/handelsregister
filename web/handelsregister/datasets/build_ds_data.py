@@ -12,6 +12,7 @@ def get_vestigingen(offset: int = 0, size: int = None) -> object:
     """
     qs = models.Vestiging.objects \
         .select_related('maatschappelijke_activiteit') \
+        .select_related('maatschappelijke_activiteit__eigenaar') \
         .select_related('bezoekadres') \
         .select_related('postadres') \
         .prefetch_related('activiteiten') \

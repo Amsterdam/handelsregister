@@ -99,7 +99,8 @@ class ImportIndexTask(object):
         if denominator > 1:
             chunk_size = int(total / denominator)
             start_index = numerator * chunk_size
-            end_part = (numerator + 1) * chunk_size
+            if (numerator + 1) < denominator:
+                end_part = (numerator + 1) * chunk_size
             total = end_part - start_index
 
         log.info("START: %s END %s COUNT: %s CHUNK %s TOTAL_COUNT: %s" % (

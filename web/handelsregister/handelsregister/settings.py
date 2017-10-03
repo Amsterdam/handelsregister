@@ -212,6 +212,11 @@ ELASTIC_INDICES = {
     'HR': 'handelsregister',
 }
 
+PARTIAL_IMPORT = {
+    'numerator': 0,
+    'denominator': 1,
+}
+
 TESTING = len(sys.argv) > 1 and sys.argv[1] == 'test'
 if TESTING:
     for k, v in ELASTIC_INDICES.items():

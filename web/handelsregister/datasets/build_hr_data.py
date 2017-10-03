@@ -536,7 +536,9 @@ INSERT INTO hr_persoon (
     toegangscode,
     faillissement,
     natuurlijkpersoon_id,
-    niet_natuurlijkpersoon_id
+    niet_natuurlijkpersoon_id,
+    status,
+    duur
 ) SELECT
     prsid,
     typering,
@@ -561,6 +563,8 @@ INSERT INTO hr_persoon (
         WHEN TRUE THEN prsid
         ELSE NULL
     END
+    status,
+    duur
   FROM kvkprsm00
     """)
 

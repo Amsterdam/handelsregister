@@ -5,6 +5,7 @@ All commands to create a functioning HR api dataset
 import logging
 
 from django.core.management import BaseCommand
+from django.conf import settings
 
 # from datasets import build_cbs_sbi
 
@@ -98,6 +99,13 @@ class Command(BaseCommand):
             help='Fill dataselectie view')
 
         parser.add_argument(
+            '--partial',
+            action='store',
+            dest='partial_index',
+            default=0,
+            help='Build X/Y parts 1/3, 2/3, 3/3')
+
+        parser.add_argument(
             '--nocache',
             action='store_false',
             dest='use_cache',
@@ -111,11 +119,14 @@ class Command(BaseCommand):
             default=False,
             help='Validate table counts')
 
+
     def handle(self, *args, **options):
         """
         validate and execute import task
         """
         LOG.info('Handelsregister import started')
+
+        set_partial_config(options)
 
         if options['bag']:
             # copy_bag_to_hr script
@@ -162,3 +173,20 @@ class Command(BaseCommand):
             assert models.GeoVestigingen.objects.count() == 0
             assert models.Locatie.objects.count() > 200000
             handelsregister_stats.log_rapport_counts(action='bag')
+
+
+def set_partial_config(options):
+    """
+    Do partial configuration
+    """
+    if options['partial_index']:
+        numerator, denominator = options['partial_index'].split('/')
+
+        numerator = int(numerator) - 1
+        denominator = int(denominator)
+
+        assert (numerator < denominator)
+        assert numerator >= 0
+
+        settings.PARTIAL_IMPORT['numerator'] = numerator
+        settings.PARTIAL_IMPORT['denominator'] = denominator

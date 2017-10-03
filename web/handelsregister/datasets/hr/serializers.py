@@ -147,6 +147,9 @@ class BijzondereRechtsToestand(serializers.ModelSerializer):
 
         fields = (
             'faillissement',
+            'status',
+            'duur',
+            'reden_insolvatie',
         )
 
 
@@ -200,6 +203,10 @@ class PersoonDataselectie(serializers.ModelSerializer):
             'id',
             'naam',
             'volledige_naam',
+            'faillissement',
+            'status',
+            'duur',
+            'reden_insolvatie',
         )
 
 
@@ -266,6 +273,8 @@ class PersoonDetail(rest.HALSerializer):
 
     _display = rest.DisplayField()
 
+    bijzondere_rechts_toestand = serializers.SerializerMethodField()
+
     class Meta(object):
         model = models.Persoon
 
@@ -284,15 +293,22 @@ class PersoonDetail(rest.HALSerializer):
             'uitgebreide_rechtsvorm',
             'volledige_naam',
             'typering',
-            'reden_insolvatie',
             'datum_aanvang',
             'datum_einde',
             'soort',
             'datumuitschrijving',
             'nummer',
             'toegangscode',
-            'faillissement',
+            'bijzondere_rechts_toestand'
         )
+
+    def get_bijzondere_rechts_toestand(self, obj):
+        return {
+            'faillissement': obj.faillissement,
+            'status': obj.status,
+            'duur': obj.duur,
+            'reden_insolvatie': obj.reden_insolvatie
+        }
 
     def get_maatschappelijke_activiteit(self, obj):
         if obj.rol == 'EIGENAAR':
