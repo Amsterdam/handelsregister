@@ -82,8 +82,9 @@ class VestingFilterTest(APITestCase, authorization.AuthorizationSetup):
 
         self.client.credentials(
             HTTP_AUTHORIZATION='Bearer {}'.format(self.token_employee))
+
         response = self.client.get(
-            '/handelsregister/vestiging/?verblijfsobject=0363010000758545')
+            '/handelsregister/vestiging/?verblijfsobject=5')
 
         data = response.json()
         self.assertEquals(200, response.status_code)

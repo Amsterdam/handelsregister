@@ -145,7 +145,7 @@ def create_x_vestigingen(x=5):
 
     point = Point(121944.32, 487722.88)
 
-    for i in range(x):
+    for i in range(1, x+1):
 
         loc_b = LocatieFactory.create(
             id='{}{}'.format('b', i),
@@ -163,7 +163,7 @@ def create_x_vestigingen(x=5):
 
         for v in range(random.randint(1, 10)):
             ves = VestigingFactory.create(
-                id='{}-{}'.format(i, v),
+                id='{}0{}'.format(i, v),
                 bezoekadres=loc_b,
                 postadres=loc_p,
                 activiteiten=[a1],

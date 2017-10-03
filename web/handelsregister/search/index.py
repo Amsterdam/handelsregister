@@ -151,10 +151,3 @@ class ImportIndexTask(object):
             now = time.time()
             elapsed = now - start_time
             loop_time = now - loop_start
-
-        # When testing put all docs in one shard to make sure we have
-        # correct scores/doc counts and test will succeed
-        # because relavancy score will make more sense
-        if settings.TESTING:
-            es_index = IndicesClient(client)
-            es_index.optimize('*test')

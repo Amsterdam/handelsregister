@@ -116,19 +116,14 @@ class Migration(migrations.Migration):
                 "cultuur, sport, recreatie")
         ),
         migrate.ManageView(
-            view_name="geo_hr_vestiging_locaties_financiele_dienstverlening_verhuur",
+            view_name="geo_hr_vestiging_locaties_financiele_dienstverlening_verhuur",   # noqa
             sql=geovestigingen_template.format(
-                "financiële dienstverlening,verhuur van roerend en onroerend goed")
+                "financiële dienstverlening,verhuur van roerend en onroerend goed")     # noqa
         ),
         migrate.ManageView(
             view_name="geo_hr_vestiging_locaties_overige",
             sql=geovestigingen_template.format(
                 "overige niet hierboven genoemd")
-        ),
-
-        migrate.ManageView(
-            view_name="geo_hr_vestiging_locaties_overige",
-            sql=geovestigingen_template_null
         ),
 
         migrate.ManageView(

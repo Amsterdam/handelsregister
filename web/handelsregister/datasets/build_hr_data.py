@@ -562,7 +562,7 @@ INSERT INTO hr_persoon (
     CASE typering != 'natuurlijkPersoon'
         WHEN TRUE THEN prsid
         ELSE NULL
-    END
+    END,
     status,
     duur
   FROM kvkprsm00

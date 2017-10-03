@@ -1,10 +1,14 @@
 import logging
+
+from django.conf import settings
+
 from datasets.hr import models, serializers
 
 log = logging.getLogger(__name__)
 
 
-def get_vestigingen(offset: int = 0, size: int = None) -> object:
+def get_vestigingen(
+        offset: int = 0, size: int = None) -> object:
     """
     Generates a query set to build json data for dataselectie
     An optional offset and size parameters can be given to limit
@@ -25,7 +29,95 @@ def get_vestigingen(offset: int = 0, size: int = None) -> object:
     return qs
 
 
-def write_dataselectie_data(step: int = 500):
+def chunck_qs_by_id(qs, chuncks=1000):
+    """
+    Determine ID range, chunck up range.
+    """
+
+    min_id = int(qs.first().id)
+    max_id = int(qs.last().id)
+
+    delta_step = int((max_id - min_id) / chuncks) or 1
+
+    log.debug(
+        'id range %s %s, chunksize %s', min_id, max_id, delta_step)
+
+    steps = list(range(min_id, max_id, delta_step))
+    # add max id range (bigger then last_id)
+    steps.append(max_id+1)
+    return steps
+
+
+def return_qs_parts(qs, modulo, modulo_value):
+    """ generate qs within min_id and max_id
+
+        modulo and modulo_value determin which chuncks
+        are teturned.
+
+        if partial = 1/3
+
+        then this function only returns chuncks index i for which
+        modulo i % 3 == 1
+    """
+
+    steps = chunck_qs_by_id(qs, 1000)
+
+    for i in range(len(steps)-1):
+        if not i % modulo == modulo_value:
+            continue
+        start_id = steps[i]
+        end_id = steps[i+1]
+        qs_s = qs.filter(id__gte=start_id).filter(id__lt=end_id)
+        log.debug('Count: %s range %s %s', qs_s.count(), start_id, end_id)
+        yield qs_s
+
+
+def store_json_data(qs):
+    """
+    given store dataselectie json data
+    """
+
+    bulk = []
+    for item in qs:
+        bag_numid = item.locatie.bag_numid
+
+        bulk.append(
+            models.DataSelectie(
+                id=item.id,
+                bag_numid=bag_numid,
+                api_json=serializers.VestigingDataselectie(item).data
+            )
+        )
+    # Using bulk save to save on ORM handling
+    # and db connections
+    models.DataSelectie.objects.bulk_create(bulk)
+
+
+def store_qs_data(full_qs):
+    """
+    Chunck queryset and only give relevant parts of chuncks to be
+    indexed.
+
+    this way we can devide the work up between workers
+    """
+
+    numerator = settings.PARTIAL_IMPORT['numerator']
+    denominator = settings.PARTIAL_IMPORT['denominator']
+
+    total = full_qs.count()
+
+    sumcount = 0
+
+    for qs_partial in return_qs_parts(full_qs, denominator, numerator):
+        p_count = qs_partial.count()
+        sumcount += p_count
+        store_json_data(qs_partial)
+
+    log.debug('%s %s', total, sumcount)
+    return sumcount
+
+
+def write_dataselectie_data():
     """
     Writes dataselectie data to the database from the HR data
 
@@ -33,25 +125,8 @@ def write_dataselectie_data(step: int = 500):
     queryset to handle
     """
     # Deleting all previous data
-    models.DataSelectie.objects.all().delete()
-    offset = 0
-    qs = get_vestigingen(offset, offset+step)
-    while qs:
-        bulk = []
-        for item in qs:
-            bag_numid = item.locatie.bag_numid
+    if settings.PARTIAL_IMPORT['denominator'] == 1:
+        models.DataSelectie.objects.all().delete()
 
-            bulk.append(
-                models.DataSelectie(
-                    id=item.id,
-                    bag_numid=bag_numid,
-                    api_json=serializers.VestigingDataselectie(item).data
-                )
-            )
-
-        # Using bulk save to save on ORM handling
-        # and db connections
-        models.DataSelectie.objects.bulk_create(bulk)
-        offset += step  # Moving to the next step
-        log.debug(f'{offset} items imported')
-        qs = get_vestigingen(offset, offset+step)
+    # store_json_data(step)
+    store_qs_data(get_vestigingen())

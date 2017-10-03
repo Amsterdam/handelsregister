@@ -145,8 +145,8 @@ class Command(BaseCommand):
             load_sbi_codes.build_all_sbi_code_trees(use_cache=use_cache)
         elif options['dataselectie']:
             build_ds_data.write_dataselectie_data()
-            # Count and Validate
-            handelsregister_stats.log_rapport_counts(action='ds')
+            # handelsregister_stats.log_rapport_counts(action='ds')
+
         elif options['validate_import']:
             handelsregister_stats.log_rapport_counts(
                 action='validate', fail_on_wrong_target=True)

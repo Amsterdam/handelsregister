@@ -30,8 +30,9 @@ class MaatschappelijkIndexer(index.ImportIndexTask):
     queryset = (
         MaatschappelijkeActiviteit.objects.
         prefetch_related('postadres').
-        prefetch_related('onderneming__handelsnamen').
         prefetch_related('bezoekadres').
+        prefetch_related('onderneming__handelsnamen').
+        prefetch_related('eigenaar').
         filter(datum_einde__isnull=True).
         order_by('id').all())
 
