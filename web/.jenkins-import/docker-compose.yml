@@ -33,7 +33,6 @@ services:
                && /app/docker-import.sh \
                && python manage.py build_index --reset"
 
-
   importer_el1:
     image: build.datapunt.amsterdam.nl:5000/datapunt/handelsregister:${ENVIRONMENT}
     links:

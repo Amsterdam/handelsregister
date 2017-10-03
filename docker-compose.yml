@@ -18,7 +18,6 @@ services:
       - "9200:9200"
       - "9300:9300"
 
-
   web:
     build: ./web
     ports:
@@ -45,7 +44,6 @@ services:
             bash -c "/app/docker-wait.sh \
                     && /app/docker-migrate.sh \
                     && /app/docker-run.sh"
-
 
 volumes:
    tmpdatabase:

@@ -33,13 +33,13 @@ class ElasticQueryWrapper(object):
     Wrapper object for dynamically constructing elastic search queries.
     """
 
-    def __init__(self,
-                 query: typing.Optional[dict],
-                 sort_fields: [str] = None,
-                 indexes: [str] = None,
-                 size: int = None,
-                 custom_sort_function: typing.Callable = None
-                 ):
+    def __init__(
+            self,
+            query: typing.Optional[dict],
+            sort_fields: [str] = None,
+            indexes: [str] = None,
+            size: int = None,
+            custom_sort_function: typing.Callable=None):
         """
         :param query: an elastic search query
         :param sort_fields: an optional list of fields to use for
@@ -85,8 +85,8 @@ def vestiging_query(analyzer: InputQAnalyzer) -> ElasticQueryWrapper:
 
     must = [Q('term', _type='vestiging')]
 
-    # sort_fields = ['_score']
-    sort_fields = ['_display']
+    sort_fields = ['_score']
+    # sort_fields = ['_display']
 
     min_match = 1
     should = [
@@ -96,7 +96,11 @@ def vestiging_query(analyzer: InputQAnalyzer) -> ElasticQueryWrapper:
             max_expansions=12,
             query=handelsnaam,
             type='phrase_prefix',
-            fields=["naam"]
+            fields=[
+                "naam",
+                "naam.ngram",
+                "naam.raw",
+            ]
         ),
         # Nested handelsnamen
         Q(
@@ -109,7 +113,12 @@ def vestiging_query(analyzer: InputQAnalyzer) -> ElasticQueryWrapper:
                 max_expansions=12,
                 query=handelsnaam,
                 type='phrase_prefix',
-                fields=["handelsnamen.naam"]
+                fields=[
+                    "handelsnamen.naam.ngram",
+                    "handelsnamen.naam.raw",
+                    "handelsnamen.naam"
+
+                ]
             )
         )
     ]
@@ -153,11 +162,16 @@ def mac_query(analyzer: InputQAnalyzer) -> ElasticQueryWrapper:
             max_expansions=12,
             query=handelsnaam,
             type='phrase_prefix',
-            fields=["naam"]
+            fields=[
+                "naam",
+                "naam.ngram",
+                "naam.raw"
+            ]
         ),
 
-        # Nested handelsnamen
+        Q('prefix', naam=handelsnaam),
 
+        # Nested handelsnamen
         Q(
             "nested",
             path="handelsnamen",
@@ -168,7 +182,11 @@ def mac_query(analyzer: InputQAnalyzer) -> ElasticQueryWrapper:
                 max_expansions=12,
                 query=handelsnaam,
                 type='phrase_prefix',
-                fields=["handelsnamen.naam"]
+                fields=[
+                    "handelsnamen.naam",
+                    "handelsnamen.naam.ngram",
+                    "naam.raw",
+                ]
             )
         )
     ]
@@ -178,9 +196,9 @@ def mac_query(analyzer: InputQAnalyzer) -> ElasticQueryWrapper:
         should = [Q('prefix', kvk_nummer=kvknummer)]
         min_match = 1
 
-    sort_fields = ['_display']
+    # sort_fields = ['_display']
     # straatnaam huisnummer??
-    # sort_fields = ['_score']
+    sort_fields = ['_score']
 
     return ElasticQueryWrapper(
         query=Q(
