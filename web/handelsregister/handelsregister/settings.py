@@ -308,7 +308,7 @@ DATAPUNT_AUTHZ = {
         'JWT_SHARED_SECRET_KEY', 'insecureeeeeeeeeeeeeee'),
     'JWT_ALGORITHM': 'HS256',
     'MIN_SCOPE': authorization_levels.LEVEL_EMPLOYEE,
-    'FORCED_ANONYMOUS_ROUTES': ('/status/', '/docs/api-docs/')
+    'FORCED_ANONYMOUS_ROUTES': ('/status/', '/docs/')
 }
 
 LOGGING = {
