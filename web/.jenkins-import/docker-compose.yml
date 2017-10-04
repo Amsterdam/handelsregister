@@ -9,16 +9,17 @@ services:
       - tmpdatabase:/tmp
 
   elasticsearch:
-    image: build.datapunt.amsterdam.nl:5000/atlas/elasticsearch5:latest
+    image: build.datapunt.amsterdam.nl:5000/atlas/elasticsearch5
     volumes:
       - ./backups/elasticsearch:/tmp/backups
+    user: root
     command: elasticsearch -Ehttp.host=0.0.0.0 -Etransport.host=127.0.0.1 -Epath.repo=/tmp
 
   importer:
     image: build.datapunt.amsterdam.nl:5000/datapunt/handelsregister:${ENVIRONMENT}
     links:
-      - database
       - elasticsearch
+      - database
     environment:
       DATABASE_NAME: handelsregister
       DATABASE_USER: handelsregister
@@ -77,12 +78,10 @@ services:
 
   db-backup:
     image: build.datapunt.amsterdam.nl:5000/atlas/postgres
-    links:
-      - database
-    environment:
-      PGPASSWORD: insecure
     volumes:
       - ./backups:/tmp/backups
+    environment:
+      PGPASSWORD: insecure
     command: >
       bash -c "echo database:5432:handelsregister:handelsregister:insecure > ~/.pgpass \
               && chmod 600 ~/.pgpass \
@@ -96,15 +95,15 @@ services:
                           handelsregister > /tmp/backups/database.dump"
 
   el-backup:
-    image: build.datapunt.amsterdam.nl:5000/atlas/elasticsearch
-    links:
-      - elasticsearch
+    image: build.datapunt.amsterdam.nl:5000/atlas/elasticsearch5
     volumes:
       - ./backups/elasticsearch:/tmp/backups
     user: root
     command: >
-      bash -c "curl -X PUT http://elasticsearch:9200/_snapshot/backup -d '{ \"type\": \"fs\", \"settings\": { \"location\": \"/tmp/backups\" }}' \
+      bash -c "chmod -R 777 /tmp/backups \
+              && curl -X PUT http://elasticsearch:9200/_snapshot/backup -d '{ \"type\": \"fs\", \"settings\": { \"location\": \"/tmp/backups\" }}' \
               && curl -X PUT http://elasticsearch:9200/_snapshot/backup/handelsregister?wait_for_completion=true -d '{ \"indices\": \"handelsregister\" }' \
               && chmod -R 777 /tmp/backups"
+
 volumes:
    tmpdatabase:
