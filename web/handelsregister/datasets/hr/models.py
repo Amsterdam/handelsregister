@@ -130,7 +130,7 @@ class Persoon(models.Model):
     faillissement = models.BooleanField()
 
     status = models.CharField(max_length=21, blank=True, null=True)
-    duur = models.CharField(max_length=21, blank=True, null=True)
+    duur = models.CharField(max_length=240, blank=True, null=True)
 
     def __str__(self):
         display = "{}".format(self.id)

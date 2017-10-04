@@ -161,7 +161,6 @@ if DEBUG:
         'debug_toolbar.middleware.DebugToolbarMiddleware',)
 
 
-
 ROOT_URLCONF = 'handelsregister.urls'
 
 TEMPLATES = [
