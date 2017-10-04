@@ -106,152 +106,161 @@ class SearchTest(APITestCase, authorization.AuthorizationSetup):
             keylist = [random.choice(source) for i in range(key_len)]
             query = "".join(keylist)
 
-            self.client.credentials(
-                HTTP_AUTHORIZATION='Bearer {}'.format(self.token_employee))
-            response = self.client.get(url, {
-                'q': "".join(query)})
+            for token in (self.token_employee, self.token_scope_hr_r):
+                self.client.credentials(
+                    HTTP_AUTHORIZATION='Bearer {}'.format(token))
+                response = self.client.get(url, {
+                    'q': "".join(query)})
 
-            self.assertEqual(response.status_code, 200)
+                self.assertEqual(response.status_code, 200)
 
     def test_mac_kvk(self):
 
         url = '/handelsregister/search/maatschappelijkeactiviteit/'
-        query = '011'
-        self.client.credentials(
-            HTTP_AUTHORIZATION='Bearer {}'.format(self.token_employee))
-        response = self.client.get(url, {'q': query})
-        self.assertIn('results', response.data)
-        self.assertIn('count', response.data)
+        for token in (self.token_employee, self.token_scope_hr_r):
+            query = '011'
+            self.client.credentials(
+                HTTP_AUTHORIZATION='Bearer {}'.format(token))
+            response = self.client.get(url, {'q': query})
+            self.assertIn('results', response.data)
+            self.assertIn('count', response.data)
 
-        self.assertEqual(response.data['count'], 2)
+            self.assertEqual(response.data['count'], 2)
 
-        query = '0112'
-        self.client.credentials(
-            HTTP_AUTHORIZATION='Bearer {}'.format(self.token_employee))
-        response = self.client.get(url, {'q': query})
-        self.assertEqual(response.data['count'], 1)
+            query = '0112'
+            self.client.credentials(
+                HTTP_AUTHORIZATION='Bearer {}'.format(token))
+            response = self.client.get(url, {'q': query})
+            self.assertEqual(response.data['count'], 1)
 
-        self.assertEqual(response.data['results'][0]['kvk_nummer'], '0112')
+            self.assertEqual(response.data['results'][0]['kvk_nummer'], '0112')
 
     def test_mac_naam(self):
 
         url = '/handelsregister/search/maatschappelijkeactiviteit/'
-        query = 'mac'
-        self.client.credentials(
-            HTTP_AUTHORIZATION='Bearer {}'.format(self.token_employee))
-        response = self.client.get(url, {'q': query})
-        self.assertIn('results', response.data)
-        self.assertIn('count', response.data)
-        self.assertEqual(response.data['count'], 3)
+        for token in (self.token_employee, self.token_scope_hr_r):
+            query = 'mac'
+            self.client.credentials(
+                HTTP_AUTHORIZATION='Bearer {}'.format(token))
+            response = self.client.get(url, {'q': query})
+            self.assertIn('results', response.data)
+            self.assertIn('count', response.data)
+            self.assertEqual(response.data['count'], 3)
 
-        query = 'mac3'
-        self.client.credentials(
-            HTTP_AUTHORIZATION='Bearer {}'.format(self.token_employee))
-        response = self.client.get(url, {'q': query})
+            query = 'mac3'
+            self.client.credentials(
+                HTTP_AUTHORIZATION='Bearer {}'.format(token))
+            response = self.client.get(url, {'q': query})
 
-        # logging.error(json.dumps(response.data['results'], indent=4))
+            # logging.error(json.dumps(response.data['results'], indent=4))
 
-        handelsnamen = [n['naam'] for n in
-                        response.data['results'][0]['handelsnamen']]
+            handelsnamen = [n['naam'] for n in
+                            response.data['results'][0]['handelsnamen']]
 
-        self.assertTrue('mac3' in handelsnamen)
+            self.assertTrue('mac3' in handelsnamen)
 
     def test_mac_handelsnaam(self):
 
         url = '/handelsregister/search/maatschappelijkeactiviteit/'
 
-        query = 'handelsnaammac'
 
-        self.client.credentials(
-            HTTP_AUTHORIZATION='Bearer {}'.format(self.token_employee))
-        response = self.client.get(url, {'q': query})
+        for token in (self.token_employee, self.token_scope_hr_r):
+            query = 'handelsnaammac'
+            self.client.credentials(
+                HTTP_AUTHORIZATION='Bearer {}'.format(token))
+            response = self.client.get(url, {'q': query})
 
-        self.assertEqual(response.data['count'], 1)
-        # logging.error(json.dumps(response.data['results'], indent=4))
+            self.assertEqual(response.data['count'], 1)
+            # logging.error(json.dumps(response.data['results'], indent=4))
 
-        handelsnamen = [n['naam'] for n in
-                        response.data['results'][0]['handelsnamen']]
+            handelsnamen = [n['naam'] for n in
+                            response.data['results'][0]['handelsnamen']]
 
-        self.assertTrue('handelsnaammac' in handelsnamen)
+            self.assertTrue('handelsnaammac' in handelsnamen)
 
     def test_ves_id(self):
 
         url = '/handelsregister/search/vestiging/'
-        query = 9999
-        self.client.credentials(
-            HTTP_AUTHORIZATION='Bearer {}'.format(self.token_employee))
-        response = self.client.get(url, {'q': query})
-        self.assertIn('results', response.data)
-        self.assertIn('count', response.data)
-        self.assertEqual(response.data['count'], 2)
+        for token in (self.token_employee, self.token_scope_hr_r):
+            query = 9999
+            self.client.credentials(
+                HTTP_AUTHORIZATION='Bearer {}'.format(token))
+            response = self.client.get(url, {'q': query})
+            self.assertIn('results', response.data)
+            self.assertIn('count', response.data)
+            self.assertEqual(response.data['count'], 2)
 
-        query = 99998
-        self.client.credentials(
-            HTTP_AUTHORIZATION='Bearer {}'.format(self.token_employee))
-        response = self.client.get(url, {'q': query})
-        self.assertEqual(response.data['count'], 1)
+            query = 99998
+            self.client.credentials(
+                HTTP_AUTHORIZATION='Bearer {}'.format(self.token_employee))
+            response = self.client.get(url, {'q': query})
+            self.assertEqual(response.data['count'], 1)
 
-        self.assertEqual(
-            response.data['results'][0]['vestigingsnummer'], '99998')
+            self.assertEqual(
+                response.data['results'][0]['vestigingsnummer'], '99998')
 
     def test_vest_zeros_in_id(self):
         url = '/handelsregister/search/vestiging/'
-        query = 6
-        self.client.credentials(
-            HTTP_AUTHORIZATION='Bearer {}'.format(self.token_employee))
-        response = self.client.get(url, {'q': query})
-        self.assertIn('results', response.data)
-        self.assertIn('count', response.data)
-        self.assertEqual(response.data['count'], 1)
+        for token in (self.token_employee, self.token_scope_hr_r):
+            query = 6
+            self.client.credentials(
+                HTTP_AUTHORIZATION='Bearer {}'.format(token))
+            response = self.client.get(url, {'q': query})
+            self.assertIn('results', response.data)
+            self.assertIn('count', response.data)
+            self.assertEqual(response.data['count'], 1)
 
-        self.assertEqual(
-            response.data['results'][0]['vestigingsnummer'], '00006')
+            self.assertEqual(
+                response.data['results'][0]['vestigingsnummer'], '00006')
 
     def test_ves_naam(self):
 
         url = '/handelsregister/search/vestiging/'
-        query = 'test'
-        self.client.credentials(
-            HTTP_AUTHORIZATION='Bearer {}'.format(self.token_employee))
-        response = self.client.get(url, {'q': query})
-        self.assertIn('results', response.data)
-        self.assertIn('count', response.data)
-        self.assertEqual(response.data['count'], 4)
+        for token in (self.token_employee, self.token_scope_hr_r):
+            query = 'test'
+            self.client.credentials(
+                HTTP_AUTHORIZATION='Bearer {}'.format(token))
+            response = self.client.get(url, {'q': query})
+            self.assertIn('results', response.data)
+            self.assertIn('count', response.data)
+            self.assertEqual(response.data['count'], 4)
 
-        query = 'test3'
-        self.client.credentials(
-            HTTP_AUTHORIZATION='Bearer {}'.format(self.token_employee))
-        response = self.client.get(url, {'q': query})
+            query = 'test3'
+            self.client.credentials(
+                HTTP_AUTHORIZATION='Bearer {}'.format(token))
+            response = self.client.get(url, {'q': query})
 
-        # logging.error(json.dumps(response.data['results'], indent=4))
+            # logging.error(json.dumps(response.data['results'], indent=4))
 
-        handelsnamen = [n['naam'] for n in
-                        response.data['results'][0]['handelsnamen']]
+            handelsnamen = [n['naam'] for n in
+                            response.data['results'][0]['handelsnamen']]
 
-        self.assertTrue('test3' in handelsnamen)
+            self.assertTrue('test3' in handelsnamen)
 
     def test_ves_handelsnaam(self):
         url = '/handelsregister/search/vestiging/'
-        query = 'handelsnaam3'
-        self.client.credentials(
-            HTTP_AUTHORIZATION='Bearer {}'.format(self.token_employee))
-        response = self.client.get(url, {'q': query})
+        for token in (self.token_employee, self.token_scope_hr_r):
+            query = 'handelsnaam3'
+            self.client.credentials(
+                HTTP_AUTHORIZATION='Bearer {}'.format(token))
+            response = self.client.get(url, {'q': query})
 
-        # logging.error(json.dumps(response.data['results'], indent=4))
+            # logging.error(json.dumps(response.data['results'], indent=4))
 
-        handelsnamen = [n['naam'] for n in
-                        response.data['results'][0]['handelsnamen']]
+            handelsnamen = [n['naam'] for n in
+                            response.data['results'][0]['handelsnamen']]
 
-        self.assertTrue('handelsnaam3' in handelsnamen)
+            self.assertTrue('handelsnaam3' in handelsnamen)
 
 
     def test_geosearch(self):
         url = '/handelsregister/geosearch/'
-        self.client.credentials(
-            HTTP_AUTHORIZATION='Bearer {}'.format(self.token_employee))
-        response = self.client.get(url, {'item': 'horeca',
-                                         'x': 121944,
-                                         'y': 487722,
-                                         'radius': 100})
+        for token in (self.token_employee, self.token_scope_hr_r):
+            self.client.credentials(
+                HTTP_AUTHORIZATION='Bearer {}'.format(token))
+            response = self.client.get(url, {'item': 'horeca',
+                                             'x': 121944,
+                                             'y': 487722,
+                                             'radius': 100})
 
-        self.assertEqual(response.status_code, 200)
+            self.assertEqual(response.status_code, 200)
