@@ -25,7 +25,8 @@ class ValidateSBICodeTest(TestCase):
     @classmethod
     def setUpClass(cls):
         """
-        Create and Test some ambiguous sbi codes
+        Create and Test some ambiguous sbi codes, invalid code
+        normal codes , too short codes and check if they are fixed.
         """
         super().setUpClass()
         # load sbi fixture tree(s)

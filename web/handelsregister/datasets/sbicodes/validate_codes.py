@@ -441,7 +441,7 @@ def fix_manual_missing_qa(missing_qa):
     For a few sbi_codes we have a manual fixes
 
     we build a new qa_tree for each sbi item using the manual
-    fixes this code will fix mostly sbi codes belonging to
+    fixes, this code will mostly fixes sbi codes belonging to
     production
     """
     # load sql
@@ -452,7 +452,10 @@ def fix_manual_missing_qa(missing_qa):
         log.debug("Nothing to fix")
         return
 
+    # maps manual q2 categories to their
+    # q1 main category.
     q2_q1_map = {
+        # q2                   # q1
         'productie': 'productie, installatie, reparatie',
         'sport': 'cultuur, sport, recreatie',
         'overige': 'overige niet hierboven genoemd',
@@ -461,6 +464,7 @@ def fix_manual_missing_qa(missing_qa):
 
     for sbicode, _title in missing_qa:
         q2_solution = manual_fixes[sbicode]
+        # make sure there is a manual solution for code
         assert q2_solution
 
         log.debug('%s %s Resolved', sbicode, q2_solution)
@@ -473,12 +477,13 @@ def fix_manual_missing_qa(missing_qa):
             q2_fix = 'groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)'  # noqa
 
         qa_tree = {
-            'q1': q2_q1_map[q2_solution],
-            'q2': q2_fix,
-            'q3': sbi_missing_qa.title,
-            'fixed': True,
+            'q1': q2_q1_map[q2_solution],  # lookup q1
+            'q2': q2_fix,                  # add q2 fix
+            'q3': sbi_missing_qa.title,    # add q3 fix
+            'fixed': True,                 # tag it fixed
         }
 
+        # make sbi code point to correct qa_tree
         sbi_missing_qa.qa_tree = qa_tree
         # fix the missing qa tree
         sbi_missing_qa.save()
