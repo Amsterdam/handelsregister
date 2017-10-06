@@ -489,7 +489,33 @@ def fix_manual_missing_qa(missing_qa):
         sbi_missing_qa.save()
 
 
+def fix_missing_zeros_default():
+    """
+    sbi 1,2 --> 0001, 0002
+    """
+
+    a1 = hrmodels.Activiteit.objects.filter(
+        sbi_code__in=['1', '01'])
+
+    for a in a1:
+        a.sbi_code = '0001'
+        a.save()
+
+    a2 = hrmodels.Activiteit.objects.filter(
+        sbi_code__in=['2', '02'])
+
+    for a in a2:
+        a.sbi_code = '0002'
+        a.save()
+
+    log.debug('Fixed 01 %d - 02 %d', a1.count(), a2.count())
+
+
 def update_activiteiten():
+    """
+    Update all activiteit which do not have
+    a qa_tree relation for which one should exist
+    """
 
     log.debug('update hr_activiteiten..')
 
@@ -530,5 +556,6 @@ def validate():
     missing_qa = find_missing_qa()
     fix_manual_missing_qa(missing_qa)
 
+    fix_missing_zeros_default()
     # fix foreign key relation
     update_activiteiten()

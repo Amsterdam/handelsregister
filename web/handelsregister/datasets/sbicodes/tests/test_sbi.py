@@ -85,9 +85,28 @@ class ValidateSBICodeTest(TestCase):
 
         ]
 
+        cls.default_ones = [
+            # 'ongeclassificeerd' en 'geen bedrijfsactiviteiten'
+            hrmodels.Activiteit.objects.create(
+                id="01",
+                activiteitsomschrijving='2 nuls too short',
+                sbi_code='1',  # missing 2 zero's
+                sbi_omschrijving="ongeclassificeerd",  # noqa
+                hoofdactiviteit=True
+            ),
+            hrmodels.Activiteit.objects.create(
+                id="02",
+                activiteitsomschrijving='2 nulls missing 1 2 3',
+                sbi_code='2',  # missing 2 zero's
+                sbi_omschrijving="geen bedrijfsactiviteiten",  # noqa
+                hoofdactiviteit=True
+            )
+        ]
+
         cls.all_activities.extend(cls.bad_codes)
         cls.all_activities.extend(cls.zeros_codes)
         cls.all_activities.extend(cls.too_short)
+        cls.all_activities.extend(cls.default_ones)
 
         def save_activiteit(act):
             t_act = hrmodels.Activiteit.objects.create(
@@ -188,3 +207,16 @@ class ValidateSBICodeTest(TestCase):
         validate_codes.fix_manual_missing_qa(missing_qa)
         missing_qa = validate_codes.find_missing_qa()
         self.assertEqual(len(missing_qa), 0)
+
+    def test_defaultcode_correction(self):
+        """
+        2 categories
+        """
+        ves1 = hrmodels.Vestiging.objects.get(naam='test_1')
+        ves2 = hrmodels.Vestiging.objects.get(naam='test_2')
+        validate_codes.fix_missing_zeros_default()
+
+        self.assertEqual(ves1.activiteiten.count(), 1)
+        self.assertEqual(ves2.activiteiten.count(), 1)
+        self.assertEqual(ves1.activiteiten.all()[0].sbi_code, '0001')
+        self.assertEqual(ves2.activiteiten.all()[0].sbi_code, '0002')

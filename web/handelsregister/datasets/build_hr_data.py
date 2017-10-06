@@ -61,6 +61,7 @@ def sql_steps(cursor, keep_outside_amsterdam=False):
 
     log.info("Converteren hoofdactiviteit")
     _converteer_hoofdactiviteit(cursor)
+
     for i in (1, 2, 3):
         log.info("Converteren nevenactiviteit-%s", i)
         _converteer_nevenactiviteit(cursor, i)
@@ -86,7 +87,6 @@ def sql_steps(cursor, keep_outside_amsterdam=False):
     log.info("Converteer eigenaren")
     _converteer_mac_eigenaar_id(cursor)
 
-    # eigenaren zitten niet in zonde export..
     log.info("Converteer onbekende mac mks eigenaren")
     _converteer_onbekende_mac_eigenaar_id(cursor)
 
