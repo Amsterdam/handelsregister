@@ -290,6 +290,17 @@ SWAGGER_SETTINGS = {
     },
 
     'doc_expansion': 'list',
+    
+    'SECURITY_DEFINITIONS': {
+        'oauth2': {
+            'type': 'oauth2',
+            'authorizationUrl': DATAPUNT_API_URL + "oauth2/authorize",
+            'flow': 'implicit',
+            'scopes': {
+                authorization_levels.SCOPE_HR_R: "Toegang HR",
+            }
+        }
+    }
 }
 
 # Static files (CSS, JavaScript, Images)
