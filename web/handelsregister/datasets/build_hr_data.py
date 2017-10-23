@@ -90,12 +90,12 @@ def sql_steps(cursor, keep_outside_amsterdam=False):
     log.info("Converteer onbekende mac mks eigenaren")
     _converteer_onbekende_mac_eigenaar_id(cursor)
 
-    # Dropall outside of Amsterdam
+    # Dropall vestigingen outside of Amsterdam
     # if not settings.TESTING:
     if not keep_outside_amsterdam:
         log.info("Verwijder vestigingen met bezoekadres buiten Amsterdam")
         deleted = Vestiging.objects.exclude(
-            bezoekadres__volledig_adres__endswith='Amsterdam').delete()
+            bezoekadres__volledig_adres__endswith=' Amsterdam').delete()
         log.info(deleted)
 
 

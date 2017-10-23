@@ -22,12 +22,17 @@ class ImportVestigingTest(TestCase):
             nonmailing='Ja',
             prsid=999999999999999999,
             datumaanvang=19820930,
-            laatstbijgewerkt=datetime.datetime(2016, 5, 19, 9, 14, 44, 997537, tzinfo=datetime.timezone.utc),
+            laatstbijgewerkt=datetime.datetime(
+                2016, 5, 19, 9, 14, 44, 997537,
+                tzinfo=datetime.timezone.utc),
             statusobject='Bevraagd',
             machibver=0
         )
 
     def geef_vestiging_een_adres(self, kvk_vestiging):
+        """
+        Geef elke vestigign een adres BINNEN Amsterdam
+        """
 
         if kvk_vestiging.adressen.count() == 0:
             b, _ = kvk.KvkAdres.objects.get_or_create(
@@ -86,7 +91,11 @@ class ImportVestigingTest(TestCase):
 
         self.assertIsNotNone(vestiging)
         self.assertEqual('100000000000000000', vestiging.id)
-        self.assertEqual(Decimal('999999999999999999'), vestiging.maatschappelijke_activiteit.pk)
+
+        self.assertEqual(
+            Decimal('999999999999999999'),
+            vestiging.maatschappelijke_activiteit.pk)
+
         self.assertEqual('000033333333', vestiging.vestigingsnummer)
         self.assertEqual('Onderneming B.V.', vestiging.naam)
 
@@ -94,6 +103,42 @@ class ImportVestigingTest(TestCase):
         self.assertIsNone(vestiging.datum_einde)
         self.assertIsNone(vestiging.datum_voortzetting)
         self.assertTrue(vestiging.hoofdvestiging)
+
+    def test_nieuw_amsterdam_niet_importeren(self):
+
+        kvk_vestiging = kvk.KvkVestiging.objects.create(
+            vesid=111000000000000001,
+            maatschappelijke_activiteit_id=999999999999999999,
+            vestigingsnummer='000033333333',
+            eerstehandelsnaam='Onderneming Buiten Amsterdam B.V.',
+            indicatiehoofdvestiging='Ja',
+            typeringvestiging='CVS',
+            statusobject='Bevraagd',
+            veshibver=0,
+            datumaanvang=20160201,
+            registratietijdstip=20160322120335496,
+            totaalwerkzamepersonen=0,
+        )
+
+        p, _ = kvk.KvkAdres.objects.get_or_create(
+                adrid=110000000001511356,
+                afgeschermd='Nee',
+                plaats='Nieuw-Amsterdam',
+                postbusnummer=229,
+                postcode='5460AE',
+                typering='postLocatie',
+                volledigadres='Postbus 229 5460AE Nieuw-Amsterdam',
+                adrhibver=0
+            )
+
+        kvk_vestiging.adressen.add(p)
+
+        build_hr_data.fill_stelselpedia()
+
+        # make sure vestiging IS NOT imported.
+        vestiging = models.Vestiging.objects.filter(
+            id=kvk_vestiging.vesid).first()
+        self.assertIsNone(vestiging)
 
     def test_import_communicatie(self):
         kvk_vestiging = kvk.KvkVestiging.objects.create(
@@ -198,7 +243,8 @@ class ImportVestigingTest(TestCase):
         vestiging = self._convert(kvk_vestiging)
 
         self.assertIsNotNone(vestiging.postadres)
-        self.assertEqual('Postbus 229 5460AE Amsterdam', vestiging.postadres.volledig_adres)
+        self.assertEqual(
+            'Postbus 229 5460AE Amsterdam', vestiging.postadres.volledig_adres)
 
         self.assertIsNotNone(vestiging.bezoekadres)
         self.assertEqual('Vlothavenweg', vestiging.bezoekadres.straatnaam)
@@ -294,7 +340,8 @@ class ImportVestigingTest(TestCase):
 
         build_hr_data.fill_stelselpedia()
 
-        mac = models.MaatschappelijkeActiviteit.objects.get(pk=999999999999999999)
+        mac = models.MaatschappelijkeActiviteit.objects.get(
+            pk=999999999999999999)
         self.assertIsNotNone(mac.hoofdvestiging)
 
         self.assertEqual('100000000000000001', mac.hoofdvestiging.pk)
