@@ -28,10 +28,9 @@ class BrowseDatasetsTestCase(APITestCase, authorization.AuthorizationSetup):
     def test_index_pages(self):
         url = 'handelsregister'
 
-        for token in (self.token_employee, self.token_scope_hr_r):
-            self.client.credentials(
-                HTTP_AUTHORIZATION='Bearer {}'.format(token))
-            response = self.client.get('/{}/'.format(url))
+        self.client.credentials(
+            HTTP_AUTHORIZATION='Bearer {}'.format(self.token_scope_hr_r))
+        response = self.client.get('/{}/'.format(url))
 
         self.assertEqual(
             response.status_code,
@@ -51,72 +50,68 @@ class BrowseDatasetsTestCase(APITestCase, authorization.AuthorizationSetup):
             'Wrong Content-Type for {}'.format(url))
 
     def test_lists(self):
-        for token in (self.token_employee, self.token_scope_hr_r):
-            for url in self.datasets:
-                self.client.credentials(
-                    HTTP_AUTHORIZATION='Bearer {}'.format(token))
-                response = self.client.get('/{}/'.format(url))
+        for url in self.datasets:
+            self.client.credentials(
+                HTTP_AUTHORIZATION='Bearer {}'.format(self.token_scope_hr_r))
+            response = self.client.get('/{}/'.format(url))
 
-                self.assertEqual(
-                    response.status_code,
-                    200, 'Wrong response code for {}'.format(url))
+            self.assertEqual(
+                response.status_code,
+                200, 'Wrong response code for {}'.format(url))
 
-                self.assertEqual(
-                    response['Content-Type'], 'application/json',
-                    'Wrong Content-Type for {}'.format(url))
+            self.assertEqual(
+                response['Content-Type'], 'application/json',
+                'Wrong Content-Type for {}'.format(url))
 
-                self.assertIn(
-                    'count', response.data, 'No count attribute in {}'.format(url))
-                self.assertNotEqual(
-                    response.data['count'],
-                    0, 'Wrong result count for {}'.format(url))
+            self.assertIn(
+                'count', response.data, 'No count attribute in {}'.format(url))
+            self.assertNotEqual(
+                response.data['count'],
+                0, 'Wrong result count for {}'.format(url))
 
     def test_lists_html(self):
-        for token in (self.token_employee, self.token_scope_hr_r):
-            for url in self.datasets:
-                self.client.credentials(
-                    HTTP_AUTHORIZATION='Bearer {}'.format(token))
-                response = self.client.get('/{}/?format=api'.format(url))
+        for url in self.datasets:
+            self.client.credentials(
+                HTTP_AUTHORIZATION='Bearer {}'.format(self.token_scope_hr_r))
+            response = self.client.get('/{}/?format=api'.format(url))
 
-                self.valid_html_response(url, response)
+            self.valid_html_response(url, response)
 
-                self.assertIn(
-                    'count', response.data, 'No count attribute in {}'.format(url))
-                self.assertNotEqual(
-                    response.data['count'],
-                    0, 'Wrong result count for {}'.format(url))
+            self.assertIn(
+                'count', response.data, 'No count attribute in {}'.format(url))
+            self.assertNotEqual(
+                response.data['count'],
+                0, 'Wrong result count for {}'.format(url))
 
     def test_details(self):
-        for token in (self.token_employee, self.token_scope_hr_r):
-            for url in self.datasets:
-                self.client.credentials(
-                    HTTP_AUTHORIZATION='Bearer {}'.format(token))
-                response = self.client.get('/{}/'.format(url))
+        for url in self.datasets:
+            self.client.credentials(
+                HTTP_AUTHORIZATION='Bearer {}'.format(self.token_scope_hr_r))
+            response = self.client.get('/{}/'.format(url))
 
-                url = response.data['results'][0]['_links']['self']['href']
-                detail = self.client.get(url)
+            url = response.data['results'][0]['_links']['self']['href']
+            detail = self.client.get(url)
 
-                self.assertEqual(
-                    detail.status_code,
-                    200, 'Wrong response code for {}'.format(url))
+            self.assertEqual(
+                detail.status_code,
+                200, 'Wrong response code for {}'.format(url))
 
-                self.assertEqual(
-                    detail['Content-Type'],
-                    'application/json', 'Wrong Content-Type for {}'.format(url))
+            self.assertEqual(
+                detail['Content-Type'],
+                'application/json', 'Wrong Content-Type for {}'.format(url))
 
-                self.assertIn('_display', detail.data)
+            self.assertIn('_display', detail.data)
 
     def test_details_html(self):
-        for token in (self.token_employee, self.token_scope_hr_r):
-            for url in self.datasets:
-                self.client.credentials(
-                    HTTP_AUTHORIZATION='Bearer {}'.format(token))
-                response = self.client.get('/{}/?format=api'.format(url))
+        for url in self.datasets:
+            self.client.credentials(
+                HTTP_AUTHORIZATION='Bearer {}'.format(self.token_scope_hr_r))
+            response = self.client.get('/{}/?format=api'.format(url))
 
-                url = response.data['results'][0]['_links']['self']['href']
+            url = response.data['results'][0]['_links']['self']['href']
 
-                detail = self.client.get(url)
+            detail = self.client.get(url)
 
-                self.valid_html_response(url, response)
+            self.valid_html_response(url, response)
 
-                self.assertIn('_display', detail.data)
+            self.assertIn('_display', detail.data)

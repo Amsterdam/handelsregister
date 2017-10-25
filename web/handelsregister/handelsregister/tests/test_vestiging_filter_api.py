@@ -40,13 +40,12 @@ class VestingFilterTest(APITestCase, authorization.AuthorizationSetup):
         """
         test_id = self.vestigingen[0].vestigingsnummer
 
-        for token in (self.token_employee, self.token_scope_hr_r):
-            self.client.credentials(
-                HTTP_AUTHORIZATION='Bearer {}'.format(token))
-            response = self.client.get(
-                '/handelsregister/vestiging/{}/'.format(test_id))
+        self.client.credentials(
+            HTTP_AUTHORIZATION='Bearer {}'.format(self.token_scope_hr_r))
+        response = self.client.get(
+            '/handelsregister/vestiging/{}/'.format(test_id))
 
-            self.assertEquals(200, response.status_code)
+        self.assertEquals(200, response.status_code)
 
     def test_filter_nummeraanduiding(self):
         vestigingen = models_hr.Vestiging.objects.filter(
@@ -56,25 +55,24 @@ class VestingFilterTest(APITestCase, authorization.AuthorizationSetup):
            postadres__bag_numid='p0',
         )
 
-        for token in (self.token_employee, self.token_scope_hr_r):
-            self.client.credentials(
-                HTTP_AUTHORIZATION='Bearer {}'.format(token))
-            response_b = self.client.get(
-                '/handelsregister/vestiging/?nummeraanduiding=0')
+        self.client.credentials(
+            HTTP_AUTHORIZATION='Bearer {}'.format(self.token_scope_hr_r))
+        response_b = self.client.get(
+            '/handelsregister/vestiging/?nummeraanduiding=0')
 
-            data_b = response_b.json()
-            self.assertEquals(200, response_b.status_code)
-            self.assertEquals(vestigingen.count(), data_b['count'])
+        data_b = response_b.json()
+        self.assertEquals(200, response_b.status_code)
+        self.assertEquals(vestigingen.count(), data_b['count'])
 
-            self.client.credentials(
-                HTTP_AUTHORIZATION='Bearer {}'.format(token))
-            response_p = self.client.get(
-                '/handelsregister/vestiging/?nummeraanduiding=p0')
+        self.client.credentials(
+            HTTP_AUTHORIZATION='Bearer {}'.format(self.token_scope_hr_r))
+        response_p = self.client.get(
+            '/handelsregister/vestiging/?nummeraanduiding=p0')
 
-            data_p = response_p.json()
+        data_p = response_p.json()
 
-            self.assertEquals(200, response_p.status_code)
-            self.assertEquals(vestigingen_p.count(), data_p['count'])
+        self.assertEquals(200, response_p.status_code)
+        self.assertEquals(vestigingen_p.count(), data_p['count'])
 
     def test_filter_vbo_id(self):
 
@@ -82,17 +80,16 @@ class VestingFilterTest(APITestCase, authorization.AuthorizationSetup):
            bezoekadres__bag_vbid=5,
         )
 
-        for token in (self.token_employee, self.token_scope_hr_r):
-            self.client.credentials(
-                HTTP_AUTHORIZATION='Bearer {}'.format(token))
+        self.client.credentials(
+            HTTP_AUTHORIZATION='Bearer {}'.format(self.token_scope_hr_r))
 
-            response = self.client.get(
-                '/handelsregister/vestiging/?verblijfsobject=5')
+        response = self.client.get(
+            '/handelsregister/vestiging/?verblijfsobject=5')
 
-            data = response.json()
-            self.assertEquals(200, response.status_code)
+        data = response.json()
+        self.assertEquals(200, response.status_code)
 
-            self.assertEquals(vestigingen.count(), data['count'])
+        self.assertEquals(vestigingen.count(), data['count'])
 
     def test_filter_pand_id(self):
         """
@@ -105,16 +102,15 @@ class VestingFilterTest(APITestCase, authorization.AuthorizationSetup):
            bezoekadres__bag_numid=4,
         )
 
-        for token in (self.token_employee, self.token_scope_hr_r):
-            self.client.credentials(
-                HTTP_AUTHORIZATION='Bearer {}'.format(token))
-            response = self.client.get(
-                '/handelsregister/vestiging/?pand=0363010000758545')
+        self.client.credentials(
+            HTTP_AUTHORIZATION='Bearer {}'.format(self.token_scope_hr_r))
+        response = self.client.get(
+            '/handelsregister/vestiging/?pand=0363010000758545')
 
-            self.assertEquals(200, response.status_code)
-            data = response.json()
+        self.assertEquals(200, response.status_code)
+        data = response.json()
 
-            self.assertEquals(vestigingen.count(), data['count'])
+        self.assertEquals(vestigingen.count(), data['count'])
 
     def test_filter_kot_id(self):
         """
@@ -135,13 +131,12 @@ class VestingFilterTest(APITestCase, authorization.AuthorizationSetup):
         )
 
         # Trigger a filter request with kot object id
-        for token in (self.token_employee, self.token_scope_hr_r):
-            self.client.credentials(
-                HTTP_AUTHORIZATION='Bearer {}'.format(token))
-            response = self.client.get(
-                '/handelsregister/vestiging/?kadastraal_object=NL.KAD.OnroerendeZaak.11450749270000')
+        self.client.credentials(
+            HTTP_AUTHORIZATION='Bearer {}'.format(self.token_scope_hr_r))
+        response = self.client.get(
+            '/handelsregister/vestiging/?kadastraal_object=NL.KAD.OnroerendeZaak.11450749270000')
 
-            self.assertEquals(200, response.status_code)
+        self.assertEquals(200, response.status_code)
 
         data = response.json()
 
@@ -153,17 +148,15 @@ class VestingFilterTest(APITestCase, authorization.AuthorizationSetup):
     def test_unknown_vbo_is_200(self):
         """
         """
-        for token in (self.token_employee, self.token_scope_hr_r):
-            self.client.credentials(
-                HTTP_AUTHORIZATION='Bearer {}'.format(token))
-            response = self.client.get(
-                '/handelsregister/vestiging/?verblijfsobject=9999')
+        self.client.credentials(
+            HTTP_AUTHORIZATION='Bearer {}'.format(self.token_scope_hr_r))
+        response = self.client.get(
+            '/handelsregister/vestiging/?verblijfsobject=9999')
 
-            self.assertEquals(200, response.status_code)
+        self.assertEquals(200, response.status_code)
 
     def test_dataselectie_filter(self):
-        for token in (self.token_employee, self.token_scope_hr_r):
-            self.client.credentials(
-                HTTP_AUTHORIZATION='Bearer {}'.format(token))
-            response = self.client.get(
-                '/handelsregister/dataselectie/?sbi_code=1073')
+        self.client.credentials(
+            HTTP_AUTHORIZATION='Bearer {}'.format(self.token_scope_hr_r))
+        response = self.client.get(
+            '/handelsregister/dataselectie/?sbi_code=1073')

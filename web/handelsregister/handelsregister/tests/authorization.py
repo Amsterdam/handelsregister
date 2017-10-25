@@ -12,23 +12,19 @@ class AuthorizationSetup(object):
 
     sets the following attributes:
 
-    token_default
-    token_employee
-    token_employee_plus
+    token_scope_hr
     """
 
     def setUpAuthorization(self):
         """
         SET
 
-        token_default
-        token_employee
-        token_employee_plus
+        token_scope_hr
 
         to use with:
 
         self.client.credentials(
-            HTTP_AUTHORIZATION='Bearer {}'.format(self.token_employee_plus))
+            HTTP_AUTHORIZATION='Bearer {}'.format(self.token_scope_hr))
 
         """
         # NEW STYLE AUTH
@@ -37,20 +33,8 @@ class AuthorizationSetup(object):
 
         now = int(time.time())
 
-        token_default = jwt.encode({
-            'authz': authorization_levels.LEVEL_DEFAULT,
-            'iat': now, 'exp': now + 600}, key, algorithm=algorithm)
-        token_employee = jwt.encode({
-            'authz': authorization_levels.LEVEL_EMPLOYEE,
-            'iat': now, 'exp': now + 600}, key, algorithm=algorithm)
-        token_employee_plus = jwt.encode({
-            'authz': authorization_levels.LEVEL_EMPLOYEE_PLUS,
-            'iat': now, 'exp': now + 600}, key, algorithm=algorithm)
         token_scope_hr_r = jwt.encode({
             'scopes' : [authorization_levels.SCOPE_HR_R],
             'iat': now, 'exp': now + 600}, key, algorithm=algorithm)
 
-        self.token_default = str(token_default, 'utf-8')
-        self.token_employee = str(token_employee, 'utf-8')
-        self.token_employee_plus = str(token_employee_plus, 'utf-8')
         self.token_scope_hr_r  = str(token_scope_hr_r, 'utf-8')
