@@ -24,9 +24,36 @@ def get_vestigingen(
         .prefetch_related('handelsnamen') \
         .filter(datum_einde__isnull=True) \
         .order_by('id')
+
     if size:
         qs = qs[offset:size]
     return qs
+
+
+def get_maatschappelijke_activiteiten() -> object:
+    """
+    Build query to return Mac in Amsterdam.
+    """
+
+    qs = (
+        models.MaatschappelijkeActiviteit.objects
+        .filter(datum_einde__isnull=True)
+        .select_related('bezoekadres')
+        .select_related('postadres')
+        .select_related('hoofdvestiging')
+        .select_related('eigenaar')
+        .select_related('onderneming')
+        .prefetch_related('communicatiegegevens')
+    )
+
+    qs_p = (
+        qs.filter(bezoekadres__plaats='Amsterdam')
+    )
+    qs_b = (
+        qs.filter(postadres__plaats='Amsterdam')
+    )
+
+    return qs_p | qs_b
 
 
 def chunck_qs_by_id(qs, chuncks=1000):
@@ -81,11 +108,26 @@ def store_json_data(qs):
     for item in qs:
         bag_numid = item.locatie.bag_numid
 
+        api_json = None
+
+        if isinstance(item, models.Vestiging):
+            api_json = serializers.VestigingDataselectie(item).data
+            api_json['dataset'] = 'ves'
+        elif isinstance(item, models.MaatschappelijkeActiviteit):
+            api_json = (
+                serializers
+                .MaatschappelijkeActiviteitDataselectie(item)
+                .data
+            )
+            api_json['dataset'] = 'mac'
+        else:
+            raise ValueError('Unknown instance recieved..')
+
         bulk.append(
             models.DataSelectie(
                 id=item.id,
                 bag_numid=bag_numid,
-                api_json=serializers.VestigingDataselectie(item).data
+                api_json=api_json,
             )
         )
     # Using bulk save to save on ORM handling
@@ -98,7 +140,7 @@ def store_qs_data(full_qs):
     Chunck queryset and only give relevant parts of chuncks to be
     indexed.
 
-    this way we can devide the work up between workers
+    This way we can devide the work up between workers
     """
 
     numerator = settings.PARTIAL_IMPORT['numerator']
@@ -127,6 +169,5 @@ def write_dataselectie_data():
     # Deleting all previous data
     if settings.PARTIAL_IMPORT['denominator'] == 1:
         models.DataSelectie.objects.all().delete()
-
-    # store_json_data(step)
-    store_qs_data(get_vestigingen())
+    # store_qs_data(get_vestigingen())
+    store_qs_data(get_maatschappelijke_activiteiten())

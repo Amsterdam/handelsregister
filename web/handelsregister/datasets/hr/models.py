@@ -351,6 +351,13 @@ class MaatschappelijkeActiviteit(models.Model):
         'Vestiging', null=True, blank=True, on_delete=models.SET_NULL
     )
 
+    @property
+    def locatie(self):
+        """
+        locatie
+        """
+        return self.bezoekadres if self.bezoekadres else self.postadres
+
     def __str__(self):
         return "{}".format(self.naam)
 

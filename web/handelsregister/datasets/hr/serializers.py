@@ -211,6 +211,33 @@ class PersoonDataselectie(serializers.ModelSerializer):
 
 
 class MaatschappelijkeActiviteitDataselectie(serializers.ModelSerializer):
+    dataset = 'hr-mac'
+    eigenaar = PersoonDataselectie(read_only=True)
+
+    postadres = Locatie()
+    bezoekadres = Locatie()
+
+    activiteiten = ActiviteitDataselectie(many=True)
+    onderneming = Onderneming()
+
+    class Meta(object):
+        model = models.MaatschappelijkeActiviteit
+        fields = (
+            'kvk_nummer',
+            'datum_aanvang',
+            'activiteiten',
+            # 'datum_einde',
+            'naam',
+            'eigenaar',
+            'eigenaar_mks_id',
+            'non_mailing',
+            'postadres',
+            'bezoekadres',
+            'onderneming',
+        )
+
+
+class MaatschappelijkeActiviteitDataselectieVes(serializers.ModelSerializer):
     eigenaar = PersoonDataselectie(read_only=True)
 
     class Meta(object):
@@ -227,7 +254,7 @@ class MaatschappelijkeActiviteitDataselectie(serializers.ModelSerializer):
 
 
 class Persoon(rest.HALSerializer):
-    dataset = 'hr'
+    dataset = 'hr-ves'
 
     _display = rest.DisplayField()
 
@@ -394,7 +421,7 @@ class VestigingDataselectie(serializers.ModelSerializer):
 
     postadres = Locatie()
     bezoekadres = Locatie()
-    maatschappelijke_activiteit = MaatschappelijkeActiviteitDataselectie()
+    maatschappelijke_activiteit = MaatschappelijkeActiviteitDataselectieVes()
     activiteiten = ActiviteitDataselectie(many=True)
     handelsnamen = Handelsnaam(many=True)
 
