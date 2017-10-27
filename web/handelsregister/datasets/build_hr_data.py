@@ -90,6 +90,9 @@ def sql_steps(cursor, keep_outside_amsterdam=False):
     log.info("Converteer onbekende mac mks eigenaren")
     _converteer_onbekende_mac_eigenaar_id(cursor)
 
+    log.info("Link Vestiging activiteiten aan MAC")
+    _link_mac_ativiteiten_table(cursor)
+
     # Dropall vestigingen outside of Amsterdam
     # if not settings.TESTING:
     if not keep_outside_amsterdam:
@@ -656,6 +659,23 @@ UPDATE hr_locatie
         bag_numid = NULL,
         correctie_level = NULL
 WHERE correctie IS NOT NULL
+    """)
+
+
+def _link_mac_ativiteiten_table(cursor):
+
+    cursor.existing("""
+INSERT INTO hr_maatschappelijkeactiviteit_activiteiten (
+    maatschappelijkeactiviteit_id,
+    activiteit_id
+)
+SELECT m.id, a.id
+FROM hr_maatschappelijkeactiviteit m,
+     hr_vestiging v, hr_vestiging_activiteiten vsa,
+     hr_activiteit a
+WHERE v.maatschappelijke_activiteit_id = m.id
+AND vsa.vestiging_id = v.id
+AND a.id = vsa.activiteit_id
     """)
 
 

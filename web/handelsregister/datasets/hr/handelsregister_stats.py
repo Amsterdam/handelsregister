@@ -71,7 +71,7 @@ def check_table_targets():
         (366330, "hr_handelsnaam"),
         (656598, "hr_locatie"),
         (323935, "hr_maatschappelijkeactiviteit"),
-        # (0,      "hr_maatschappelijkeactiviteit_activiteiten"),
+        (310000, "hr_maatschappelijkeactiviteit_activiteiten"),
         (67414, "hr_maatschappelijkeactiviteit_communicatiegegevens"),
         (176619, "hr_natuurlijkpersoon"),
         (6760, "hr_nietcommercielevestiging"),
