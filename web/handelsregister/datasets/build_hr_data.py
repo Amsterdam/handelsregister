@@ -664,7 +664,7 @@ WHERE correctie IS NOT NULL
 
 def _link_mac_ativiteiten_table(cursor):
 
-    cursor.existing("""
+    cursor.execute("""
 INSERT INTO hr_maatschappelijkeactiviteit_activiteiten (
     maatschappelijkeactiviteit_id,
     activiteit_id

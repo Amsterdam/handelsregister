@@ -223,6 +223,7 @@ class MaatschappelijkeActiviteitDataselectie(serializers.ModelSerializer):
     class Meta(object):
         model = models.MaatschappelijkeActiviteit
         fields = (
+            'id',
             'kvk_nummer',
             'datum_aanvang',
             'activiteiten',

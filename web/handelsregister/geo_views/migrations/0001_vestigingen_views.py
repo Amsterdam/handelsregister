@@ -9,8 +9,6 @@ from geo_views import migrate
 class Migration(migrations.Migration):
     dependencies = [
         ('hr', '__first__'),
-        ('hr', '0002_geovestigingen'),
-        ('hr', '0007_dataselectie'),
     ]
 
     operations = [

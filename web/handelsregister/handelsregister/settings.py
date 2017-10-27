@@ -150,8 +150,6 @@ INSTALLED_APPS = PROJECT_APPS + [
 INTERNAL_IPS = ('127.0.0.1', '0.0.0.0')
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.middleware.common.CommonMiddleware',
     'authorization_django.authorization_middleware',
 ]
 
@@ -290,7 +288,7 @@ SWAGGER_SETTINGS = {
     },
 
     'doc_expansion': 'list',
-    
+
     'SECURITY_DEFINITIONS': {
         'oauth2': {
             'type': 'oauth2',

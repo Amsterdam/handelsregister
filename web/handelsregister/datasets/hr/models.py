@@ -806,9 +806,10 @@ class GeoVestigingen(models.Model):
 
 class DataSelectie(models.Model):
 
-    id = models.CharField(
-        max_length=20,
-        primary_key=True
+    uid = models.CharField(
+        max_length=21,
+        db_index=True,
+        unique=True,
     )
 
     bag_numid = models.CharField(

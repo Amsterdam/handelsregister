@@ -89,6 +89,7 @@ services:
                           -Fc \
                           -t 'geo*' \
                           -t 'hr*' \
+                          -t 'django*' \
                           -t 'sbi*' \
                           -U handelsregister \
                           -h database -p 5432 \

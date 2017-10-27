@@ -60,6 +60,8 @@ def chunck_qs_by_id(qs, chuncks=1000):
     """
     Determine ID range, chunck up range.
     """
+    if not qs.count():
+        return []
 
     min_id = int(qs.first().id)
     max_id = int(qs.last().id)
@@ -109,10 +111,12 @@ def store_json_data(qs):
         bag_numid = item.locatie.bag_numid
 
         api_json = None
+        uid = None
 
         if isinstance(item, models.Vestiging):
             api_json = serializers.VestigingDataselectie(item).data
             api_json['dataset'] = 'ves'
+            uid = f'v{item.id}'
         elif isinstance(item, models.MaatschappelijkeActiviteit):
             api_json = (
                 serializers
@@ -120,12 +124,13 @@ def store_json_data(qs):
                 .data
             )
             api_json['dataset'] = 'mac'
+            uid = f'm{item.id}'
         else:
             raise ValueError('Unknown instance recieved..')
 
         bulk.append(
             models.DataSelectie(
-                id=item.id,
+                uid=uid,
                 bag_numid=bag_numid,
                 api_json=api_json,
             )

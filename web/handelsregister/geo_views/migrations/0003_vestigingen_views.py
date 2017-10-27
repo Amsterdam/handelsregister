@@ -56,7 +56,7 @@ class Migration(migrations.Migration):
     dependencies = [
         ('geo_views', '0001_vestigingen_views'),
         ('geo_views', '0002_vestigingen_views'),
-        ('hr', '0029_auto_20170725_1422'),
+        #('hr', '0029_auto_20170725_1422'),
     ]
 
     operations = [

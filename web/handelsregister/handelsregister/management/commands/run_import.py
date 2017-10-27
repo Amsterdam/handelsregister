@@ -40,7 +40,7 @@ class Command(BaseCommand):
             action='store_true',
             dest='bag',
             default=False,
-            help='Fill hr_locatie with hr_baggeo table')
+            help='Fill hr_locatie with bagnummeraanduiding table')
 
         parser.add_argument(
             '--geovestigingen',
@@ -118,7 +118,6 @@ class Command(BaseCommand):
             dest='validate_import',
             default=False,
             help='Validate table counts')
-
 
     def handle(self, *args, **options):
         """
