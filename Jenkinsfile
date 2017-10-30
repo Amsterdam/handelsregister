@@ -23,7 +23,10 @@ node {
     }
 
     stage('Test') {
-        tryStep "test", {
+        tryStep "test",
+	{
+            sh "docker-compose -p handelsregister -f .jenkins-test/docker-compose.yml down"
+        }, {
             sh "docker-compose -p handelsregister -f .jenkins-test/docker-compose.yml build && " +
                "docker-compose -p handelsregister -f .jenkins-test/docker-compose.yml run -u root --rm tests"
         }, {
