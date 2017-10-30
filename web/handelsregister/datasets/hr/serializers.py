@@ -207,6 +207,7 @@ class PersoonDataselectie(serializers.ModelSerializer):
             'status',
             'duur',
             'reden_insolvatie',
+            'rechtsvorm'
         )
 
 
@@ -426,6 +427,8 @@ class VestigingDataselectie(serializers.ModelSerializer):
     activiteiten = ActiviteitDataselectie(many=True)
     handelsnamen = Handelsnaam(many=True)
 
+    commerciele_vestiging = CommercieleVestiging()
+
     class Meta(object):
         model = models.Vestiging
         fields = (
@@ -436,7 +439,9 @@ class VestigingDataselectie(serializers.ModelSerializer):
             'bezoekadres',
             'maatschappelijke_activiteit',
             'activiteiten',
-            'handelsnamen'
+            'handelsnamen',
+            'commerciele_vestiging',
+
         )
 
 
