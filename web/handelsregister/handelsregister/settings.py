@@ -310,6 +310,11 @@ STATIC_ROOT = '/static/'
 
 HEALTH_MODEL = 'hr.MaatschappelijkeActiviteit'
 
+LOGSTASH_HOST = os.getenv('LOGSTASH_HOST', '127.0.0.1')
+LOGSTASH_PORT = int(os.getenv('LOGSTASH_GELF_UDP_PORT', 12201))
+
+
+
 # Security
 DATAPUNT_AUTHZ = {
     'JWT_SECRET_KEY': os.getenv(
@@ -335,11 +340,19 @@ LOGGING = {
             'class': 'logging.StreamHandler',
             'formatter': 'console',
         },
+
+        'graypy': {
+            'level': 'ERROR',
+            'class': 'graypy.GELFHandler',
+            'host': LOGSTASH_HOST,
+            'port': LOGSTASH_PORT,
+        },
+
     },
 
     'root': {
         'level': 'DEBUG',
-        'handlers': ['console'],
+        'handlers': ['console', 'graypy'],
     },
 
     'loggers': {
