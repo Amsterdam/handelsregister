@@ -107,12 +107,12 @@ def _get_json_sections(
     response = requests.get(url)
     if not response.status_code == 200:
         raise ValueError(url)
+
     cbs_sections = response.json()
 
     # save the json to file
-    if not cache:
-        section_path = _get_fixture_path(filename)
-        save_json(cbs_sections, section_path)
+    section_path = _get_fixture_path(filename)
+    save_json(cbs_sections, section_path)
 
     return cbs_sections
 

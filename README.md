@@ -77,6 +77,21 @@ Finally build the dataselectie view (if you need it....)
 
     docker-compose exec web ./manage.py run_import --dataselectie
 
+SBI CODES
+---------
+
+to update the sbi code database:
+
+	The nocache arguments makes sure we use the current 'CBS' api.
+
+    python manage.py run_import cbs_sbi --nocache
+
+    python manage.py run_import cbs_sbi
+
+TODO:
+
+	use an simple exel sheet with codes?
+
 
 Quickstart Import
 -----------------
