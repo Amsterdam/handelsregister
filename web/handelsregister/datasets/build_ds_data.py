@@ -175,5 +175,5 @@ def write_dataselectie_data():
     if settings.PARTIAL_IMPORT['denominator'] == 1:
         models.DataSelectie.objects.all().delete()
 
-    store_qs_data(get_vestigingen())
     store_qs_data(get_maatschappelijke_activiteiten())
+    store_qs_data(get_vestigingen())

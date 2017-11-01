@@ -165,6 +165,8 @@ class MaatschappelijkeActiviteitDetail(rest.HALSerializer):
 
     _bijzondere_rechts_toestand = BijzondereRechtsToestand(source='eigenaar')
 
+    activiteiten = ActiviteitDataselectie(many=True)
+
     class Meta(object):
         model = models.MaatschappelijkeActiviteit
         lookup_field = 'kvk_nummer'
