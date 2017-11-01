@@ -256,10 +256,6 @@ class Activiteit(models.Model):
         on_delete=models.DO_NOTHING
     )
 
-    # @property
-    # def sbi_code_tree(self):
-    #    return SBICodeHierarchy.objects.get(code=self.sbi_code)
-
 
 class MaatschappelijkeActiviteit(models.Model):
     """

@@ -165,7 +165,7 @@ class MaatschappelijkeActiviteitDetail(rest.HALSerializer):
 
     _bijzondere_rechts_toestand = BijzondereRechtsToestand(source='eigenaar')
 
-    activiteiten = ActiviteitDataselectie(many=True)
+    activiteiten = Activiteit(many=True)
 
     class Meta(object):
         model = models.MaatschappelijkeActiviteit
