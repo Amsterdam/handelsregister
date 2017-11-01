@@ -276,7 +276,7 @@ def _converteer_handelsnaam(cursor):
 INSERT INTO hr_handelsnaam (id, handelsnaam)
   SELECT
     hdnid,
-    handelsnaam
+    trim(handelsnaam)
   FROM kvkhdnm00
         """)
 
@@ -429,7 +429,7 @@ INSERT INTO hr_vestiging
     ELSE FALSE
     END,
 
-    coalesce(v.eerstehandelsnaam, v.naam),
+    trim(coalesce(v.eerstehandelsnaam, v.naam)),
     to_date(to_char(v.datumaanvang, '99999999'), 'YYYYMMDD'),
     to_date(to_char(v.datumeinde, '99999999'), 'YYYYMMDD'),
     NULL,
