@@ -37,6 +37,17 @@ class MaatschappelijkeActiviteitFactory(factory.DjangoModelFactory):
     datum_aanvang = fuzzy.FuzzyDateTime(datetime(1987, 2, 4, tzinfo=pytz.utc))
     eigenaar = factory.SubFactory(PersoonFactory)
 
+    @factory.post_generation
+    def activiteiten(self, create, activiteiten=None, **kwargs):
+        if not create:
+            # Simple build, do nothing.
+            return
+
+        if activiteiten:
+            # A list of groups were passed in, use them
+            for a in activiteiten:
+                self.activiteiten.add(a)
+
 
 class VestigingFactory(factory.DjangoModelFactory):
     class Meta:
