@@ -144,7 +144,7 @@ class ValidateSBICodeTest(TestCase):
         Fix cases which are ambiguous
         """
         ambiguous = validate_codes.find_ambiguous_sbicodes()
-        self.assertEqual(len(ambiguous), 2)
+        self.assertEqual(len(ambiguous), 3)
         validate_codes.fix_ambiguous(ambiguous)
         ambiguous = validate_codes.find_ambiguous_sbicodes()
         self.assertEqual(len(ambiguous), 1)
