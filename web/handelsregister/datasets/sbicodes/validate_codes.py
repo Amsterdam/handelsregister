@@ -5,6 +5,7 @@ import logging
 import os
 
 from operator import itemgetter
+from collections import namedtuple
 
 import editdistance
 
@@ -19,6 +20,9 @@ DIRECTORY = os.path.dirname(__file__)
 
 
 def get_fixture_path(filename):
+    """
+    determine the absolute location of fixtures files
+    """
     file_path = f'{DIRECTORY}/fixtures/{filename}'
     return file_path
 
@@ -71,21 +75,19 @@ def find_invalid_activiteiten():
 
 missing_qa_tree = """
 SELECT
-    vs.id,
-    vs.naam,
     a.sbi_code,
-    a.sbi_omschrijving
+    a.sbi_omschrijving,
+    h.code,
+    v.naam
 FROM
-    hr_activiteit a,
-    hr_vestiging_activiteiten vsa,
-    hr_vestiging vs
+    hr_activiteit a
+LEFT OUTER JOIN sbicodes_sbicodehierarchy h
+    ON (h.code = a.sbi_code)
+JOIN hr_vestiging_activiteiten vsa on (a.id = vsa.activiteit_id)
+JOIN hr_vestiging v on (v.id = vsa.vestiging_id)
 WHERE
-    vsa.vestiging_id = vs.id
-    AND a.id = vsa.activiteit_id
-    AND a.sbi_code IN (
-        select code from sbicodes_sbicodehierarchy
-        where sbicodes_sbicodehierarchy.qa_tree is null
-    )
+   h.qa_tree is null AND
+   character_length(a.sbi_code) > 1  /* moet geen root node zijn */
 """
 
 sbi_prefix_matches = """
@@ -139,7 +141,8 @@ def find_expanded_sbi_for_too_short_sbi():
 
 def fix_too_short(too_short_rows):
     """
-    For sbi codes die niet in QA boom vallen vul de missende activiteiten aan
+    For sbi codes that do not have a spot in the QA tree
+    add the missing activiteiten
 
     0 noqa.id,
     1 noqa.naam,
@@ -428,6 +431,66 @@ def loadmanual_fixes():
     return manual_fixes
 
 
+Manualfix = namedtuple(
+    'FIX', [
+        'bron_sbi_code', 'bron_omschrijving', 'cbs_sbi_code',
+        'q1', 'q2', 'q3']
+    )
+
+
+def load_karing_goes_fixes():
+    """
+    Some more manual sbi code fixes
+    for missing qa options from csv
+    """
+    sbi_lookup = {}
+
+    manual_path = get_fixture_path('20171102 MKS SBI VS CBS SB_KG.csv')
+    with open(manual_path) as manualfixes:
+        for row in manualfixes.readlines()[1:]:
+            fix = Manualfix(*row.split('|'))
+            sbi_lookup[fix.bron_sbi_code] = fix
+    return sbi_lookup
+
+
+def find_activiteiten_with_missing_qa():
+    needs_fixing = fetchrows(missing_qa_tree)
+    return needs_fixing
+
+
+def fix_bad_sbi_door_karing_goes():
+    """
+    Karin goes heeft slechte sbi codes toch een plek gegeven
+    in de QA tree, nu komen ze toch op de kaart
+    met behulp van geoviews
+    """
+    fixes = load_karing_goes_fixes()
+    needs_fixing = find_activiteiten_with_missing_qa()
+
+    for row in needs_fixing:
+        # vs.id, vs.naam, a.sbi_code, a.sbi_omschrijving
+        sbicode = row[2]
+        if not sbicode:
+            log.warning('1O cbs sbi for %s', sbicode)
+            continue
+
+        solution = fixes.get(sbicode)
+
+        if not solution:
+            log.warning('NO ACTIVITY QA INFO FOR %s', sbicode)
+            continue
+
+        sbi_missing_qa = SBICodeHierarchy.objects.get(code=sbicode)
+        sbi_missing_qa.qa_tree = {
+            'q1': solution.q1,
+            'q2': solution.q2,
+            'q3': solution.q3,
+            'fixed': True,
+        }
+
+        sbi_missing_qa.save()
+
+
 def find_missing_qa():
     """
     Find sbi nodes with no qa tree, which needs manual fix
@@ -480,7 +543,7 @@ def fix_manual_missing_qa(missing_qa):
             'q1': q2_q1_map[q2_solution],  # lookup q1
             'q2': q2_fix,                  # add q2 fix
             'q3': sbi_missing_qa.title,    # add q3 fix
-            'fixed': True,                 # tag it fixed
+            'fixed': True,                 # Tag it fixed
         }
 
         # make sbi code point to correct qa_tree
@@ -494,21 +557,23 @@ def fix_missing_zeros_default():
     sbi 1,2 --> 0001, 0002
     """
 
-    a1 = hrmodels.Activiteit.objects.filter(
+    activiteit1 = hrmodels.Activiteit.objects.filter(
         sbi_code__in=['1', '01'])
 
-    for a in a1:
-        a.sbi_code = '0001'
-        a.save()
+    for activiteit in activiteit1:
+        activiteit.sbi_code = '0001'
+        activiteit.save()
 
-    a2 = hrmodels.Activiteit.objects.filter(
+    activiteit2 = hrmodels.Activiteit.objects.filter(
         sbi_code__in=['2', '02'])
 
-    for a in a2:
-        a.sbi_code = '0002'
-        a.save()
+    for activiteit in activiteit2:
+        activiteit.sbi_code = '0002'
+        activiteit.save()
 
-    log.debug('Fixed 01 %d - 02 %d', a1.count(), a2.count())
+    log.debug(
+        'Fixed 01 %d - 02 %d',
+        activiteit1.count(), activiteit2.count())
 
 
 def update_activiteiten():
@@ -546,15 +611,13 @@ def validate():
     fix_ambiguous(ambiguous)
     not_placeable(invalid, zero)
 
-    # some production items do not show on map.
-    # fix_production(missing_qa_tree)
-    # some groothandel stuff does not show on map.
-    short_sbi_codes = find_expanded_sbi_for_too_short_sbi()
-    fix_too_short(short_sbi_codes)
+    # short_sbi_codes = find_expanded_sbi_for_too_short_sbi()
+    # fix_too_short(short_sbi_codes)
 
     # fix bouw / productie codes
     missing_qa = find_missing_qa()
     fix_manual_missing_qa(missing_qa)
+    fix_bad_sbi_door_karing_goes()
 
     fix_missing_zeros_default()
     # fix foreign key relation

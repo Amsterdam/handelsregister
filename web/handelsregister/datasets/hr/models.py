@@ -275,12 +275,14 @@ class MaatschappelijkeActiviteit(models.Model):
         help_text="""
             De (statutaire) naam of eerste handelsnaam van de inschrijving""",
     )
+
     kvk_nummer = models.CharField(
         unique=True, max_length=8, blank=True, null=True,
         help_text="""
             Betreft het identificerende gegeven
             voor de MaatschappelijkeActiviteit, het KvK-nummer""",
     )
+
     datum_aanvang = models.DateField(
         max_length=8, blank=True, null=True,
         help_text="De datum van aanvang van de MaatschappelijkeActiviteit",
@@ -464,8 +466,9 @@ class Vestiging(models.Model):
         help_text="postadres",
     )
     bezoekadres = models.ForeignKey(
-        'Locatie', related_name="+", blank=True, null=True,
-        help_text="bezoekadres")
+       'Locatie', related_name="+", blank=True, null=True,
+        help_text="bezoekadres",
+    )
 
     commerciele_vestiging = models.OneToOneField(
         'CommercieleVestiging',
@@ -725,15 +728,25 @@ class Kapitaal(models.Model):
 class GeoVestigingen(models.Model):
     """
     geo table of joined tables to make mapserver lightning speed
+
+    These are MAC and VES (Inschrijvingen) IN Amsterdam
     """
 
     # NOTE merdere activiteiten per vestigings nummer mogelijk
     vestigingsnummer = models.CharField(
         max_length=12, db_index=True,
+        null=True,
         help_text="Betreft het identificerende gegeven voor de Vestiging"
     )
 
+    kvk_nummer = models.CharField(
+        max_length=8, db_index=True,
+        null=True,
+        help_text="Betreft het identificerende gegeven voor Maatschappelijke"
+    )
+
     sbi_code = models.CharField(
+        null=True,
         db_index=True,
         max_length=5,
         help_text="De codering van de activiteit conform de SBI2008"
@@ -753,7 +766,7 @@ class GeoVestigingen(models.Model):
     )
 
     naam = models.CharField(
-        max_length=200, null=True, blank=True,
+        max_length=600, null=True, blank=True,
     )
 
     uri = models.CharField(
@@ -798,6 +811,7 @@ class GeoVestigingen(models.Model):
 
     # Indication if corrected by auto search
     correctie = models.NullBooleanField()
+
 
 
 class DataSelectie(models.Model):

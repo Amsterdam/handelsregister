@@ -54,6 +54,16 @@ class ValidateSBICodeTest(TestCase):
                 sbi_code='000045',
                 sbi_omschrijving='ik ben fout',
                 hoofdactiviteit=True
+            ),
+
+            # should be fixed with the manual
+            # karin goes fixes
+            hrmodels.Activiteit.objects.create(
+                id="161",
+                activiteitsomschrijving='missing 1 2 3',
+                sbi_code="161",  # missing 2
+                sbi_omschrijving="?",
+                hoofdactiviteit=True
             )
         ]
 
@@ -81,9 +91,8 @@ class ValidateSBICodeTest(TestCase):
                 sbi_code='8520',  # missing 2
                 sbi_omschrijving="Primair en speciaal onderwijs",  # noqa
                 hoofdactiviteit=True
-            )
-
-        ]
+            ),
+       ]
 
         cls.default_ones = [
             # 'ongeclassificeerd' en 'geen bedrijfsactiviteiten'
@@ -207,6 +216,25 @@ class ValidateSBICodeTest(TestCase):
         validate_codes.fix_manual_missing_qa(missing_qa)
         missing_qa = validate_codes.find_missing_qa()
         self.assertEqual(len(missing_qa), 0)
+
+    def test_correctie_manual_goes(self):
+        """
+        Karin goes heeft een correctie bestand geleverd
+        laten we het corrigeren hiermee even testen..
+        """
+
+        needs_fixing = validate_codes.find_activiteiten_with_missing_qa()
+
+
+        before = len(needs_fixing)
+
+        validate_codes.fix_bad_sbi_door_karing_goes()
+
+        needs_fixing = validate_codes.find_activiteiten_with_missing_qa()
+        after = len(needs_fixing)
+
+        # case sbicode 161 should be fixed
+        self.assertTrue(after < before)
 
     def test_defaultcode_correction(self):
         """

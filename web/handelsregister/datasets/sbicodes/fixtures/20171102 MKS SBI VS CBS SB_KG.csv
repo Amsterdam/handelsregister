@@ -1,0 +1,1004 @@
+bron_sbi_code|bron_omschrijving|cbs_sbi_code|q1|q2|q3
+2|Geen bedrijfsactiviteit(en)||Geen bedrijfsactiviteit(en)|Geen bedrijfsactiviteit(en)|
+111|Teelt van granen, peulvruchten en oliehoudende zaden|111|landbouw|teelt eenjarige gewassen|Teelt van granen, peulvruchten en oliehoudende zaden
+113|Teelt van groenten en wortel- en knolgewassen|113|landbouw|teelt eenjarige gewassen|
+1131|Teelt van groenten in de volle grond|1131|landbouw|teelt eenjarige gewassen|Teelt van groenten in volle grond
+1131|Teelt van groenten in volle grond|1131|landbouw|teelt eenjarige gewassen|Teelt van groenten in volle grond
+1132|Teelt van groenten onder glas|1132|landbouw|teelt eenjarige gewassen|Teelt van groenten onder glas
+1133|Teelt van paddenstoelen|1133|landbouw|teelt eenjarige gewassen|Teelt van paddenstoelen
+1134|Teelt van aardappels en overige wortel- en knolgewassen|1134|landbouw|teelt eenjarige gewassen|Teelt van aardappels en overige wortel- en knolgewassen
+119|Teelt van overige eenjarige gewassen|119|landbouw|teelt eenjarige gewassen|
+1191|Teelt van snijbloemen en snijheesters in de volle grond|1191|landbouw|teelt eenjarige gewassen|Teelt van snijbloemen en snijheesters in de volle grond
+1192|Teelt van snijbloemen en snijheesters onder glas|1192|landbouw|teelt eenjarige gewassen|Teelt van snijbloemen en snijheesters onder glas
+1193|Teelt van voedergewassen|1193|landbouw|teelt eenjarige gewassen|Teelt van voedergewassen
+1199|Teelt van overige eenjarige gewassen (rest)|1199|landbouw|teelt eenjarige gewassen|Teelt van overige eenjarige gewassen (rest)
+121|Druiventeelt|121|landbouw|teelt meerjarige gewassen|Teelt van druiven
+124|Teelt van pit- en steenvruchten|124|landbouw|teelt meerjarige gewassen|
+1241|Teelt van appels en peren|1241|landbouw|teelt meerjarige gewassen|Teelt van appels en peren
+1242|Teelt van steenvruchten|1242|landbouw|teelt meerjarige gewassen|Teelt van steenvruchten
+125|Teelt van overige boomvruchten, kleinfruit en noten|125|landbouw|teelt meerjarige gewassen|
+1251|Teelt van aardbeien in de volle grond|1251|landbouw|teelt meerjarige gewassen|Teelt van aardbeien in de volle grond
+1252|Teelt van aardbeien onder glas|1252|landbouw|teelt meerjarige gewassen|Teelt van aardbeien onder glas
+1253|Teelt van houtig klein fruit in de volle grond (incl. overige boomvruchten en noten)|1253|landbouw|teelt meerjarige gewassen|Teelt van houtig klein fruit in de volle grond (incl. overige boomvruchten en noten)
+1253|Teelt van houtig kleinfruit in de volle grond (incl. overige boomvruchten en noten)|1253|landbouw|teelt meerjarige gewassen|Teelt van houtig klein fruit in de volle grond (incl. overige boomvruchten en noten)
+1254|Teelt van houtig klein fruit onder glas|1254|landbouw|teelt meerjarige gewassen|Teelt van houtig klein fruit onder glas
+128|Teelt van specerijgewassen en van aromatische en medicinale gewassen|128|landbouw|teelt meerjarige gewassen|Teelt van specerijgewassen en van aromatische en medicinale gewassen
+129|Teelt van overige meerjarige gewassen|129|landbouw|teelt meerjarige gewassen|Teelt van overige meerjarige gewassen
+130|Teelt van sierplanten|130|landbouw|teelt sierplanten|
+1301|Teelt van bloembollen|1301|landbouw|teelt sierplanten|Teelt van bloembollen
+1302|Teelt van perkplanten in de volle grond|1302|landbouw|teelt sierplanten|Teelt van perkplanten in de volle grond
+1303|Teelt van perkplanten onder glas|1303|landbouw|teelt sierplanten|Teelt van perkplanten onder glas
+1304|Teelt van potplanten onder glas|1304|landbouw|teelt sierplanten|Teelt van potplanten onder glas
+1305|Teelt van boomkwekerijgewassen in de volle grond|1305|landbouw|teelt sierplanten|Teelt van boomkwekerijgewassen in de volle grond
+1309|Teelt van overige sierplanten in de volle grond|1309|landbouw|teelt sierplanten|Teelt van overige sierplanten in de volle grond
+141|Fokken en houden van melkvee|141|landbouw|fokken, houden dieren|
+1411|Houden van melkvee|1411|landbouw|fokken, houden dieren|Houden van melkvee
+1412|Opfokken van jongvee voor de melkveehouderij|1412|landbouw|fokken, houden dieren|Opfokken van jongvee voor de melkveehouderij
+142|Fokken en houden van runderen (geen melkvee)|142|landbouw|fokken, houden dieren|
+1421|Houden van vleeskalveren|1421|landbouw|fokken, houden dieren|Houden van vleeskalveren
+1422|Overige vleesveehouderij en zoogkoeienbedrijven|1422|landbouw|fokken, houden dieren|Overige vleesveehouderij en zoogkoeienbedrijven
+143|Fokken en houden van paarden en ezels|143|landbouw|fokken, houden dieren|Fokken en houden van paarden en ezels
+145|Fokken en houden van schapen en geiten|145|landbouw|fokken, houden dieren|
+1451|Fokken en houden van schapen|1451|landbouw|fokken, houden dieren|Fokken en houden van schapen
+1452|Fokken en houden van geiten|1452|landbouw|fokken, houden dieren|Fokken en houden van geiten
+1462|Vleesvarkensbedrijven|1462|landbouw|fokken, houden dieren|Vleesvarkensbedrijven
+149|Fokken en houden van overige dieren|149|landbouw|fokken, houden dieren|
+1491|Fokken en houden van edelpelsdieren|1491|landbouw|fokken, houden dieren|Fokken en houden van edelpelsdieren
+1499|Fokken en houden van overige dieren (rest)|1499|landbouw|fokken, houden dieren|Fokken en houden van overige dieren (rest)
+150|Akker- en/of tuinbouw in combinatie met het fokken en houden van dieren|150|landbouw|gemengd bedrijf|Akker- en/of tuinbouw in combinatie met het fokken en houden van dieren
+161|Dienstverlening voor de akker- en/of tuinbouw|161|landbouw|dienstverlening voor de land/tuinbouw|Dienstverlening voor de akker- en/of tuinbouw
+162|Dienstverlening voor het fokken en houden van dieren|162|landbouw|dienstverlening voor de land/tuinbouw|Dienstverlening voor het fokken en houden van dieren
+164|Behandeling van zaden voor vermeerdering|164|landbouw|dienstverlening voor de land/tuinbouw|Behandeling van zaden voor vermeerdering
+170|Jacht|170|overige niet hierboven genoemd|overige|Jacht
+210|Bosbouw|210|overige niet hierboven genoemd|overige|Bosbouw
+220|Exploitatie van bossen|220|overige niet hierboven genoemd|overige|Exploitatie van bossen
+240|Dienstverlening voor de bosbouw|240|overige niet hierboven genoemd|overige|Dienstverlening voor de bosbouw
+311|Zee- en kustvisserij|311|overige niet hierboven genoemd|overige|Zee- en kustvisserij
+312|Binnenvisserij|312|overige niet hierboven genoemd|overige|Binnenvisserij
+322|Kweken van zoetwatervis en -schaaldieren|322|overige niet hierboven genoemd|overige|Kweken van zoetwatervis en -schaaldieren
+610|Winning van aardolie|610|overige niet hierboven genoemd|overige|Winning van aardolie
+620|Winning van aardgas|620|overige niet hierboven genoemd|overige|Winning van aardgas
+812|Winning van zand, grind en klei|812|overige niet hierboven genoemd|overige|Winning van zand, grind en klei
+899|Winning van overige delfstoffen n.e.g.|899|overige niet hierboven genoemd|overige|Winning van overige delfstoffen (rest)
+910|Dienstverlening voor de winning van aardolie en aardgas|910|overige niet hierboven genoemd|overige|Dienstverlening voor de winning van aardolie- en aardgas
+990|Dienstverlening voor de winning van delfstoffen (geen olie en gas)|990|overige niet hierboven genoemd|overige|Dienstverlening voor de winning van delfstoffen (geen olie en gas)
+1011|Slachterijen (geen pluimvee-)|1011|productie, installatie, reparatie|productie|Slachterijen (geen pluimvee)
+1012|Pluimveeslachterijen|1012|productie, installatie, reparatie|productie|Pluimveeslachterijen
+1013|Vleesverwerking (niet tot maaltijden)|1013|productie, installatie, reparatie|productie|Vleesverwerking (niet tot maaltijden)
+1020|Visverwerking|1020|productie, installatie, reparatie|productie|Visverwerking
+1031|Vervaardiging van aardappelproducten|1031|productie, installatie, reparatie|productie|Vervaardiging van aardappelprodukten
+1032|Vervaardiging van fruit- en groentesap|1032|productie, installatie, reparatie|productie|Vervaardiging van fruit- en groentesap
+1039|Verwerking van groente en fruit (niet tot sap en maaltijden)|1039|productie, installatie, reparatie|productie|Verwerking van groente en fruit (niet tot sap en maaltijden)
+1041|Vervaardiging van plantaardige en dierlijke oliën en vetten (geen margarine en andere spijsvetten)|1041|productie, installatie, reparatie|productie|Vervaardiging van plantaardige en dierlijke oliën en vetten (geen margarine en andere spijsvetten)
+1051|Vervaardiging van zuivelproducten (geen consumptie-ijs)|1051|productie, installatie, reparatie|productie|Vervaardiging van zuivelproducten (geen consumptie-ijs)
+1052|Vervaardiging van consumptie-ijs|1052|productie, installatie, reparatie|productie|vervaardiging van consumptie-ijs
+1061|Vervaardiging van meel (geen zetmeel)|1061|productie, installatie, reparatie|productie|Vervaardiging van meel (geen zetmeel)
+1062|Vervaardiging van zetmeel en zetmeelproducten|1062|productie, installatie, reparatie|productie|Vervaardiging van zetmeel en zetmeelproducten
+1071|Vervaardiging van brood en vers banketbakkerswerk|1071|productie, installatie, reparatie|productie|Vervaardiging van brood en vers banketbakkerswerk
+1072|Vervaardiging van beschuit en koekjes en ander houdbaar banketbakkerswerk|1072|productie, installatie, reparatie|productie|Vervaardiging van beschuit en koekjes en van ander houdbaar banketbakkerswerk
+1073|Vervaardiging van deegwaren|1073|productie, installatie, reparatie|productie|Vervaardiging van deegwaren
+1081|Vervaardiging van suiker|1081|productie, installatie, reparatie|productie|Vervaardiging van suiker
+10821|Verwerking van cacao|10821|productie, installatie, reparatie|productie|Verwerking van cacao
+10822|Vervaardiging van chocolade en suikerwerk|10822|productie, installatie, reparatie|productie|Vervaardiging van chocolade en suikerwerk
+1083|Verwerking van koffie en thee|1083|productie, installatie, reparatie|productie|Verwerking van koffie en thee
+1084|Vervaardiging van specerijen, sauzen en kruiderijen; zoutraffinage|1084|productie, installatie, reparatie|productie|Vervaardiging van specerijen, sauzen en kruiderijen; zoutraffinage
+1085|Vervaardiging van kant-en-klaarmaaltijden en snacks|1085|productie, installatie, reparatie|productie|Vervaardiging van kant- en klaarmaaltijden en snacks
+1086|Vervaardiging van gehomogeniseerde voedingspreparaten en dieetvoeding|1086|productie, installatie, reparatie|productie|Vervaardiging van gehomogeniseerde voedingspreparaten en dieetvoeding
+1089|Vervaardiging van overige voedingsmiddelen n.e.g.|1089|productie, installatie, reparatie|productie|Vervaardiging van overige voedingsmiddelen (rest)
+1091|Vervaardiging van veevoeders|1091|productie, installatie, reparatie|productie|Vervaardiging van veevoeders
+1092|Vervaardiging van voeders voor huisdieren|1092|productie, installatie, reparatie|productie|Vervaardiging van voeders voor huisdieren
+1101|Vervaardiging van sterk alcoholische dranken door distilleren, rectificeren en mengen|1101|productie, installatie, reparatie|productie|Vervaardiging van sterk alcoholische dranken door distilleren, rectificeren en mengen
+1102|Vervaardiging van wijn uit druiven|1102|productie, installatie, reparatie|productie|Vervaardiging van wijn uit druiven
+1103|Vervaardiging van cider en van overige vruchtenwijnen|1103|productie, installatie, reparatie|productie|Vervaardiging van cider en van overige vruchtenwijnen
+1104|Vervaardiging van overige niet-gedistilleerde gegiste dranken|1104|productie, installatie, reparatie|productie|Vervaardiging van overige niet-gedistilleerde gegiste dranken
+1105|Vervaardiging van bier|1105|productie, installatie, reparatie|productie|Vervaardiging van bier
+1106|Mouterijen|1106|productie, installatie, reparatie|productie|Mouterijen
+1107|Vervaardiging van frisdranken; productie van mineraalwater en overig gebotteld water|1107|productie, installatie, reparatie|productie|Vervaardiging van frisdranken; productie van mineraalwater en overig gebotteld water
+111|Teelt van granen, peulvruchten en oliehoudende zaden||landbouw|teelt eenjarige gewassen|
+113|Teelt van groenten en wortel- en knolgewassen||landbouw|teelt eenjarige gewassen|
+1131|Teelt van groenten in de volle grond||landbouw|teelt eenjarige gewassen|
+1132|Teelt van groenten onder glas||landbouw|teelt eenjarige gewassen|
+1133|Teelt van paddenstoelen||landbouw|teelt eenjarige gewassen|
+1134|Teelt van aardappels en overige wortel- en knolgewassen||landbouw|teelt eenjarige gewassen|
+116|Teelt van vezelgewassen||landbouw|teelt eenjarige gewassen|
+119|Teelt van overige eenjarige gewassen||landbouw|teelt eenjarige gewassen|
+1191|Teelt van snijbloemen en snijheesters in de volle grond||landbouw|teelt eenjarige gewassen|
+1192|Teelt van snijbloemen en snijheesters onder glas||landbouw|teelt eenjarige gewassen|
+1193|Teelt van voedergewassen||landbouw|teelt eenjarige gewassen|
+1199|Teelt van overige eenjarige gewassen (rest)||landbouw|teelt eenjarige gewassen|
+1200|Vervaardiging van tabaksproducten|1200|productie, installatie, reparatie|productie|Vervaardiging van tabaksproducten
+121|Druiventeelt||landbouw|teelt meerjarige gewassen|
+124|Teelt van pit- en steenvruchten||landbouw|teelt meerjarige gewassen|
+1241|Teelt van appels en peren||landbouw|teelt meerjarige gewassen|
+125|Teelt van overige boomvruchten, kleinfruit en noten||landbouw|teelt meerjarige gewassen|
+1251|Teelt van aardbeien in de volle grond||landbouw|teelt meerjarige gewassen|
+1252|Teelt van aardbeien onder glas||landbouw|teelt meerjarige gewassen|
+1253|Teelt van houtig kleinfruit in de volle grond (incl. overige boomvruchten en noten)||landbouw|teelt meerjarige gewassen|
+127|Teelt van gewassen bestemd voor de vervaardiging van dranken||landbouw|teelt meerjarige gewassen|
+128|Teelt van specerijgewassen en van aromatische en medicinale gewassen||landbouw|teelt meerjarige gewassen|
+129|Teelt van overige meerjarige gewassen||landbouw|teelt meerjarige gewassen|
+130|Teelt van sierplanten||landbouw|Teelt van sierplanten|
+1301|Teelt van bloembollen||landbouw|Teelt van sierplanten|
+1302|Teelt van perkplanten in de volle grond||landbouw|Teelt van sierplanten|
+1303|Teelt van perkplanten onder glas||landbouw|Teelt van sierplanten|
+1304|Teelt van potplanten onder glas||landbouw|Teelt van sierplanten|
+1305|Teelt van boomkwekerijgewassen in de volle grond||landbouw|Teelt van sierplanten|
+1309|Teelt van overige sierplanten in de volle grond||landbouw|Teelt van sierplanten|
+1310|Bewerken en spinnen van textielvezels|1310|productie, installatie, reparatie|productie|Bewerken en spinnen van textielvezels
+1320|Weven van textiel|1320|productie, installatie, reparatie|productie|Weven van textiel
+1330|Textielveredeling|1330|productie, installatie, reparatie|productie|Textielveredeling
+1391|Vervaardiging van gebreide en gehaakte stoffen|1391|productie, installatie, reparatie|productie|Vervaardiging van gebreide en gehaakte stoffen
+1392|Vervaardiging van geconfectioneerde artikelen van textiel (geen kleding)|1392|productie, installatie, reparatie|productie|Vervaardiging van geconfectioneerde artikelen van textiel (geen kleding)
+1393|Vervaardiging van vloerkleden en tapijt|1393|productie, installatie, reparatie|productie|Vervaardiging van vloerkleden en tapijt
+1394|Vervaardiging van koord, bindgaren, touw en netten|1394|productie, installatie, reparatie|productie|Vervaardiging van koord, bindgaren, touw en netten
+1395|Vervaardiging van gebonden textielvlies en artikelen daarvan (geen kleding)|1395|productie, installatie, reparatie|productie|Vervaardiging van gebonden textielvlies en artikelen daarvan (geen kleding)
+1396|Vervaardiging van technisch en industrieel textiel|1396|productie, installatie, reparatie|productie|Vervaardiging van technisch en industrieel textiel
+1399|Vervaardiging van overige textielproducten n.e.g.|1399|productie, installatie, reparatie|productie|Vervaardiging van overige textielproducten (rest)
+141|Fokken en houden van melkvee|141|landbouw|fokken en houden van melkvee|
+1411|Houden van melkvee|1411|productie, installatie, reparatie|productie|Vervaardiging van kleding van leer
+1411|Vervaardiging van kleding van leer|1411|productie, installatie, reparatie|productie|Vervaardiging van kleding van leer
+1412|Opfokken van jongvee voor de melkveehouderij|1412|productie, installatie, reparatie|productie|Vervaardiging van werkkleding
+1412|Vervaardiging van werkkleding|1412|productie, installatie, reparatie|productie|Vervaardiging van werkkleding
+1413|Vervaardiging van overige bovenkleding|1413|productie, installatie, reparatie|productie|Vervaardiging van overige bovenkleding
+1414|Vervaardiging van onderkleding|1414|productie, installatie, reparatie|productie|Vervaardiging van onderkleding
+1419|Vervaardiging van baby- en sportkleding en kledingaccessoires|1419|productie, installatie, reparatie|productie|Vervaardiging van overige baby- en sportkleding en kledingaccessoires
+142|Fokken en houden van runderen (geen melkvee)|142|landbouw|fokken, houden dieren|
+1420|Vervaardiging van artikelen van bont|1420|productie, installatie, reparatie|productie|Vervaardiging van artikelen van bont
+1421|Houden van vleeskalveren||landbouw|fokken, houden dieren|
+1422|Overige vleesveehouderij en zoogkoeienbedrijven||landbouw|fokken, houden dieren|
+143|Fokken en houden van paarden en ezels|143|landbouw|fokken, houden dieren|
+1431|Vervaardiging van gebreide en gehaakte kousen en sokken|1431|productie, installatie, reparatie|productie|Vervaardiging van gebreide en gehaakte kousen en sokken
+1439|Vervaardiging van gebreide en gehaakte kleding (geen kousen en sokken)|1439|productie, installatie, reparatie|productie|Vervaardiging van gebreide en gehaakte kleding (geen kousen en sokken)
+145|Fokken en houden van schapen en geiten||landbouw|fokken, houden dieren|
+1451|Fokken en houden van schapen||landbouw|fokken, houden dieren|
+1452|Fokken en houden van geiten||landbouw|fokken, houden dieren|
+146|Fokken en houden van varkens||landbouw|fokken, houden dieren|
+1462|Vleesvarkensbedrijven||landbouw|fokken, houden dieren|
+1463|Gesloten en deels gesloten varkensbedrijven||landbouw|fokken, houden dieren|
+147|Fokken en houden van pluimvee||landbouw|fokken, houden dieren|
+1471|Opfokken en/of houden van leghennen||landbouw|fokken, houden dieren|
+1472|Opfokken en/of houden van vleeskuikens||landbouw|fokken, houden dieren|
+149|Fokken en houden van overige dieren||landbouw|fokken, houden dieren|
+1499|Fokken en houden van overige dieren (rest)||landbouw|fokken, houden dieren|
+150|Akker- en/of tuinbouw in combinatie met het fokken en houden van dieren||landbouw|Akker- en/of tuinbouw in combinatie met het fokken en houden van dieren|
+1511|Looien en bewerken van leer; bereiden en verven van bont|1511|productie, installatie, reparatie|productie|Looien en bereiden van leer; bereiden en verven van bont
+1512|Vervaardiging van koffers, tassen e.d. en van zadel- en tuigmakerswerk|1512|productie, installatie, reparatie|productie|Vervaardiging van koffers, tassen en dergelijke en van zadel- en tuigmakerswerk
+1520|Vervaardiging van schoenen|1520|productie, installatie, reparatie|productie|Vervaardiging van schoenen
+161|Dienstverlening voor de akker- en/of tuinbouw|161|landbouw|Dienstverlening voor de akker- en/of tuinbouw|
+16101|Zagen en schaven en overige primaire houtbewerking|16101|productie, installatie, reparatie|productie|Zagen en schaven en overige primaire houtbewerking
+16102|Verduurzamen van hout|16102|productie, installatie, reparatie|productie|Verduurzamen van hout
+162|Dienstverlening voor het fokken en houden van dieren|162|landbouw|Dienstverlening voor het fokken en houden van dieren|
+1621|Vervaardiging van fineer en plaatmateriaal op basis van hout|1621|productie, installatie, reparatie|productie|Vervaardiging van fineer en plaatmateriaal op basis van hout
+1622|Vervaardiging van panelen voor parketvloeren|1622|productie, installatie, reparatie|productie|Vervaardiging van panelen voor parketvloeren
+16231|Vervaardiging van deuren, ramen en kozijnen van hout|16231|productie, installatie, reparatie|productie|Vervaardiging van deuren, ramen en kozijnen van hout
+16239|Vervaardiging van overig timmerwerk voor de bouw (geen deuren, ramen en kozijnen)|16239|productie, installatie, reparatie|productie|Vervaardiging van overige timmerwerk voor de bouw (geen deuren, ramen en kozijnen)
+1624|Vervaardiging van houten emballage|1624|productie, installatie, reparatie|productie|Vervaardiging van houten emballage
+1629|Vervaardiging van overige artikelen van hout en van artikelen van kurk, riet en vlechtwerk (geen meubels)|1629|productie, installatie, reparatie|productie|Vervaardiging van overige artikelen van hout en van artikelen van kurk, riet en vlechtwerk (geen meubels)
+163|Behandeling van gewassen na de oogst||landbouw|Dienstverlening voor het fokken en houden van dieren|
+164|Behandeling van zaden voor vermeerdering||landbouw|Dienstverlening voor het fokken en houden van dieren|
+170|Jacht||landbouw|jacht|
+1711|Vervaardiging van papierpulp|1711|productie, installatie, reparatie|productie|Vervaardiging van papierpulp
+17121|Vervaardiging van grafisch papier en karton|17121|productie, installatie, reparatie|productie|Vervaardiging van grafisch papier en karton
+17122|Vervaardiging van papier en karton voor verpakking|17122|productie, installatie, reparatie|productie|Vervaardiging van papier en karton voor verpakking
+17129|Vervaardiging van papier en karton (geen grafisch en niet voor verpakking)|17129|productie, installatie, reparatie|productie|Vervaardiging van papier en karton (geen grafisch en niet voor verpakking)
+17211|Vervaardiging van verpakkingsmiddelen van papier en karton|17211|productie, installatie, reparatie|productie|Vervaardiging van verpakkingsmiddelen van papier en karton
+1723|Vervaardiging van kantoorbenodigdheden van papier|1723|productie, installatie, reparatie|productie|Vervaardiging van kantoorbenodigdheden van papier
+1724|Vervaardiging van behangselpapier|1724|productie, installatie, reparatie|productie|Vervaardiging van behangselpapier
+1729|Vervaardiging van overige papier- en kartonwaren|1729|productie, installatie, reparatie|productie|Vervaardiging van overige papier- en kartonwaren
+1811|Drukkerijen van dagbladen|1811|productie, installatie, reparatie|productie|Drukkerijen van dagbladen
+18121|Drukkerijen van boeken e.d.|18121|productie, installatie, reparatie|productie|Drukkerijen van boeken e.d.
+18122|Drukkerijen van tijdschriften|18122|productie, installatie, reparatie|productie|Drukkerijen van tijdschriften
+18123|Drukkerijen van reclame|18123|productie, installatie, reparatie|productie|Drukkerijen van reclame
+18124|Drukkerijen van verpakkingen|18124|productie, installatie, reparatie|productie|Drukkerijen van verpakkingen
+18125|Drukkerijen van formulieren|18125|productie, installatie, reparatie|productie|Drukkerijen van formulieren
+18129|Overige drukkerijen n.e.g.|18129|productie, installatie, reparatie|productie|Overige drukkerijen (rest)
+1813|Prepress- en premedia-activiteiten|1813|productie, installatie, reparatie|productie|Prepress- en premedia-activiteiten
+1814|Grafische afwerking en overige activiteiten verwant aan de drukkerij|1814|productie, installatie, reparatie|productie|Grafische afwerking en overige activiteiten verwant aan de drukkerij
+1820|Reproductie van opgenomen media|1820|productie, installatie, reparatie|productie|Reproductie van opgenomen media
+1910|Vervaardiging van cokesovenproducten|1910|productie, installatie, reparatie|productie|Vervaardiging van cokesovenproducten
+19201|Aardolieraffinage|19201|productie, installatie, reparatie|productie|Aardolieraffinage
+19202|Aardolieverwerking (geen -raffinage)|19202|productie, installatie, reparatie|productie|Aardolieverwerking (geen -raffinage)
+2011|Vervaardiging van industriële gassen|2011|productie, installatie, reparatie|productie|Vervaardiging van industriële gassen
+2012|Vervaardiging van kleur- en verfstoffen|2012|productie, installatie, reparatie|productie|Vervaardiging van kleur- en verfstoffen
+2013|Vervaardiging van overige anorganische basischemicaliën|2013|productie, installatie, reparatie|productie|Vervaardiging van overige anorganische basischemicaliën
+20141|Vervaardiging van petrochemische producten|20141|productie, installatie, reparatie|productie|Vervaardiging van petrochemische producten
+20149|Vervaardiging van overige organische basischemicaliën (geen petrochemische producten)|20149|productie, installatie, reparatie|productie|Vervaardiging van organische basischemicaliën (geen petrochemische producten)
+2015|Vervaardiging van kunstmeststoffen en stikstofverbindingen|2015|productie, installatie, reparatie|productie|Vervaardiging van kunstmeststoffen en stikstofverbindingen
+2016|Vervaardiging van kunststof in primaire vorm|2016|productie, installatie, reparatie|productie|Vervaardiging van kunststof in primaire vorm
+2017|Vervaardiging van synthetische rubber in primaire vorm|2017|productie, installatie, reparatie|productie|Vervaardiging van synthetische rubber in primaire vorm
+2020|Vervaardiging van verdelgingsmiddelen en overige landbouwchemicaliën|2020|productie, installatie, reparatie|productie|Vervaardiging van verdelgingsmiddelen en overige landbouwchemicaliën
+2030|Vervaardiging van verf, vernis e.d., drukinkt en mastiek|2030|productie, installatie, reparatie|productie|Vervaardiging van verf, vernis e.d., drukinkt en mastiek
+2041|Vervaardiging van zeep, wasmiddelen, poets- en reinigingsmiddelen|2041|productie, installatie, reparatie|productie|Vervaardiging van zeep en wasmiddelen, poets- en reinigingsmiddelen
+2042|Vervaardiging van parfums en cosmetica|2042|productie, installatie, reparatie|productie|Vervaardiging van parfums en cosmetica
+2051|Vervaardiging van kruit en springstoffen en van lucifers|2051|productie, installatie, reparatie|productie|Vervaardiging van kruit en springstoffen en van lucifers
+2052|Vervaardiging van lijm en bereide kleefmiddelen|2052|productie, installatie, reparatie|productie|Vervaardiging van lijm en bereide kleefmiddelen
+2053|Vervaardiging van etherische oliën|2053|productie, installatie, reparatie|productie|Vervaardiging van etherische oliën
+2059|Vervaardiging van overige chemische producten (rest)|2059|productie, installatie, reparatie|productie|Vervaardiging van overige chemische producten (rest)
+2060|Vervaardiging van synthetische en kunstmatige vezels|2060|productie, installatie, reparatie|productie|Vervaardiging van synthetische en kunstmatige vezels
+210|Bosbouw||bosbouw|bosbouw|
+2110|Vervaardiging van farmaceutische grondstoffen|2110|productie, installatie, reparatie|productie|Vervaardiging van farmaceutische grondstoffen
+2120|Vervaardiging van farmaceutische producten (geen grondstoffen)|2120|productie, installatie, reparatie|productie|Vervaardiging van farmaceutische producten (geen grondstoffen)
+220|Exploitatie van bossen||bosbouw|Exploitatie van bossen|
+2211|Vervaardiging van rubberbanden en loopvlakvernieuwing|2211|productie, installatie, reparatie|productie|Vervaardiging van rubberbanden en loopvlakvernieuwing
+2219|Vervaardiging van producten van rubber (geen banden)|2219|productie, installatie, reparatie|productie|Vervaardiging van producten van rubber (geen banden)
+2221|Vervaardiging van platen, folie, buizen en profielen van kunststof|2221|productie, installatie, reparatie|productie|Vervaardiging van platen, folie , buizen en profielen van kunststof
+2222|Vervaardiging van verpakkingsmiddelen van kunststof|2222|productie, installatie, reparatie|productie|Vervaardiging van verpakkingsmiddelen van kunststof
+2223|Vervaardiging van kunststofproducten voor de bouw|2223|productie, installatie, reparatie|productie|Vervaardiging van kunststofproducten voor de bouw
+2229|Vervaardiging van overige producten van kunststof|2229|productie, installatie, reparatie|productie|Vervaardiging van overige producten van kunststof
+2311|Vervaardiging van vlakglas|2311|productie, installatie, reparatie|productie|Vervaardiging van vlakglas
+2312|Vormen en bewerken van vlakglas|2312|productie, installatie, reparatie|productie|Vormen en bewerken van vlakglas
+2313|Vervaardiging van holglas|2313|productie, installatie, reparatie|productie|Vervaardiging van holglas
+2314|Vervaardiging van glasvezels|2314|productie, installatie, reparatie|productie|Vervaardiging van glasvezels
+2319|Vervaardiging en bewerking van overig glas, inclusief technisch glaswerk|2319|productie, installatie, reparatie|productie|Vervaardiging en bewerking van overig glas, inclusief technisch glaswerk
+2320|Vervaardiging van vuurvaste keramische producten|2320|productie, installatie, reparatie|productie|Vervaardiging van vuurvaste keramische producten
+2331|Vervaardiging van keramische tegels en plavuizen|2331|productie, installatie, reparatie|productie|Vervaardiging van keramische tegels en plavuizen
+2332|Vervaardiging van keramische producten voor de bouw (geen tegels en plavuizen)|2332|productie, installatie, reparatie|productie|Vervaardiging van keramische producten voor de bouw (geen tegels en plavuizen)
+2341|Vervaardiging van huishoudelijk en sieraardewerk|2341|productie, installatie, reparatie|productie|Vervaardiging van huishoudelijk en sieraardewerk
+2342|Vervaardiging van sanitair aardewerk|2342|productie, installatie, reparatie|productie|Vervaardiging van sanitair aardewerk
+2343|Vervaardiging van isolatoren en isolatiemateriaal van keramische stoffen|2343|productie, installatie, reparatie|productie|Vervaardiging van isolatoren en isolatiemateriaal van keramische stoffen
+2349|Vervaardiging van overige keramische producten n.e.g.|2349|productie, installatie, reparatie|productie|Vervaardiging van overige keramische producten (rest)
+2351|Vervaardiging van cement|2351|productie, installatie, reparatie|productie|Vervaardiging van cement
+23611|Vervaardiging van producten van beton voor de bouw|23611|productie, installatie, reparatie|productie|Vervaardiging van producten van beton voor de bouw
+2362|Vervaardiging van producten van gips voor de bouw|2362|productie, installatie, reparatie|productie|Vervaardiging van producten van gips voor de bouw
+2363|Vervaardiging van stortklare beton|2363|productie, installatie, reparatie|productie|Vervaardiging van stortklare beton
+2364|Vervaardiging van mortel in droge vorm|2364|productie, installatie, reparatie|productie|Vervaardiging van mortel in droge vorm
+2369|Vervaardiging van overige producten van beton, gips en cement|2369|productie, installatie, reparatie|productie|Vervaardiging van overige producten van beton, gips en cement
+2370|Natuursteenbewerking|2370|productie, installatie, reparatie|productie|Natuursteenbewerking
+2391|Vervaardiging van schuur-, slijp- en polijstmiddelen|2391|productie, installatie, reparatie|productie|Vervaardiging van schuur-, slijp- en polijstmiddelen
+2399|Vervaardiging van overige niet-metaalhoudende minerale producten (geen schuur-, slijp- en polijstmiddelen)|2399|productie, installatie, reparatie|productie|Vervaardiging van overige niet-metaalhoudende minerale producten (geen schuur-, slijp- en polijstmiddelen)
+240|Dienstverlening voor de bosbouw||bosbouw|Dienstverlening voor de bosbouw|
+2410|Vervaardiging van ijzer en staal en van ferrolegeringen|2410|productie, installatie, reparatie|productie|Vervaardiging van ijzer en staal en van ferrolegeringen
+2420|Vervaardiging van stalen buizen, pijpen, holle profielen en fittings daarvoor|2420|productie, installatie, reparatie|productie|Vervaardiging van stalen buizen, pijpen, holle profielen en fittings daarvoor
+2433|Koudvervormen en koudfelsen|2433|productie, installatie, reparatie|productie|Koudvervormen en koudfelsen
+2441|Vervaardiging van edelmetalen|2441|productie, installatie, reparatie|productie|Vervaardiging van edelmetalen
+2442|Vervaardiging van aluminium|2442|productie, installatie, reparatie|productie|Vervaardiging van aluminium
+2443|Vervaardiging van lood, zink en tin|2443|productie, installatie, reparatie|productie|Vervaardiging van lood, zink en tin
+2444|Vervaardiging van koper|2444|productie, installatie, reparatie|productie|Vervaardiging van koper
+2445|Vervaardiging van overige non-ferrometalen|2445|productie, installatie, reparatie|productie|Vervaardiging van overige non-ferrometalen
+2453|Gieten van lichte metalen|2453|productie, installatie, reparatie|productie|Gieten van lichte metalen
+2454|Gieten van overige non-ferrometalen|2454|productie, installatie, reparatie|productie|Gieten van overige non-ferrometalen
+2511|Vervaardiging van metalen constructiewerken en delen daarvan|2511|productie, installatie, reparatie|productie|Vervaardiging van metalen constructiewerken en delen daarvan
+2512|Vervaardiging van metalen deuren, vensters en kozijnen|2512|productie, installatie, reparatie|productie|Vervaardiging van metalen deuren, vensters en kozijnen
+2521|Vervaardiging van ketels en radiatoren voor centrale verwarming|2521|productie, installatie, reparatie|productie|Vervaardiging van ketels en radiatoren voor centrale verwarming
+2529|Vervaardiging van metalen tanks en reservoirs|2529|productie, installatie, reparatie|productie|Vervaardiging van metalen tanks en reservoirs
+2540|Vervaardiging van wapens en munitie|2540|productie, installatie, reparatie|productie|Vervaardiging van wapens en munitie
+2550|Smeden, persen, stampen en profielwalsen van metaal; poedermetallurgie|2550|productie, installatie, reparatie|productie|Smeden, persen, stampen en profielwalsen van metaal; poedermetallurgie
+2561|Oppervlaktebehandeling en bekleding van metaal|2561|productie, installatie, reparatie|productie|Oppervlaktebehandeling en bekleding van metaal
+2562|Algemene metaalbewerking|2562|productie, installatie, reparatie|productie|Algemene metaalbewerking
+2572|Vervaardiging van hang- en sluitwerk|2572|productie, installatie, reparatie|productie|Vervaardiging van hang- en sluitwerk
+2573|Vervaardiging van gereedschap|2573|productie, installatie, reparatie|productie|Vervaardiging van gereedschap
+2591|Vervaardiging van stalen vaten e.d.|2591|productie, installatie, reparatie|productie|Vervaardiging van stalen vaten e.d
+2592|Vervaardiging van verpakkingsmiddelen van licht metaal|2592|productie, installatie, reparatie|productie|Vervaardiging van verpakkingsmiddelen van licht metaal
+2593|Vervaardiging van artikelen van draad en van kettingen en veren|2593|productie, installatie, reparatie|productie|Vervaardiging van artikelen van draad en van kettingen en veren
+2594|Vervaardiging van bouten, schroeven en moeren|2594|productie, installatie, reparatie|productie|Vervaardiging van bouten, schroeven en moeren
+2599|Vervaardiging van overige producten van metaal n.e.g.|2599|productie, installatie, reparatie|productie|Vervaardiging van overige producten van metaal (rest)
+2611|Vervaardiging van elektronische componenten|2611|productie, installatie, reparatie|productie|Vervaardiging van elektronische componenten
+2612|Vervaardiging van elektronische printplaten|2612|productie, installatie, reparatie|productie|Vervaardiging van elektronische printplaten
+2620|Vervaardiging van computers en randapparatuur|2620|productie, installatie, reparatie|productie|Vervaardiging van computers en randapparatuur
+2630|Vervaardiging van communicatieapparatuur|2630|productie, installatie, reparatie|productie|Vervaardiging van communicatieapparatuur
+2640|Vervaardiging van consumentenelektronica|2640|productie, installatie, reparatie|productie|Vervaardiging van consumentenelektronica
+2651|Vervaardiging van meet-, regel-, navigatie- en controleapparatuur|2651|productie, installatie, reparatie|productie|Vervaardiging van meet-, regel-, navigatie- en controleapparatuur
+2652|Vervaardiging van uurwerken|2652|productie, installatie, reparatie|productie|Vervaardiging van uurwerken
+2660|Vervaardiging van bestralingsapparatuur en van elektromedische en elektrotherapeutische apparatuur|2660|productie, installatie, reparatie|productie|Vervaardiging van bestralingsapparatuur en van elektromedische en elektrotherapeutische apparatuur
+2670|Vervaardiging van optische instrumenten en apparatuur|2670|productie, installatie, reparatie|productie|Vervaardiging van optische instrumenten en apparatuur
+2680|Vervaardiging van informatiedragers|2680|productie, installatie, reparatie|productie|Vervaardiging van informatiedragers
+2711|Vervaardiging van elektromotoren, elektrische generatoren en transformatoren|2711|productie, installatie, reparatie|productie|Vervaardiging van elektromotoren, elektrische generatoren en transformatoren
+2712|Vervaardiging van schakel- en verdeelinrichtingen|2712|productie, installatie, reparatie|productie|Vervaardiging van schakel- en verdeelinrichtingen
+2720|Vervaardiging van batterijen en accumulatoren|2720|productie, installatie, reparatie|productie|Vervaardiging van batterijen en accumulatoren
+2731|Vervaardiging van kabels van optische vezels|2731|productie, installatie, reparatie|productie|Vervaardiging van kabels van optische vezels
+2732|Vervaardiging van overige elektrische en elektronische kabel|2732|productie, installatie, reparatie|productie|Vervaardiging van overige elektrische en elektronische kabel
+2733|Vervaardiging van schakelaars, stekkers, stopcontacten e.d.|2733|productie, installatie, reparatie|productie|Vervaardiging van schakelaars, stekkers, stopcontacten e.d.
+2740|Vervaardiging van elektrische lampen en verlichtingsapparaten|2740|productie, installatie, reparatie|productie|Vervaardiging van elektrische lampen en verlichtingsapparaten
+2751|Vervaardiging van elektrische huishoudapparaten|2751|productie, installatie, reparatie|productie|Vervaardiging van elektrische huishoudapparaten
+2752|Vervaardiging van niet-elektrische huishoudapparaten|2752|productie, installatie, reparatie|productie|Vervaardiging van niet-elektrische huishoudapparaten
+2790|Vervaardiging van overige elektrische apparatuur|2790|productie, installatie, reparatie|productie|Vervaardiging van overige elektrische apparatuur
+2811|Vervaardiging van motoren en turbines (niet voor vliegtuigen, motorvoertuigen en bromfietsen)|2811|productie, installatie, reparatie|productie|Vervaardiging van motoren en turbines ( niet voor vliegtuigen, motorvoertuigen en bromfietsen)
+2812|Vervaardiging van hydraulische apparatuur|2812|productie, installatie, reparatie|productie|Vervaardiging van hydraulische apparatuur
+2813|Vervaardiging van niet-hydraulische pompen en compressoren|2813|productie, installatie, reparatie|productie|Vervaardiging van niet-hydraulische pompen en compressoren
+2814|Vervaardiging van appendages|2814|productie, installatie, reparatie|productie|Vervaardiging van appendages
+2815|Vervaardiging van tandwielen, lagers en overige drijfwerkelementen|2815|productie, installatie, reparatie|productie|Vervaardiging van tandwielen, lagers en overige drijfwerkelementen
+2821|Vervaardiging van industriële ovens en branders|2821|productie, installatie, reparatie|productie|Vervaardiging van industriële ovens en branders
+2822|Vervaardiging van hijs-, hef- en transportwerktuigen|2822|productie, installatie, reparatie|productie|Vervaardiging van hijs-, hef- en transportwerktuigen
+2823|Vervaardiging van kantoormachines en -apparatuur (geen computers en randapparatuur)|2823|productie, installatie, reparatie|productie|Vervaardiging van kantoormachines en -apparatuur (geen computers en randapparatuur)
+2824|Vervaardiging van pneumatisch en elektrisch handgereedschap|2824|productie, installatie, reparatie|productie|Vervaardiging van pneumatisch en elektrisch handgereedschap
+2825|Vervaardiging van machines en apparaten voor industriële koeltechniek en klimaatregeling|2825|productie, installatie, reparatie|productie|Vervaardiging van machines en apparaten voor industriële koeltechniek en klimaatregeling
+2829|Vervaardiging van overige machines en apparaten voor algemeen gebruik n.e.g.|2829|productie, installatie, reparatie|productie|Vervaardiging van overige machines en apparaten voor algemeen gebruik (rest)
+2830|Vervaardiging van machines en werktuigen voor de land- en bosbouw|2830|productie, installatie, reparatie|productie|Vervaardiging van machines en werktuigen voor de land- en bosbouw
+2841|Vervaardiging van gereedschapswerktuigen voor metaalbewerking|2841|productie, installatie, reparatie|productie|Vervaardiging van gereedschapswerktuigen voor metaalbewerking
+2849|Vervaardiging van gereedschapswerktuigen niet voor metaalbewerking|2849|productie, installatie, reparatie|productie|Vervaardiging van gereedschapswerktuigen niet voor metaalbewerking
+2891|Vervaardiging van machines voor de metallurgie|2891|productie, installatie, reparatie|productie|Vervaardiging van machines voor de metallurgie
+2892|Vervaardiging van machines voor de bouw en winning van delfstoffen|2892|productie, installatie, reparatie|productie|Vervaardiging van machines voor de bouw en winning van delfstoffen
+2893|Vervaardiging van machines voor de productie van voedings- en genotmiddelen|2893|productie, installatie, reparatie|productie|Vervaardiging van machines voor de productie van voedings- en genotmiddelen
+2894|Vervaardiging van machines voor de productie van textiel, kleding en leer|2894|productie, installatie, reparatie|productie|Vervaardiging van machines voor de productie van textiel, kleding en leer
+2895|Vervaardiging van machines voor de productie van papier en karton|2895|productie, installatie, reparatie|productie|Vervaardiging van machines voor de productie van papier en karton
+2899|Vervaardiging van overige machines, apparaten en werktuigen voor specifieke doeleinden n.e.g.|2899|productie, installatie, reparatie|productie|Vervaardiging van overige machines, apparaten en werktuigen voor specifieke doeleinden (rest)
+2910|Vervaardiging van auto's|2910|productie, installatie, reparatie|productie|Vervaardiging van auto's
+29201|Carrosseriebouw|29201|productie, installatie, reparatie|productie|Carrosseriebouw
+29202|Vervaardiging van aanhangwagens en opleggers|29202|productie, installatie, reparatie|productie|Vervaardiging van aanhangwagens en opleggers
+2931|Vervaardiging van elektrische en elektronische onderdelen en toebehoren voor auto's|2931|productie, installatie, reparatie|productie|Vervaardiging van elektrische en elektronische onderdelen en toebehoren voor auto's
+2932|Vervaardiging van niet-elektrische en -elektronische onderdelen en toebehoren voor auto's|2932|productie, installatie, reparatie|productie|Vervaardiging van niet-elektrische en -elektronische onderdelen en toebehoren voor auto's
+3011|Bouw van schepen en drijvend materieel (geen sport- en recreatievaartuigen)|3011|productie, installatie, reparatie|productie|Bouw van schepen en drijvend materieel (geen sport- en recreatievaartuigen)
+3012|Bouw van sport- en recreatievaartuigen|3012|productie, installatie, reparatie|productie|Bouw van sport- en recreatievaartuigen
+3020|Vervaardiging van rollend spoor- en tramwegmaterieel|3020|productie, installatie, reparatie|productie|Vervaardiging van rollend spoor- en tramwegmaterieel
+3030|Vervaardiging van vliegtuigen en onderdelen daarvoor|3030|productie, installatie, reparatie|productie|Vervaardiging van vliegtuigen en onderdelen daarvoor
+3091|Vervaardiging van motor- en bromfietsen|3091|productie, installatie, reparatie|productie|Vervaardiging van motor- en bromfietsen
+3092|Vervaardiging van fietsen en invalidenwagens|3092|productie, installatie, reparatie|productie|Vervaardiging van fietsen en invalidenwagens
+3099|Vervaardiging van overige transportmiddelen n.e.g.|3099|productie, installatie, reparatie|productie|Vervaardiging van overige transportmiddelen (rest)
+31011|Interieurbouw|31011|productie, installatie, reparatie|productie|Interieurbouw
+31012|Vervaardiging van bedrijfsmeubels|31012|productie, installatie, reparatie|productie|Vervaardiging van bedrijfsmeubels
+3102|Vervaardiging van keukenmeubels|3102|productie, installatie, reparatie|productie|Vervaardiging van keukenmeubels
+3103|Vervaardiging van matrassen|3103|productie, installatie, reparatie|productie|Vervaardiging van matrassen
+3109|Vervaardiging van overige meubels|3109|productie, installatie, reparatie|productie|Vervaardiging van overige meubels
+311|Zee- en kustvisserij||visserij en kweken van vis/schaaldieren|visserij|
+312|Binnenvisserij||visserij en kweken van vis/schaaldieren|visserij|
+321|Kweken van zeevis en -schaaldieren|321|visserij en kweken van vis/schaaldieren|Kweken van zeevis en -schaaldieren|
+3211|Slaan van munten en medailles|3211|productie, installatie, reparatie|productie|Slaan van munten en medailles
+3212|Bewerken van edelstenen en vervaardiging van sieraden e.d. (geen imitatie)|3212|productie, installatie, reparatie|productie|Bewerken van edelstenen en vervaardiging van sieraden e.d. (geen imitatie)
+3213|Vervaardiging van imitatiesieraden|3213|productie, installatie, reparatie|productie|Vervaardiging van imitatiesieraden
+322|Kweken van zoetwatervis en -schaaldieren|322|visserij en kweken van vis/schaaldieren|Kweken van zoetwatervis en -schaaldieren|
+3220|Vervaardiging van muziekinstrumenten|3220|productie, installatie, reparatie|productie|Vervaardiging van muziekinstrumenten
+3230|Vervaardiging van sportartikelen|3230|productie, installatie, reparatie|productie|Vervaardiging van sportartikelen
+3240|Vervaardiging van speelgoed en spellen|3240|productie, installatie, reparatie|productie|Vervaardiging van spellen en speelgoed
+32501|Tandtechnische bedrijven|32501|productie, installatie, reparatie|productie|Tandtechnische bedrijven
+32502|Vervaardiging van medische instrumenten en hulpmiddelen (geen tandtechniek)|32502|productie, installatie, reparatie|productie|Vervaardiging van medische instrumenten en hulpmiddelen (geen tandtechniek)
+3291|Vervaardiging van borstelwaren|3291|productie, installatie, reparatie|productie|Vervaardiging van borstelwaren
+32991|Sociale werkvoorziening|32991|productie, installatie, reparatie|productie|Sociale werkvoorziening
+32999|Vervaardiging van overige goederen n.e.g.|32999|productie, installatie, reparatie|productie|Vervaardiging van overige goederen (rest)
+3311|Reparatie van producten van metaal|3311|productie, installatie, reparatie|reparatie (geen bouw)|Reparatie van producten van metaal
+33121|Reparatie en onderhoud van machines voor algemeen gebruik en machine-onderdelen (geen gereedschap)|33121|productie, installatie, reparatie|reparatie (geen bouw)|Reparatie en onderhoud van machines voor algemeen gebruik en machine-onderdelen (geen gereedschap)
+33122|Reparatie en onderhoud van pneumatisch en elektrisch gereedschap en gereedschapswerktuigen|33122|productie, installatie, reparatie|reparatie (geen bouw)|Reparatie en onderhoud van pneumatisch en elektrisch gereedschap en gereedschapswerktuigen
+33123|Reparatie en onderhoud van machines voor een specifieke bedrijfstak|33123|productie, installatie, reparatie|reparatie (geen bouw)|Reparatie en onderhoud van machines voor een specifieke bedrijfstak
+3313|Reparatie van elektronische en optische apparatuur|3313|productie, installatie, reparatie|reparatie (geen bouw)|Reparatie en onderhoud van elektronische en optische apparatuur
+3314|Reparatie van elektrische apparatuur|3314|productie, installatie, reparatie|reparatie (geen bouw)|Reparatie van elektrische apparatuur
+3315|Reparatie en onderhoud van schepen|3315|productie, installatie, reparatie|reparatie (geen bouw)|Reparatie en onderhoud van schepen
+3316|Reparatie en onderhoud van vliegtuigen|3316|productie, installatie, reparatie|reparatie (geen bouw)|Reparatie en onderhoud van vliegtuigen
+3317|Reparatie en onderhoud van overige transportmiddelen|3317|productie, installatie, reparatie|reparatie (geen bouw)|Reparatie en onderhoud van overige transportmiddelen
+3319|Reparatie van overige apparatuur|3319|productie, installatie, reparatie|reparatie (geen bouw)|Reparatie en onderhoud van overige toebehoren
+3321|Installatie van ketels en tanks|3321|productie, installatie, reparatie|installatie (geen bouw)|Installatie van ketels en tanks
+33221|Installatie van machines voor algemeen gebruik (geen gereedschap)|33221|productie, installatie, reparatie|installatie (geen bouw)|Installatie van machines voor algemeen gebruik (geen gereedschap)
+33222|Installatie van pneumatisch en elektrisch gereedschap en gereedschapswerktuigen|33222|productie, installatie, reparatie|installatie (geen bouw)|Installatie van pneumatisch en elektrisch gereedschap en gereedschapswerktuigen
+33223|Installatie van machines voor een specifieke bedrijfstak|33223|productie, installatie, reparatie|installatie (geen bouw)|Installatie van machines voor een specifieke bedrijfstak
+3323|Installatie van elektronische en optische apparatuur|3323|productie, installatie, reparatie|installatie (geen bouw)|Installatie van elektronische en optische apparatuur
+3324|Installatie van elektrische apparatuur|3324|productie, installatie, reparatie|installatie (geen bouw)|Installatie van elektrische apparatuur
+3329|Installatie van overige toebehoren|3329|productie, installatie, reparatie|installatie (geen bouw)|Installatie van overige toebehoren
+35111|Productie van elektriciteit door thermische, kern- en warmtekrachtcentrales|35111|productie, installatie, reparatie|productie|Productie van elektriciteit door thermische, en nucleaire installaties
+35112|Productie van elektriciteit door windenergie|35112|productie, installatie, reparatie|productie|Productie van elektriciteit door windenergie
+35113|Productie van elektriciteit door zonnecellen, warmtepompen en waterkracht|35113|productie, installatie, reparatie|productie|Productie van elektriciteit door zonnecellen, en waterkracht
+3512|Beheer en exploitatie van transportnetten voor elektriciteit, aardgas en warm water|3512|productie, installatie, reparatie|productie|Beheer en exploitatie van transportnetten voor elektriciteit, aardgas en warm water
+3513|Distributie van elektriciteit en gasvormige brandstoffen via leidingen|3513|productie, installatie, reparatie|productie|Distributie van elektriciteit en gasvormige brandstoffen via leidingen
+3514|Handel in elektriciteit en in gas via leidingen|3514|productie, installatie, reparatie|productie|Handel in elektriciteit en in gas via leidingen
+3520|Productie van aardgas|3520|productie, installatie, reparatie|productie|Productie van biogas
+3530|Productie en distributie van stoom en gekoelde lucht|3530|productie, installatie, reparatie|productie|Productie en distributie van stoom, warm water en gekoelde lucht
+3600|Winning en distributie van water|3600|overige niet hierboven genoemd|overige|Winning en distributie van water
+3700|Afvalwaterinzameling en -behandeling|3700|overige niet hierboven genoemd|overige|Afvalwaterinzameling en -behandeling
+3811|Inzameling van onschadelijk afval|3811|overige niet hierboven genoemd|overige|Inzameling van onschadelijk afval
+3812|Inzameling van schadelijk afval|3812|overige niet hierboven genoemd|overige|Inzameling van schadelijk afval
+3821|Behandeling van onschadelijk afval|3821|overige niet hierboven genoemd|overige|Behandeling van onschadelijk afval
+3822|Behandeling van schadelijk afval|3822|overige niet hierboven genoemd|overige|Behandeling van schadelijk afval
+3831|Sloop van schepen, witgoed, computers e.d.|3831|overige niet hierboven genoemd|overige|Sloop van schepen, witgoed, computers e.d.
+3832|Gesorteerd materiaal voorbereiden tot recycling|3832|overige niet hierboven genoemd|overige|Gesorteerd materiaal voorbereiden tot recycling
+3900|Sanering en overig afvalbeheer|3900|overige niet hierboven genoemd|overige|Sanering en overig afvalbeheer
+4110|Projectontwikkeling|4110|overige niet hierboven genoemd|overige|Projectontwikkeling
+4120|Algemene burgerlijke en utiliteitsbouw|4120|bouw|bouw/utiliteitsbouw algemeen|Algemene burgerlijke en utiliteitsbouw
+42111|Wegenbouw|42111|bouw|grond, water, wegenbouw|Wegenbouw
+42112|Stratenmaken|42112|bouw|grond, water, wegenbouw|Stratenmaken
+4212|Bouw van boven- en ondergrondse spoorwegen|4212|bouw|grond, water, wegenbouw|Bouw van boven- en ondergrondse spoorwegen
+4213|Bouw van kunstwerken|4213|bouw|grond, water, wegenbouw|Bouw van kunstwerken
+4221|Leggen van rioleringen, buizen en pijpleidingen; aanleg van bronbemaling|4221|bouw|grond, water, wegenbouw|Leggen van rioleringen, buizen en pijpleidingen; aanleg van bronbemaling
+4222|Leggen van elektriciteits- en telecommunicatiekabels|4222|bouw|grond, water, wegenbouw|Leggen van elektriciteits- en telecommunicatiekabels
+4291|Natte waterbouw|4291|bouw|grond, water, wegenbouw|Natte waterbouw
+4299|Bouw van overige civieltechnische werken (rest)|4299|bouw|grond, water, wegenbouw|Bouw van overige civieltechnische werken (rest)
+4311|Slopen van bouwwerken|4311|bouw|bouw overig|Slopen van bouwwerken
+4312|Grondverzet|4312|bouw|bouw overig|Grondverzet
+4321|Elektrotechnische bouwinstallatie|4321|bouw|bouwinstallatie|Elektrotechnische bouwinstallatie
+432101|Installatie van verlichting, telecom en alarm in gebouwen||bouw|bouwinstallatie|
+43221|Loodgieters- en fitterswerk; installatie van sanitair|43221|bouw|bouwinstallatie|Loodgieters- en fitterswerk; installatie van sanitair
+43222|Installatie van verwarmings- en luchtbehandelingsapparatuur|43222|bouw|bouwinstallatie|Installatie van verwarmings- en luchtbehandelingsapparatuur
+4329|Overige bouwinstallatie|4329|bouw|bouwinstallatie|Overige bouwinstallatie
+4331|Stukadoren|4331|bouw|afwerking van gebouwen|Stukadoren
+4332|Bouwtimmeren|4332|bouw|afwerking van gebouwen|Bouwtimmeren
+4333|Afwerking van vloeren en wanden|4333|bouw|afwerking van gebouwen|Afwerken van vloeren en wanden
+4334|Schilderen en glaszetten|4334|bouw|afwerking van gebouwen|Schilderen en glaszetten
+4339|Overige afwerking van gebouwen|4339|bouw|afwerking van gebouwen|Overige afwerken van gebouwen
+4391|Dakdekken en bouwen van dakconstructies|4391|bouw|dak- en overige gespecialiseerde bouw|Dakdekken en bouwen van dakconstructies
+43991|Heien en andere funderingswerkzaamheden|43991|bouw|dak- en overige gespecialiseerde bouw|Heien en andere funderingswerkzaamheden
+43992|Vlechten van betonstaal|43992|bouw|dak- en overige gespecialiseerde bouw|Vlechten van betonstaal
+43993|Metselen en voegen|43993|bouw|dak- en overige gespecialiseerde bouw|Metselen en voegen
+43999|Overige gespecialiseerde werkzaamheden in de bouw (rest)|43999|bouw|dak- en overige gespecialiseerde bouw|Overige gespecialiseerde werkzaamheden in de bouw (rest)
+45111|Import van nieuwe personenauto's en lichte bedrijfsauto's|45111|handel, vervoer, opslag|handel en reparatie van auto s|Import van nieuwe personenauto’s en lichte bedrijfsauto's
+45112|Handel in en reparatie van personenauto s en lichte bedrijfsauto's (geen import van nieuwe)|45112|handel, vervoer, opslag|handel en reparatie van auto s|Handel in en reparatie van personenauto’s en lichte bedrijfswagens (geen import van nieuwe)
+45112|Handel in en reparatie van personenauto's en lichte bedrijfsauto's (geen import van nieuwe)|45112|handel, vervoer, opslag|handel en reparatie van auto s|Handel in en reparatie van personenauto’s en lichte bedrijfswagens (geen import van nieuwe)
+45191|Import van nieuwe bedrijfsauto's|45191|handel, vervoer, opslag|handel en reparatie van auto s|Import van nieuwe bedrijfsauto's
+45192|Handel in en reparatie van zwaardere bedrijfsauto's (geen import van nieuwe)|45192|handel, vervoer, opslag|handel en reparatie van auto s|Handel in en reparatie van zwaardere bedrijfsauto's (geen import van nieuwe)
+45193|Handel in en reparatie van aanhangwagens en opleggers (geen caravans)|45193|handel, vervoer, opslag|handel en reparatie van auto s|Handel in en reparatie van aanhangwagens en opleggers (geen caravans)
+45194|Handel in en reparatie van caravans|45194|handel, vervoer, opslag|handel en reparatie van auto s|Handel in en reparatie van caravans
+45201|Auto-onderdelenservicebedrijven|45201|handel, vervoer, opslag|handel en reparatie van auto s|Auto-onderdelenservicebedrijven
+45202|Bandenservicebedrijven|45202|handel, vervoer, opslag|handel en reparatie van auto s|Bandenservicebedrijven
+45203|Reparatie van specifieke auto-onderdelen|45203|handel, vervoer, opslag|handel en reparatie van auto s|Reparatie van specifieke auto-onderdelen
+45204|Carrosserieherstel|45204|handel, vervoer, opslag|handel en reparatie van auto s|Carrosserieherstel
+45205|Overige gespecialiseerde reparatie en slepen van auto's|45205|handel, vervoer, opslag|handel en reparatie van auto s|Overige gespecialiseerde reparatie en slepen van auto's
+45311|Groothandel en handelsbemiddeling in auto-onderdelen en -accessoires (geen banden)|45311|handel, vervoer, opslag|handel en reparatie van auto s|Groothandel en handelsbemiddeling in auto-onderdelen en accessoires (geen banden)
+45312|Groothandel en handelsbemiddeling in banden|45312|handel, vervoer, opslag|handel en reparatie van auto s|Groothandel en handelsbemiddeling in banden
+4532|Detailhandel in auto-onderdelen en -accessoires|4532|handel, vervoer, opslag|handel en reparatie van auto s|Detailhandel in auto-onderdelen en accessoires
+45401|Groothandel en handelsbemiddeling in motorfietsen en onderdelen daarvan|45401|handel, vervoer, opslag|handel en reparatie van auto s|Groothandel en handelsbemiddeling in motorfietsen en onderdelen daarvan
+45402|Detailhandel in en reparatie van motorfietsen en onderdelen daarvan|45402|handel, vervoer, opslag|handel en reparatie van auto s|Detailhandel in en reparatie van motorfietsen en onderdelen daarvan
+4611|Handelsbemiddeling in landbouwproducten, levende dieren en grondstoffen voor textiel en voedingsmiddelen|4611|handel, vervoer, opslag|handelsbemiddeling (tussenpersoon, verkoopt niet zelf)|Handelsbemiddeling in landbouwproducten, levende dieren en grondstoffen voor textiel en voedingsmiddelen
+4612|Handelsbemiddeling in brandstoffen, ertsen, metalen en chemische producten|4612|handel, vervoer, opslag|handelsbemiddeling (tussenpersoon, verkoopt niet zelf)|Handelsbemiddeling in brandstoffen, ertsen, metalen en chemische producten
+4613|Handelsbemiddeling in hout, vlakglas, sanitair en bouwmaterialen|4613|handel, vervoer, opslag|handelsbemiddeling (tussenpersoon, verkoopt niet zelf)|Handelsbemiddeling in hout, vlakglas, sanitair en bouwmaterialen
+4614|Handelsbemiddeling in machines, technische benodigdheden, schepen en vliegtuigen|4614|handel, vervoer, opslag|handelsbemiddeling (tussenpersoon, verkoopt niet zelf)|Handelsbemiddeling in machines, technische benodigdheden, schepen en vliegtuigen
+4615|Handelsbemiddeling in meubels, huishoudelijke artikelen en ijzerwaren|4615|handel, vervoer, opslag|handelsbemiddeling (tussenpersoon, verkoopt niet zelf)|Handelsbemiddeling in meubels, huishoudelijke artikelen en ijzerwaren
+4616|Handelsbemiddeling in textiel, kleding, schoeisel en lederwaren|4616|handel, vervoer, opslag|handelsbemiddeling (tussenpersoon, verkoopt niet zelf)|Handelsbemiddeling in textiel, kleding, schoeisel en lederwaren
+4617|Handelsbemiddeling in voedings- en genotmiddelen|4617|handel, vervoer, opslag|handelsbemiddeling (tussenpersoon, verkoopt niet zelf)|Handelsbemiddeling in voedings- en genotmiddelen
+4618|Handelsbemiddeling gespecialiseerd in overige goederen|4618|handel, vervoer, opslag|handelsbemiddeling (tussenpersoon, verkoopt niet zelf)|Handelsbemiddeling gespecialiseerd in overige goederen
+4619|Niet-gespecialiseerde handelsbemiddeling|4619|handel, vervoer, opslag|handelsbemiddeling (tussenpersoon, verkoopt niet zelf)|Niet-gespecialiseerde handelsbemiddeling
+46211|Groothandel in granen|46211|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in granen
+46212|Groothandel in zaden, pootgoed en peulvruchten|46212|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in zaden, pootgoed en peulvruchten
+46213|Groothandel in hooi, stro en ruwvoeder|46213|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in hooi, stro en ruwvoeder
+46214|Groothandel in meng- en krachtvoeder|46214|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in meng- en krachtvoeder
+46215|Groothandel in veevoeder (geen ruw-, meng- en krachtvoeder)|46215|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in veevoeder (geen ruw-, meng- en krachtvoeder)
+46216|Groothandel in ruwe plantaardige en dierlijke oliën en vetten en oliehoudende grondstoffen|46216|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in ruwe plantaardige en dierlijke oliën en vetten en oliehoudende grondstoffen
+46217|Groothandel in ruwe tabak|46217|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in ruwe tabak
+46218|Groothandel in akkerbouwproducten en veevoeder algemeen assortiment|46218|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in akkerbouwproducten en veevoeder algemeen assortiment
+46219|Groothandel in overige akkerbouwproducten|46219|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in overige akkerbouwproducten
+4622|Groothandel in bloemen en planten|4622|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in bloemen en planten
+46231|Groothandel in levend vee|46231|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in levend vee
+46232|Groothandel in huisdieren, siervissen, siervogels en wilde dieren|46232|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in huisdieren, siervissen, siervogels en wilde dieren
+46241|Groothandel in huiden en vellen|46241|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in huiden en vellen
+46242|Groothandel in leer en halffabrikaten van leer|46242|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in leer en halffabrikaten van leer
+46311|Groothandel in groenten en fruit|46311|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in groenten en fruit
+46312|Groothandel in consumptie-aardappelen|46312|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in consumptie-aardappelen
+4632|Groothandel in vlees en vleeswaren en in wild en gevogelte (niet levend)|4632|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in vlees en vleeswaren en in wild en gevogelte (niet levend)
+46331|Groothandel in zuivelproducten en spijsoliën en -vetten|46331|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in zuivelproducten en spijsoliën en -vetten
+46332|Groothandel in eieren|46332|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in eieren
+4634|Groothandel in dranken (geen zuivel)|4634|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in dranken (geen zuivel)
+4635|Groothandel in tabaksproducten en rokersbenodigdheden|4635|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in tabaksproducten en rokersbenodigdheden
+4636|Groothandel in suiker, chocolade en suikerwerk|4636|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in suiker, chocolade en suikerwerk
+4637|Groothandel in koffie, thee, cacao en specerijen (geen ruwe)|4637|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in koffie, thee, cacao en specerijen (geen ruwe)
+46381|Groothandel in snacks|46381|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in snacks
+46382|Groothandel in vis, schaal- en weekdieren|46382|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in vis-, schaal- en weekdieren
+46383|Gespecialiseerde groothandel in overige voedings- en genotmiddelen n.e.g.|46383|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Gespecialiseerde groothandel in overige voedings- en genotmiddelen (rest)
+46384|Groothandel in bakkerijgrondstoffen|46384|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in bakkerijgrondstoffen
+46389|Gespecialiseerde groothandel in overige grondstoffen en halffabrikaten voor de voedingsmiddelenindustrie n.e.g.|46389|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Gespecialiseerde groothandel in overige grondstoffen en halffabrikaten voor de voedings- en genotmiddelenindustrie (rest)
+4639|Groothandel in voedings- en genotmiddelen algemeen assortiment|4639|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in voedings- en genotmiddelen algemeen assortiment
+46411|Groothandel in kledingstoffen en fournituren|46411|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in kledingstoffen en fournituren
+46412|Groothandel in huishoudtextiel en beddengoed|46412|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in huishoudtextiel en beddengoed
+46421|Groothandel in bovenkleding|46421|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in bovenkleding
+46422|Groothandel in werkkleding|46422|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in werkkleding
+46423|Groothandel in onderkleding|46423|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in onderkleding
+46424|Groothandel in schoenen|46424|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in schoenen
+46425|Groothandel in mode-artikelen|46425|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in mode-artikelen
+46429|Groothandel in textielwaren algemeen assortiment|46429|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in textielwaren algemeen assortiment
+46431|Groothandel in witgoed|46431|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in witgoed
+46432|Groothandel in elektrische huishoudelijke apparatuur (geen witgoed, audio en video)|46432|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in elektrische huishoudelijke apparatuur (geen witgoed, audio en video)
+46433|Groothandel in audio- en video-apparatuur|46433|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in audio- en video-apparatuur
+46434|Groothandel in fotografische artikelen|46434|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in fotografische artikelen
+46435|Groothandel in beeld- en geluidsdragers|46435|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in beeld- en geluidsdragers
+46436|Groothandel in optische artikelen|46436|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in optische artikelen
+46441|Groothandel in glas, porselein en aardewerk|46441|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in glas, porselein en aardewerk
+46442|Groothandel in was-, poets- en reinigingsmiddelen|46442|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in was-, poets- en reinigingsmiddelen
+4645|Groothandel in parfums en cosmetica|4645|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in parfums en cosmetica
+46461|Groothandel in farmaceutische producten|46461|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in farmaceutische producten
+46462|Groothandel in medische en tandheelkundige instrumenten, verpleeg- en orthopedische artikelen en laboratoriumbenodigdheden|46462|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in medische en tandheelkundige instrumenten, verpleeg- en orthopedische artikelen en laboratoriumbenodigdheden
+46471|Groothandel in huismeubilair|46471|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in huismeubilair
+46472|Groothandel in woningtextiel en vloerbedekking|46472|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in woningtextiel en vloerbedekking
+46473|Groothandel in verlichtingsartikelen|46473|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in verlichtingsartikelen
+4648|Groothandel in juweliersartikelen en uurwerken|4648|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in juweliersartikelen en uurwerken
+46491|Groothandel in fietsen en bromfietsen|46491|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in fietsen en bromfietsen
+46492|Groothandel in watersportartikelen|46492|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in watersportartikelen
+46493|Groothandel in kampeerartikelen (geen caravans)|46493|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in kampeerartikelen (geen caravans)
+46494|Groothandel in speelgoed|46494|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in speelgoed
+46495|Groothandel in muziekinstrumenten|46495|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in muziekinstrumenten
+46496|Groothandel in sportartikelen (geen watersport)|46496|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in sportartikelen (geen watersport)
+46497|Groothandel in papier- en kartonwaren (geen verpakkingsmateriaal)|46497|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in papier- en kartonwaren (geen verpakkingsmateriaal)
+46498|Groothandel in boeken, tijdschriften en overig drukwerk|46498|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in boeken, tijdschriften en overig drukwerk
+46499|Groothandel in overige consumentenartikelen (rest, non-food)|46499|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in overige consumentenartikelen (non-food) (rest)
+4651|Groothandel in computers, randapparatuur en software|4651|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in computers, randapparatuur en software
+4652|Groothandel in elektronische en telecommunicatieapparatuur en bijbehorende onderdelen|4652|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in elektronische en telecommunicatieapparatuur en bijbehorende onderdelen
+4661|Groothandel in landbouwmachines, werktuigen en tractoren|4661|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in landbouwmachines, werktuigen en tractoren
+4662|Groothandel in gereedschapswerktuigen|4662|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in gereedschapswerktuigen
+4663|Groothandel in machines voor de bouw|4663|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in machines voor de bouw
+4664|Groothandel in machines voor de textielindustrie en in naai- en breimachines|4664|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in machines voor de textielindustrie en in naai- en breimachines
+4665|Groothandel in bedrijfsmeubels|4665|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in bedrijfsmeubels
+4666|Groothandel in kantoormachines (geen computers)|4666|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in kantoormachines (geen computers)
+46681|Groothandel in machines voor de grafische industrie|46681|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in machines voor de grafische industrie
+46682|Groothandel in machines voor de voedings- en genotmiddelenindustrie|46682|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in machines voor de voedings- en genotmiddelenindustrie
+46691|Groothandel in intern transportmaterieel|46691|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in intern transportmaterieel
+46692|Groothandel in machines en apparaten voor de warmte-, koel- en vriestechniek|46692|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in machines en apparaten voor warmte-, koel- en vriestechniek
+46693|Groothandel in verbrandingsmotoren, pompen en compressoren|46693|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in verbrandingsmotoren, pompen en compressoren
+46694|Groothandel in appendages, technische toebehoren e.d.|46694|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in appendages, technische toebehoren e.d.
+46695|Groothandel in meet- en regelapparaten|46695|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in meet- en regelapparaten
+46696|Groothandel in emballage|46696|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in emballage
+46697|Groothandel in scheepsbenodigdheden en visserij-artikelen|46697|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in scheepsbenodigdheden en visserij-artikelen
+46699|Groothandel in overige machines, apparaten en toebehoren voor industrie en handel (rest)|46699|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in overige machines, apparaten en toebehoren voor industrie en handel (rest)
+46711|Groothandel in vaste brandstoffen|46711|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in vaste brandstoffen
+46712|Groothandel in vloeibare en gasvormige brandstoffen|46712|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in vloeibare en gasvormige brandstoffen
+46713|Groothandel in minerale olieproducten (geen brandstoffen)|46713|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in minerale olieproducten (geen brandstoffen)
+46721|Groothandel in metaalertsen|46721|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in metaalertsen
+46722|Groothandel in ferrometalen en -halffabrikaten|46722|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in ferrometalen en -halffabrikaten
+46723|Groothandel in non-ferrometalen en -halffabrikaten|46723|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in non-ferrometalen en -halffabrikaten
+46731|Groothandel in hout en plaatmateriaal|46731|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in hout en plaatmateriaal
+46732|Groothandel in verf en verfwaren|46732|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in verf en verfwaren
+46733|Groothandel in behang|46733|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in behang
+46734|Groothandel in vlakglas|46734|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in vlakglas
+46735|Groothandel in zand en grind|46735|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in zand en grind
+46736|Groothandel in tegels en plavuizen|46736|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in tegels en plavuizen
+46737|Groothandel in sanitaire artikelen en sanitair installatiemateriaal|46737|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in sanitaire artikelen en sanitair installatiemateriaal
+46738|Groothandel gespecialiseerd in overige bouwmaterialen|46738|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel gespecialiseerd in overige bouwmaterialen
+46739|Groothandel in bouwmaterialen algemeen assortiment|46739|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in bouwmaterialen algemeen assortiment
+46741|Groothandel in ijzer- en metaalwaren|46741|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in ijzer- en metaalwaren
+46742|Groothandel in verwarmingsapparaten|46742|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in verwarmingsapparaten
+46751|Groothandel in chemische grondstoffen en chemicaliën voor industriële toepassing|46751|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in chemische grondstoffen en chemicaliën voor industriële toepassing
+46752|Groothandel in bestrijdingsmiddelen en kunstmeststoffen|46752|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in bestrijdingsmiddelen en kunstmeststoffen
+46761|Groothandel in textielgrondstoffen en -halffabrikaten|46761|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in textielgrondstoffen en -halffabrikaten
+46762|Groothandel in papier en karton|46762|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in papier en karton
+46769|Groothandel in overige intermediaire producten (rest)|46769|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in overige intermediaire producten (rest)
+46771|Groothandel in autosloopmateriaal|46771|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in autosloopmateriaal
+46772|Groothandel in ijzer- en staalschroot en oude non-ferrometalen|46772|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in ijzer- en staalschroot en oude non-ferrometalen
+46779|Groothandel in overige oude materialen en afvalstoffen|46779|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Groothandel in overige oude materialen en afvalstoffen
+46901|Niet-gespecialiseerde groothandel in consumentenartikelen|46901|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Niet-gespecialiseerde groothandel in consumentenartikelen
+46902|Niet-gespecialiseerde groothandel in niet-consumentenartikelen|46902|handel, vervoer, opslag|groothandel (verkoop aan andere ondernemingen, niet zelf vervaardigd)|Niet-gespecialiseerde groothandel in niet-consumentenartikelen
+4711|Supermarkten en dergelijke winkels met een algemeen assortiment voedings- en genotmiddelen|4711|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Supermarkten en dergelijke winkels met een algemeen assortiment voedings- en genotmiddelen
+47191|Warenhuizen|47191|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Warenhuizen
+47192|Winkels met een algemeen assortiment non-food (geen warenhuizen)|47192|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Winkels met een algemeen assortiment non-food (geen warenhuizen)
+4721|Winkels in aardappelen, groenten en fruit|4721|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Winkels in aardappelen, groenten en fruit
+47221|Winkels in vlees en vleeswaren|47221|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Winkels in vlees en vleeswaren
+47222|Winkels in wild en gevogelte|47222|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Winkels in wild en gevogelte
+4723|Winkels in vis|4723|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Winkels in vis
+47241|Winkels in brood en banket|47241|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Winkels in brood en banket
+47242|Winkels in chocolade en suikerwerk|47242|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Winkels in chocolade en suikerwerk
+4725|Winkels in dranken|4725|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Winkels in dranken
+4726|Winkels in tabaksproducten|4726|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Winkels in tabaksproducten
+47291|Winkels in kaas|47291|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Winkels in kaas
+47292|Winkels in natuurvoeding en reformartikelen|47292|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Winkels in natuurvoeding en reformartikelen
+47293|Winkels in buitenlandse voedingsmiddelen|47293|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Winkels in buitenlandse voedingsmiddelen
+47299|Gespecialiseerde winkels in overige voedings- en genotmiddelen n.e.g.|47299|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Gespecialiseerde winkels in overige voedings- en genotmiddelen (rest)
+4730|Benzinestations|4730|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Benzinestations
+4741|Winkels in computers, randapparatuur en software|4741|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Winkels in computers, randapparatuur en software
+4742|Winkels in telecommunicatieapparatuur|4742|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Winkels in telecommunicatieapparatuur
+47431|Winkels in audio- en videoapparatuur|47431|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Winkels in audio- en videoapparatuur
+47432|Winkels in een algemeen assortiment van wit- en bruingoed|47432|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Winkels in een algemeen assortiment van wit- en bruingoed
+47511|Winkels in kledingsstoffen|47511|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Winkels in kledingsstoffen
+47512|Winkels in huishoudtextiel|47512|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Winkels in huishoudtextiel
+47513|Winkels in breiwol, handwerken en fournituren|47513|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Winkels in breiwol, handwerken en fournituren
+47521|Winkels in ijzerwaren en gereedschappen|47521|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Winkels in ijzerwaren en gereedschappen
+47522|Winkels in verf, verfwaren en behang|47522|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Winkels in verf, verfwaren en behang
+47523|Winkels in houten bouw- en tuinmaterialen|47523|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Winkels in houten bouw- en tuinmaterialen
+47524|Winkels in tegels|47524|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Winkels in tegels
+47525|Winkels in keukens|47525|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Winkels in keukens
+47526|Winkels in parket-, laminaat- en kurkvloeren|47526|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Winkels in parket-, laminaat- en kurkvloeren
+47527|Winkels gespecialiseerd in overige doe-het-zelfartikelen|47527|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Winkels gespecialiseerd in overige doe-het-zelfartikelen
+47528|Bouwmarkten en andere winkels in bouwmaterialen algemeen assortiment|47528|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Bouwmarkten en andere winkels in bouwmaterialen algemeen assortiment
+4753|Winkels in vloerbedekking en gordijnen|4753|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Winkels in vloerbedekking en gordijnen
+47541|Winkels in witgoed|47541|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Winkels in witgoed
+47542|Winkels in naai- en breimachines|47542|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Winkels in naai- en breimachines
+47543|Winkels in overige elektrische huishoudelijke apparatuur|47543|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Winkels in overige elektrische huishoudelijke apparatuur
+47544|Winkels in onderdelen voor elektrische huishoudelijke apparatuur|47544|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Winkels in onderdelen voor elektrische huishoudelijke apparatuur
+47591|Winkels in meubels|47591|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Winkels in meubels
+47592|Winkels in verlichtingsartikelen|47592|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Winkels in verlichtingsartikelen
+47593|Winkels in artikelen voor woninginrichting algemeen assortiment|47593|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Winkels in artikelen voor woninginrichting algemeen assortiment
+47594|Winkels in muziekinstrumenten|47594|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Winkels in muziekinstrumenten
+47595|Winkels in glas-, porselein- en aardewerk|47595|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Winkels in glas-, porselein- en aardewerk
+47596|Winkels gespecialiseerd in overige huishoudelijke artikelen (rest)|47596|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Winkels gespecialiseerd in overige huishoudelijke artikelen (rest)
+47597|Winkels in huishoudelijke artikelen algemeen assortiment|47597|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Winkels in huishoudelijke artikelen algemeen assortiment
+4761|Winkels in boeken|4761|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Winkels in boeken
+4762|Winkels in kranten, tijdschriften en kantoorbehoeften|4762|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Winkels in kranten, tijdschriften en kantoorbehoeften
+476203|Winkels in boeken, kranten en tijdschriften, school- en kantoorbehoeften algemeen assortiment||handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|
+4763|Winkels in audio- en video-opnamen|4763|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Winkels in audio- en video-opnamen
+47641|Winkels in fietsen en bromfietsen|47641|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Winkels in fietsen en bromfietsen
+47642|Winkels in watersportartikelen|47642|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Winkels in watersportartikelen
+47643|Winkels in sportartikelen (geen watersport)|47643|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Winkels in sportartikelen (geen watersport)
+47644|Winkels in kampeerartikelen (geen caravans)|47644|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Winkels in kampeerartikelen (geen caravans)
+4765|Winkels in speelgoed|4765|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Winkels in speelgoed
+47711|Winkels in herenkleding|47711|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Winkels in herenkleding
+47712|Winkels in dameskleding|47712|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Winkels in dameskleding
+47713|Winkels in bovenkleding en mode-artikelen (algemeen assortiment)|47713|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Winkels in bovenkleding en mode-artikelen (algemeen assortiment)
+47714|Winkels in baby- en kinderkleding|47714|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Winkels in baby- en kinderkleding
+47715|Winkels in babyartikelen algemeen assortiment|47715|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Winkels in babyartikelen algemeen assortiment
+47716|Winkels in onderkleding, foundations e.d.|47716|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Winkels in onderkleding, foundations e.d.
+47717|Winkels in mode-artikelen|47717|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Winkels in mode-artikelen
+47718|Textielsupermarkten|47718|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Textielsupermarkten
+47721|Winkels in schoenen|47721|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Winkels in schoenen
+47722|Winkels in lederwaren en reisartikelen|47722|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Winkels in lederwaren en reisartikelen
+4773|Apotheken|4773|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Apotheken
+47741|Winkels in drogisterij-artikelen|47741|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Winkels in drogisterij-artikelen
+47742|Winkels in medische en orthopedische artikelen|47742|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Winkels in medische en orthopedische artikelen
+4775|Winkels in parfums en cosmetica|4775|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Winkels in parfums en cosmetica
+47761|Winkels in bloemen en planten, zaden en tuinbenodigdheden|47761|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Winkels in bloemen en planten, zaden en tuinbenodigdheden
+47762|Tuincentra|47762|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Tuincentra
+47763|Winkels in dieren, dierbenodigdheden en hengelsportartikelen|47763|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Winkels in dieren, dierbenodigdheden en hengelsportartikelen
+4777|Winkels in juweliersartikelen en uurwerken|4777|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Winkels in juweliersartikelen en uurwerken
+47781|Winkels in fotografische artikelen|47781|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Winkels in fotografische artikelen
+47782|Winkels in optische artikelen|47782|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Winkels in optische artikelen
+47783|Winkels in schilderijen, lijsten, prenten, kunstvoorwerpen en religieuze artikelen|47783|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Winkels in schilderijen, lijsten, prenten, kunstvoorwerpen en religieuze artikelen
+47789|Winkels gespecialiseerd in overige artikelen n.e.g.|47789|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Winkels gespecialiseerd in overige artikelen (rest)
+47791|Winkels in antiek|47791|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Winkels in antiek
+47792|Winkels in tweedehands kleding|47792|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Winkels in tweedehands kleding
+47793|Winkels in tweedehands goederen (geen kleding)|47793|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Winkels in tweedehands goederen (geen kleding)
+47811|Markthandel in aardappelen, groenten en fruit|47811|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Markthandel in aardappelen, groenten en fruit
+47819|Markthandel in overige voedings- en genotmiddelen|47819|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Markthandel in overige voedings- en genotmiddelen
+4782|Markthandel in textiel, kleding en schoenen|4782|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Markthandel in textiel, kleding en schoenen
+47891|Markthandel in bloemen, planten, zaden en tuinbenodigdheden|47891|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Markthandel in bloemen, planten, zaden en tuinbenodigdheden
+47892|Markthandel in tweedehands goederen|47892|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Markthandel in tweedehands goederen
+47899|Markthandel in overige goederen|47899|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Markthandel in overige goederen
+47911|Detailhandel via internet in voedingsmiddelen en drogisterijwaren|47911|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Detailhandel via internet in voedingsmiddelen en drogisterijwaren
+47911|Detailhandel via postorder en internet voedingsmiddelen en drogisterijwaren|47911|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Detailhandel via internet in voedingsmiddelen en drogisterijwaren
+47912|Detailhandel via internet in consumentenelektronica|47912|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Detailhandel via internet in consumentenelektronica
+47912|Detailhandel via postorder en internet in consumentenelektronica|47912|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Detailhandel via internet in consumentenelektronica
+47913|Detailhandel via internet in boeken, tijdschriften, cd's, dvd's|47913|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Detailhandel via internet in boeken, tijdschriften, cd’s, dvd’s
+47913|Detailhandel via postorder en internet in boeken, tijdschriften, cd's, dvd's|47913|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Detailhandel via internet in boeken, tijdschriften, cd’s, dvd’s
+47914|Detailhandel via internet in kleding en mode-artikelen|47914|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Detailhandel via internet in kleding en mode-artikelen
+47914|Detailhandel via postorder en internet in kleding en mode-artikelen|47914|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Detailhandel via internet in kleding en mode-artikelen
+47915|Detailhandel via internet in huis- en tuinartikelen|47915|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Detailhandel via internet in huis- en tuinartikelen
+47915|Detailhandel via postorder en internet in huis- en tuinartikelen|47915|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Detailhandel via internet in huis- en tuinartikelen
+47916|Detailhandel via internet in vrijetijdsartikelen|47916|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Detailhandel via internet in vrijetijdsartikelen
+47916|Detailhandel via postorder en internet in vrijetijdsartikelen|47916|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Detailhandel via internet in vrijetijdsartikelen
+47918|Detailhandel via internet in overige non-food|47918|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Detailhandel via internet in overige non-food
+47918|Gespecialiseerde detailhandel via postorder en internet in overige non-food|47918|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Detailhandel via internet in overige non-food
+47919|Detailhandel via internet in een algemeen assortiment non-food|47919|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Detailhandel via internet in een algemeen assortiment non-food
+47919|Detailhandel via postorder en internet in een algemeen assortiment non-food|47919|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Detailhandel via internet in een algemeen assortiment non-food
+47991|Colportage|47991|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Colportage
+47992|Straathandel|47992|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Straathandel
+47999|Detailhandel via overige distributievormen|47999|handel, vervoer, opslag|detailhandel (verkoop aan consumenten, niet zelf vervaardigd)|Detailhandel via overige distributievormen
+4910|Personenvervoer per spoor (geen tram of metro)|4910|handel, vervoer, opslag|vervoer|Personenvervoer per spoor (geen tram of metro)
+4920|Goederenvervoer per spoor|4920|handel, vervoer, opslag|vervoer|Goederenvervoer per spoor
+4931|Openbaar vervoer binnen steden|4931|handel, vervoer, opslag|vervoer|Openbaar vervoer binnen steden
+4932|Vervoer per taxi|4932|handel, vervoer, opslag|vervoer|Vervoer per taxi
+49391|Ongeregeld personenvervoer over de weg|49391|handel, vervoer, opslag|vervoer|Ongeregeld personenvervoer over de weg
+49392|Openbaar interlokaal personenvervoer over de weg|49392|handel, vervoer, opslag|vervoer|Openbaar interlokaal personenvervoer over de weg
+49393|Geregeld besloten personenvervoer over de weg|49393|handel, vervoer, opslag|vervoer|Geregeld besloten personenvervoer over de weg
+4941|Goederenvervoer over de weg (geen verhuizingen)|4941|handel, vervoer, opslag|vervoer|Goederenvervoer over de weg (geen verhuizingen)
+4942|Verhuisvervoer|4942|handel, vervoer, opslag|vervoer|Verhuisvervoer
+4950|Transport via pijpleidingen|4950|handel, vervoer, opslag|vervoer|Transport via pijpleidingen
+5010|Zee- en kustvaart (passagiersvaart en veerdiensten)|5010|handel, vervoer, opslag|vervoer|Zee- en kustvaart (passagiersvaart en veerdienst)
+50201|Zee- en kustvaart (vracht- en tankvaart; geen sleepvaart)|50201|handel, vervoer, opslag|vervoer|Zee- en kustvaart (vracht- en tankvaart; geen sleepvaart)
+50202|Zee- en kustsleepvaart|50202|handel, vervoer, opslag|vervoer|Zee- en kustsleepvaart
+5030|Binnenvaart (passagiersvaart en veerdiensten)|5030|handel, vervoer, opslag|vervoer|Binnenvaart (passagiersvaart en veerdiensten)
+50401|Binnenvaart (vrachtvaart)|50401|handel, vervoer, opslag|vervoer|Binnenvaart (vrachtvaart)
+50402|Binnenvaart (tankvaart)|50402|handel, vervoer, opslag|vervoer|Binnenvaart (tankvaart)
+50403|Binnenvaart (sleep- en duwvaart)|50403|handel, vervoer, opslag|vervoer|Binnenvaart (sleep- en duwvaart)
+5110|Personenvervoer door de lucht|5110|handel, vervoer, opslag|vervoer|Personenvervoer door de lucht
+5121|Goederenvervoer door de lucht|5121|handel, vervoer, opslag|vervoer|Goederenvervoer door de lucht
+52101|Opslag in tanks|52101|handel, vervoer, opslag|opslag|Opslag in tanks
+52102|Opslag in koelhuizen e.d.|52102|handel, vervoer, opslag|opslag|Opslag in koelhuizen e.d.
+52109|Opslag in distributiecentra en overige opslag (niet in tanks, koelhuizen e.d.)|52109|handel, vervoer, opslag|opslag|Opslag in distributiecentra en overige opslag (niet in tanks, koelhuizen e.d.)
+5221|Dienstverlening voor vervoer over land|5221|handel, vervoer, opslag|dienstverlening vervoer|Dienstverlening voor vervoer over land
+5222|Dienstverlening voor vervoer over water|5222|handel, vervoer, opslag|dienstverlening vervoer|Dienstverlening voor vervoer over water
+5223|Dienstverlening voor de luchtvaart|5223|handel, vervoer, opslag|dienstverlening vervoer|Dienstverlening voor de luchtvaart
+52241|Laad-, los- en overslagactiviteiten voor zeevaart|52241|handel, vervoer, opslag|dienstverlening vervoer|Laad-, los- en overslagactiviteiten voor zeevaart
+52242|Laad-, los- en overslagactiviteiten niet voor zeevaart|52242|handel, vervoer, opslag|dienstverlening vervoer|Laad-, los- en overslagactiviteiten niet voor zeevaart
+52291|Expediteurs, cargadoors, bevrachters en andere tussenpersonen in het goederenvervoer|52291|handel, vervoer, opslag|dienstverlening vervoer|Expediteurs, cargadoors, bevrachters en andere tussenpersonen in het goederenvervoer
+52292|Weging en meting|52292|handel, vervoer, opslag|dienstverlening vervoer|Weging en meting
+5310|Nationale post met universele dienstverplichting|5310|overige niet hierboven genoemd|overige|Nationale post met universele dienstverplichting
+53201|Post zonder universele dienstverplichting|53201|overige niet hierboven genoemd|overige|Post zonder universele dienstverplichting
+53202|Koeriers|53202|handel, vervoer, opslag|vervoer|Koeriers
+55101|Hotel-restaurants|55101|horeca|hotel-restaurant|Hotel-restaurants
+55102|Hotels (geen hotel-restaurants), pensions en conferentie-oorden|55102|horeca|hotel, pension|Hotels (geen hotel-restaurants), pensions en conferentie-oorden
+55201|Verhuur van vakantiehuisjes en appartementen|55201|cultuur, sport, recreatie|recreatie|Verhuur van vakantiehuisjes en appartementen
+55202|Jeugdherbergen en vakantiekampen|55202|cultuur, sport, recreatie|recreatie|Jeugdherbergen en vakantiekampen
+5530|Kampeerterreinen|5530|cultuur, sport, recreatie|recreatie|Kampeerterreinen
+5590|Overige logiesverstrekking|5590|horeca|overig, te weten|Overige logiesverstrekking
+56101|Restaurants|56101|horeca|restaurant, café-restaurant|Restaurants
+56102|Cafetaria's, lunchrooms, snackbars, ijssalons, eetkramen e.d.|56102|horeca|cafetaria, snackbar, ijssalon|Fastfoodrestaurants, cafetaria's, ijssalons, eetkramen e.d.
+5621|Eventcatering|5621|horeca|kantine, catering|Eventcatering
+5629|Kantines en contractcatering|5629|horeca|kantine, catering|Kantines en contractcatering
+5630|Cafés|5630|horeca|café|Cafés
+5811|Uitgeverijen van boeken|5811|informatie, telecommunicatie|uitgeverijen|Uitgeverijen van boeken
+5812|Databanken|5812|overige niet hierboven genoemd|overige|Databanken
+5813|Uitgeverijen van kranten|5813|informatie, telecommunicatie|uitgeverijen|Uitgeverijen van kranten
+5814|Uitgeverijen van tijdschriften|5814|informatie, telecommunicatie|uitgeverijen|Uitgeverijen van tijdschriften
+5819|Overige uitgeverijen (niet van software)|5819|informatie, telecommunicatie|uitgeverijen|Overige uitgeverijen (niet van software)
+5821|Uitgeverijen van computerspellen|5821|informatie, telecommunicatie|uitgeverijen|Uitgeverijen van computerspellen
+5829|Overige uitgeverijen van software|5829|informatie, telecommunicatie|uitgeverijen|Overige uitgeverijen van software
+59111|Productie van films (geen televisiefilms)|59111|informatie, telecommunicatie|activiteiten op gebied van film, tv, radio, audio|Productie van films (geen televisiefilms)
+59112|Productie van televisieprogramma's|59112|informatie, telecommunicatie|activiteiten op gebied van film, tv, radio, audio|Productie van televisieprogramma's
+5912|Facilitaire activiteiten voor film- en televisieproductie|5912|informatie, telecommunicatie|activiteiten op gebied van film, tv, radio, audio|Facilitaire activiteiten voor film- en televisieproductie
+5913|Distributie van films en televisieproducties|5913|informatie, telecommunicatie|activiteiten op gebied van film, tv, radio, audio|Distributie van films en televisieproducties
+5914|Bioscopen|5914|informatie, telecommunicatie|activiteiten op gebied van film, tv, radio, audio|Bioscopen
+5920|Maken en uitgeven van geluidsopnamen|5920|informatie, telecommunicatie|uitgeverijen|Maken en uitgeven van geluidsopnamen
+6010|Radio-omroepen|6010|informatie, telecommunicatie|activiteiten op gebied van film, tv, radio, audio|Radio-omroepen
+6020|Televisie-omroepen|6020|informatie, telecommunicatie|activiteiten op gebied van film, tv, radio, audio|Televisie-omroepen
+610|Winning van aardolie||winning van aardolie en aardgas|Winning van aardolie|
+6110|Draadgebonden telecommunicatie|6110|informatie, telecommunicatie|telecommunicatie|Draadgebonden telecommunicatie
+6120|Draadloze telecommunicatie|6120|informatie, telecommunicatie|telecommunicatie|Draadloze telecommunicatie
+6130|Telecommunicatie via satelliet|6130|informatie, telecommunicatie|telecommunicatie|Telecommunicatie via satelliet
+6190|Overige telecommunicatie|6190|informatie, telecommunicatie|telecommunicatie|Overige telecommunicatie
+6201|Ontwikkelen, produceren en uitgeven van software|6201|informatie, telecommunicatie|activiteiten op het gebied van ict|Ontwikkelen, produceren en uitgeven van software
+6202|Advisering op het gebied van informatietechnologie|6202|informatie, telecommunicatie|activiteiten op het gebied van ict|Advisering op het gebied van informatietechnologie
+620202|Software consultancy||informatie, telecommunicatie|activiteiten op het gebied van ict|
+6203|Beheer van computerfaciliteiten|6203|informatie, telecommunicatie|activiteiten op het gebied van ict|Beheer van computerfaciliteiten
+6209|Overige dienstverlenende activiteiten op het gebied van informatietechnologie|6209|informatie, telecommunicatie|activiteiten op het gebied van ict|Overige dienstverlenende activiteiten op het gebied van informatietechnologie
+6311|Gegevensverwerking, webhosting en aanverwante activiteiten|6311|overige niet hierboven genoemd|overige|Gegevensverwerking, webhosting en aanverwante activiteiten
+6312|Webportals|6312|overige niet hierboven genoemd|overige|Webportals
+6391|Persagentschappen|6391|overige niet hierboven genoemd|overige|Persagentschappen
+6399|Overige dienstverlenende activiteiten op het gebied van informatie n.e.g.|6399|overige niet hierboven genoemd|overige|Overige dienstverlenende activiteiten op het gebied van informatie (rest)
+6411|Centrale banken|6411|financiële dienstverlening,verhuur van roerend en onroerend goed|financiële dienstverlening en verzekeringen|Centrale banken
+64191|Coöperatief georganiseerde banken|64191|financiële dienstverlening,verhuur van roerend en onroerend goed|financiële dienstverlening en verzekeringen|Coöperatief georganiseerde banken
+64192|Effectenkredietinstellingen|64192|financiële dienstverlening,verhuur van roerend en onroerend goed|financiële dienstverlening en verzekeringen|Effectenkredietinstellingen
+64193|Spaarbanken|64193|financiële dienstverlening,verhuur van roerend en onroerend goed|financiële dienstverlening en verzekeringen|Spaarbanken
+64194|Algemene banken|64194|financiële dienstverlening,verhuur van roerend en onroerend goed|financiële dienstverlening en verzekeringen|Algemene banken
+6420|Financiële holdings|6420|financiële dienstverlening,verhuur van roerend en onroerend goed|financiële dienstverlening en verzekeringen|Financiële holdings
+64301|Beleggingsinstellingen in financiële activa|64301|financiële dienstverlening,verhuur van roerend en onroerend goed|financiële dienstverlening en verzekeringen|Beleggingsinstellingen in financiële activa
+64302|Beleggingsinstellingen in vaste activa|64302|financiële dienstverlening,verhuur van roerend en onroerend goed|financiële dienstverlening en verzekeringen|Beleggingsinstellingen in vaste activa
+64303|Beleggingsinstellingen met beperkte toetreding|64303|financiële dienstverlening,verhuur van roerend en onroerend goed|financiële dienstverlening en verzekeringen|Beleggingsinstellingen met beperkte toetreding
+6491|Financiële lease|6491|financiële dienstverlening,verhuur van roerend en onroerend goed|financiële dienstverlening en verzekeringen|Financiële lease
+64921|Hypotheekbanken en bouwfondsen|64921|financiële dienstverlening,verhuur van roerend en onroerend goed|financiële dienstverlening en verzekeringen|Hypotheekbanken en bouwfondsen
+64922|Volkskredietbanken en commerciële financieringsmaatschappijen|64922|financiële dienstverlening,verhuur van roerend en onroerend goed|financiële dienstverlening en verzekeringen|Volkskredietbanken en commerciële financieringsmaatschappijen
+64923|Participatiemaatschappijen|64923|financiële dienstverlening,verhuur van roerend en onroerend goed|financiële dienstverlening en verzekeringen|Participatiemaatschappijen
+64924|Wisselmakelaars en overige kredietverstrekking|64924|financiële dienstverlening,verhuur van roerend en onroerend goed|financiële dienstverlening en verzekeringen|Wisselmakelaars en overige kredietverstrekking
+6499|Overige financiële intermediatie|6499|financiële dienstverlening,verhuur van roerend en onroerend goed|financiële dienstverlening en verzekeringen|Overige financiële intermediatie
+65111|Levensverzekeringen (geen herverzekering)|65111|financiële dienstverlening,verhuur van roerend en onroerend goed|financiële dienstverlening en verzekeringen|Levensverzekeringen (geen herverzekering)
+65112|Naturaverzekeringen|65112|financiële dienstverlening,verhuur van roerend en onroerend goed|financiële dienstverlening en verzekeringen|Naturaverzekeringen
+65113|Spaarkassen|65113|financiële dienstverlening,verhuur van roerend en onroerend goed|financiële dienstverlening en verzekeringen|Spaarkassen
+6512|Schadeverzekeringen (geen herverzekering)|6512|financiële dienstverlening,verhuur van roerend en onroerend goed|financiële dienstverlening en verzekeringen|Schadeverzekeringen (geen herverzekering)
+6520|Herverzekering|6520|financiële dienstverlening,verhuur van roerend en onroerend goed|financiële dienstverlening en verzekeringen|Herverzekering
+65301|Bedrijfspensioenfondsen|65301|financiële dienstverlening,verhuur van roerend en onroerend goed|financiële dienstverlening en verzekeringen|Bedrijfstakpensioenfondsen
+65302|Ondernemingspensioenfondsen en -spaarfondsen|65302|financiële dienstverlening,verhuur van roerend en onroerend goed|financiële dienstverlening en verzekeringen|Ondernemingspensioenfondsen en -spaarfondsen
+65303|Beroepspensioenfondsen|65303|financiële dienstverlening,verhuur van roerend en onroerend goed|financiële dienstverlening en verzekeringen|Beroepspensioenfondsen
+65309|Overige pensioenfondsen|65309|financiële dienstverlening,verhuur van roerend en onroerend goed|financiële dienstverlening en verzekeringen|Overige pensioenfondsen
+6611|Beheer van financiële markten|6611|financiële dienstverlening,verhuur van roerend en onroerend goed|financiële dienstverlening en verzekeringen|Beheer van financiële markten
+6612|Commissionairs en makelaars in effecten, beleggingsadviseurs e.d.|6612|financiële dienstverlening,verhuur van roerend en onroerend goed|financiële dienstverlening en verzekeringen|Commissionairs en makelaars in effecten, beleggingsadviseurs e.d.
+66191|Administratiekantoren voor aandelen en obligaties|66191|financiële dienstverlening,verhuur van roerend en onroerend goed|financiële dienstverlening en verzekeringen|Administratiekantoren voor aandelen en obligaties
+66192|Marketmakers|66192|financiële dienstverlening,verhuur van roerend en onroerend goed|financiële dienstverlening en verzekeringen|Marketmakers
+66193|Hypotheek- en kredietbemiddeling, geldwisselkantoren, bank- en spaaragentschappen e.d.|66193|financiële dienstverlening,verhuur van roerend en onroerend goed|financiële dienstverlening en verzekeringen|Hypotheek- en kredietbemiddeling, geldwisselkantoren, bank- en spaaragentschappen e.d.
+6621|Risicoanalisten en schadetaxateurs|6621|financiële dienstverlening,verhuur van roerend en onroerend goed|financiële dienstverlening en verzekeringen|Risicoanalisten en schadetaxateurs
+6622|Assurantietussenpersonen|6622|financiële dienstverlening,verhuur van roerend en onroerend goed|financiële dienstverlening en verzekeringen|Assurantietussenpersonen
+66291|Verzekeringsbeurzen|66291|financiële dienstverlening,verhuur van roerend en onroerend goed|financiële dienstverlening en verzekeringen|Verzekeringsbeurzen
+66292|Actuariële en pensioenadviesbureaus; beheer en administratie van pensioenvermogens|66292|financiële dienstverlening,verhuur van roerend en onroerend goed|financiële dienstverlening en verzekeringen|Actuariële en pensioenadviesbureaus; beheer en administratie van pensioenvermogens
+66293|Waarborgfondsen|66293|financiële dienstverlening,verhuur van roerend en onroerend goed|financiële dienstverlening en verzekeringen|Waarborgfondsen
+66299|Overige dienstverlening op het gebied van verzekeringen en pensioenfondsen n.e.g.|66299|financiële dienstverlening,verhuur van roerend en onroerend goed|financiële dienstverlening en verzekeringen|Overige dienstverlening in verband met verzekeringen en pensioenfondsen
+6630|Vermogensbeheer|6630|financiële dienstverlening,verhuur van roerend en onroerend goed|financiële dienstverlening en verzekeringen|Vermogensbeheer
+6810|Handel in eigen onroerend goed|6810|financiële dienstverlening,verhuur van roerend en onroerend goed|verhuur van- en beheer/handel in onroerend goed|Handel in eigen onroerend goed
+68201|Woningbouwverenigingen en -stichtingen|68201|financiële dienstverlening,verhuur van roerend en onroerend goed|verhuur van- en beheer/handel in onroerend goed|Woningbouwverenigingen en -stichtingen
+68202|Gemeentelijke woningbedrijven|68202|financiële dienstverlening,verhuur van roerend en onroerend goed|verhuur van- en beheer/handel in onroerend goed|Gemeentelijke woningbedrijven
+68203|Verhuur van overige woonruimte|68203|financiële dienstverlening,verhuur van roerend en onroerend goed|verhuur van- en beheer/handel in onroerend goed|Verhuur van overige woonruimte
+68204|Verhuur van onroerend goed (niet van woonruimte)|68204|financiële dienstverlening,verhuur van roerend en onroerend goed|verhuur van- en beheer/handel in onroerend goed|Verhuur van onroerend goed (niet van woonruimte)
+6831|Bemiddeling bij handel, huur of verhuur van onroerend goed|6831|financiële dienstverlening,verhuur van roerend en onroerend goed|verhuur van- en beheer/handel in onroerend goed|Bemiddeling bij handel, huur of verhuur van onroerend goed
+6832|Beheer van onroerend goed|6832|financiële dienstverlening,verhuur van roerend en onroerend goed|verhuur van- en beheer/handel in onroerend goed|Beheer van onroerend goed
+69101|Advocatenkantoren|69101|zakelijke dienstverlening|advocaten rechtskundige diensten, notarissen|Advocatenkantoren
+69101|Advocatenkantoren, bewindvoerders en curatoren|69101|zakelijke dienstverlening|advocaten rechtskundige diensten, notarissen|Advocatenkantoren
+69102|Rechtskundige adviesbureaus|69102|zakelijke dienstverlening|advocaten rechtskundige diensten, notarissen|Rechtskundige adviesbureaus
+69103|Notariskantoren|69103|zakelijke dienstverlening|advocaten rechtskundige diensten, notarissen|Notariskantoren
+69104|Deurwaarderskantoren|69104|zakelijke dienstverlening|advocaten rechtskundige diensten, notarissen|Deurwaarderskantoren
+69105|Octrooibureaus|69105|zakelijke dienstverlening|advocaten rechtskundige diensten, notarissen|Octrooibureaus
+69201|Registeraccountants|69201|zakelijke dienstverlening|accountancy, administratie|Registeraccountants
+69202|Accountants-administratieconsulenten|69202|zakelijke dienstverlening|accountancy, administratie|Accountants-administratieconsulenten
+69203|Boekhoudkantoren|69203|zakelijke dienstverlening|accountancy, administratie|Boekhoudkantoren
+69204|Belastingconsulenten|69204|zakelijke dienstverlening|accountancy, administratie|Belastingconsulenten
+69209|Overige administratiekantoren|69209|zakelijke dienstverlening|accountancy, administratie|Overige administratiekantoren
+70101|Concerndiensten binnen eigen concern|70101|overige niet hierboven genoemd|overige|Concerndiensten binnen eigen concern
+70102|Holdings (geen financiële)|70102|financiële dienstverlening,verhuur van roerend en onroerend goed|holdings|Holdings (geen financiële)
+7021|Public relationsbureaus|7021|zakelijke dienstverlening|public relationsbureaus|Public relationsbureaus
+70221|Organisatie-adviesbureaus|70221|zakelijke dienstverlening|managementadvies, economisch advies|Organisatie-adviesbureaus
+70222|Advisering op het gebied van management en bedrijfsvoering (geen public relations en organisatie- adviesbureaus)|70222|zakelijke dienstverlening|managementadvies, economisch advies|Advisering op het gebied van management en bedrijfsvoering (geen public relations en organisatieadviesbureaus)
+7111|Architecten|7111|architecten|architecten|
+71111|Architecten (geen interieurarchitecten)|71111|zakelijke dienstverlening|architecten|Architecten
+71112|Interieurarchitecten|71112|zakelijke dienstverlening|interieurarchitecten|Interieurarchitecten
+7112|Ingenieurs en overig technisch ontwerp en advies|7112|zakelijke dienstverlening|technisch ontwerp, advies, keuring/research|Ingenieurs en overig technisch ontwerp en advies
+711201|Technische ontwerp- en adviesbureaus voor burgerlijke en utiliteitsbouw||zakelijke dienstverlening|technisch ontwerp, advies, keuring/research|
+71201|Keuring en controle van agrarische producten en voedingsmiddelen|71201|zakelijke dienstverlening|technisch ontwerp, advies, keuring/research|Keuring en controle van agrarische producten en voedingsmiddelen
+71202|Keuring en controle van machines, apparaten en materialen|71202|zakelijke dienstverlening|technisch ontwerp, advies, keuring/research|Keuring en controle van machines, apparaten en materialen
+71203|Overige keuring en controle|71203|zakelijke dienstverlening|technisch ontwerp, advies, keuring/research|Overige keuring en controle
+72111|Biotechnologisch speur- en ontwikkelingswerk op het gebied van agrarische producten en processen|72111|zakelijke dienstverlening|technisch ontwerp, advies, keuring/research|Biotechnologisch speur- en ontwikkelingswerk op het gebied van agrarische producten en processen
+72112|Biotechnologisch speur- en ontwikkelingswerk op het gebied van medische producten en farmaceutische processen en van voeding|72112|zakelijke dienstverlening|technisch ontwerp, advies, keuring/research|Biotechnologisch speur- en ontwikkelingswerk op het gebied van medische producten en farmaceutische processen en van voeding
+72113|Biotechnologisch speur- en ontwikkelingswerk voor overige toepassingen|72113|zakelijke dienstverlening|technisch ontwerp, advies, keuring/research|Biotechnologisch speur- en ontwikkelingswerk voor overige toepassingen
+72191|Speur- en ontwikkelingswerk op het gebied van landbouw en visserij (niet biotechnologisch)|72191|zakelijke dienstverlening|technisch ontwerp, advies, keuring/research|Speur- en ontwikkelingswerk op het gebied van landbouw en visserij (niet biotechnologisch)
+72192|Technisch speur- en ontwikkelingswerk|72192|zakelijke dienstverlening|technisch ontwerp, advies, keuring/research|Technisch speur- en ontwikkelingswerk
+72193|Speur- en ontwikkelingswerk op het gebied van gezondheid en voeding (niet biotechnologisch)|72193|zakelijke dienstverlening|technisch ontwerp, advies, keuring/research|Speur- en ontwikkelingswerk op het gebied van gezondheid en voeding (niet biotechnologisch)
+72199|Overig natuurwetenschappelijk speur- en ontwikkelingswerk (niet biotechnologisch)|72199|zakelijke dienstverlening|technisch ontwerp, advies, keuring/research|Overig natuurwetenschappelijk speur- en ontwikkelingswerk (niet biotechnologisch)
+7220|Speur- en ontwikkelingswerk op het gebied van de maatschappij- en geesteswetenschappen|7220|zakelijke dienstverlening|technisch ontwerp, advies, keuring/research|Speur- en ontwikkelingswerk op het gebied van de maatschappij- en geesteswetenschappen
+7311|Reclamebureaus|7311|zakelijke dienstverlening|reclame en marktonderzoek|Reclamebureaus
+731101|Reclame-ontwerp- en -adviesbureaus||zakelijke dienstverlening|reclame en marktonderzoek|
+7312|Handel in advertentieruimte en -tijd|7312|zakelijke dienstverlening|reclame en marktonderzoek|Handel in advertentieruimte en -tijd
+7320|Markt- en opinieonderzoekbureaus|7320|zakelijke dienstverlening|reclame en marktonderzoek|Markt- en opinieonderzoekbureaus
+74101|Communicatie- en grafisch ontwerp|74101|zakelijke dienstverlening|design|Communicatie- en grafisch ontwerp
+74102|Industrieel en productontwerp|74102|zakelijke dienstverlening|design|Industrieel en product ontwerp
+74103|Interieur- en ruimtelijk ontwerp|74103|zakelijke dienstverlening|design|Interieur- en ruimtelijk ontwerp
+74201|Fotografie|74201|zakelijke dienstverlening|overige zakelijke dienstverlening|Fotografie
+742012|Fotografie (geen persfotografie)||zakelijke dienstverlening|overige zakelijke dienstverlening|
+74202|Ontwikkelwinkels|74202|zakelijke dienstverlening|overige zakelijke dienstverlening|Ontwikkelwinkels
+74203|Ontwikkelcentrales|74203|zakelijke dienstverlening|overige zakelijke dienstverlening|Ontwikkelcentrales
+7430|Vertalers en tolken|7430|zakelijke dienstverlening|overige zakelijke dienstverlening|Vertalers en tolken
+7490|Overige specialistische zakelijke dienstverlening|7490|zakelijke dienstverlening|overige zakelijke dienstverlening|Overige specialistische zakelijke dienstverlening
+7500|Veterinaire dienstverlening|7500|overige niet hierboven genoemd|overige|Veterinaire dienstverlening
+77111|Verhuur van personenauto s en lichte bedrijfsauto's (geen operational lease)|77111|financiële dienstverlening,verhuur van roerend en onroerend goed|verhuur van roerende goederen|Verhuur van personenauto's en lichte bedrijfsauto's (geen operational lease)
+77111|Verhuur van personenauto's en lichte bedrijfsauto's (geen operational lease)|77111|financiële dienstverlening,verhuur van roerend en onroerend goed|verhuur van roerende goederen|Verhuur van personenauto's en lichte bedrijfsauto's (geen operational lease)
+77112|Operational lease van personenauto s en lichte bedrijfsauto's|77112|financiële dienstverlening,verhuur van roerend en onroerend goed|verhuur van roerende goederen|Operational lease van personenauto's en lichte bedrijfsauto's
+77112|Operational lease van personenauto's en lichte bedrijfsauto's|77112|financiële dienstverlening,verhuur van roerend en onroerend goed|verhuur van roerende goederen|Operational lease van personenauto's en lichte bedrijfsauto's
+7712|Verhuur en lease van vrachtwagens, autobussen, caravans en aanhangwagens|7712|financiële dienstverlening,verhuur van roerend en onroerend goed|verhuur van roerende goederen|Verhuur en lease van vrachtwagens, autobussen caravans en aanhangwagens
+7721|Verhuur van sport- en recreatieartikelen|7721|financiële dienstverlening,verhuur van roerend en onroerend goed|verhuur van roerende goederen|Verhuur van sport- en recreatieartikelen
+7722|Videotheken|7722|financiële dienstverlening,verhuur van roerend en onroerend goed|verhuur van roerende goederen|Videotheken
+77292|Verhuur van kleding en huishoudelijke artikelen|77292|financiële dienstverlening,verhuur van roerend en onroerend goed|verhuur van roerende goederen|Verhuur van kleding en huishoudelijke artikelen
+77299|Verhuur van overige consumentenartikelen n.e.g.|77299|financiële dienstverlening,verhuur van roerend en onroerend goed|verhuur van roerende goederen|Verhuur van overige consumentenartikelen (rest)
+7731|Verhuur en lease van landbouwmachines en -werktuigen|7731|financiële dienstverlening,verhuur van roerend en onroerend goed|verhuur van roerende goederen|Verhuur en lease van landbouwmachines en -werktuigen
+7732|Verhuur en lease van machines en installaties voor de bouw|7732|financiële dienstverlening,verhuur van roerend en onroerend goed|verhuur van roerende goederen|Verhuur en lease van machines en installaties voor de bouw
+7733|Verhuur en lease van computers en kantoorapparatuur|7733|financiële dienstverlening,verhuur van roerend en onroerend goed|verhuur van roerende goederen|Verhuur en lease van computers en kantoorapparatuur
+7734|Verhuur en lease van schepen|7734|financiële dienstverlening,verhuur van roerend en onroerend goed|verhuur van roerende goederen|Verhuur en lease van schepen
+7735|Verhuur en lease van vliegtuigen|7735|financiële dienstverlening,verhuur van roerend en onroerend goed|verhuur van roerende goederen|Verhuur en lease van vliegtuigen
+77391|Verhuur van automaten|77391|financiële dienstverlening,verhuur van roerend en onroerend goed|verhuur van roerende goederen|Verhuur van automaten
+77399|Verhuur en lease van overige machines en werktuigen en van overige goederen (geen automaten)|77399|financiële dienstverlening,verhuur van roerend en onroerend goed|verhuur van roerende goederen|Verhuur en lease van overige machines en werktuigen en van overige goederen neg (geen automaten)
+773999|Verhuur en lease van overige machines en werktuigen en van overige goederen n.e.g.||financiële dienstverlening,verhuur van roerend en onroerend goed|verhuur van roerende goederen|
+7740|Lease van niet-financiële immateriële activa|7740|financiële dienstverlening,verhuur van roerend en onroerend goed|verhuur van roerende goederen|Lease van niet-financiële immateriële activa
+7810|Arbeidsbemiddeling|7810|zakelijke dienstverlening|arbeidsbemiddeling, uitzendbureaus, uitleenbureaus|Arbeidsbemiddeling
+78201|Uitzendbureaus|78201|zakelijke dienstverlening|arbeidsbemiddeling, uitzendbureaus, uitleenbureaus|Uitzendbureaus
+78202|Uitleenbureaus|78202|zakelijke dienstverlening|arbeidsbemiddeling, uitzendbureaus, uitleenbureaus|Uitleenbureaus
+78203|Banenpools (werkgelegenheidsprojecten)|78203|zakelijke dienstverlening|arbeidsbemiddeling, uitzendbureaus, uitleenbureaus|Banenpools (werkgelegenheidsprojecten)
+7830|Payrolling (personeelsbeheer)|7830|zakelijke dienstverlening|arbeidsbemiddeling, uitzendbureaus, uitleenbureaus|Payrolling (personeelsbeheer)
+7911|Reisbemiddeling|7911|overige niet hierboven genoemd|overige|Reisbemiddeling
+7912|Reisorganisatie|7912|overige niet hierboven genoemd|overige|Reisorganisatoren
+7990|Informatieverstrekking op het gebied van toerisme en reserveringsbureaus|7990|overige niet hierboven genoemd|overige|Informatieverstrekking op het gebied van toerisme en reserveringsbureaus
+799002|Boekings- en bespreekbureaus||overige niet hierboven genoemd|overige|
+8010|Particuliere beveiliging|8010|zakelijke dienstverlening|overige zakelijke dienstverlening|Particuliere beveiliging
+8020|Beveiliging via beveiligingssystemen|8020|zakelijke dienstverlening|overige zakelijke dienstverlening|Beveiliging via beveiligingssystemen
+8030|Opsporing|8030|zakelijke dienstverlening|overige zakelijke dienstverlening|Opsporing
+8110|Facility management|8110|zakelijke dienstverlening|overige zakelijke dienstverlening|Facility management
+812|Winning van zand, grind en klei|812|winning van delfstoffen (geen olie en gas)|winning van zand, grind en klei|
+8121|Interieurreiniging van gebouwen|8121|zakelijke dienstverlening|overige zakelijke dienstverlening|Interieurreiniging van gebouwen
+81221|Glazenwassen|81221|zakelijke dienstverlening|overige zakelijke dienstverlening|Glazenwassers
+81222|Schoorsteenvegen|81222|zakelijke dienstverlening|overige zakelijke dienstverlening|Schoorsteenvegers
+81229|Overige gespecialiseerde reiniging van gebouwen en industriële reiniging|81229|zakelijke dienstverlening|overige zakelijke dienstverlening|Overige gespecialiseerde reiniging
+8129|Overige reiniging|8129|zakelijke dienstverlening|overige zakelijke dienstverlening|Overige reiniging
+8130|Landschapsverzorging|8130|zakelijke dienstverlening|overige zakelijke dienstverlening|Landschapsverzorging
+8211|Brede administratieve dienstverlening|8211|zakelijke dienstverlening|overige zakelijke dienstverlening|Brede administratieve dienstverlening
+8219|Secretariële dienstverlening|8219|zakelijke dienstverlening|overige zakelijke dienstverlening|Secretariële dienstverlening
+8220|Callcenters|8220|zakelijke dienstverlening|overige zakelijke dienstverlening|Call centers
+8230|Organiseren van congressen en beurzen|8230|zakelijke dienstverlening|overige zakelijke dienstverlening|Organiseren van congressen en beurzen
+8291|Kredietinformatie- en incassobureaus|8291|zakelijke dienstverlening|overige zakelijke dienstverlening|Kredietinformatie- en incassobureaus
+8292|Pakken, sorteren e.d. in loon|8292|zakelijke dienstverlening|overige zakelijke dienstverlening|Pakken, sorteren e.d. in loon
+82991|Veilingen van landbouw-, tuinbouw- en visserijproducten|82991|zakelijke dienstverlening|overige zakelijke dienstverlening|Veilingen van landbouw-, tuinbouw- en visserijproducten
+82992|Veilingen van huisraad, kunst, antiek, machines e.d. roerende goederen|82992|zakelijke dienstverlening|overige zakelijke dienstverlening|Veilingen van huisraad, kunst, antiek, machines e.d. roerende goederen
+82999|Overige zakelijke dienstverlening n.e.g.|82999|zakelijke dienstverlening|overige zakelijke dienstverlening|Overige zakelijke dienstverlening (rest)
+8411|Algemeen overheidsbestuur|8411|overheid, onderwijs, zorg|overheid|Algemeen overheidsbestuur
+8412|Openbaar bestuur op het gebied van gezondheidszorg, onderwijs, cultuur en welzijn (geen sociale verzekeringen)|8412|overheid, onderwijs, zorg|overheid|Openbaar bestuur op het gebied van gezondheidszorg, onderwijs, cultuur en welzijn (geen sociale verzekeringen)
+8413|Openbaar bestuur op het gebied van het bedrijfsleven|8413|overheid, onderwijs, zorg|overheid|Openbaar bestuur op het gebied van het bedrijfsleven
+8422|Defensie|8422|overheid, onderwijs, zorg|overheid|Defensie
+84231|Rechtspraak|84231|overheid, onderwijs, zorg|overheid|Rechtspraak
+84232|Ministerie van Justitie en gevangeniswezen|84232|overheid, onderwijs, zorg|overheid|Ministerie van Justitie en gevangeniswezen
+8424|Politie|8424|overheid, onderwijs, zorg|overheid|Politie
+8425|Brandweer|8425|overheid, onderwijs, zorg|overheid|Brandweer
+8430|Verplichte sociale verzekeringen|8430|overheid, onderwijs, zorg|overheid|Verplichte sociale verzekeringen
+85201|Basisonderwijs voor leerplichtigen|85201|overheid, onderwijs, zorg|onderwijs|Basisonderwijs voor leerplichtigen
+85202|Speciaal basisonderwijs|85202|overheid, onderwijs, zorg|onderwijs|Speciaal basisonderwijs
+85203|Speciaal onderwijs in expertisecentra|85203|overheid, onderwijs, zorg|onderwijs|Speciaal onderwijs in expertisecentra
+85311|Havo en vwo|85311|overheid, onderwijs, zorg|onderwijs|Havo en vwo
+85312|Voorbereidend middelbaar beroepsonderwijs|85312|overheid, onderwijs, zorg|onderwijs|Voorbereidend middelbaar beroepsonderwijs
+85313|Praktijkonderwijs|85313|overheid, onderwijs, zorg|onderwijs|Praktijkonderwijs
+85314|Brede scholengemeenschappen voor voortgezet onderwijs|85314|overheid, onderwijs, zorg|onderwijs|Brede scholengemeenschappen voor voortgezet onderwijs
+85321|Middelbaar beroepsonderwijs|85321|overheid, onderwijs, zorg|onderwijs|Middelbaar beroepsonderwijs
+85322|Educatie|85322|overheid, onderwijs, zorg|onderwijs|Educatie
+85323|Middelbaar beroepsonderwijs en educatie (gecombineerd)|85323|overheid, onderwijs, zorg|onderwijs|Middelbaar beroepsonderwijs en educatie (gecombineerd)
+8541|Niet-universitair hoger onderwijs|8541|overheid, onderwijs, zorg|onderwijs|Niet-universitair hoger onderwijs
+8542|Universitair hoger onderwijs|8542|overheid, onderwijs, zorg|onderwijs|Universitair hoger onderwijs
+85511|Zeil- en surfscholen|85511|overheid, onderwijs, zorg|onderwijs|Zeil- en surfscholen
+85519|Overig sport- en recreatieonderwijs|85519|overheid, onderwijs, zorg|onderwijs|Overig sport- en recreatieonderwijs
+85521|Dansscholen|85521|overheid, onderwijs, zorg|onderwijs|Dansscholen
+85522|Kunstzinnige vorming van amateurs (geen dansscholen)|85522|overheid, onderwijs, zorg|onderwijs|Kunstzinnige vorming van amateurs (geen dansscholen)
+8553|Auto- en motorrijscholen|8553|overheid, onderwijs, zorg|onderwijs|Auto- en motorrijscholen
+85591|Afstandsonderwijs|85591|overheid, onderwijs, zorg|onderwijs|Afstandsonderwijs
+85592|Bedrijfsopleiding en -training|85592|overheid, onderwijs, zorg|onderwijs|Bedrijfsopleiding en -training
+85599|Studiebegeleiding, vorming en onderwijs n.e.g.|85599|overheid, onderwijs, zorg|onderwijs|Studiebegeleiding, vorming en onderwijs (rest)
+8560|Dienstverlening voor het onderwijs|8560|overheid, onderwijs, zorg|onderwijs|Dienstverlening voor het onderwijs
+86101|Universitair medische centra|86101|overheid, onderwijs, zorg|gezondheids- en welzijnszorg|Universitair medische centra
+86102|Algemene ziekenhuizen|86102|overheid, onderwijs, zorg|gezondheids- en welzijnszorg|Algemene ziekenhuizen
+86103|Categorale ziekenhuizen|86103|overheid, onderwijs, zorg|gezondheids- en welzijnszorg|Categorale ziekenhuizen
+86104|Geestelijke gezondheids- en verslavingszorg met overnachting|86104|overheid, onderwijs, zorg|gezondheids- en welzijnszorg|Geestelijke gezondheids- en verslavingszorg met overnachting
+8621|Praktijken van huisartsen|8621|overheid, onderwijs, zorg|gezondheids- en welzijnszorg|Praktijken van huisartsen
+86221|Praktijken van medisch specialisten en medische dagbehandelcentra (geen tandheelkunde of psychiatrie)|86221|overheid, onderwijs, zorg|gezondheids- en welzijnszorg|Praktijken van medisch specialisten en medische dagbehandelcentra (geen tandheelkunde of psychiatrie)
+86222|Praktijken van psychiaters en dagbehandelcentra voor geestelijke gezondheids- en verslavingszorg|86222|overheid, onderwijs, zorg|gezondheids- en welzijnszorg|Praktijken van psychiaters en dagbehandelcentra voor geestelijke gezondheids- en verslavingszorg
+86231|Praktijken van tandartsen|86231|overheid, onderwijs, zorg|gezondheids- en welzijnszorg|Praktijken van tandartsen
+86232|Praktijken van tandheelkundig specialisten|86232|overheid, onderwijs, zorg|gezondheids- en welzijnszorg|Praktijken van tandheelkundig specialisten
+86911|Praktijken van verloskundigen|86911|overheid, onderwijs, zorg|gezondheids- en welzijnszorg|Praktijken van verloskundigen
+86912|Praktijken van fysiotherapeuten|86912|overheid, onderwijs, zorg|gezondheids- en welzijnszorg|Praktijken van fysiotherapeuten
+86913|Praktijken van psychotherapeuten en psychologen|86913|overheid, onderwijs, zorg|gezondheids- en welzijnszorg|Praktijken van psychotherapeuten en psychologen
+86919|Overige paramedische praktijken (geen fysiotherapie en psychologie) en alternatieve genezers|86919|overheid, onderwijs, zorg|gezondheids- en welzijnszorg|Overige paramedische praktijken (geen fysiotherapie of psychologie) en alternatieve genezers
+869199|Overige paramedische praktijken (geen fysiotherapie of psychologie) en alternatieve genezers||overheid, onderwijs, zorg|gezondheids- en welzijnszorg|
+86921|Gezondheidscentra|86921|overheid, onderwijs, zorg|gezondheids- en welzijnszorg|Gezondheidscentra
+86922|Arbobegeleiding en reïntegratie|86922|overheid, onderwijs, zorg|gezondheids- en welzijnszorg|Arbobegeleiding en re-integratie
+86923|Preventieve gezondheidszorg (geen arbobegeleiding)|86923|overheid, onderwijs, zorg|gezondheids- en welzijnszorg|Preventieve gezondheidszorg (geen arbobegeleiding)
+86924|Medische laboratoria, trombosediensten en overig behandelingsondersteunend onderzoek|86924|overheid, onderwijs, zorg|gezondheids- en welzijnszorg|Medische laboratoria, trombosediensten en overig behandelingsondersteunend onderzoek
+86925|Ambulancediensten en centrale posten|86925|overheid, onderwijs, zorg|gezondheids- en welzijnszorg|Ambulancediensten en centrale posten
+86929|Samenwerkingsorganen op het gebied van gezondheidszorg en overige gezondheidszorgondersteunende diensten|86929|overheid, onderwijs, zorg|gezondheids- en welzijnszorg|Samenwerkingsorganen op het gebied van gezondheidszorg en overige gezondheidszorgondersteunende diensten
+8710|Verpleeghuizen|8710|overheid, onderwijs, zorg|gezondheids- en welzijnszorg|Verpleeghuizen
+8720|Huizen en dagverblijven voor verstandelijk gehandicapten en psychiatrische cliënten|8720|overheid, onderwijs, zorg|gezondheids- en welzijnszorg|Huizen en dagverblijven voor verstandelijk gehandicapten
+87301|Huizen en dagverblijven voor niet-verstandelijk gehandicapten|87301|overheid, onderwijs, zorg|gezondheids- en welzijnszorg|Huizen en dagverblijven voor niet-verstandelijk gehandicapten
+87302|Verzorgingshuizen|87302|overheid, onderwijs, zorg|gezondheids- en welzijnszorg|Verzorgingshuizen
+87901|Jeugdzorg met overnachting en dagverblijven voor jeugdzorg|87901|overheid, onderwijs, zorg|gezondheids- en welzijnszorg|Jeugdzorg met overnachting en dagverblijven voor jeugdzorg
+87902|Maatschappelijk opvang met overnachting|87902|overheid, onderwijs, zorg|gezondheids- en welzijnszorg|Maatschappelijk opvang met overnachting
+88101|Thuiszorg|88101|overheid, onderwijs, zorg|gezondheids- en welzijnszorg|Thuiszorg
+88102|Welzijnswerk voor ouderen|88102|overheid, onderwijs, zorg|gezondheids- en welzijnszorg|Welzijnswerk voor ouderen
+88103|Ondersteuning en begeleiding van gehandicapten|88103|overheid, onderwijs, zorg|gezondheids- en welzijnszorg|Ondersteuning en begeleiding van gehandicapten
+88911|Kinderopvang|88911|overheid, onderwijs, zorg|gezondheids- en welzijnszorg|Kinderopvang
+88912|Peuterspeelzaalwerk|88912|overheid, onderwijs, zorg|gezondheids- en welzijnszorg|Peuterspeelzaalwerk
+88991|Ambulante jeugdzorg|88991|overheid, onderwijs, zorg|gezondheids- en welzijnszorg|Ambulante jeugdzorg
+88992|Maatschappelijk werk|88992|overheid, onderwijs, zorg|gezondheids- en welzijnszorg|Maatschappelijk werk
+88993|Lokaal welzijnswerk|88993|overheid, onderwijs, zorg|gezondheids- en welzijnszorg|Lokaal welzijnswerk
+88999|Overig maatschappelijk advies, gemeenschapshuizen en samenwerkingsorganen op het gebied van welzijn|88999|overheid, onderwijs, zorg|gezondheids- en welzijnszorg|Overig maatschappelijk advies, gemeenschapshuizen en samenwerkingsorganen op het gebied van welzijn
+899|Winning van overige delfstoffen n.e.g.||winning delfstoffen (geen olie en gas)|winning van overige delfstoffen|
+90011|Beoefening van podiumkunst|90011|cultuur, sport, recreatie|kunst|Beoefening van podiumkunst
+90012|Producenten van podiumkunst|90012|cultuur, sport, recreatie|kunst|Producenten van podiumkunst
+90013|Circus en variété|90013|cultuur, sport, recreatie|kunst|Circus en variété
+9002|Dienstverlening voor uitvoerende kunst|9002|cultuur, sport, recreatie|kunst|Dienstverlening voor uitvoerende kunsten
+9003|Schrijven en overige scheppende kunst|9003|cultuur, sport, recreatie|kunst|Schrijven en overige scheppende kunsten
+900301|Journalistiek||cultuur, sport, recreatie|kunst|
+900302|Scheppende kunst en documentaire schrijvers||cultuur, sport, recreatie|kunst|
+90041|Theaters en schouwburgen|90041|cultuur, sport, recreatie|kunst|Theaters en schouwburgen
+90042|Evenementenhallen|90042|cultuur, sport, recreatie|kunst|Evenementenhallen
+910|Dienstverlening voor de winning van aardolie en aardgas|910|dienstverl. winning van delfstoffen|dienstverl. winning van aardolie en -gas|
+91011|Openbare bibliotheken|91011|cultuur, sport, recreatie|musea, bibliotheken, kunstuitleen|Openbare bibliotheken
+91012|Kunstuitleencentra|91012|cultuur, sport, recreatie|musea, bibliotheken, kunstuitleen|Kunstuitleencentra
+91019|Overige culturele uitleencentra en openbare archieven|91019|cultuur, sport, recreatie|musea, bibliotheken, kunstuitleen|Overige culturele uitleencentra en openbare archieven
+91021|Musea|91021|cultuur, sport, recreatie|musea, bibliotheken, kunstuitleen|Musea
+91022|Kunstgalerieën en -expositieruimten|91022|cultuur, sport, recreatie|musea, bibliotheken, kunstuitleen|Kunstgalerieën en –expositieruimten
+9103|Monumentenzorg|9103|overige niet hierboven genoemd|overige|Monumentenzorg
+91041|Dieren- en plantentuinen, kinderboerderijen|91041|overige niet hierboven genoemd|overige|Dieren- en plantentuinen, kinderboerderijen
+91042|Natuurbehoud|91042|overige niet hierboven genoemd|overige|Natuurbehoud
+92001|Loterijen en kansspelen (geen amusementsautomaten)|92001|overige niet hierboven genoemd|overige|Loterijen en kansspelen (geen amusementsautomaten)
+92009|Exploitatie van amusements- en speelautomaten|92009|overige niet hierboven genoemd|overige|Exploitatie van amusements- en speelautomaten
+93111|Zwembaden|93111|cultuur, sport, recreatie|sport|Zwembaden
+93112|Sporthallen, sportzalen en gymzalen|93112|cultuur, sport, recreatie|sport|Sporthallen, sportzalen en gymzalen
+93113|Sportvelden|93113|cultuur, sport, recreatie|sport|Sportvelden
+93119|Overige sportaccommodaties|93119|cultuur, sport, recreatie|sport|Overige sportaccommodaties
+93121|Veldvoetbal|93121|cultuur, sport, recreatie|sport|Veldvoetbal
+93122|Veldsport in teamverband (geen voetbal)|93122|cultuur, sport, recreatie|sport|Veldsport in teamverband (geen voetbal)
+93123|Atletiek|93123|cultuur, sport, recreatie|sport|Atletiek
+93124|Tennis|93124|cultuur, sport, recreatie|sport|Tennis
+93125|Paardensport en maneges|93125|cultuur, sport, recreatie|sport|Paardensport en maneges
+93126|Wielersport|93126|cultuur, sport, recreatie|sport|Wielersport
+93127|Auto- en motorsport|93127|cultuur, sport, recreatie|sport|Auto- en motorsport
+93128|Wintersport|93128|cultuur, sport, recreatie|sport|Wintersport
+93129|Overige buitensport|93129|cultuur, sport, recreatie|sport|Overige buitensport
+9313|Fitnesscentra|9313|cultuur, sport, recreatie|sport|Fitnesscentra
+93141|Individuele zaalsport|93141|cultuur, sport, recreatie|sport|Individuele zaalsport
+93142|Zaalsport in teamverband|93142|cultuur, sport, recreatie|sport|Zaalsport in teamverband
+93143|Kracht- en vechtsport|93143|cultuur, sport, recreatie|sport|Kracht- en vechtsport
+93144|Bowlen, kegelen, biljarten e.d.|93144|cultuur, sport, recreatie|sport|Bowlen, kegelen, biljarten e.d.
+93145|Denksport|93145|cultuur, sport, recreatie|sport|Denksport
+93146|Sportscholen|93146|cultuur, sport, recreatie|sport|Sportscholen
+93149|Overige binnensport en omnisport|93149|cultuur, sport, recreatie|sport|Overige binnensport en omnisport
+93151|Zwem- en onderwatersport|93151|cultuur, sport, recreatie|sport|Zwem- en onderwatersport
+93152|Roei-, kano-, zeil- en surfsport e.d.|93152|cultuur, sport, recreatie|sport|Roei-, kano-, zeil- en surfsport e.d.
+93191|Beroepssportlieden|93191|cultuur, sport, recreatie|sport|Beroepssportlieden
+93192|Hengelsport|93192|cultuur, sport, recreatie|sport|Hengelsport
+93193|Verzorgen van vistochten|93193|cultuur, sport, recreatie|sport|Verzorgen van vistochten
+93195|Organiseren van sportevenementen|93195|cultuur, sport, recreatie|sport|Organiseren van sportevenementen
+93196|Overkoepelende organen en samenwerkings- en adviesorganen op het gebied van sport|93196|cultuur, sport, recreatie|sport|Overkoepelende organen en samenwerkings- en adviesorganen op het gebied van sport
+93199|Overige sportactiviteiten n.e.g.|93199|cultuur, sport, recreatie|sport|Overige sportactiviteiten (rest)
+93211|Pret- en themaparken|93211|cultuur, sport, recreatie|recreatie|Pret- en themaparken
+93212|Kermisattracties|93212|overige niet hierboven genoemd|overige|Kermisattracties
+93291|Jachthavens|93291|cultuur, sport, recreatie|sport|Jachthavens
+93299|Overige recreatie n.e.g.(geen jachthavens)|93299|overige niet hierboven genoemd|overige|Overige recreatie (rest)(geen jachthavens)
+9411|Bedrijfs- en werkgeversorganisaties|9411|overige niet hierboven genoemd|belangenorganisaties|Bedrijfs- en werkgeversorganisaties
+9412|Beroepsorganisaties|9412|overige niet hierboven genoemd|belangenorganisaties|Beroepsorganisaties
+9420|Werknemersorganisaties|9420|overige niet hierboven genoemd|belangenorganisaties|Werknemersorganisaties
+94911|Religieuze organisaties|94911|overige niet hierboven genoemd|idieële organisaties|Religieuze organisaties
+94919|Overige levensbeschouwelijke organisaties|94919|overige niet hierboven genoemd|idieële organisaties|Overige levensbeschouwelijke organisaties
+9492|Politieke organisaties|9492|overige niet hierboven genoemd|idieële organisaties|Politieke organisaties
+94991|Gezelligheidsverenigingen|94991|overige niet hierboven genoemd|overige|Gezelligheidsverenigingen
+94992|Hobbyclubs|94992|overige niet hierboven genoemd|hobbyclubs|Hobbyclubs
+94993|Steunfondsen (niet op het gebied van welzijnszorg)|94993|overige niet hierboven genoemd|idieële organisaties|Steunfondsen (geen steunfondsen op het gebied van welzijnszorg)
+94994|Vriendenkringen op het gebied van cultuur, fanclubs en overige kunstbevordering|94994|overige niet hierboven genoemd|overige|Vriendenkringen op het gebied van cultuur, fanclubs en overige kunstbevordering
+94995|Overkoepelende organen en samenwerkings- en adviesorganen (niet op het gebied van gezondheids- en welzijnszorg, sport en recreatie)|94995|overige niet hierboven genoemd|overige|Overkoepelende organen en samenwerkings- en adviesorganen (niet op het gebied van gezondheids- en welzijnszorg, sport en recreatie)
+94996|Overige ideële organisaties n.e.g.|94996|overige niet hierboven genoemd|idieële organisaties|Overige ideële organisaties (rest)
+94997|Overige belangenbehartiging n.e.g.|94997|overige niet hierboven genoemd|belangenorganisaties|Overige belangenbehartiging (rest)
+9511|Reparatie van computers en randapparatuur|9511|productie, installatie, reparatie|reparatie (geen bouw)|Reparatie van computers en randapparatuur
+9512|Reparatie van communicatieapparatuur|9512|productie, installatie, reparatie|reparatie (geen bouw)|Reparatie van communicatieapparatuur
+9521|Reparatie van consumentenelektronica (geen computers)|9521|productie, installatie, reparatie|reparatie (geen bouw)|Reparatie van consumentenelektronica (geen computers)
+9522|Reparatie van elektrische huishoudelijke apparaten|9522|productie, installatie, reparatie|reparatie (geen bouw)|Reparatie van elektrische huishoudelijke apparaten
+9523|Reparatie van schoenen en lederwaren|9523|productie, installatie, reparatie|reparatie (geen bouw)|Reparatie van schoenen en lederwaren
+9524|Reparatie en stoffering van meubels|9524|productie, installatie, reparatie|reparatie (geen bouw)|Reparatie en stoffering van meubels
+952403|Reparatie en stoffering van meubels (geen zit- en bedrijfsmeubels)||productie, installatie, reparatie|reparatie (geen bouw)|
+9525|Reparatie van uurwerken en juweliersartikelen|9525|productie, installatie, reparatie|reparatie (geen bouw)|Reparatie van uurwerken en juweliersartikelen
+9529|Reparatie van overige consumentenartikelen|9529|productie, installatie, reparatie|reparatie (geen bouw)|Reparatie van overige consumentenartikelen
+96011|Wasserijen en linnenverhuur|96011|persoonlijke dienstverlening|overige dienstverlening|Wasserijen en linnenverhuur
+96012|Chemische wasserijen en ververijen|96012|persoonlijke dienstverlening|overige dienstverlening|Chemische wasserijen en ververijen
+96013|Wassalons en -verzendinrichtingen|96013|persoonlijke dienstverlening|overige dienstverlening|Wassalons en -verzendinrichtingen
+96021|Haarverzorging|96021|persoonlijke dienstverlening|kappers|Haarverzorging
+96022|Schoonheidsverzorging, pedicures en manicures|96022|persoonlijke dienstverlening|schoonheidsverzorging|Schoonheidsverzorging, pedicures en manicures
+96031|Uitvaartverzorging|96031|persoonlijke dienstverlening|uitvaart, crematoria|Uitvaartverzorging
+96032|Crematoria, mortuaria en begraafplaatsen|96032|persoonlijke dienstverlening|uitvaart, crematoria|Crematoria, mortuaria en begraafplaatsen
+9604|Sauna's, solaria, baden e.d.|9604|persoonlijke dienstverlening|sauna, solaria|Sauna's, solaria, baden e.d.
+9609|Overige dienstverlening n.e.g.|9609|persoonlijke dienstverlening|overige dienstverlening|Overige dienstverlening (rest)
+9700|Huishoudens als werkgever van huishoudelijk personeel|9700|overige niet hierboven genoemd|overige|Huishoudens als werkgever van huishoudelijk personeel
+9810|Niet-gespecificeerde productie van goederen door particuliere huishoudens voor eigen gebruik|9810|productie, installatie, reparatie|productie|Niet-gedifferentieerde productie van goederen door particuliere huishoudens voor eigen gebruik
+9820|Niet-gespecificeerde productie van diensten door particuliere huishoudens voor eigen gebruik|9820|productie, installatie, reparatie|productie|Niet-gedifferentieerde productie van diensten door particuliere huishoudens voor eigen gebruik
+990|Dienstverlening voor de winning van delfstoffen (geen olie en gas)|990|dienstverlening voor de winning van delfstoffen|dienstverlening voor de winning van delfstoffen (geen olie en gas)|
+9900|Extraterritoriale organisaties en lichamen|9900|overige niet hierboven genoemd|overige|Extraterritoriale organisaties en lichamen

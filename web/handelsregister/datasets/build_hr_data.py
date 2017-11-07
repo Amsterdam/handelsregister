@@ -145,7 +145,7 @@ def fill_geo_table():
     with db.connection.cursor() as cursor:
         # bouw de hr_geo_table
         log.info("Bouw geo tabel vestigingen met SBI informatie")
-        _build_joined_geo_table(cursor)
+        _build_joined_geo_table_locations(cursor)
 
 
 def clear_autocorrect():
@@ -679,10 +679,16 @@ AND a.id = vsa.activiteit_id
     """)
 
 
-def _build_joined_geo_table(cursor):
+def _build_joined_geo_table_locations(cursor):
     """
     We create vestigingen geo table for use with
     mapserver and geo_views and also dataselectie.
+
+    We add sbi information so mapserver / views
+    can make selections
+
+    The source are Vestigingen in Amsterdam and
+    MaatschappelijkeActiviteiten in Amsterdam
     """
 
     # Make sure we have sbi codes
@@ -691,10 +697,11 @@ def _build_joined_geo_table(cursor):
     # clear existing geovestigingen
     GeoVestigingen.objects.all().delete()
 
-    cursor.execute(f"""
+    # Around 200.000 items
+    insert_sql_ves = f"""
 INSERT INTO hr_geovestigingen (
     vestigingsnummer,
-
+    kvk_nummer,
     sbi_code,
     activiteitsomschrijving,
 
@@ -719,6 +726,8 @@ INSERT INTO hr_geovestigingen (
     correctie
 ) SELECT
     vs.vestigingsnummer,
+    null as kvknummer,
+
     a.sbi_code,
     a.activiteitsomschrijving,
 
@@ -749,17 +758,95 @@ INSERT INTO hr_geovestigingen (
     vs.bezoekadres_id,
     loc.bag_vbid,
     loc.correctie
-
-  FROM hr_vestiging_activiteiten hr_a
+FROM hr_vestiging_activiteiten hr_a
     JOIN hr_vestiging vs
-    ON hr_a.vestiging_id = vs.id
+        ON hr_a.vestiging_id = vs.id
     JOIN hr_activiteit a
-    ON a.id = hr_a.activiteit_id
+        ON a.id = hr_a.activiteit_id
     JOIN hr_locatie loc
-    ON (vs.bezoekadres_id = loc.id
-        OR vs.postadres_id = loc.id)
-        AND ST_IsValid(loc.geometrie)
+        ON (vs.bezoekadres_id = loc.id
+            OR vs.postadres_id = loc.id)
+            AND ST_IsValid(loc.geometrie)
     JOIN sbicodes_sbicodehierarchy sbi
+        ON sbi.code = a.sbi_code
+    WHERE vs.datum_einde is null
+
+    """
+    cursor.execute(insert_sql_ves)
+    # around 40.000 items
+    insert_sql_mac = f"""
+INSERT INTO hr_geovestigingen (
+    vestigingsnummer,
+    kvk_nummer,
+
+    sbi_code,
+    activiteitsomschrijving,
+
+    subtype,
+    naam,
+    uri,
+    hoofdvestiging, /* not a mac field */
+    locatie_type,
+    geometrie,
+    sbi_tree,
+    sbi_main_category,
+    sbi_sub_category,
+    sbi_sub_sub_category,
+
+    q1,  /* question 1 */
+    q2,  /* question 2 */
+    q3,  /* question 3 */
+
+    postadres_id,
+    bezoekadres_id,
+    bag_vbid,
+    correctie
+) SELECT
+    null, /* vestigings nummer is empty */
+    mac.kvk_nummer,
+    a.sbi_code,
+    a.activiteitsomschrijving,
+
+    CAST('handelsregister/maatschappelijkeactiviteit' AS text) as subtype,
+
+    mac.naam,
+    '{settings.DATAPUNT_API_URL}' || 'handelsregister/maatschappelijkeactiviteit/' ||
+        mac.kvk_nummer || '/' AS uri,
+    true,
+    CASE
+      WHEN mac.bezoekadres_id = loc.id THEN 'B'
+      WHEN mac.postadres_id = loc.id THEN 'P'
+    END as locatie_type,
+
+    loc.geometrie as geometrie,
+
+    sbi.sbi_tree,
+    sbi.sbi_tree->'l1'->>0 as sbi_main_category,
+    sbi.sbi_tree->'l2'->>0 as sbi_sub_category,
+    sbi.sbi_tree->'l3'->>0 as sbi_sub_sub_category,
+
+    sbi.qa_tree->>'q1'::text as q1,
+    sbi.qa_tree->>'q2'::text as q2,
+    sbi.qa_tree->>'q3'::text as q3,
+
+    mac.postadres_id,
+    mac.bezoekadres_id,
+    loc.bag_vbid,
+    loc.correctie
+FROM
+    hr_maatschappelijkeactiviteit mac
+LEFT OUTER JOIN hr_maatschappelijkeactiviteit_activiteiten hr_ma
+    ON (hr_ma.maatschappelijkeactiviteit_id = mac.id)
+LEFT OUTER JOIN hr_activiteit a
+    ON (a.id = hr_ma.activiteit_id)
+JOIN hr_locatie loc
+    ON ((mac.bezoekadres_id = loc.id
+        OR mac.postadres_id = loc.id)
+        AND ST_IsValid(loc.geometrie)
+        AND loc.plaats = 'Amsterdam')
+LEFT OUTER JOIN sbicodes_sbicodehierarchy sbi
     ON sbi.code = a.sbi_code
-  WHERE vs.datum_einde is null
-    """)
+WHERE mac.datum_einde is null
+    """
+
+    cursor.execute(insert_sql_mac)

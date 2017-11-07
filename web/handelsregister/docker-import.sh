@@ -5,34 +5,36 @@ set -e   # stop on any error
 
 echo 'Downloading latest mks dumps'
 # uses data and unzipped dir
-python get_mks_dumps.py
+#python get_mks_dumps.py
 
 echo 'Store mks dumps in database'
-source loaddumps.sh
+#source loaddumps.sh
 # to test locally
-# source loaddumps_local.sh
+source loaddumps_local.sh
 
 
 # we need BAG data to properly import HR.
-#docker-compose exec database update-table.sh bag bag_verblijfsobject public handelsregister
-#docker-compose  exec database update-table.sh bag bag_nummeraanduiding public handelsregister
+docker-compose exec database update-table.sh bag bag_verblijfsobject public handelsregister spreeker
+docker-compose exec database update-table.sh bag bag_nummeraanduiding public handelsregister spreeker
+docker-compose exec database update-table.sh bag bag_standplaats public handelsregister spreeker
+docker-compose exec database update-table.sh bag bag_ligplaats public handelsregister spreeker
 
 # load mks data into HR models, complement with BAG information
-python /app/manage.py run_import
+python manage.py run_import
 
 # import sbicodes
-python /app/manage.py run_import --cbs_sbi
+python manage.py run_import --cbs_sbi
 # cleanup codes / ambiguity and make relation with activiteiten
-python /app/manage.py run_import --cbs_sbi_validate
+python manage.py run_import --cbs_sbi_validate
 
 # autocorrect locations fields with search resultaten
-python /app/manage.py run_import --search
+python manage.py run_import --search
 
 # create geoviews
-python /app/manage.py run_import --geovestigingen
+python manage.py run_import --geovestigingen
 
 # create dataselectie
-python /app/manage.py run_import --dataselectie
+python manage.py run_import --dataselectie
 
 # validate that all tables contain values
 # and enough counts
