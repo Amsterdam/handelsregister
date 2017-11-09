@@ -5,12 +5,12 @@ set -e   # stop on any error
 
 echo 'Downloading latest mks dumps'
 # uses data and unzipped dir
-#python get_mks_dumps.py
+python get_mks_dumps.py
 
 echo 'Store mks dumps in database'
-#source loaddumps.sh
+source loaddumps.sh
 # to test locally
-source loaddumps_local.sh
+#source loaddumps_local.sh
 
 
 # we need BAG data to properly import HR.
