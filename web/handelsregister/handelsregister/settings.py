@@ -13,7 +13,7 @@ import os
 import re
 import sys
 
-from authorization_django import levels as authorization_levels
+import authorization_levels
 
 
 def get_docker_host():
@@ -314,14 +314,31 @@ HEALTH_MODEL = 'hr.MaatschappelijkeActiviteit'
 LOGSTASH_HOST = os.getenv('LOGSTASH_HOST', '127.0.0.1')
 LOGSTASH_PORT = int(os.getenv('LOGSTASH_GELF_UDP_PORT', 12201))
 
+# The following JWKS data was obtained in the authz project :  jwkgen -create -alg ES256
+# This is a test public key def. The private key is defined mixins.py for testing.
+JWKS_TEST_KEY = """
+    {
+        "keys": [
+            {
+                "kty": "EC",
+                "key_ops": [
+                    "verify",
+                    "sign"
+                ],
+                "kid": "2aedafba-8170-4064-b704-ce92b7c89cc6",
+                "crv": "P-256",
+                "x": "6r8PYwqfZbq_QzoMA4tzJJsYUIIXdeyPA27qTgEJCDw=",
+                "y": "Cf2clfAfFuuCB06NMfIat9ultkMyrMQO9Hd2H7O9ZVE=",
+            }
+        ]
+    }
+"""
 
 
 # Security
 DATAPUNT_AUTHZ = {
-    'JWT_SECRET_KEY': os.getenv(
-        'JWT_SHARED_SECRET_KEY', 'insecureeeeeeeeeeeeeee'),
-    'JWT_ALGORITHM': 'HS256',
-    'MIN_SCOPE': authorization_levels.SCOPE_HR_R,
+    'JWKS': os.getenv('PUB_JWKS', JWKS_TEST_KEY),
+    'MIN_SCOPE': (authorization_levels.SCOPE_HR_R,),  # MIN_SCOPE should be a tuple or list
     'FORCED_ANONYMOUS_ROUTES': ('/status/', '/handelsregister/docs/')
 }
 
