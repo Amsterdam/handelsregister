@@ -338,7 +338,7 @@ JWKS_TEST_KEY = """
 # Security
 DATAPUNT_AUTHZ = {
     'JWKS': os.getenv('PUB_JWKS', JWKS_TEST_KEY),
-    'MIN_SCOPE': (authorization_levels.SCOPE_HR_R,),  # MIN_SCOPE should be a tuple or list
+    'MIN_SCOPE': authorization_levels.SCOPE_HR_R,
     'FORCED_ANONYMOUS_ROUTES': ('/status/', '/handelsregister/docs/')
 }
 
