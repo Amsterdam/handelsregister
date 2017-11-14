@@ -315,7 +315,7 @@ LOGSTASH_HOST = os.getenv('LOGSTASH_HOST', '127.0.0.1')
 LOGSTASH_PORT = int(os.getenv('LOGSTASH_GELF_UDP_PORT', 12201))
 
 # The following JWKS data was obtained in the authz project :  jwkgen -create -alg ES256
-# This is a test public key def. The private key is defined mixins.py for testing.
+# This is a test public/private key def and added for testing.
 JWKS_TEST_KEY = """
     {
         "keys": [
@@ -329,6 +329,7 @@ JWKS_TEST_KEY = """
                 "crv": "P-256",
                 "x": "6r8PYwqfZbq_QzoMA4tzJJsYUIIXdeyPA27qTgEJCDw=",
                 "y": "Cf2clfAfFuuCB06NMfIat9ultkMyrMQO9Hd2H7O9ZVE=",
+                "d": "N1vu0UQUp0vLfaNeM0EDbl4quvvL6m_ltjoAXXzkI3U="
             }
         ]
     }
