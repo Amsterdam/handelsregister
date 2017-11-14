@@ -90,8 +90,10 @@ def sql_steps(cursor, keep_outside_amsterdam=False):
     log.info("Converteer onbekende mac mks eigenaren")
     _converteer_onbekende_mac_eigenaar_id(cursor)
 
-    log.info("Link Vestiging activiteiten aan MAC")
-    _link_mac_ativiteiten_table(cursor)
+    # DEZE CORRECTIE IS NIET GEWAARDEERD..
+    # DIT MOET UIT DE BRON KOMEN.
+    # log.info("Link Vestiging activiteiten aan MAC")
+    # _link_mac_ativiteiten_table(cursor)
 
     # Dropall vestigingen outside of Amsterdam
     # if not settings.TESTING:

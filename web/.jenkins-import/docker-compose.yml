@@ -22,6 +22,8 @@ services:
     links:
       - elasticsearch
       - database
+    volumes:
+      - ./backups:/tmp/backups
     environment:
       DATABASE_NAME: handelsregister
       DATABASE_USER: handelsregister
