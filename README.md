@@ -28,7 +28,7 @@ Works only for amsterdam developers with published ssh keys.
 
     Download a prepared database..works only within 'gemeente Amsterdam network'
 
-    docker-compose exec database update-db.sh handelsregister
+    docker-compose exec database update-db.sh handelsregister <your-username>
 
 
 Manual Import
@@ -63,6 +63,7 @@ Prerequisites: create data folder and set Objectstore passworfind d
 
 Load the sql dump into the database
 
+    mkdir unzipped
     ./loaddumps_local.sh
 
 Now we are ready in create the Handelsregister (hr) databases

@@ -10,6 +10,7 @@ services:
       POSTGRES_USER: handelsregister
     volumes:
       - tmpdatabase:/tmp
+      - "~/.ssh/datapunt.key:/root/.ssh/datapunt.key"
 
   elasticsearch:
     image: build.datapunt.amsterdam.nl:5000/atlas/elasticsearch5:latest
