@@ -55,6 +55,10 @@ def sql_steps(cursor, keep_outside_amsterdam=False):
 
     _converteer_vestiging(cursor)
 
+    log.info("Update vestiging datum_einde")
+
+    _update_vestiging_datum_einde(cursor)
+
     for i in (1, 2, 3):
         log.info("Converteren VES communicatie-gegevens-%s", i)
         _converteer_ves_communicatiegegevens(cursor, i)
@@ -451,6 +455,17 @@ INSERT INTO hr_vestiging
     LEFT JOIN kvkadrm00 p ON p.vesid = v.vesid AND p.typering = 'postLocatie'
     LEFT JOIN kvkadrm00 b ON b.vesid = v.vesid AND b.typering = 'bezoekLocatie'
         """)
+
+
+def _update_vestiging_datum_einde(cursor):
+    cursor.execute("""
+    UPDATE hr_vestiging AS v
+        SET datum_einde = m.datum_einde
+    FROM hr_maatschappelijkeactiviteit m
+    WHERE v.maatschappelijke_activiteit_id = m.id
+        AND v.datum_einde IS NULL
+        AND m.datum_einde IS NOT NULL
+    """)
 
 
 def _converteer_hoofdactiviteit(cursor):
