@@ -21,19 +21,36 @@ Use `docker-compose` to start a local database, and latest codebase.
 
 	docker-compose up -d --build
 
+Quickstart Import
+-----------------
+
+Works only for amsterdam developers with published ssh keys.
+
+    Download a prepared database..works only within 'gemeente Amsterdam network'
+
+    docker-compose exec database update-db.sh handelsregister
+
+
 Manual Import
 -------------
 
+The .jenkins-import folder contains the actual steps: here is a summary
+
+Create a virtual python environement and install packages.
+
+     pip install -r requirements.txt
+
 To run an complete import, execute:
+
 
 Make sure your database is up to date
 
-	# this is automatic after previous docker-compose up -d  --build
-	docker-compose exec web ./manage.py migrate
+      # this is automatic after previous docker-compose up -d  --build
+      ./manage.py migrate
 
 Import the latest BAG geo data
 
-    docker-compose exec database update-db.sh atlas
+     docker-import-dev.sh
 
 Load latest makelaarsuite data from the object store
 
@@ -42,40 +59,38 @@ Prerequisites: create data folder and set Objectstore passworfind d
 	cd  web/handelsregister
 	mkdir data
 	export HANDELSREGISTER_OBJECTSTORE_PASSWORD=<password here>
-    python get_mks_dumps.py
+        python get_mks_dumps.py
 
 Load the sql dump into the database
 
     ./loaddumps_local.sh
 
-Copy geodata from atlas into handelsregister database
-NOTE: do not put newlines in here
-
-    ./copy_bagvbo_to_hr_local.sh
-
 Now we are ready in create the Handelsregister (hr) databases
 for the api and geoviews for mapserver
 
-	# change back to the root of the project
-	cd  ../..
-    docker-compose exec web ./manage.py run_import
+     ./manage.py run_import
 
 To see the various options for imports, execute:
 
-    docker-compose exec web ./manage.py run_import --help
+     ./manage.py run_import --help
+
+To load the csb sbi (activiteiten) data:
+
+     ./manage.py run_import --cbs_sbi
+     ./manage.py run_import --cbs_sbi_validate
 
 To fix missing location geodata with the search api
 for some locations we have only an adress
 
-    docker-compose exec web ./manage.py run_import --search
+     ./manage.py run_import --search
 
 Build the geodataview
 
-    docker-compose exec web ./manage.py run_import --geovestigingen
+     ./manage.py run_import --geovestigingen
 
 Finally build the dataselectie view (if you need it....)
 
-    docker-compose exec web ./manage.py run_import --dataselectie
+    ./manage.py run_import --dataselectie
 
 SBI CODES
 ---------
@@ -87,17 +102,6 @@ to update the sbi code database:
     python manage.py run_import cbs_sbi --nocache
 
     python manage.py run_import cbs_sbi
-
-TODO:
-
-	use an simple exel sheet with codes?
-
-
-Quickstart Import
------------------
-    Download a prepared database..works only within 'gemeente Amsterdam network'
-
-    docker-compose exec database update-db.sh handelsregister
 
 
 The API should now be available on http://localhost:8100/handelsregister
