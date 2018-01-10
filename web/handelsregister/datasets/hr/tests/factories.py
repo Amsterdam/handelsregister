@@ -1,6 +1,7 @@
 import random
 from datetime import datetime
 
+import faker
 import factory
 import pytz
 from django.contrib.gis.geos import Point
