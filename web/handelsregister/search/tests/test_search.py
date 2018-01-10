@@ -51,28 +51,36 @@ class SearchTest(APITestCase, authorization.AuthorizationSetup):
                 naam='test1',
                 maatschappelijke_activiteit=cls.mac1,
                 vestigingsnummer=99999,
-                handelsnamen=[hnd1, hnd11]
+                # handelsnamen=[hnd1, hnd11]
         )
+
+        cls.ves1.handelsnamen.set([hnd1, hnd11])
+
         cls.ves2 = factories.VestigingFactory(
                 naam='test2',
                 maatschappelijke_activiteit=cls.mac2,
                 vestigingsnummer=99998,
-                handelsnamen=[hnd2]
+                # handelsnamen=[hnd2]
         )
+        cls.ves2.handelsnamen.set([hnd2])
+
         cls.ves3 = factories.VestigingFactory(
                 naam='test3',
                 maatschappelijke_activiteit=cls.mac3,
                 vestigingsnummer=99988,
-                handelsnamen=[hnd3]
+                # handelsnamen=[hnd3]
 
         )
+
+        cls.ves3.handelsnamen.set([hnd3])
 
         cls.ves00 = factories.VestigingFactory(
                 naam='test00',
                 maatschappelijke_activiteit=cls.mac3,
                 vestigingsnummer='00006',
-                handelsnamen=[hnd3]
+                # handelsnamen=[hnd3]
         )
+        cls.ves00.handelsnamen.set([hnd3])
 
         build_index.reset_hr_docs()
         build_index.index_mac_docs()

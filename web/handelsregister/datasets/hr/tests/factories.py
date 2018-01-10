@@ -61,19 +61,22 @@ class VestigingFactory(factory.DjangoModelFactory):
         MaatschappelijkeActiviteitFactory)
 
     @factory.post_generation
-    def activiteiten(self, create, activiteiten=None, handelsnamen=None, **kwargs):
+    def activiteiten(
+            self, create, activiteiten=None,
+            handelsnamen=None, **kwargs):
+
         if not create:
             # Simple build, do nothing.
             return
 
-        if handelsnamen:
-            for h in handelsnamen:
-                self.handelsnamen.add(h)
+        # if handelsnamen:
+        #     for h in handelsnamen:
+        #         self.handelsnamen.add(h)
 
-        if activiteiten:
-            # A list of groups were passed in, use them
-            for a in activiteiten:
-                self.activiteiten.add(a)
+        # if activiteiten:
+        #     # A list of groups were passed in, use them
+        #     for a in activiteiten:
+        #         self.activiteiten.add(a)
 
 
 class LocatieFactory(factory.DjangoModelFactory):

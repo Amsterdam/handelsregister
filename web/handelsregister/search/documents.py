@@ -32,47 +32,47 @@ def get_centroid(geom, transform=None):
 
 class MaatschappelijkeActiviteit(es.DocType):
 
-    _display = es.Text(index='not_analyzed')
+    _display = es.Keyword()
 
-    _kvk_display = es.Text(index='not_analyzed')
+    _kvk_display = es.Keyword()
 
     kvk_nummer = es.Text(
         analyzer=analyzers.autocomplete,
         fields={
-            'raw': es.Text(index='not_analyzed')}
+            'raw': es.Keyword()}
     )
 
     naam = es.Text(
         analyzer=analyzers.adres,
         fields={
-            'raw': es.Text(index='not_analyzed'),
+            'raw': es.Keyword(),
             'ngram': es.Text(
                 analyzer=analyzers.autocomplete, search_analyzer='standard')})
 
-    handelsnamen = es.Nested({
-        'properties': {
+    handelsnamen = es.Nested(
+        properties={
             'naam': es.Text(
                 analyzer=analyzers.adres,
                 fields={
-                    'raw': es.Text(index='not_analyzed'),
+                    'raw': es.Keyword(),
                     'ngram': es.Text(
                         analyzer=analyzers.autocomplete,
                         search_analyzer='standard')
                 })
             }
-    })
+    )
 
     postadres = es.Text(
         analyzer=analyzers.adres,
         fields={
-            'raw': es.Text(index='not_analyzed'),
+            'raw': es.Keyword(),
             'ngram': es.Text(
                 analyzer=analyzers.autocomplete, search_analyzer='standard')})
 
     bezoekadres = es.Text(
         analyzer=analyzers.adres,
         fields={
-            'raw': es.Text(index='not_analyzed'),
+            'raw': es.Keyword(),
             'ngram': es.Text(
                 analyzer=analyzers.autocomplete, search_analyzer='standard')})
 
@@ -89,56 +89,56 @@ class MaatschappelijkeActiviteit(es.DocType):
 
 class Vestiging(es.DocType):
 
-    _display = es.Text(index='not_analyzed')
-    _kvk_display = es.Text(index='not_analyzed')
+    _display = es.Keyword()
+    _kvk_display = es.Keyword()
 
     vestigingsnummer = es.Text(
         analyzer=analyzers.autocomplete,
         fields={
-            'raw': es.Text(index='not_analyzed'),
+            'raw': es.Keyword(),
             'nozero': es.Text(analyzer=analyzers.nozero),
             'int': es.Integer()}
     )
 
     hoofdvestiging = es.Boolean()
 
-    sbi = es.Nested({
-        'properties': {
+    sbi = es.Nested(
+        properties={
             'code': es.Text(
                 analyzer=analyzers.autocomplete,
                 fields={
-                    'raw': es.Text(index='not_analyzed')}
+                    'raw': es.Keyword()}
             ),
             'omschrijving': es.Text(),
             }
-        })
+    )
 
     naam = es.Text(
         analyzer=analyzers.adres,
         fields={
-            'raw': es.Text(index='not_analyzed'),
+            'raw': es.Keyword(),
             'ngram': es.Text(
                 analyzer=analyzers.autocomplete,
                 search_analyzer='standard')}
         )
 
-    handelsnamen = es.Nested({
-        'properties': {
+    handelsnamen = es.Nested(
+        properties={
             'naam': es.Text(
                 analyzer=analyzers.adres,
                 fields={
-                    'raw': es.Text(index='not_analyzed'),
+                    'raw': es.Keyword(),
                     'ngram': es.Text(
                         analyzer=analyzers.autocomplete,
                         search_analyzer='standard')
                 })
             }
-    })
+    )
 
     postadres = es.Text(
         analyzer=analyzers.adres,
         fields={
-            'raw': es.Text(index='not_analyzed'),
+            'raw': es.Keyword(),
             'ngram': es.Text(
                 analyzer=analyzers.autocomplete,
                 search_analyzer='standard')})
@@ -146,7 +146,7 @@ class Vestiging(es.DocType):
     bezoekadres = es.Text(
         analyzer=analyzers.adres,
         fields={
-            'raw': es.Text(index='not_analyzed'),
+            'raw': es.Keyword(),
             'ngram': es.Text(
                 analyzer=analyzers.autocomplete,
                 search_analyzer='standard')})
