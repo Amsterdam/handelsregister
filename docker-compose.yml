@@ -46,5 +46,10 @@ services:
                     && /app/docker-migrate.sh \
                     && /app/docker-run.sh"
 
+  swaggerui:
+    image: amsterdam/oauth2swaggerui
+    ports:
+      - 8686:8686
+
 volumes:
    tmpdatabase:

@@ -19,6 +19,7 @@ import operator
 
 from django.conf import settings
 from django.conf.urls import url, include
+from django.views.generic.base import TemplateView
 from rest_framework import routers, renderers, schemas, response
 from rest_framework.decorators import api_view, renderer_classes
 from rest_framework_swagger.renderers import OpenAPIRenderer
@@ -125,7 +126,7 @@ geosearch.register(
 
 grouped_url_patterns = {
     'base_patterns': [
-        url(r'^status/', include('health.urls', namespace='health')),
+        url(r'^status/', include('health.urls')),
     ],
     'hr_patterns': [
         url(r'^handelsregister/', include(hr_router.urls)),
@@ -142,16 +143,32 @@ grouped_url_patterns = {
 
 @api_view()
 @renderer_classes(
-    [SwaggerUIRenderer, OpenAPIRenderer, renderers.CoreJSONRenderer])
+    [OpenAPIRenderer, renderers.CoreJSONRenderer])
 def hr_schema_view(request):
     generator = schemas.SchemaGenerator(title='Handelsregister API')
     return response.Response(generator.get_schema(request=request))
 
 
+class OpenAPIView(TemplateView):
+
+    template_name = "openapi.yml"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        host = self.request.META['HTTP_HOST']
+        if host.startswith('localhost'):
+            context['apihost'] = 'http://' + host
+            context['oauth2host'] = 'http://localhost:8686'
+        else:
+            context['apihost'] = 'https://' + host
+            context['oauth2host'] = 'https://' + host
+
 urlpatterns = [
+                  url('^handelsregister/docs/openapi.yml', OpenAPIView.as_view()),
                   url('^handelsregister/docs/api-docs/$', hr_schema_view),
               ] + [url for pattern_list in grouped_url_patterns.values()
                    for url in pattern_list]
+
 
 if settings.DEBUG:
     import debug_toolbar

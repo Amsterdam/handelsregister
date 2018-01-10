@@ -2,6 +2,8 @@ from __future__ import unicode_literals
 
 from typing import List
 
+import django.db.models.deletion
+
 from django.contrib.gis.db import models
 from django.db.models import Manager
 
@@ -61,11 +63,13 @@ class KvkAdres(models.Model):
 
     vesid = models.ForeignKey(
         'KvkVestiging',
+        models.DO_NOTHING,
         related_name='adressen', db_column='vesid',
         blank=True, null=True)
 
     macid = models.ForeignKey(
         'KvkMaatschappelijkeActiviteit',
+        models.DO_NOTHING,
         related_name='adressen', db_column='macid',
         blank=True, null=True
     )
@@ -335,6 +339,7 @@ class KvkVestiging(models.Model):
 
     maatschappelijke_activiteit = models.ForeignKey(
         'KvkMaatschappelijkeActiviteit',
+        models.DO_NOTHING,
         related_name='vestigingen', db_column='macid',
         blank=True, null=True
     )

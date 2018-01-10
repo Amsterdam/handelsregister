@@ -157,7 +157,10 @@ MIDDLEWARE = [
 if DEBUG:
     INSTALLED_APPS += ('debug_toolbar',)
     MIDDLEWARE += (
-        'debug_toolbar.middleware.DebugToolbarMiddleware',)
+        'corsheaders.middleware.CorsMiddleware',
+        'debug_toolbar.middleware.DebugToolbarMiddleware',
+    )
+    CORS_ORIGIN_ALLOW_ALL = True
 
 
 ROOT_URLCONF = 'handelsregister.urls'
@@ -243,7 +246,7 @@ REST_FRAMEWORK = dict(
         'rest_framework.renderers.BrowsableAPIRenderer'
     ),
     DEFAULT_FILTER_BACKENDS=(
-        'rest_framework.filters.DjangoFilterBackend',
+        'django_filters.rest_framework.DjangoFilterBackend',
         # 'rest_framework.filters.OrderingFilter',
 
     ),

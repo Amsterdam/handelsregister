@@ -7,6 +7,8 @@ from rest_framework.reverse import reverse
 from rest_framework.utils.urls import replace_query_param
 from rest_framework_extensions.mixins import DetailSerializerMixin
 
+from django_filters.rest_framework import DjangoFilterBackend
+
 DEFAULT_RENDERERS = (renderers.JSONRenderer, renderers.BrowsableAPIRenderer)
 FORMATS = [dict(format=r.format, type=r.media_type) for r in DEFAULT_RENDERERS]
 
@@ -79,7 +81,7 @@ class HALPagination(pagination.PageNumberPagination):
         ]))
 
 
-class DisabledHTMLFilterBackend(filters.DjangoFilterBackend):
+class DisabledHTMLFilterBackend(DjangoFilterBackend):
     """
     See https://github.com/tomchristie/django-rest-framework/issues/3766
     This prevents DRF from generating the filter dropdowns (which can be HUGE in our case)

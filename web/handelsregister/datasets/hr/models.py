@@ -191,12 +191,14 @@ class Functievervulling(models.Model):
     functietitel = models.CharField(max_length=20)
 
     heeft_aansprakelijke = models.ForeignKey(
-        'Persoon', related_name='heeft_aansprakelijke', blank=True, null=True,
+        'Persoon', models.DO_NOTHING,
+        related_name='heeft_aansprakelijke', blank=True, null=True,
         help_text="",
     )
 
     is_aansprakelijke = models.ForeignKey(
-        'Persoon', related_name='is_aansprakelijke', blank=True, null=True,
+        'Persoon', models.DO_NOTHING,
+        related_name='is_aansprakelijke', blank=True, null=True,
         help_text="",
     )
 
@@ -252,8 +254,8 @@ class Activiteit(models.Model):
     )
 
     sbi_code_tree = models.ForeignKey(
-        SBICodeHierarchy, null=True, blank=True,
-        on_delete=models.DO_NOTHING
+        SBICodeHierarchy, models.DO_NOTHING,
+        null=True, blank=True
     )
 
 
@@ -319,16 +321,18 @@ class MaatschappelijkeActiviteit(models.Model):
     )
 
     postadres = models.ForeignKey(
-        'Locatie', related_name="+", blank=True, null=True,
+        'Locatie', models.DO_NOTHING,
+        related_name="+", blank=True, null=True,
         help_text="postadres",
     )
     bezoekadres = models.ForeignKey(
-        'Locatie', related_name="+", blank=True, null=True,
+        'Locatie', models.DO_NOTHING,
+        related_name="+", blank=True, null=True,
         help_text="bezoekadres",
     )
 
     eigenaar = models.ForeignKey(
-        'Persoon',
+        'Persoon', models.DO_NOTHING,
         related_name="maatschappelijke_activiteit",
         blank=True, null=True,
         help_text="",
@@ -429,8 +433,7 @@ class Vestiging(models.Model):
     id = models.CharField(primary_key=True, max_length=20)
 
     maatschappelijke_activiteit = models.ForeignKey(
-        'MaatschappelijkeActiviteit',
-        related_name='vestigingen',
+        'MaatschappelijkeActiviteit', related_name='vestigingen',
         db_index=True,
         on_delete=models.DO_NOTHING,
     )
@@ -462,11 +465,13 @@ class Vestiging(models.Model):
         help_text="Afgeleid van communicatiegegevens van inschrijving",
     )
     postadres = models.ForeignKey(
-        'Locatie', related_name="+", blank=True, null=True,
+        'Locatie', models.DO_NOTHING,
+        related_name="+", blank=True, null=True,
         help_text="postadres",
     )
     bezoekadres = models.ForeignKey(
-       'Locatie', related_name="+", blank=True, null=True,
+       'Locatie', models.DO_NOTHING,
+        related_name="+", blank=True, null=True,
         help_text="bezoekadres",
     )
 
@@ -799,11 +804,13 @@ class GeoVestigingen(models.Model):
     q3 = models.TextField(null=True, db_index=True)
 
     postadres = models.ForeignKey(
-        'Locatie', related_name="+", blank=True, null=True,
+        'Locatie', models.DO_NOTHING,
+        related_name="+", blank=True, null=True,
         help_text="postadres")
 
     bezoekadres = models.ForeignKey(
-        'Locatie', related_name="+", blank=True, null=True,
+        'Locatie', models.DO_NOTHING,
+        related_name="+", blank=True, null=True,
         help_text="bezoekadres")
 
     bag_vbid = models.CharField(
@@ -848,13 +855,12 @@ class BetrokkenPersonen(models.Model):
     )
 
     vestiging = models.ForeignKey(
-        DataSelectie,
+        DataSelectie, models.DO_NOTHING,
         to_field="id",
         db_column="vestiging_id",
         blank=True,
         null=True,
-        help_text="Vestiging id",
-        on_delete=models.DO_NOTHING
+        help_text="Vestiging id"
     )
 
     vestigingsnummer = models.CharField(
