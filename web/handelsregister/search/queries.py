@@ -83,7 +83,7 @@ def vestiging_query(analyzer: InputQAnalyzer) -> ElasticQueryWrapper:
     vesid = analyzer.get_id()
     handelsnaam = analyzer.get_handelsnaam()
 
-    must = [Q('term', _type='vestiging')]
+    must = [Q('term', doctype='ves')]
 
     sort_fields = ['_score']
     # sort_fields = ['_display']
@@ -117,7 +117,6 @@ def vestiging_query(analyzer: InputQAnalyzer) -> ElasticQueryWrapper:
                     "handelsnamen.naam.ngram",
                     "handelsnamen.naam.raw",
                     "handelsnamen.naam"
-
                 ]
             )
         )
@@ -151,7 +150,7 @@ def mac_query(analyzer: InputQAnalyzer) -> ElasticQueryWrapper:
 
     handelsnaam = analyzer.get_handelsnaam()
 
-    must = [Q('term', _type='maatschappelijke_activiteit')]
+    must = [Q('term', doctype='mac')]
 
     min_match = 1
     should = [

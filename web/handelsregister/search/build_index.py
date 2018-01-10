@@ -14,8 +14,7 @@ log = logging.getLogger(__name__)
 
 
 HR_DOC_TYPES = [
-    documents.MaatschappelijkeActiviteit,
-    documents.Vestiging
+    documents.Inschrijving
 ]
 
 

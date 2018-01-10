@@ -158,8 +158,9 @@ class TypeaheadViewSet(viewsets.ViewSet):
             try:
                 result = search.execute(ignore_cache=ignore_cache)
             except:
-                log.exception('FAILED ELK SEARCH: %s',
-                              json.dumps(search.to_dict(), indent=2))
+                log.exception(
+                    'FAILED ELK SEARCH: %s',
+                    json.dumps(search.to_dict(), indent=2))
                 continue
             # Get the datas!
             result_data.append(result)
@@ -375,7 +376,7 @@ class SearchVestigingViewSet(SearchViewSet):
         """
         search = vestiging_query(analyzer)\
             .to_elasticsearch_object(client)
-        return search.filter('terms', _type=['vestiging'])
+        return search
 
 
 class SearchMacViewSet(SearchViewSet):

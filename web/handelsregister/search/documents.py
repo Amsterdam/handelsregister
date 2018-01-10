@@ -30,7 +30,7 @@ def get_centroid(geom, transform=None):
     return result.coords
 
 
-class MaatschappelijkeActiviteit(es.DocType):
+class Inschrijving(es.DocType):
 
     _display = es.Keyword()
 
@@ -41,56 +41,6 @@ class MaatschappelijkeActiviteit(es.DocType):
         fields={
             'raw': es.Keyword()}
     )
-
-    naam = es.Text(
-        analyzer=analyzers.adres,
-        fields={
-            'raw': es.Keyword(),
-            'ngram': es.Text(
-                analyzer=analyzers.autocomplete, search_analyzer='standard')})
-
-    handelsnamen = es.Nested(
-        properties={
-            'naam': es.Text(
-                analyzer=analyzers.adres,
-                fields={
-                    'raw': es.Keyword(),
-                    'ngram': es.Text(
-                        analyzer=analyzers.autocomplete,
-                        search_analyzer='standard')
-                })
-            }
-    )
-
-    postadres = es.Text(
-        analyzer=analyzers.adres,
-        fields={
-            'raw': es.Keyword(),
-            'ngram': es.Text(
-                analyzer=analyzers.autocomplete, search_analyzer='standard')})
-
-    bezoekadres = es.Text(
-        analyzer=analyzers.adres,
-        fields={
-            'raw': es.Keyword(),
-            'ngram': es.Text(
-                analyzer=analyzers.autocomplete, search_analyzer='standard')})
-
-    bezoekadres_correctie = es.Boolean()
-
-    # hoofdvestiging
-
-    centroid = es.GeoPoint()
-
-    class Meta:
-        index = settings.ELASTIC_INDICES['HR']
-        all = es.MetaField(enabled=False)
-
-
-class Vestiging(es.DocType):
-
-    _display = es.Keyword()
-    _kvk_display = es.Keyword()
 
     vestigingsnummer = es.Text(
         analyzer=analyzers.autocomplete,
@@ -140,29 +90,32 @@ class Vestiging(es.DocType):
         fields={
             'raw': es.Keyword(),
             'ngram': es.Text(
-                analyzer=analyzers.autocomplete,
-                search_analyzer='standard')})
+                analyzer=analyzers.autocomplete, search_analyzer='standard')})
 
     bezoekadres = es.Text(
         analyzer=analyzers.adres,
         fields={
             'raw': es.Keyword(),
             'ngram': es.Text(
-                analyzer=analyzers.autocomplete,
-                search_analyzer='standard')})
+                analyzer=analyzers.autocomplete, search_analyzer='standard')})
+
+    bezoekadres_correctie = es.Boolean()
+
+    # hoofdvestiging
 
     centroid = es.GeoPoint()
 
     class Meta:
         index = settings.ELASTIC_INDICES['HR']
-        all = es.MetaField(enabled=False)
 
 
 def from_mac(mac: models.MaatschappelijkeActiviteit):
     """
     Create doc from mac
     """
-    doc = MaatschappelijkeActiviteit(_id=mac.id)
+    doc = Inschrijving(_id=mac.id)
+
+    doc.doctype = 'mac'
 
     doc._display = str(mac)  # pylint: disable=protected-access
 
@@ -192,10 +145,12 @@ def from_vestiging(ves: models.Vestiging):
     Create a doc from a vestiging
     """
 
-    doc = Vestiging(_id=ves.id)
+    doc = Inschrijving(_id=f'v{ves.id}')
 
     doc._display = str(ves)         # pylint: disable=protected-access
     doc.vestigingsnummer = ves.vestigingsnummer
+
+    doc.doctype = 'ves'
 
     doc.hoofdvestiging = ves.hoofdvestiging
 
