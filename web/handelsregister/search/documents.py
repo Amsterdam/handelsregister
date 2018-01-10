@@ -32,48 +32,48 @@ def get_centroid(geom, transform=None):
 
 class MaatschappelijkeActiviteit(es.DocType):
 
-    _display = es.String(index='not_analyzed')
+    _display = es.Text(index='not_analyzed')
 
-    _kvk_display = es.String(index='not_analyzed')
+    _kvk_display = es.Text(index='not_analyzed')
 
-    kvk_nummer = es.String(
+    kvk_nummer = es.Text(
         analyzer=analyzers.autocomplete,
         fields={
-            'raw': es.String(index='not_analyzed')}
+            'raw': es.Text(index='not_analyzed')}
     )
 
-    naam = es.String(
+    naam = es.Text(
         analyzer=analyzers.adres,
         fields={
-            'raw': es.String(index='not_analyzed'),
-            'ngram': es.String(
+            'raw': es.Text(index='not_analyzed'),
+            'ngram': es.Text(
                 analyzer=analyzers.autocomplete, search_analyzer='standard')})
 
     handelsnamen = es.Nested({
         'properties': {
-            'naam': es.String(
+            'naam': es.Text(
                 analyzer=analyzers.adres,
                 fields={
-                    'raw': es.String(index='not_analyzed'),
-                    'ngram': es.String(
+                    'raw': es.Text(index='not_analyzed'),
+                    'ngram': es.Text(
                         analyzer=analyzers.autocomplete,
                         search_analyzer='standard')
                 })
             }
     })
 
-    postadres = es.String(
+    postadres = es.Text(
         analyzer=analyzers.adres,
         fields={
-            'raw': es.String(index='not_analyzed'),
-            'ngram': es.String(
+            'raw': es.Text(index='not_analyzed'),
+            'ngram': es.Text(
                 analyzer=analyzers.autocomplete, search_analyzer='standard')})
 
-    bezoekadres = es.String(
+    bezoekadres = es.Text(
         analyzer=analyzers.adres,
         fields={
-            'raw': es.String(index='not_analyzed'),
-            'ngram': es.String(
+            'raw': es.Text(index='not_analyzed'),
+            'ngram': es.Text(
                 analyzer=analyzers.autocomplete, search_analyzer='standard')})
 
     bezoekadres_correctie = es.Boolean()
@@ -89,14 +89,14 @@ class MaatschappelijkeActiviteit(es.DocType):
 
 class Vestiging(es.DocType):
 
-    _display = es.String(index='not_analyzed')
-    _kvk_display = es.String(index='not_analyzed')
+    _display = es.Text(index='not_analyzed')
+    _kvk_display = es.Text(index='not_analyzed')
 
-    vestigingsnummer = es.String(
+    vestigingsnummer = es.Text(
         analyzer=analyzers.autocomplete,
         fields={
-            'raw': es.String(index='not_analyzed'),
-            'nozero': es.String(analyzer=analyzers.nozero),
+            'raw': es.Text(index='not_analyzed'),
+            'nozero': es.Text(analyzer=analyzers.nozero),
             'int': es.Integer()}
     )
 
@@ -104,50 +104,50 @@ class Vestiging(es.DocType):
 
     sbi = es.Nested({
         'properties': {
-            'code': es.String(
+            'code': es.Text(
                 analyzer=analyzers.autocomplete,
                 fields={
-                    'raw': es.String(index='not_analyzed')}
+                    'raw': es.Text(index='not_analyzed')}
             ),
-            'omschrijving': es.String(),
+            'omschrijving': es.Text(),
             }
         })
 
-    naam = es.String(
+    naam = es.Text(
         analyzer=analyzers.adres,
         fields={
-            'raw': es.String(index='not_analyzed'),
-            'ngram': es.String(
+            'raw': es.Text(index='not_analyzed'),
+            'ngram': es.Text(
                 analyzer=analyzers.autocomplete,
                 search_analyzer='standard')}
         )
 
     handelsnamen = es.Nested({
         'properties': {
-            'naam': es.String(
+            'naam': es.Text(
                 analyzer=analyzers.adres,
                 fields={
-                    'raw': es.String(index='not_analyzed'),
-                    'ngram': es.String(
+                    'raw': es.Text(index='not_analyzed'),
+                    'ngram': es.Text(
                         analyzer=analyzers.autocomplete,
                         search_analyzer='standard')
                 })
             }
     })
 
-    postadres = es.String(
+    postadres = es.Text(
         analyzer=analyzers.adres,
         fields={
-            'raw': es.String(index='not_analyzed'),
-            'ngram': es.String(
+            'raw': es.Text(index='not_analyzed'),
+            'ngram': es.Text(
                 analyzer=analyzers.autocomplete,
                 search_analyzer='standard')})
 
-    bezoekadres = es.String(
+    bezoekadres = es.Text(
         analyzer=analyzers.adres,
         fields={
-            'raw': es.String(index='not_analyzed'),
-            'ngram': es.String(
+            'raw': es.Text(index='not_analyzed'),
+            'ngram': es.Text(
                 analyzer=analyzers.autocomplete,
                 search_analyzer='standard')})
 
