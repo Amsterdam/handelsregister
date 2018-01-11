@@ -1,6 +1,4 @@
 
-import random
-
 # django
 from rest_framework.test import APITestCase
 

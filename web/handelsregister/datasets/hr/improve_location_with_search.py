@@ -6,8 +6,9 @@ location quality of the datasets
 
 """
 
-from gevent import monkey
-monkey.patch_all(thread=False, select=False)
+# NOTE done in manage.py!!
+# from gevent import monkey
+# monkey.patch_all(thread=False, select=False)
 
 import datetime
 import re
@@ -17,12 +18,12 @@ import sys
 import logging
 import time
 
-
 from collections import OrderedDict
 
 from requests import Session
-
 import grequests
+import gevent
+from gevent.lock import BoundedSemaphore
 
 from django.conf import settings
 from django.contrib.gis.geos import GEOSGeometry
@@ -32,6 +33,8 @@ import gevent
 from gevent.queue import JoinableQueue
 
 from .models import Locatie
+
+sem = BoundedSemaphore(1)
 
 log = logging.getLogger(__name__)
 
@@ -514,10 +517,14 @@ class SearchTask():
 
         # Correctie failed
         # save and log empty result result
-        self.locatie.refresh_from_db()
+
+        with sem:
+            self.locatie.refresh_from_db()
+
         if self.locatie.correctie is None:
             self.locatie.correctie = False
-            self.locatie.save()
+            with sem:
+                self.locatie.save()
             self.log_wtf_loc()
 
         return 9999, []
@@ -624,7 +631,8 @@ class SearchTask():
         locatie.query_string = num['_display']
 
         # save the new location
-        locatie.save()
+        with sem:
+            locatie.save()
 
         # update the stats
         STATS['correcties'] += 1
@@ -859,7 +867,8 @@ def create_search_for_addr(loc, addr):
 
     if not straat:
         loc.correctie = False
-        loc.save()
+        with sem:
+            loc.save()
         log.error(addr)
         return
 

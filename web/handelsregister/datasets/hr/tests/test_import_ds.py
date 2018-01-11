@@ -1,12 +1,12 @@
 # Packages
 from django.core.management import call_command
-from django.test import TransactionTestCase
+from django.test import TestCase
 
 from datasets.hr.models import DataSelectie
 from datasets.hr.tests.factories import create_dataselectie_set
 
 
-class DataselectieHrImportTest(TransactionTestCase):
+class DataselectieHrImportTest(TestCase):
     def test_datasel_import(self):
 
         create_dataselectie_set()
@@ -42,6 +42,7 @@ class DataselectieHrImportTest(TransactionTestCase):
         )
         for sub_model in sub_models:
             self.assertIsInstance(row.api_json[sub_model], dict)
+
         self.assertIsInstance(row.api_json['activiteiten'], list)
         self.assertIsInstance(row.api_json['activiteiten'][0], dict)
         self.assertGreaterEqual(len(row.api_json), 1)
