@@ -22,10 +22,11 @@ class BrowseDatasetsTestCase(APITestCase, authorization.AuthorizationSetup):
         a1 = factories_hr.Activiteit.create()
         a2 = factories_hr.Activiteit.create()
 
-        factories_hr.MaatschappelijkeActiviteitFactory.create(
+        mac = factories_hr.MaatschappelijkeActiviteitFactory.create(
             id=900000000000000000,
-            activiteiten=[a1, a2],
         )
+        mac.activiteiten.set([a1, a2])
+
         factories_hr.PersoonFactory.create()
         factories_hr.VestigingFactory.create()
         factories_hr.FunctievervullingFactory.create()

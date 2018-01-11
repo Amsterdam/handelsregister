@@ -1,17 +1,17 @@
 # Packages
 from django.core.management import call_command
-from django.test import TestCase
+from django.test import TransactionTestCase
 
 from datasets.hr.models import DataSelectie
 from datasets.hr.tests.factories import create_dataselectie_set
 
 
-class DataselectieHrImportTest(TestCase):
+class DataselectieHrImportTest(TransactionTestCase):
     def test_datasel_import(self):
 
         create_dataselectie_set()
 
-        call_command('run_import', '--dataselectie', verbosity=0, interactive=False)
+        call_command('run_import', '--dataselectie', verbosity=0)
 
         # this one is always there
 

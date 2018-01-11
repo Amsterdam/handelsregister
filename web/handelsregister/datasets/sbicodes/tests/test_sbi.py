@@ -1,4 +1,3 @@
-
 import logging
 
 from django.test import TestCase
@@ -134,10 +133,11 @@ class ValidateSBICodeTest(TestCase):
 
         # Create a vestiging for each activiteit
         for activiteit in cls.all_activities:
-            hrfactories.VestigingFactory.create(
-                naam=f'test_{activiteit.sbi_code}',
-                activiteiten=[activiteit]
+            vs = hrfactories.VestigingFactory.create(
+                naam=f'test_{activiteit.sbi_code}'
             )
+            vs.activiteiten.set([activiteit])
+            vs.save()
 
     def test_fix_ambiguous_zero(self):
         """
@@ -224,7 +224,6 @@ class ValidateSBICodeTest(TestCase):
         """
 
         needs_fixing = validate_codes.find_activiteiten_with_missing_qa()
-
 
         before = len(needs_fixing)
 

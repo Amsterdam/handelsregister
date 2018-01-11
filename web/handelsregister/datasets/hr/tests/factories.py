@@ -38,17 +38,6 @@ class MaatschappelijkeActiviteitFactory(factory.DjangoModelFactory):
     datum_aanvang = fuzzy.FuzzyDateTime(datetime(1987, 2, 4, tzinfo=pytz.utc))
     eigenaar = factory.SubFactory(PersoonFactory)
 
-    @factory.post_generation
-    def activiteiten(self, create, activiteiten=None, **kwargs):
-        if not create:
-            # Simple build, do nothing.
-            return
-
-        if activiteiten:
-            # A list of groups were passed in, use them
-            for a in activiteiten:
-                self.activiteiten.add(a)
-
 
 class VestigingFactory(factory.DjangoModelFactory):
     class Meta:
@@ -59,24 +48,6 @@ class VestigingFactory(factory.DjangoModelFactory):
     hoofdvestiging = fuzzy.FuzzyChoice(choices=[True, False])
     maatschappelijke_activiteit = factory.SubFactory(
         MaatschappelijkeActiviteitFactory)
-
-    @factory.post_generation
-    def activiteiten(
-            self, create, activiteiten=None,
-            handelsnamen=None, **kwargs):
-
-        if not create:
-            # Simple build, do nothing.
-            return
-
-        # if handelsnamen:
-        #     for h in handelsnamen:
-        #         self.handelsnamen.add(h)
-
-        # if activiteiten:
-        #     # A list of groups were passed in, use them
-        #     for a in activiteiten:
-        #         self.activiteiten.add(a)
 
 
 class LocatieFactory(factory.DjangoModelFactory):
@@ -181,9 +152,10 @@ def create_x_vestigingen(x=5):
                 id='{}0{}'.format(i, v),
                 bezoekadres=loc_b,
                 postadres=loc_p,
-                activiteiten=[a1],
                 maatschappelijke_activiteit=mac
             )
+
+            ves.activiteiten.set([a1])
 
             vestigingen.append(ves)
 
@@ -211,6 +183,7 @@ def create_dataselectie_set():
     load_sbi_codes.build_all_sbi_code_trees()
 
     create_x_vestigingen(x=5)
+
     macs = models.MaatschappelijkeActiviteit.objects.all()
 
     personen = models.Persoon.objects.all()

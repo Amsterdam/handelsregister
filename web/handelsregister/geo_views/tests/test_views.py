@@ -37,16 +37,15 @@ class ViewsTest(TestCase):
         return dict(zip([col[0] for col in cursor.description], result))
 
     def test_vestiging_locaties(self):
-        l = hr_factories.LocatieFactory.create(geometrie=point)
-        # hr_factories.SBIcatFactory.create()
+        locatie = hr_factories.LocatieFactory.create(geometrie=point)
         a1 = hr_factories.Activiteit.create(id='987')
         a2 = hr_factories.Activiteit.create(id='986')
 
         v = hr_factories.VestigingFactory.create(
-            bezoekadres=l,
-            activiteiten=[a1, a2],
+            bezoekadres=locatie,
             vestigingsnummer=99
         )
+        v.activiteiten.set([a1, a2])
 
         build_hr_data.fill_geo_table()
 
