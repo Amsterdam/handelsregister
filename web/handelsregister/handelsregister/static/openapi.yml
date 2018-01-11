@@ -1,0 +1,438 @@
+openapi: 3.0.0
+info:
+  title: Handelsregister API
+  version: ''
+paths:
+  /handelsregister/docs/api-docs/:
+    get:
+      operationId: docs_api-docs_list
+      responses:
+        '200':
+          description: ''
+      parameters: []
+      tags:
+        - docs
+  /handelsregister/functievervulling/:
+    get:
+      operationId: functievervulling_list
+      security:
+        - OAuth2:
+            - HR/R
+      responses:
+        '200':
+          description: ''
+      parameters:
+        - name: page
+          required: false
+          in: query
+        - name: page_size
+          required: false
+          in: query
+        - name: heeft_aansprakelijke
+          required: false
+          in: query
+        - name: is_aansprakelijke
+          required: false
+          in: query
+      description: |-
+        Functievervulling (FVV)
+
+        Een Functievervulling is een vervulling door een Persoon van een functie
+        voor een Persoon. Een Functievervulling geeft de relatie weer van de
+        Persoon als functionaris en de Persoon als eigenaar van de
+        Onderneming of MaatschappelijkeActiviteit.
+      summary: Functievervulling (FVV)
+      tags:
+        - functievervulling
+  '/handelsregister/functievervulling/{id}/':
+    get:
+      operationId: functievervulling_read
+      security:
+        - OAuth2:
+            - HR/R
+      responses:
+        '200':
+          description: ''
+      parameters:
+        - name: id
+          required: true
+          in: path
+      description: |-
+        Functievervulling (FVV)
+
+        Een Functievervulling is een vervulling door een Persoon van een functie
+        voor een Persoon. Een Functievervulling geeft de relatie weer van de
+        Persoon als functionaris en de Persoon als eigenaar van de
+        Onderneming of MaatschappelijkeActiviteit.
+      summary: Functievervulling (FVV)
+      tags:
+        - functievervulling
+  /handelsregister/geosearch/:
+    get:
+      operationId: geosearch_list
+      security:
+        - OAuth2:
+            - HR/R
+      responses:
+        '200':
+          description: ''
+      parameters: []
+      description: >-
+        Given a query parameter `item`, `lat/lon` or `x/y combo` and optional
+        `radius` parameter
+
+        this function returns a subset of vestigingen.
+      summary: >-
+        Given a query parameter `item`, `lat/lon` or `x/y combo` and optional
+        `radius` parameter
+      tags:
+        - geosearch
+  /handelsregister/maatschappelijkeactiviteit/:
+    get:
+      operationId: maatschappelijkeactiviteit_list
+      security:
+        - OAuth2:
+            - HR/R
+      responses:
+        '200':
+          description: ''
+      parameters:
+        - name: page
+          required: false
+          in: query
+        - name: page_size
+          required: false
+          in: query
+        - name: eigenaar
+          required: false
+          in: query
+        - name: naam
+          required: false
+          in: query
+        - name: bezoekadres__correctie
+          required: false
+          in: query
+        - name: eigenaar__faillissement
+          required: false
+          in: query
+      description: |-
+        Maatschappelijke Activiteit (MAC)
+
+        Een MaatschappelijkeActiviteit is de activiteit van een
+        NatuurlijkPersoon of NietNatuurlijkPersoon. De
+        MaatschappelijkeActiviteit is het totaal van alle activiteiten
+        uitgeoefend door een NatuurlijkPersoon of een NietNatuurlijkPersoon.
+        Een MaatschappelijkeActiviteit kan ook als Onderneming voorkomen.
+      summary: Maatschappelijke Activiteit (MAC)
+      tags:
+        - maatschappelijkeactiviteit
+  '/handelsregister/maatschappelijkeactiviteit/{kvk_nummer}/':
+    get:
+      operationId: maatschappelijkeactiviteit_read
+      security:
+        - OAuth2:
+            - HR/R
+      responses:
+        '200':
+          description: ''
+      parameters:
+        - name: kvk_nummer
+          required: true
+          in: path
+      description: |-
+        Maatschappelijke Activiteit (MAC)
+
+        Een MaatschappelijkeActiviteit is de activiteit van een
+        NatuurlijkPersoon of NietNatuurlijkPersoon. De
+        MaatschappelijkeActiviteit is het totaal van alle activiteiten
+        uitgeoefend door een NatuurlijkPersoon of een NietNatuurlijkPersoon.
+        Een MaatschappelijkeActiviteit kan ook als Onderneming voorkomen.
+      summary: Maatschappelijke Activiteit (MAC)
+      tags:
+        - maatschappelijkeactiviteit
+  /handelsregister/persoon/:
+    get:
+      operationId: persoon_list
+      security:
+        - OAuth2:
+            - HR/R
+      responses:
+        '200':
+          description: ''
+      parameters:
+        - name: page
+          required: false
+          in: query
+        - name: page_size
+          required: false
+          in: query
+        - name: typering
+          required: false
+          in: query
+        - name: naam
+          required: false
+          in: query
+        - name: soort
+          required: false
+          in: query
+        - name: niet_natuurlijkpersoon__rsin
+          required: false
+          in: query
+      description: >-
+        Persoon (PRS)
+
+
+        Een Persoon is een ieder die rechten en plichten kan hebben. Persoon
+
+        wordt gebruikt als overkoepelend begrip (een verzamelnaam voor
+
+        NatuurlijkPersoon, NietNatuurlijkPersoon en NaamPersoon) om er over
+
+        te kunnen communiceren. Iedere in het handelsregister voorkomende
+        Persoon
+
+        heeft ofwel een Eigenaarschap en/ of minstens één Functievervulling
+
+        waarmee de rol van de Persoon is vastgelegd.
+      summary: Persoon (PRS)
+      tags:
+        - persoon
+  '/handelsregister/persoon/{id}/':
+    get:
+      operationId: persoon_read
+      security:
+        - OAuth2:
+            - HR/R
+      responses:
+        '200':
+          description: ''
+      parameters:
+        - name: id
+          required: true
+          in: path
+      description: >-
+        Persoon (PRS)
+
+
+        Een Persoon is een ieder die rechten en plichten kan hebben. Persoon
+
+        wordt gebruikt als overkoepelend begrip (een verzamelnaam voor
+
+        NatuurlijkPersoon, NietNatuurlijkPersoon en NaamPersoon) om er over
+
+        te kunnen communiceren. Iedere in het handelsregister voorkomende
+        Persoon
+
+        heeft ofwel een Eigenaarschap en/ of minstens één Functievervulling
+
+        waarmee de rol van de Persoon is vastgelegd.
+      summary: Persoon (PRS)
+      tags:
+        - persoon
+  /handelsregister/search/inschrijving/:
+    get:
+      operationId: search_inschrijving_list
+      security:
+        - OAuth2:
+            - HR/R
+      responses:
+        '200':
+          description: ''
+      parameters:
+        - name: q
+          in: query
+      description: Create a response list
+      summary: Create a response list
+      tags:
+        - search
+  /handelsregister/search/maatschappelijkeactiviteit/:
+    get:
+      operationId: search_maatschappelijkeactiviteit_list
+      security:
+        - OAuth2:
+            - HR/R
+      responses:
+        '200':
+          description: ''
+      parameters:
+        - name: q
+          in: query
+      description: Create a response list
+      summary: Create a response list
+      tags:
+        - search
+  /handelsregister/search/vestiging/:
+    get:
+      operationId: search_vestiging_list
+      security:
+        - OAuth2:
+            - HR/R
+      responses:
+        '200':
+          description: ''
+      parameters:
+        - name: q
+          in: query
+      description: Create a response list
+      summary: Create a response list
+      tags:
+        - search
+  /handelsregister/typeahead/:
+    get:
+      operationId: typeahead_list
+      security:
+        - OAuth2:
+            - HR/R
+      responses:
+        '200':
+          description: ''
+      parameters: []
+      description: Returns matching result options
+      summary: Returns matching result options
+      tags:
+        - typeahead
+  /handelsregister/vestiging/:
+    get:
+      operationId: vestiging_list
+      security:
+        - OAuth2:
+            - HR/R
+      responses:
+        '200':
+          description: ''
+      parameters:
+        - name: page
+          required: false
+          in: query
+        - name: page_size
+          required: false
+          in: query
+        - name: maatschappelijke_activiteit
+          required: false
+          in: query
+        - name: maatschappelijke_activiteit__eigenaar__faillissement
+          required: false
+          in: query
+        - name: nummeraanduiding
+          required: false
+          in: query
+        - name: verblijfsobject
+          required: false
+          in: query
+        - name: pand
+          required: false
+          in: query
+        - name: kadastraal_object
+          required: false
+          in: query
+        - name: bezoekadres__bag_numid
+          required: false
+          in: query
+        - name: bezoekadres__correctie
+          required: false
+          in: query
+        - name: maatschappelijke_activiteit__eigenaar_faillissement
+          required: false
+          in: query
+      description: >-
+        Vestiging (VES)
+
+
+        Een Vestiging is gebouw of een complex van gebouwen waar duurzame
+
+        uitoefening van activiteiten van een Onderneming of Rechtspersoon
+
+        plaatsvindt. De vestiging is een combinatie van Activiteiten en
+
+        Locatie.
+
+
+        Filteren is mogelijk op:
+
+
+        maatschappelijke_activiteit
+
+        nummeraanduiding
+
+        verblijfsobject
+
+        bezoekadres__bag_numid
+
+        pand
+
+
+        Zoeken op landelijk pand id van de Waag op de nieuwmarkt voorbeeld:
+
+
+        [https://acc.api.data.amsterdam.nl/handelsregister/vestiging/?pand=0363100012171850](https://acc.api.data.amsterdam.nl/handelsregister/vestiging/?pand=0363100012171850)
+
+
+        Zoeken op kadastraal object id voorbeeld:
+
+
+        [https://acc.api.data.amsterdam.nl/handelsregister/vestiging/?kadastraal_object=NL.KAD.OnroerendeZaak.11450749270000](https://acc.api.data.amsterdam.nl/handelsregister/vestiging/?kadastraal_object=NL.KAD.OnroerendeZaak.11450749270000)
+      summary: Vestiging (VES)
+      tags:
+        - vestiging
+  '/handelsregister/vestiging/{vestigingsnummer}/':
+    get:
+      operationId: vestiging_read
+      security:
+        - OAuth2:
+            - HR/R
+      responses:
+        '200':
+          description: ''
+      parameters:
+        - name: vestigingsnummer
+          required: true
+          in: path
+      description: >-
+        Vestiging (VES)
+
+
+        Een Vestiging is gebouw of een complex van gebouwen waar duurzame
+
+        uitoefening van activiteiten van een Onderneming of Rechtspersoon
+
+        plaatsvindt. De vestiging is een combinatie van Activiteiten en
+
+        Locatie.
+
+
+        Filteren is mogelijk op:
+
+
+        maatschappelijke_activiteit
+
+        nummeraanduiding
+
+        verblijfsobject
+
+        bezoekadres__bag_numid
+
+        pand
+
+
+        Zoeken op landelijk pand id van de Waag op de nieuwmarkt voorbeeld:
+
+
+        [https://acc.api.data.amsterdam.nl/handelsregister/vestiging/?pand=0363100012171850](https://acc.api.data.amsterdam.nl/handelsregister/vestiging/?pand=0363100012171850)
+
+
+        Zoeken op kadastraal object id voorbeeld:
+
+
+        [https://acc.api.data.amsterdam.nl/handelsregister/vestiging/?kadastraal_object=NL.KAD.OnroerendeZaak.11450749270000](https://acc.api.data.amsterdam.nl/handelsregister/vestiging/?kadastraal_object=NL.KAD.OnroerendeZaak.11450749270000)
+      summary: Vestiging (VES)
+      tags:
+        - vestiging
+components:
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: '/oauth2/authorize'
+          scopes:
+            HR/R: Read permissions

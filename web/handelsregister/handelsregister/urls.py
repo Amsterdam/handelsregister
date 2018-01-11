@@ -19,11 +19,11 @@ import operator
 
 from django.conf import settings
 from django.conf.urls import url, include
-from django.views.generic.base import TemplateView
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+
 from rest_framework import routers, renderers, schemas, response
 from rest_framework.decorators import api_view, renderer_classes
 from rest_framework_swagger.renderers import OpenAPIRenderer
-from rest_framework_swagger.renderers import SwaggerUIRenderer
 
 from datasets.hr import views as hr_views
 from search import views as search_views
@@ -155,26 +155,12 @@ def hr_schema_view(request):
     return response.Response(generator.get_schema(request=request))
 
 
-class OpenAPIView(TemplateView):
-
-    template_name = "openapi.yml"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        host = self.request.META['HTTP_HOST']
-        if host.startswith('localhost'):
-            context['apihost'] = 'http://' + host
-            context['oauth2host'] = 'http://localhost:8686'
-        else:
-            context['apihost'] = 'https://' + host
-            context['oauth2host'] = 'https://' + host
-
 urlpatterns = [
-                  url('^handelsregister/docs/openapi.yml', OpenAPIView.as_view()),
                   url('^handelsregister/docs/api-docs/$', hr_schema_view),
               ] + [url for pattern_list in grouped_url_patterns.values()
                    for url in pattern_list]
 
+urlpatterns += staticfiles_urlpatterns()
 
 if settings.DEBUG:
     import debug_toolbar
