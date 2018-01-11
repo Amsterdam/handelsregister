@@ -19,11 +19,11 @@ import operator
 
 from django.conf import settings
 from django.conf.urls import url, include
-from django.views.generic.base import TemplateView
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+
 from rest_framework import routers, renderers, schemas, response
 from rest_framework.decorators import api_view, renderer_classes
 from rest_framework_swagger.renderers import OpenAPIRenderer
-from rest_framework_swagger.renderers import SwaggerUIRenderer
 
 from datasets.hr import views as hr_views
 from search import views as search_views
@@ -160,6 +160,7 @@ urlpatterns = [
               ] + [url for pattern_list in grouped_url_patterns.values()
                    for url in pattern_list]
 
+urlpatterns += staticfiles_urlpatterns()
 
 if settings.DEBUG:
     import debug_toolbar

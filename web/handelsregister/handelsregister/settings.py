@@ -309,7 +309,7 @@ SWAGGER_SETTINGS = {
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = '/handelsregister/static/'
 
 STATIC_ROOT = '/static/'
 
@@ -344,7 +344,7 @@ JWKS_TEST_KEY = """
 DATAPUNT_AUTHZ = {
     'JWKS': os.getenv('PUB_JWKS', JWKS_TEST_KEY),
     'MIN_SCOPE': authorization_levels.SCOPE_HR_R,
-    'FORCED_ANONYMOUS_ROUTES': ('/status/', '/handelsregister/docs/')
+    'FORCED_ANONYMOUS_ROUTES': ('/status/', '/handelsregister/static/', '/handelsregister/docs/')
 }
 
 LOGGING = {
