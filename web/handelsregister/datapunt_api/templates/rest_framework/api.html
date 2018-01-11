@@ -1,6 +1,8 @@
 {% extends "rest_framework/base.html" %}
 
-{% block title %}Datapunt: City Data API{% endblock %}
+{% load staticfiles %}
+
+{% block title %}Datapunt: Atlas API{% endblock %}
 
 {% block branding %}
     <a class='navbar-brand' rel="nofollow" href='/'>
@@ -9,7 +11,8 @@
 {% endblock %}
 
 {% block bootstrap_theme %}
-    <link rel="stylesheet" href="/static/datapunt_api/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href={% static "datapunt_api/bootstrap.min.css" %} type="text/css">
+    <link rel="stylesheet" href={% static "datapunt_api/datapunt.css" %} type="text/css">
 {% endblock %}
 
 {% block description %}

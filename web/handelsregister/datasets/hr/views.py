@@ -9,7 +9,7 @@ from django.conf import settings
 from django_filters.rest_framework import filters
 from django_filters.rest_framework import FilterSet
 
-from datapunt import rest
+from datapunt_api import rest
 from . import models
 from . import serializers
 

@@ -120,13 +120,6 @@ PARTIAL_IMPORT = {
     'denominator': 1,
 }
 
-PROJECT_APPS = [
-    'handelsregister',
-    'datasets.kvkdump',
-    'datasets.hr',
-    'datasets.sbicodes',
-    'geo_views',
-]
 
 DATAPUNT_API_URL = os.getenv(
     # note the ending /
@@ -134,7 +127,14 @@ DATAPUNT_API_URL = os.getenv(
 
 
 # Application definition
-INSTALLED_APPS = PROJECT_APPS + [
+INSTALLED_APPS = [
+    'datapunt_api',
+    'handelsregister',
+    'datasets.kvkdump',
+    'datasets.hr',
+    'datasets.sbicodes',
+    'geo_views',
+
     'django.contrib.contenttypes',
     'django.contrib.staticfiles',
     'django_filters',

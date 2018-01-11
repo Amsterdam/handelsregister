@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from rest_framework.reverse import reverse
 
-from datapunt import rest
+from datapunt_api import rest
 from datasets.sbicodes import models as sbimodels
 
 from . import models

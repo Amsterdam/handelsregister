@@ -5,13 +5,6 @@ ENV PYTHONUNBUFFERED 1
 
 EXPOSE 8000
 
-RUN apt-get install -y \
-	gdal-bin \
-	libgeos-dev \
-	&& apt-get clean \
-	&& rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
-
 RUN adduser --system datapunt \
 	&& mkdir -p /static \
 	&& chown datapunt /static \
