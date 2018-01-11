@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 
 import logging
-from gevent import monkey
-monkey.patch_all(thread=False, select=True)
 
 import os
 import sys
