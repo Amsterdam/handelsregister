@@ -92,6 +92,7 @@ class SearchTest(APITestCase, authorization.AuthorizationSetup):
         """
         search_endpoints = [
             '/handelsregister/typeahead/',
+            '/handelsregister/search/inschrijving/',
             '/handelsregister/search/vestiging/',
             '/handelsregister/search/maatschappelijkeactiviteit/',
             '/handelsregister/geosearch/',

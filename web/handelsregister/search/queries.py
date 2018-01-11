@@ -77,18 +77,23 @@ class ElasticQueryWrapper(object):
         return search
 
 
-def vestiging_query(analyzer: InputQAnalyzer) -> ElasticQueryWrapper:
+def inschrijvingen_query(
+        analyzer: InputQAnalyzer, doctype=None) -> ElasticQueryWrapper:
     """ Create query/aggregation for vestiging search"""
     # vestigings nummer or handelsnaam
     vesid = analyzer.get_id()
+    kvknummer = analyzer.get_id()
     handelsnaam = analyzer.get_handelsnaam()
+    must = []
 
-    must = [Q('term', doctype='ves')]
+    if doctype:
+        must = [Q('term', doctype=doctype)]
 
     sort_fields = ['_score']
     # sort_fields = ['_display']
 
     min_match = 1
+
     should = [
         Q(
             'multi_match',
@@ -102,6 +107,9 @@ def vestiging_query(analyzer: InputQAnalyzer) -> ElasticQueryWrapper:
                 "naam.raw",
             ]
         ),
+
+        Q('prefix', naam=handelsnaam),
+
         # Nested handelsnamen
         Q(
             "nested",
@@ -122,82 +130,15 @@ def vestiging_query(analyzer: InputQAnalyzer) -> ElasticQueryWrapper:
         )
     ]
 
-    if vesid:
+    if vesid or kvknummer:
         # must.append(Q('prefix', vestigingsnummer=vesid))
         should = [
             # {"prefix": {"vestigingsnummer.nozero": vesid}},
             Q('prefix', vestigingsnummer__nozero=vesid),
-            Q('prefix', vestigingsnummer=vesid)
+            Q('prefix', vestigingsnummer=vesid),
+            Q('prefix', kvk_nummer=kvknummer)
         ]
         min_match = 1
-
-    return ElasticQueryWrapper(
-        query=Q(
-            'bool',
-            must=must,
-            should=should,
-            minimum_should_match=min_match),
-        sort_fields=sort_fields,
-        indexes=[HR],
-        size=10,
-    )
-
-
-def mac_query(analyzer: InputQAnalyzer) -> ElasticQueryWrapper:
-    """ Create query/aggregation for vestiging search"""
-    # vestigings nummer or handelsnaam
-    kvknummer = analyzer.get_id()
-
-    handelsnaam = analyzer.get_handelsnaam()
-
-    must = [Q('term', doctype='mac')]
-
-    min_match = 1
-    should = [
-        # naam
-        Q(
-            'multi_match',
-            slop=12,
-            max_expansions=12,
-            query=handelsnaam,
-            type='phrase_prefix',
-            fields=[
-                "naam",
-                "naam.ngram",
-                "naam.raw"
-            ]
-        ),
-
-        Q('prefix', naam=handelsnaam),
-
-        # Nested handelsnamen
-        Q(
-            "nested",
-            path="handelsnamen",
-            score_mode="max",
-            query=Q(
-                'multi_match',
-                slop=12,
-                max_expansions=12,
-                query=handelsnaam,
-                type='phrase_prefix',
-                fields=[
-                    "handelsnamen.naam",
-                    "handelsnamen.naam.ngram",
-                    "naam.raw",
-                ]
-            )
-        )
-    ]
-
-    if kvknummer:
-        # must.append(Q('prefix', kvk_nummer=kvknummer))
-        should = [Q('prefix', kvk_nummer=kvknummer)]
-        min_match = 1
-
-    # sort_fields = ['_display']
-    # straatnaam huisnummer??
-    sort_fields = ['_score']
 
     return ElasticQueryWrapper(
         query=Q(

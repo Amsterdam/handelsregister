@@ -1,7 +1,7 @@
-# typeahead and Searchviews
+# typeahead and Searchviews (Elasticsearch)
+# and someone put geosearch in here ... :(
 
 import json
-#import string
 
 import logging
 from collections import OrderedDict
@@ -17,8 +17,7 @@ from rest_framework import viewsets, metadata
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 
-from search.queries import vestiging_query
-from search.queries import mac_query
+from search.queries import inschrijvingen_query
 from search.geo_params import get_request_coord
 
 
@@ -33,8 +32,8 @@ _details = {
 
 
 _type_mapping = {
-    'vestiging': 'Vestigingen',
-    'maatschappelijke_activiteit': 'Maatschappelijke activiteiten'
+    'ves': 'Vestigingen',
+    'mac': 'Maatschappelijke activiteiten'
 }
 
 
@@ -140,8 +139,9 @@ class TypeaheadViewSet(viewsets.ViewSet):
         analyzer = InputQAnalyzer(query_string)
 
         query_components = [
-            vestiging_query(analyzer),
-            mac_query(analyzer)
+            inschrijvingen_query(analyzer)
+            # vestiging_query(analyzer),
+            # mac_query(analyzer)
         ]
 
         result_data = []
@@ -157,7 +157,7 @@ class TypeaheadViewSet(viewsets.ViewSet):
             # get the result from elastic
             try:
                 result = search.execute(ignore_cache=ignore_cache)
-            except:
+            except(TransportError):
                 log.exception(
                     'FAILED ELK SEARCH: %s',
                     json.dumps(search.to_dict(), indent=2))
@@ -181,7 +181,7 @@ class TypeaheadViewSet(viewsets.ViewSet):
         result_groups = defaultdict(list)
 
         for hit in flat_results:
-            group = _type_mapping[hit.meta.doc_type]
+            group = _type_mapping[hit.doctype]
             result_groups[group].append({
                 '_display': hit._display,
                 'uri': self._get_uri(request, hit)
@@ -374,7 +374,7 @@ class SearchVestigingViewSet(SearchViewSet):
         """
         Execute search on Subject
         """
-        search = vestiging_query(analyzer)\
+        search = inschrijvingen_query(analyzer, doctype='ves')\
             .to_elasticsearch_object(client)
         return search
 
@@ -391,14 +391,31 @@ class SearchMacViewSet(SearchViewSet):
         """
         Execute search on Subject
         """
-        search = mac_query(analyzer).to_elasticsearch_object(client)
+        search = inschrijvingen_query(
+            analyzer, doctype='mac').to_elasticsearch_object(client)
+        return search
+
+
+class SearchInschrijvingen(SearchViewSet):
+    """
+    Given a query parameter `q`, this function returns a subset of all
+    maatschappelijke activiteit objects that match the elastic search query.
+    """
+
+    url_name = 'search/inschrijvingen-list'
+
+    def search_query(self, client, analyzer: InputQAnalyzer) -> Search:
+        """
+        Execute search on Subject
+        """
+        search = inschrijvingen_query(analyzer).to_elasticsearch_object(client)
         return search
 
 
 class GeoSearchViewSet(viewsets.ViewSet):
     """
-    Given a query parameter `item`, `lat/lon` or `x/y combo` and optional `radius` parameter
-     this function returns a subset of vestigingen.
+    Given a query parameter `item`, `lat/lon` or `x/y combo` and
+    optional `radius` parameter this function returns a subset of vestigingen.
     """
     url_name = 'geosearch'
 
@@ -414,16 +431,26 @@ class GeoSearchViewSet(viewsets.ViewSet):
         if not x or not y:
             return Response([])
 
-        radius = request.query_params['radius'] if 'radius' in request.query_params else 30
+        radius = 30
+        if 'radius' in request.query_params:
+            radius = request.query_params['radius']
+
         features = self.run_query(hr_item, x, y, radius)
 
         return Response({"features": features})
 
     def run_query(self, view, x, y, radius):
         sql = f"""
-SELECT DISTINCT naam as display, uri, 'handelsregister/vestiging' as type, ST_Distance(geometrie, ST_GeomFromText(\'POINT(%s %s)\', 28992)) as distance
+SELECT DISTINCT
+    naam as display,
+    uri,
+    'handelsregister/vestiging' as type,
+    ST_Distance(
+        geometrie, ST_GeomFromText(\'POINT(%s %s)\', 28992)) as distance
 FROM geo_hr_vestiging_locaties_{view}
-WHERE ST_DWithin(geometrie, ST_GeomFromText(\'POINT(%s %s)\', 28992), %s)
+WHERE ST_DWithin(
+    geometrie,
+    ST_GeomFromText(\'POINT(%s %s)\', 28992), %s)
 ORDER BY distance """
 
         results = []

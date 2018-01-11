@@ -116,10 +116,16 @@ typeahead.register(
 search.register(
     r'vestiging',
     search_views.SearchVestigingViewSet, base_name='search/vestiging')
+
 search.register(
     r'maatschappelijkeactiviteit',
     search_views.SearchMacViewSet,
     base_name='search/maatschappelijke_activiteit')
+
+search.register(
+    r'inschrijving',
+    search_views.SearchVestigingViewSet, base_name='search/inschrijving')
+
 
 geosearch.register(
     r'', search_views.GeoSearchViewSet, base_name='geosearch')

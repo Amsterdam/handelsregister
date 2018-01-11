@@ -36,6 +36,8 @@ class Inschrijving(es.DocType):
 
     _kvk_display = es.Keyword()
 
+    doctype = es.Keyword()
+
     kvk_nummer = es.Text(
         analyzer=analyzers.autocomplete,
         fields={
