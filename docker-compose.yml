@@ -37,7 +37,7 @@ services:
       UWSGI_MODULE: "handelsregister.wsgi:application"
       UWSGI_PROCESSES: 4
       UWSGI_MASTER: 1
-      UWSGI_STATIC_MAP: "/static=/static"
+      UWSGI_STATIC_MAP: "/handelsregister/static=/static"
       UWSGI_OFFLOAD_THREADS: 1
       UWSGI_VACUUM: 1
       UWSGI_HARAKIRI: 15
