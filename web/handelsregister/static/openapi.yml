@@ -2,9 +2,6 @@ openapi: 3.0.0
 info:
   title: Handelsregister API
   version: ''
-servers:
-  - url: '{{ apihost }}'
-    description: Testing service
 paths:
   /handelsregister/docs/api-docs/:
     get:
@@ -241,7 +238,9 @@ paths:
       responses:
         '200':
           description: ''
-      parameters: []
+      parameters:
+        - name: q
+          in: query
       description: Create a response list
       summary: Create a response list
       tags:
@@ -255,7 +254,9 @@ paths:
       responses:
         '200':
           description: ''
-      parameters: []
+      parameters:
+        - name: q
+          in: query
       description: Create a response list
       summary: Create a response list
       tags:
@@ -269,7 +270,9 @@ paths:
       responses:
         '200':
           description: ''
-      parameters: []
+      parameters:
+        - name: q
+          in: query
       description: Create a response list
       summary: Create a response list
       tags:
@@ -430,6 +433,6 @@ components:
       type: oauth2
       flows:
         implicit:
-          authorizationUrl: '{{ oauth2host }}/oauth2/authorize'
+          authorizationUrl: '/oauth2/authorize'
           scopes:
             HR/R: Read permissions
