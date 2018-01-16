@@ -20,4 +20,4 @@ services:
       DATABASE_USER: handelsregister
       DATABASE_PASSWORD: insecure
     command: >
-          bash -c "./docker-wait.sh && ./docker-test.sh"
+          curl --v https://google.com
