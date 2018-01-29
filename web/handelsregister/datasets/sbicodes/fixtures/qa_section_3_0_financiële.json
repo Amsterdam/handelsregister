@@ -90,9 +90,14 @@
   "Title": "Spaarkassen"
  },
  {
-  "Code": "6512",
+  "Code": "65121",
   "Score": 0.95,
-  "Title": "Schadeverzekeringen (geen herverzekering)"
+  "Title": "Schadeverzekingen (geen zorgverzekering)"
+ },
+ {
+  "Code": "65122",
+  "Score": 0.95,
+  "Title": "Zorgverzekeringen"
  },
  {
   "Code": "6520",

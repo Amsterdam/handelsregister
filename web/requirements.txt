@@ -84,7 +84,6 @@ sphinx-me==0.3
 sqlparse==0.2.4
 stevedore==1.28.0
 text-unidecode==1.1
-tqdm==4.19.5
 typing==3.6.2
 unicodecsv==0.14.1
 uritemplate==3.0.0
