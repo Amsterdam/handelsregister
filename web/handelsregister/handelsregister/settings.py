@@ -388,9 +388,9 @@ LOGGING = {
             'level': 'ERROR',
         },
 
-        'improve_location_with_search': {
+        'datasets.hr.improve_location_with_search': {
             'handlers': ['console'],
-            'level': 'DEBUG',
+            'level': 'INFO',
         },
         # Debug all batch jobs
         'doc': {

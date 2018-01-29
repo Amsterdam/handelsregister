@@ -298,9 +298,10 @@ class SearchTask():
         # Do something with the result count?
 
         if not async_r.response:
+            log.error('NO RESPONSE %s %s', url, parameters)
             return {}
         elif async_r.response.status_code == 404:
-            log.error(parameters)
+            log.error('404 %s %s', url, parameters)
             return {}
 
         result_json = async_r.response.json()

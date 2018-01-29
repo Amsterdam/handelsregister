@@ -28,7 +28,7 @@ python manage.py run_import --cbs_sbi
 python manage.py run_import --cbs_sbi_validate
 
 # autocorrect locations fields with search resultaten
-python manage.py run_import --search
+python manage_gevent.py run_import --search
 
 # create geoviews
 python manage.py run_import --geovestigingen
