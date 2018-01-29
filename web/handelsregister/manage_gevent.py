@@ -2,7 +2,7 @@
 
 import logging
 from gevent import monkey
-monkey.patch_all(thread=True, select=True)
+monkey.patch_all(thread=False, select=True)
 
 import os
 import sys
