@@ -388,6 +388,10 @@ LOGGING = {
             'level': 'ERROR',
         },
 
+        'improve_location_with_search': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+        },
         # Debug all batch jobs
         'doc': {
             'handlers': ['console'],

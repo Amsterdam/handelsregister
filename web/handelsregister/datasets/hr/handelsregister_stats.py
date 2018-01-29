@@ -124,8 +124,8 @@ def check_geo_table_target_counts():
 def check_table_counts(table_data):
     for target, table in table_data:
         count = sql_count(table)
-        if count < target - 5000 and count > 0:
-            LOG.debug(
+        if count < target - 5000 or count == 0:
+            LOG.error(
                 'Table Count Mismatch. %s %s is not around %s',
                 table, count, target
             )

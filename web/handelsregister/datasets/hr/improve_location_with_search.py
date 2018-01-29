@@ -6,7 +6,7 @@ location quality of the datasets
 
 """
 
-# NOTE done in manage.py!!
+# NOTE BELOW MUST BE done in manage_gevent.py!!
 # from gevent import monkey
 # monkey.patch_all(thread=False, select=False)
 
@@ -38,7 +38,7 @@ sem = BoundedSemaphore(1)
 
 log = logging.getLogger(__name__)
 
-SEARCHES_QUEUE = JoinableQueue(maxsize=500)
+SEARCHES_QUEUE = JoinableQueue(maxsize=1500)
 
 # TO see step by step what search does.
 SLOW = False
@@ -885,10 +885,12 @@ def create_search_for_addr(loc, addr):
     # generate the most relevant huisnummer for this adres
     # also take in account the most relevant neighbours
 
-    search_data = [loc, query_string,
-                   straat, huisnummers, toevoegingen, postcode]
+    search_data = [
+       loc, query_string,
+       straat, huisnummers, toevoegingen, postcode]
 
     SEARCHES_QUEUE.put(search_data)
+
     return search_data
 
 
@@ -917,15 +919,44 @@ def create_qs_of_invalid_locations(gemeente):
     )
 
 
+def wait_for_filled_queue():
+
+    with gevent.Timeout(5, False):
+        # give worker some time
+        # to add search cases
+        while True:
+            if SEARCHES_QUEUE.empty():
+                gevent.sleep(1.5)
+            else:
+                break
+
+
+def run_workers(jobs):
+    """
+    Run X workers processing search tasks
+    """
+
+    for _ in range(WORKERS):
+        jobs.append(
+            gevent.spawn(async_determine_rd_coordinates)
+        )
+
+    with gevent.Timeout(3600, False):
+        # waint untill all search tasks are done
+        # but no longer than an hour
+        gevent.joinall(jobs)
+
+
 def guess():
     """
-    Do an search on street housenumber part of volledig adres and try to
-    find geo_point
+    Do an search on street housenumber part
+    of full adress and try to find geo_point (rd)
     """
     log.debug('Start Finding and correcting incomplete adresses...')
     status_job = gevent.spawn(fix_counter)
 
     for gemeente in GEMEENTEN:
+
         invalid_locations = create_qs_of_invalid_locations(gemeente)
 
         if SLOW:
@@ -940,20 +971,16 @@ def guess():
         STATS['total'] = count + 1  # prevent devide by zero errors
 
         STATS['onbekend'] = 0
+
         log.debug('\n Processing gemeente {} {} \n'.format(gemeente, count))
 
+        #
         jobs = [gevent.spawn(
             create_improve_locations_tasks, invalid_locations)]
 
-        for _ in range(WORKERS):
-            jobs.append(
-                gevent.spawn(async_determine_rd_coordinates))
+        wait_for_filled_queue()
 
-        with gevent.Timeout(3600, False):
-            # waint untill all search tasks are done
-            # but no longer than an hour
-            gevent.joinall(jobs)
-
+        run_workers(jobs)
         # store corrections for each gemeente
         STATS[gemeente] = STATS['correcties']
 
@@ -968,6 +995,7 @@ def guess():
         assert invalid_locations.count() < 800
 
     status_job.kill()
+
     # log end result
     for gemeente in GEMEENTEN:
         if gemeente not in STATS:
@@ -1002,11 +1030,8 @@ def test_one_weird_one(test="", target=""):
 
     options = alternative_qs(query_string)
 
-    print(options)
-
     for alternative_addr in options:
         search_data = create_search_for_addr(loc, alternative_addr)
-        print(search_data)
 
     # fix it
     async_determine_rd_coordinates()
@@ -1024,8 +1049,6 @@ def test_one_weird_one(test="", target=""):
     {test_ok}
 
     """
-
-    print(result)
 
     return test_ok
 
