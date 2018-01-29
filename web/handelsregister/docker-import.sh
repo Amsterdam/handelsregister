@@ -34,7 +34,11 @@ python manage_gevent.py run_import --search
 python manage.py run_import --geovestigingen
 
 # create dataselectie
-python manage.py run_import --dataselectie
+python manage.py run_import --dataselectie --partial=3/3 &
+python manage.py run_import --dataselectie --partial=2/3 &
+python manage.py run_import --dataselectie --partial=1/3
+
+
 
 # validate that all tables contain values
 # and enough counts

@@ -44,6 +44,7 @@ def get_maatschappelijke_activiteiten() -> object:
         .select_related('eigenaar')
         .select_related('onderneming')
         .prefetch_related('communicatiegegevens')
+        .order_by('id')
     )
 
     qs_p = (
@@ -56,7 +57,7 @@ def get_maatschappelijke_activiteiten() -> object:
     return qs_p | qs_b
 
 
-def chunck_qs_by_id(qs, chuncks=1000):
+def chunck_qs_by_id(qs, chuncks=5000):
     """
     Determine ID range, chunck up range.
     """
@@ -89,7 +90,7 @@ def return_qs_parts(qs, modulo, modulo_value):
         modulo i % 3 == 1
     """
 
-    steps = chunck_qs_by_id(qs, 1000)
+    steps = chunck_qs_by_id(qs, 5000)
 
     for i in range(len(steps)-1):
         if not i % modulo == modulo_value:
@@ -97,8 +98,9 @@ def return_qs_parts(qs, modulo, modulo_value):
         start_id = steps[i]
         end_id = steps[i+1]
         qs_s = qs.filter(id__gte=start_id).filter(id__lt=end_id)
-        log.debug('Count: %s range %s %s', qs_s.count(), start_id, end_id)
-        yield qs_s
+        count = qs_s.count()
+        log.debug('Count: %s range %s %s', count, start_id, end_id)
+        yield qs_s, count
 
 
 def store_json_data(qs):
@@ -155,8 +157,7 @@ def store_qs_data(full_qs):
 
     sumcount = 0
 
-    for qs_partial in return_qs_parts(full_qs, denominator, numerator):
-        p_count = qs_partial.count()
+    for qs_partial, p_count in return_qs_parts(full_qs, denominator, numerator):
         sumcount += p_count
         store_json_data(qs_partial)
 
