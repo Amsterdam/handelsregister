@@ -80,10 +80,16 @@ To load the csb sbi (activiteiten) data:
      ./manage.py run_import --cbs_sbi
      ./manage.py run_import --cbs_sbi_validate
 
+Upgrade sbi data from sbi.cbs.nl
+
+     ./manage.py run_import --cbs_sbi --nocache
+
+     COMMIT the new json files!!
+
 To fix missing location geodata with the search api
 for some locations we have only an adress
 
-     ./manage.py run_import --search
+     ./manage_gevent.py run_import --search
 
 Build the geodataview
 
