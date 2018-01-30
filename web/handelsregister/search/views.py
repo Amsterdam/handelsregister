@@ -79,23 +79,19 @@ def _get_url(request, hit):
     Given an elk hit determine the uri for each hit
     """
 
-    doc_type, id = hit.meta.doc_type, hit.meta.id
+    doc_type, id = hit.doctype, hit.meta.id
 
-    if doc_type == 'vestiging':
+    if doc_type == 'ves':
         return get_links(
             view_name=_details[doc_type],
             kwargs={'vestigingsnummer': hit.vestigingsnummer}, request=request)
 
-    if doc_type == 'maatschappelijke_activiteit':
+    if doc_type == 'mac':
         return get_links(
             view_name=_details[doc_type],
             kwargs={'kvk_nummer': hit.kvk_nummer}, request=request)
 
-    return {
-        'self': {
-            'href': '/{}/{}/notworking'.format(doc_type, id)
-        }
-    }
+    raise ValueError('doctype is unknown, can not build self url')
 
 
 class QueryMetadata(metadata.SimpleMetadata):
