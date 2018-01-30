@@ -71,7 +71,7 @@ def check_table_targets():
         (366330, "hr_handelsnaam"),
         (656598, "hr_locatie"),
         (323935, "hr_maatschappelijkeactiviteit"),
-        (310000, "hr_maatschappelijkeactiviteit_activiteiten"),
+        # (310000, "hr_maatschappelijkeactiviteit_activiteiten"),
         (67414, "hr_maatschappelijkeactiviteit_communicatiegegevens"),
         (176619, "hr_natuurlijkpersoon"),
         (6760, "hr_nietcommercielevestiging"),
@@ -125,11 +125,9 @@ def check_table_counts(table_data):
     for target, table in table_data:
         count = sql_count(table)
         if count < target - 5000 or count == 0:
-            LOG.error(
-                'Table Count Mismatch. %s %s is not around %s',
-                table, count, target
-            )
-            raise ValueError()
+            msg = 'Table Count Mismatch. %s %s is not around %s' % (table, count, target)
+            LOG.error(msg)
+            raise ValueError(msg)
 
 
 def check_sub_counts(counts):
