@@ -2,6 +2,7 @@
 
 set -u   # crash on missing env variables
 set -e   # stop on any error
+set -x
 
 echo 'Downloading latest mks dumps'
 # uses data and unzipped dir
@@ -10,14 +11,15 @@ python get_mks_dumps.py
 echo 'Store mks dumps in database'
 source loaddumps.sh
 # to test locally
-#source loaddumps_local.sh
+# source loaddumps_local.sh
 
 
 # we need BAG data to properly import HR.
-#docker-compose exec database update-table.sh bag bag_verblijfsobject public handelsregister
-#docker-compose  exec database update-table.sh bag bag_standplaats public handelsregister
-#docker-compose  exec database update-table.sh bag bag_ligplaats public handelsregister
-#docker-compose  exec database update-table.sh bag bag_nummeraanduiding public handelsregister
+# done in import.sh
+# docker-compose exec database update-table.sh bag bag_verblijfsobject public handelsregister
+# docker-compose  exec database update-table.sh bag bag_standplaats public handelsregister
+# docker-compose  exec database update-table.sh bag bag_ligplaats public handelsregister
+# docker-compose  exec database update-table.sh bag bag_nummeraanduiding public handelsregister
 
 # load mks data into HR models, complement with BAG information
 python manage.py run_import
@@ -37,8 +39,6 @@ python manage.py run_import --geovestigingen
 python manage.py run_import --dataselectie --partial=3/3 &
 python manage.py run_import --dataselectie --partial=2/3 &
 python manage.py run_import --dataselectie --partial=1/3
-
-
 
 # validate that all tables contain values
 # and enough counts
