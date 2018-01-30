@@ -26,8 +26,8 @@ from search.input_analyzer import InputQAnalyzer
 log = logging.getLogger('search')
 
 _details = {
-    'vestiging': 'vestiging-detail',
-    'maatschappelijke_activiteit': 'maatschappelijkeactiviteit-detail',
+    'ves': 'vestiging-detail',
+    'mac': 'maatschappelijkeactiviteit-detail',
 }
 
 
