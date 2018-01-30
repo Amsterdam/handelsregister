@@ -4,29 +4,41 @@ from django.conf import settings
 
 from datasets.hr import models, serializers
 
+from django.db.models.functions import Cast
+from django.db.models import F
+# from django.db.models.functions import Substr
+from django.db.models import BigIntegerField
+
+
 log = logging.getLogger(__name__)
 
+tracking = {
+    'last_id': None,
+    'batch_size': 100,
+}
 
-def get_vestigingen(
-        offset: int = 0, size: int = None) -> object:
+
+def get_vestigingen(offset: int = 0) -> object:
     """
     Generates a query set to build json data for dataselectie
     An optional offset and size parameters can be given to limit
     the size of the queryset
     """
-    qs = models.Vestiging.objects \
-        .select_related('maatschappelijke_activiteit') \
-        .select_related('maatschappelijke_activiteit__eigenaar') \
-        .select_related('bezoekadres') \
-        .select_related('postadres') \
-        .prefetch_related('activiteiten') \
-        .prefetch_related('activiteiten__sbi_code_tree') \
-        .prefetch_related('handelsnamen') \
-        .filter(datum_einde__isnull=True) \
+    qs = (
+        models.Vestiging.objects
+        .select_related('maatschappelijke_activiteit')
+        .select_related('maatschappelijke_activiteit__eigenaar')
+        .select_related('bezoekadres')
+        .select_related('postadres')
+        .select_related('commerciele_vestiging')
+        .select_related('niet_commerciele_vestiging')
+        .prefetch_related('activiteiten')
+        .prefetch_related('activiteiten__sbi_code_tree')
+        .prefetch_related('handelsnamen')
+        .filter(datum_einde__isnull=True)
         .order_by('id')
+    )
 
-    if size:
-        qs = qs[offset:size]
     return qs
 
 
@@ -43,6 +55,7 @@ def get_maatschappelijke_activiteiten() -> object:
         .select_related('hoofdvestiging')
         .select_related('eigenaar')
         .select_related('onderneming')
+        .prefetch_related('activiteiten')
         .prefetch_related('communicatiegegevens')
         .order_by('id')
     )
@@ -57,28 +70,7 @@ def get_maatschappelijke_activiteiten() -> object:
     return qs_p | qs_b
 
 
-def chunck_qs_by_id(qs, chuncks=5000):
-    """
-    Determine ID range, chunck up range.
-    """
-    if not qs.count():
-        return []
-
-    min_id = int(qs.first().id)
-    max_id = int(qs.last().id)
-
-    delta_step = int((max_id - min_id) / chuncks) or 1
-
-    log.debug(
-        'id range %s %s, chunksize %s', min_id, max_id, delta_step)
-
-    steps = list(range(min_id, max_id, delta_step))
-    # add max id range (bigger then last_id)
-    steps.append(max_id+1)
-    return steps
-
-
-def return_qs_parts(qs, modulo, modulo_value):
+def generate_qs_parts(qs, modulo, modulo_value):
     """ generate qs within min_id and max_id
 
         modulo and modulo_value determin which chuncks
@@ -89,18 +81,55 @@ def return_qs_parts(qs, modulo, modulo_value):
         then this function only returns chuncks index i for which
         modulo i % 3 == 1
     """
+    if modulo != 1:
 
-    steps = chunck_qs_by_id(qs, 5000)
+        qs_s = (
+            qs.annotate(idmod=Cast('id', BigIntegerField()))
+            .annotate(idmod=F('idmod') % modulo)
+            .filter(idmod=modulo_value)
+        )
 
-    for i in range(len(steps)-1):
-        if not i % modulo == modulo_value:
-            continue
-        start_id = steps[i]
-        end_id = steps[i+1]
-        qs_s = qs.filter(id__gte=start_id).filter(id__lt=end_id)
-        count = qs_s.count()
-        log.debug('Count: %s range %s %s', count, start_id, end_id)
-        yield qs_s, count
+    else:
+        qs_s = qs
+
+    log.debug('COUNT %d', qs_s.count())
+
+    return generate_qs(qs_s)
+
+
+def generate_qs(qs_s):
+    """
+    Chunk qs
+    """
+    # gets updates when we save object in es
+    last_id = None
+    # batch_size = settings.BATCH_SETTINGS['batch_size']
+    batch_size = tracking['batch_size']
+    loopidx = 0
+
+    while True:
+
+        loopidx += 1
+        last_id = tracking['last_id']
+
+        if not last_id:
+            qs_ss = qs_s[:batch_size]
+        else:
+            qs_ss = qs_s.filter(id__gt=last_id)[:batch_size]
+
+        log.debug(
+            'Batch %4d %4d %s  %s',
+            loopidx, loopidx*batch_size, qs_s.model.__name__,
+            last_id
+        )
+
+        yield qs_ss
+
+        if qs_ss.count() < batch_size:
+            # no more data
+            break
+
+    raise StopIteration
 
 
 def store_json_data(qs):
@@ -109,26 +138,43 @@ def store_json_data(qs):
     """
 
     bulk = []
+
     for item in qs:
+
         bag_numid = item.locatie.bag_numid
 
         api_json = None
         uid = None
 
-        if isinstance(item, models.Vestiging):
-            api_json = serializers.VestigingDataselectie(item).data
-            api_json['dataset'] = 'ves'
-            uid = f'v{item.id}'
-        elif isinstance(item, models.MaatschappelijkeActiviteit):
-            api_json = (
-                serializers
-                .MaatschappelijkeActiviteitDataselectie(item)
-                .data
-            )
-            api_json['dataset'] = 'mac'
-            uid = f'm{item.id}'
-        else:
-            raise ValueError('Unknown instance recieved..')
+        try:
+            if isinstance(item, models.Vestiging):
+                api_json = serializers.VestigingDataselectie(item).data
+                api_json['dataset'] = 'ves'
+                uid = f'v{item.id}'
+
+            elif isinstance(item, models.MaatschappelijkeActiviteit):
+                api_json = (
+                    serializers
+                    .MaatschappelijkeActiviteitDataselectie(item)
+                    .data
+                )
+                api_json['dataset'] = 'mac'
+                uid = f'm{item.id}'
+            else:
+                raise ValueError('Unknown instance recieved..')
+
+        except TypeError:
+            log.exception('Could not save %s %s', uid, bag_numid)
+            log.debug(f"""
+                id: {item.id}
+                bag: {bag_numid}
+                bezoek: {item.bezoekadres.id} {item.bezoekadres.geometrie}
+                post: {item.postadres.id} {item.postadres.geometrie}
+            """)
+            log.debug('SKIPPING')
+            continue
+
+        tracking['last_id'] = item.id
 
         bulk.append(
             models.DataSelectie(
@@ -137,9 +183,11 @@ def store_json_data(qs):
                 api_json=api_json,
             )
         )
+
     # Using bulk save to save on ORM handling
     # and db connections
     models.DataSelectie.objects.bulk_create(bulk)
+    del bulk
 
 
 def store_qs_data(full_qs):
@@ -153,16 +201,12 @@ def store_qs_data(full_qs):
     numerator = settings.PARTIAL_IMPORT['numerator']
     denominator = settings.PARTIAL_IMPORT['denominator']
 
-    total = full_qs.count()
+    # reset id tracking
+    tracking['last_id'] = None
 
-    sumcount = 0
 
-    for qs_partial, p_count in return_qs_parts(full_qs, denominator, numerator):
-        sumcount += p_count
+    for qs_partial in generate_qs_parts(full_qs, denominator, numerator):
         store_json_data(qs_partial)
-
-    log.debug('%s %s', total, sumcount)
-    return sumcount
 
 
 def write_dataselectie_data():
@@ -172,9 +216,11 @@ def write_dataselectie_data():
     The step parameter determings the size of each
     queryset to handle
     """
+
     # Deleting all previous data
     if settings.PARTIAL_IMPORT['denominator'] == 1:
+        log.debug('DELETE')
         models.DataSelectie.objects.all().delete()
 
-    store_qs_data(get_maatschappelijke_activiteiten())
     store_qs_data(get_vestigingen())
+    store_qs_data(get_maatschappelijke_activiteiten())

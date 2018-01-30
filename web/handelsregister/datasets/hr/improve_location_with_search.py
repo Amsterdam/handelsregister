@@ -14,16 +14,15 @@ import datetime
 import re
 import json
 import string
-import sys
 import logging
 import time
+import editdistance
 
 from collections import OrderedDict
 
 from requests import Session
 import grequests
 import gevent
-from gevent.lock import BoundedSemaphore
 
 from django.conf import settings
 from django.contrib.gis.geos import GEOSGeometry
@@ -34,15 +33,12 @@ from gevent.queue import JoinableQueue
 
 from .models import Locatie
 
-sem = BoundedSemaphore(1)
-
 log = logging.getLogger(__name__)
 
 SEARCHES_QUEUE = JoinableQueue(maxsize=1500)
 
 # TO see step by step what search does.
 SLOW = False
-# SLOW = True
 
 STATS = dict(
     start=time.time(),
@@ -297,11 +293,16 @@ class SearchTask():
         gevent.spawn(async_r.send).join()
         # Do something with the result count?
 
+        if async_r.response is None:
+            log.error('RESPONSE NONE %s %s', url, parameters)
+            return {}
+
+        if async_r.response.status_code == 404:
+            log.error('404 %s %s', url, parameters)
+            return {}
+
         if not async_r.response:
             log.error('NO RESPONSE %s %s', url, parameters)
-            return {}
-        elif async_r.response.status_code == 404:
-            log.error('404 %s %s', url, parameters)
             return {}
 
         result_json = async_r.response.json()
@@ -398,23 +399,31 @@ class SearchTask():
                 if hit_toevoeging.startswith(suggestion):
                     return hit
 
-    # def filter_hits(self, hits):
-    #     """
-    #     straatnaam
+    def filter_hits(self, hits):
+        """
+        Solves nasty edge case.
 
-    #     # filtering.
-    #     """
-    #     new_hits = []
+        'Nes 33 1012KC Amsterdam' -> 'Nes 33-H'
 
-    #     for hit in hits:
-    #         # pass
-    #         hit_straat = hit['straatnaam'].lower()
-    #         if editdistance(hit_straat, self.straatnaam) == 0:
-    #             new_hits.append(hit)
+        NOT Aert van Nesstraat 33
 
-    #     # no matchingstreetname..
-    #     if not new_hits:
-    #         return hits
+        """
+        new_hits = []
+
+        for hit in hits:
+            hit_straat = hit['straatnaam'].lower()
+            distance = editdistance.eval(hit_straat, self.straatnaam)
+
+            if not distance:
+                # we have an ~exactisch street name match.
+                # trumps other matches.
+                new_hits.append(hit)
+
+        # no exact matching streetname..
+        if not new_hits:
+            return hits
+
+        return new_hits
 
     def look_in_hits(self, hits, nummer):
         """
@@ -427,7 +436,8 @@ class SearchTask():
         H hit is better then.
         """
         # filter hits by streetname
-        # hits = filter_hits(self, hits)
+        # see test example with hit NES 33.
+        hits = self.filter_hits(hits)
 
         # Try to find hit in hits that exactly matches toevoegingen
         for tindex, tv_optie in enumerate(self.toevoegingen):
@@ -456,8 +466,6 @@ class SearchTask():
         if self.postcode:
             data = self.get_response(
                 {'postcode': self.postcode.upper()}, url=PCODE_URL)
-
-            # log.debug(data)
 
             hits = data.get('results')
 
@@ -519,13 +527,11 @@ class SearchTask():
         # Correctie failed
         # save and log empty result result
 
-        with sem:
-            self.locatie.refresh_from_db()
+        self.locatie.refresh_from_db()
 
         if self.locatie.correctie is None:
             self.locatie.correctie = False
-            with sem:
-                self.locatie.save()
+            self.locatie.save()
             self.log_wtf_loc()
 
         return 9999, []
@@ -545,15 +551,7 @@ class SearchTask():
 
         STATS['onbekend'] += 1
 
-    def get_details_for_vbo(self, num):
-        """
-        Get the detail of a specific verblijsobject
-        """
-
-        details_url = num['_links']['self']['href']
-        # search result has all data
-        # but could also be nummeraanduidng endpoint
-        details = self.get_response(url=details_url)
+    def _get_vbo_url(self, details):
 
         vbo_url = None
         # a nummeraanduiding result needs more vbo data
@@ -564,6 +562,34 @@ class SearchTask():
             vbo_url = details['ligplaats']
         elif details.get('standplaats'):
             vbo_url = details['standplaats']
+
+        return vbo_url
+
+    def _get_num_id(self, details):
+        num_id = None
+
+        if details.get('hoofdadres'):
+            num_id = details['hoofdadres'].get("landelijk_id")
+        elif details.get('adressen'):
+            num_url = details['adressen']['href']
+            num_details = self.get_response(url=num_url)
+            num_id = num_details['results'][0].get(
+                'nummeraanduidingidentificatie')
+
+        return num_id
+
+    def get_details_for_vbo(self, num):
+        """
+        Get the detail of a specific verblijsobject/ligplaats/standplaats
+        """
+
+        details_url = num['_links']['self']['href']
+
+        # search result has all data
+        # but could also be nummeraanduidng endpoint
+        details = self.get_response(url=details_url)
+
+        vbo_url = self._get_vbo_url(details)
 
         if vbo_url:
             details = self.get_response(url=vbo_url)
@@ -576,21 +602,22 @@ class SearchTask():
         else:
             point = self.locatie.geometrie
 
-        num_id = None
-        if details.get('hoofdadres'):
-            num_id = details['hoofdadres'].get("landelijk_id")
-        elif details.get('adressen'):
-            num_url = details['adressen']['href']
-            details = self.get_response(url=num_url)
-            num_id = details['results'][0].get('nummeraanduidingidentificatie')
+        num_id = self._get_num_id(details)
 
         # determine bag_id
-        for key in ['verblijfsobjectidentificatie',
-                    'ligplaatsidentificatie',
-                    'standplaatsindentificatie']:
+        for key in [
+                'verblijfsobjectidentificatie',
+                'ligplaatsidentificatie',
+                'standplaatsidentificatie',
+                ]:
+
             bag_id = details.get(key)
+
             if bag_id:
                 break
+
+        if not bag_id:
+            raise ValueError('bag_id missing')
 
         return point, bag_id, num_id
 
@@ -602,15 +629,11 @@ class SearchTask():
         try:
             geometrie = normalize_geo(point)
         except TypeError:
-            log.error('\n\n\n')
-            log.error(point)
-            log.error('\n\n\n')
+            log.error('POINT ERROR %s', point)
             return
 
         assert geometrie
-
-        self.locatie.geometrie = geometrie
-        self.geometrie = geometrie
+        assert bag_id
 
         # we found a probably correct bag_id.
         # this is not 100% sure.
@@ -630,17 +653,13 @@ class SearchTask():
         locatie.correctie = True
         locatie.correctie_level = correctie_level
         locatie.query_string = num['_display']
+        locatie.geometrie = geometrie
 
         # save the new location
-        with sem:
-            locatie.save()
+        locatie.save()
 
         # update the stats
         STATS['correcties'] += 1
-
-        if settings.DEBUG:
-            sys.stdout.write(make_status_line())
-            sys.stdout.flush()
 
 
 def async_determine_rd_coordinates():
@@ -655,10 +674,10 @@ def async_determine_rd_coordinates():
         task = SearchTask(*args)
         try:
             task.determine_rd_coordinates()
-        except Exception as exp:
+        except Exception:
             # when tasks fails.. continue..
             log.error('\n\n\n')
-            log.error(exp)
+            log.exception('Oops')
             log.error('\n\n\n')
 
 
@@ -668,11 +687,14 @@ def normalize_geo(point):
     """
 
     if point['type'] == 'Point':
-        return GEOSGeometry(json.dumps(point))
+        n_point = GEOSGeometry(json.dumps(point))
     elif point['type'] == 'Polygon':
         # create centroid from polygon (ligplaats)
-        centroid_p = GEOSGeometry(json.dumps(point)).centroid
-        return centroid_p.json
+        n_point = GEOSGeometry(json.dumps(point)).centroid
+
+    # geojson now defaults to 4326!
+    n_point.srid = 28992
+    return n_point
 
 
 def normalize_toevoeging(toevoegingen=[""]):
@@ -868,8 +890,6 @@ def create_search_for_addr(loc, addr):
 
     if not straat:
         loc.correctie = False
-        with sem:
-            loc.save()
         log.error(addr)
         return
 
@@ -954,6 +974,7 @@ def guess():
     of full adress and try to find geo_point (rd)
     """
     log.debug('Start Finding and correcting incomplete adresses...')
+
     status_job = gevent.spawn(fix_counter)
 
     for gemeente in GEMEENTEN:
@@ -1032,29 +1053,35 @@ def test_one_weird_one(test="", target=""):
     options = alternative_qs(query_string)
 
     for alternative_addr in options:
-        search_data = create_search_for_addr(loc, alternative_addr)
+        create_search_for_addr(loc, alternative_addr)
 
     # fix it
     async_determine_rd_coordinates()
 
     test_ok = loc.query_string == target
 
+    loc.refresh_from_db()
+
     result = f"""
 
-    test:   {test_this}
-    bag_id: {loc.bag_vbid}
-    geom:   {loc.geometrie}
-    result: {loc.query_string}
-    should: {target}
+    test:        {test_this}
+    bag_id:      {loc.bag_vbid}
+    correctie    {loc.correctie}
+    geometrie:   {loc.geometrie}
+    result:      {loc.query_string}
+    should:      {target}
 
     {test_ok}
 
     """
+    log.debug(result)
 
     return test_ok
 
 
 buggy_voorbeelden = [
+    ('Haarlemmerweg 8 1014BE Amsterdam', 'Haarlemmerweg 8A'),
+
     ('Pieter Pauwstraat 18 hs 1017ZK Amsterdam', 'Pieter Pauwstraat 18-H'),
     ('Haarlemmermeerstraat 99 huis 1058JT Amsterdam',
         'Haarlemmermeerstraat 99-H'),
@@ -1077,11 +1104,10 @@ buggy_voorbeelden = [
     ('Raadhuisstraat 22 1016DE Amsterdam', 'Raadhuisstraat 20'),  # even nummer
     ('Vossiusstraat 52 1071AK Amsterdam', 'Vossiusstraat 50-H'),
 
-    # known failure
-    ('Nes 33 1012KC Amsterdam', 'Nes 33-1'),
+    ('Nes 33 1012KC Amsterdam', 'Nes 33-H'),
 
     # WONTFIX
-    # ('Oude Schans t/o 14 1011LK Amsterdam', '?'),
+    ('Oude Schans t/o 14 1011LK Amsterdam', '?'),
 
 ]
 
@@ -1089,8 +1115,10 @@ buggy_voorbeelden = [
 def test_bad_examples():
     if Locatie.objects.count() == 0:
         Locatie.objects.create(afgescherm=True)
+
     ok = 0
     fail = 0
+
     for example, target in buggy_voorbeelden:
         if test_one_weird_one(test=example, target=target):
             ok += 1

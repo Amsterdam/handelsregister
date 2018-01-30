@@ -2,6 +2,7 @@
 
 set -e
 set -u
+set -x
 
 # set local env variables used by local dockers
 export DATABASE_PORT_5432_TCP_ADDR=127.0.0.1
