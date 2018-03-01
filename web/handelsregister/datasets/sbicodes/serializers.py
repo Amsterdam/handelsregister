@@ -15,6 +15,7 @@ class SBICodeHierarchySerializer(rest.HALSerializer):
         model = SBICodeHierarchy
 
         fields = (
+            '_display',
             '_links',
             'title',
             'code',
@@ -30,9 +31,10 @@ class SBICodeHierarchyDetailsSerializer(rest.HALSerializer):
         model = SBICodeHierarchy
 
         fields = (
+            '_display',
             '_links',
             'title',
             'code',
             'sbi_tree',
-            'qs_tree',
+            'qa_tree',
         )

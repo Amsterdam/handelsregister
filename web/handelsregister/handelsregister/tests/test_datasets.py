@@ -2,6 +2,9 @@
 from rest_framework.test import APITestCase
 # Project
 from datasets.hr.tests import factories as factories_hr
+# from datasets.sbicodes.tests import factories as factories_sbi
+from datasets.sbicodes import load_sbi_codes
+
 from . import authorization
 
 
@@ -15,7 +18,13 @@ class BrowseDatasetsTestCase(APITestCase, authorization.AuthorizationSetup):
         'handelsregister/persoon',
         'handelsregister/vestiging',
         'handelsregister/functievervulling',
+        'handelsregister/sbicodes',
     ]
+
+    @classmethod
+    def setUpClass(cls):
+        load_sbi_codes.build_all_sbi_code_trees()
+        super().setUpClass()
 
     def setUp(self):
         self.setUpAuthorization()

@@ -26,6 +26,7 @@ from rest_framework.decorators import api_view, renderer_classes
 from rest_framework_swagger.renderers import OpenAPIRenderer
 
 from datasets.hr import views as hr_views
+from datasets.sbicodes import views as sbi_views
 from search import views as search_views
 
 
@@ -94,14 +95,16 @@ class SearchRouter(routers.DefaultRouter):
 
 hr_router = HandelsregisterRouter()
 
-hr_router.register(r'maatschappelijkeactiviteit',
-                   hr_views.MaatschappelijkeActiviteitViewSet)
-hr_router.register(r'persoon',
-                   hr_views.PersoonViewSet)
-hr_router.register(r'vestiging',
-                   hr_views.VestigingViewSet)
-hr_router.register(r'functievervulling',
-                   hr_views.FunctievervullingViewSet)
+hr_router.register(
+    r'maatschappelijkeactiviteit',
+    hr_views.MaatschappelijkeActiviteitViewSet)
+hr_router.register(r'persoon', hr_views.PersoonViewSet)
+hr_router.register(r'vestiging', hr_views.VestigingViewSet)
+hr_router.register(r'functievervulling', hr_views.FunctievervullingViewSet)
+hr_router.register(r'functievervulling', hr_views.FunctievervullingViewSet)
+
+hr_router.register(r'sbicodes', sbi_views.SBIViewSet)
+
 
 search = SearchRouter()
 
@@ -157,8 +160,8 @@ def hr_schema_view(request):
 
 urlpatterns = [
                   url('^handelsregister/docs/api-docs/$', hr_schema_view),
-              ] + [url for pattern_list in grouped_url_patterns.values()
-                   for url in pattern_list]
+              ] + [_url for pattern_list in grouped_url_patterns.values()
+                   for _url in pattern_list]
 
 urlpatterns += staticfiles_urlpatterns()
 
