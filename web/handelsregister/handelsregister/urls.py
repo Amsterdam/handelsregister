@@ -101,7 +101,6 @@ hr_router.register(
 hr_router.register(r'persoon', hr_views.PersoonViewSet)
 hr_router.register(r'vestiging', hr_views.VestigingViewSet)
 hr_router.register(r'functievervulling', hr_views.FunctievervullingViewSet)
-hr_router.register(r'functievervulling', hr_views.FunctievervullingViewSet)
 
 hr_router.register(r'sbicodes', sbi_views.SBIViewSet)
 
