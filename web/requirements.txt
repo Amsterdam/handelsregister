@@ -29,6 +29,7 @@ docker-compose==1.22.0
 docker-pycreds==0.3.0
 dockerpty==0.4.1
 docopt==0.6.2
+drf-amsterdam==0.1.4
 drf-extensions==0.3.1
 drf-hal-json==0.9.1
 drf-nested-fields==0.9.4
