@@ -36,7 +36,7 @@ class MacFilter(FilterSet):
     ordering = ('id',)
 
 
-class MaatschappelijkeActiviteitViewSet(rest.AtlasViewSet):
+class MaatschappelijkeActiviteitViewSet(rest.DatapuntViewSet):
     """
     Maatschappelijke Activiteit (MAC)
 
@@ -92,7 +92,7 @@ class PersoonFilter(FilterSet):
     ordering = ('naam',)
 
 
-class PersoonViewSet(rest.AtlasViewSet):
+class PersoonViewSet(rest.DatapuntViewSet):
     """
     Persoon (PRS)
 
@@ -130,6 +130,7 @@ class VestigingFilter(FilterSet):
 
     nummeraanduiding = filters.CharFilter(
         label='nummeraanduiding_id', method='nummeraanduiding_filter')
+
     verblijfsobject = filters.CharFilter(
         label='verblijfsobject_id', method='verblijfsobject_filter')
 
@@ -265,7 +266,7 @@ class VestigingFilter(FilterSet):
         return q1 | q2
 
 
-class VestigingViewSet(rest.AtlasViewSet):
+class VestigingViewSet(rest.DatapuntViewSet):
     """
     Vestiging (VES)
 
@@ -337,7 +338,7 @@ class FunctievervullingFilter(FilterSet):
     ordering = ('id',)
 
 
-class FunctievervullingViewSet(rest.AtlasViewSet):
+class FunctievervullingViewSet(rest.DatapuntViewSet):
     """
     Functievervulling (FVV)
 

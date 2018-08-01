@@ -11,7 +11,7 @@ from . import serializers
 # from django_filters.rest_framework import FilterSet
 
 
-class SBIViewSet(rest.AtlasViewSet):
+class SBIViewSet(rest.DatapuntViewSet):
     """
     opgeschoonde SBI codes van het CBS die gebruikt worden door HR
     """
