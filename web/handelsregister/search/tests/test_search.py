@@ -4,10 +4,13 @@ import string
 import random
 # Packages
 from rest_framework.test import APITestCase
+from django.core.management import call_command
+
 # Project
 from datasets.hr.tests import factories
 from handelsregister.tests import authorization
 from search import build_index
+
 
 import logging
 
@@ -82,9 +85,11 @@ class SearchTest(APITestCase, authorization.AuthorizationSetup):
         )
         cls.ves00.handelsnamen.set([hnd3])
 
-        build_index.reset_hr_docs()
-        build_index.index_mac_docs()
-        build_index.index_ves_docs()
+        call_command('build_index', '--reset')
+        call_command('build_index', '--build')
+        # build_index.reset_hr_docs()
+        # build_index.index_mac_docs()
+        # build_index.index_ves_docs()
 
     def test_random_shit_endpoints(self):
         """

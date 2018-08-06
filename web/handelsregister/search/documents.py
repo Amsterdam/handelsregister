@@ -107,8 +107,8 @@ class Inschrijving(es.DocType):
 
     centroid = es.GeoPoint()
 
-    class Meta:
-        index = settings.ELASTIC_INDICES['HR']
+    class Index:
+        name = settings.ELASTIC_INDICES['HR']
 
 
 def from_mac(mac: models.MaatschappelijkeActiviteit):
