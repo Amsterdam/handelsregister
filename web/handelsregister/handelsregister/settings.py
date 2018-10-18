@@ -13,7 +13,8 @@ import os
 import re
 import sys
 
-import authorization_levels
+# Handelsregister
+SCOPE_HR_R = 'HR/R'
 
 
 def get_docker_host():
@@ -301,7 +302,7 @@ SWAGGER_SETTINGS = {
             'authorizationUrl': DATAPUNT_API_URL + "oauth2/authorize",
             'flow': 'implicit',
             'scopes': {
-                authorization_levels.SCOPE_HR_R: "Toegang HR",
+                SCOPE_HR_R: "Toegang HR",
             }
         }
     }
@@ -344,7 +345,7 @@ JWKS_TEST_KEY = """
 # Security
 DATAPUNT_AUTHZ = {
     'JWKS': os.getenv('PUB_JWKS', JWKS_TEST_KEY),
-    'MIN_SCOPE': authorization_levels.SCOPE_HR_R,
+    'MIN_SCOPE': SCOPE_HR_R,
     'FORCED_ANONYMOUS_ROUTES': ('/status/', '/handelsregister/static/', '/handelsregister/docs/')
 }
 

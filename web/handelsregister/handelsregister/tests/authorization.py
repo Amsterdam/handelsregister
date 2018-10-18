@@ -1,8 +1,8 @@
 import time
 import jwt
+from django.conf import settings
 
 from authorization_django.config import settings as middleware_settings
-import authorization_levels
 
 
 class AuthorizationSetup(object):
@@ -35,7 +35,7 @@ class AuthorizationSetup(object):
         now = int(time.time())
 
         token_scope_hr_r = jwt.encode({
-            'scopes': [authorization_levels.SCOPE_HR_R],
+            'scopes': [settings.SCOPE_HR_R],
             'iat': now, 'exp': now + 600}, key.key, algorithm=key.alg,
              headers={'kid': kid})
 
