@@ -13,6 +13,9 @@ import os
 import re
 import sys
 
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
+
 # Handelsregister
 SCOPE_HR_R = 'HR/R'
 
@@ -451,3 +454,10 @@ LOGGING = {
 
     },
 }
+
+SENTRY_DSN = os.getenv('SENTRY_DSN')
+if SENTRY_DSN:
+    sentry_sdk.init(
+        dsn=SENTRY_DSN,
+        integrations=[DjangoIntegration()]
+    )
