@@ -349,7 +349,8 @@ JWKS_TEST_KEY = """
 DATAPUNT_AUTHZ = {
     'JWKS': os.getenv('PUB_JWKS', JWKS_TEST_KEY),
     'MIN_SCOPE': SCOPE_HR_R,
-    'FORCED_ANONYMOUS_ROUTES': ('/status/', '/handelsregister/static/', '/handelsregister/docs/')
+    'FORCED_ANONYMOUS_ROUTES': ('/status/', '/handelsregister/static/', '/handelsregister/docs/'),
+    # 'ALWAYS_OK': True,
 }
 
 LOGGING = {

@@ -41,7 +41,9 @@ class Inschrijving(es.DocType):
     kvk_nummer = es.Text(
         analyzer=analyzers.autocomplete,
         fields={
-            'raw': es.Keyword()}
+            'raw': es.Keyword(),
+            'nozero': es.Text(analyzer=analyzers.nozero)
+        }
     )
 
     vestigingsnummer = es.Text(

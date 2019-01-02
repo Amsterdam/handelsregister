@@ -30,6 +30,10 @@ Works only for amsterdam developers with published ssh keys.
 
     docker-compose exec database update-db.sh handelsregister <your-username>
 
+    docker-compose exec elasticsearch clean-el.sh
+
+    docker-compose exec elasticsearch update-el.sh handelsregister <your-username>
+
 
 Manual Import
 -------------

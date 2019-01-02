@@ -131,11 +131,10 @@ def inschrijvingen_query(
     ]
 
     if vesid or kvknummer:
-        # must.append(Q('prefix', vestigingsnummer=vesid))
         should = [
-            # {"prefix": {"vestigingsnummer.nozero": vesid}},
             Q('prefix', vestigingsnummer__nozero=vesid),
             Q('prefix', vestigingsnummer=vesid),
+            Q('prefix', kvk_nummer__nozero=kvknummer),
             Q('prefix', kvk_nummer=kvknummer)
         ]
         min_match = 1
