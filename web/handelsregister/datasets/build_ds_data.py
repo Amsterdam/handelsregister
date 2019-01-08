@@ -129,8 +129,6 @@ def generate_qs(qs_s):
             # no more data
             break
 
-    raise StopIteration
-
 
 def store_json_data(qs):
     """
