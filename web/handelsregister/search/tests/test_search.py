@@ -36,24 +36,24 @@ class SearchTest(APITestCase, authorization.AuthorizationSetup):
 
         cls.mac1 = factories.MaatschappelijkeActiviteitFactory(
                 naam='mac1',
-                kvk_nummer='1111',
+                kvk_nummer='11111111',
                 onderneming=onderneming
         )
 
         cls.mac2 = factories.MaatschappelijkeActiviteitFactory(
                 naam='mac2',
-                kvk_nummer='0112'
+                kvk_nummer='01123456'
 
         )
         cls.mac3 = factories.MaatschappelijkeActiviteitFactory(
                 naam='mac3',
-                kvk_nummer='0113'
+                kvk_nummer='01123567'
         )
 
         cls.ves1 = factories.VestigingFactory(
                 naam='test1',
                 maatschappelijke_activiteit=cls.mac1,
-                vestigingsnummer=99999,
+                vestigingsnummer=99999999,
                 # handelsnamen=[hnd1, hnd11]
         )
 
@@ -62,7 +62,7 @@ class SearchTest(APITestCase, authorization.AuthorizationSetup):
         cls.ves2 = factories.VestigingFactory(
                 naam='test2',
                 maatschappelijke_activiteit=cls.mac2,
-                vestigingsnummer=99998,
+                vestigingsnummer=99999899,
                 # handelsnamen=[hnd2]
         )
         cls.ves2.handelsnamen.set([hnd2])
@@ -70,7 +70,7 @@ class SearchTest(APITestCase, authorization.AuthorizationSetup):
         cls.ves3 = factories.VestigingFactory(
                 naam='test3',
                 maatschappelijke_activiteit=cls.mac3,
-                vestigingsnummer=99988,
+                vestigingsnummer=99988999,
                 # handelsnamen=[hnd3]
 
         )
@@ -80,7 +80,7 @@ class SearchTest(APITestCase, authorization.AuthorizationSetup):
         cls.ves00 = factories.VestigingFactory(
                 naam='test00',
                 maatschappelijke_activiteit=cls.mac3,
-                vestigingsnummer='00006',
+                vestigingsnummer='00006123456',
                 # handelsnamen=[hnd3]
         )
         cls.ves00.handelsnamen.set([hnd3])
@@ -130,7 +130,7 @@ class SearchTest(APITestCase, authorization.AuthorizationSetup):
     def test_mac_kvk(self):
 
         url = '/handelsregister/search/maatschappelijkeactiviteit/'
-        query = '011'
+        query = '01123'
         self.client.credentials(
             HTTP_AUTHORIZATION='Bearer {}'.format(self.token_scope_hr_r))
         response = self.client.get(url, {'q': query})
@@ -139,13 +139,13 @@ class SearchTest(APITestCase, authorization.AuthorizationSetup):
 
         self.assertEqual(response.data['count'], 2)
 
-        query = '0112'
+        query = '0112345'
         self.client.credentials(
             HTTP_AUTHORIZATION='Bearer {}'.format(self.token_scope_hr_r))
         response = self.client.get(url, {'q': query})
         self.assertEqual(response.data['count'], 1)
 
-        self.assertEqual(response.data['results'][0]['kvk_nummer'], '0112')
+        self.assertEqual(response.data['results'][0]['kvk_nummer'], '01123456')
 
     def test_mac_naam(self):
 
@@ -190,7 +190,7 @@ class SearchTest(APITestCase, authorization.AuthorizationSetup):
     def test_ves_id(self):
 
         url = '/handelsregister/search/vestiging/'
-        query = 9999
+        query = 99999
         self.client.credentials(
             HTTP_AUTHORIZATION='Bearer {}'.format(self.token_scope_hr_r))
         response = self.client.get(url, {'q': query})
@@ -198,18 +198,18 @@ class SearchTest(APITestCase, authorization.AuthorizationSetup):
         self.assertIn('count', response.data)
         self.assertEqual(response.data['count'], 2)
 
-        query = 99998
+        query = 999998
         self.client.credentials(
             HTTP_AUTHORIZATION='Bearer {}'.format(self.token_scope_hr_r))
         response = self.client.get(url, {'q': query})
         self.assertEqual(response.data['count'], 1)
 
         self.assertEqual(
-            response.data['results'][0]['vestigingsnummer'], '99998')
+            response.data['results'][0]['vestigingsnummer'], '99999899')
 
     def test_vest_zeros_in_id(self):
         url = '/handelsregister/search/vestiging/'
-        query = 6
+        query = 61234
         self.client.credentials(
             HTTP_AUTHORIZATION='Bearer {}'.format(self.token_scope_hr_r))
         response = self.client.get(url, {'q': query})
@@ -218,7 +218,7 @@ class SearchTest(APITestCase, authorization.AuthorizationSetup):
         self.assertEqual(response.data['count'], 1)
 
         self.assertEqual(
-            response.data['results'][0]['vestigingsnummer'], '00006')
+            response.data['results'][0]['vestigingsnummer'], '00006123456')
 
     def test_ves_naam(self):
 
