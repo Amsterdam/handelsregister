@@ -81,8 +81,10 @@ def inschrijvingen_query(
         analyzer: InputQAnalyzer, doctype=None) -> ElasticQueryWrapper:
     """ Create query/aggregation for vestiging search"""
     # vestigings nummer or handelsnaam
-    vesid = analyzer.get_id()
-    kvknummer = analyzer.get_id()
+    vesid = kvknummer = analyzer.get_id()
+    if len(vesid) < 5:
+        kvknummer = vesid = ''
+
     handelsnaam = analyzer.get_handelsnaam()
     must = []
 
