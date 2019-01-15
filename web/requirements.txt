@@ -12,7 +12,7 @@ cryptography==2.4.2
 datapunt-authorization-django==0.2.24
 debtcollector==1.20.0
 defusedxml==0.5.0
-Django==2.1.2
+Django==2.1.5
 django-braces==1.13.0
 django-cors-headers==2.4.0
 django-debug-toolbar==1.11
