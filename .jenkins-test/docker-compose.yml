@@ -5,7 +5,7 @@ services:
     environment:
       POSTGRES_PASSWORD: insecure
       POSTGRES_USER: handelsregister
-    shm_size: '4gb'
+    shm_size: '8gb'
 
   elasticsearch:
     image: amsterdam/elasticsearch6
