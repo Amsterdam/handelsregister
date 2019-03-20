@@ -16,8 +16,10 @@ services:
       - database
       - elasticsearch
     environment:
+      http_proxy:
+      https_proxy:
+      no_proxy:
       DATABASE_NAME: handelsregister
       DATABASE_USER: handelsregister
       DATABASE_PASSWORD: insecure
-    command: >
-          bash -c "./docker-wait.sh && ./docker-test.sh"
+    command: bash -c "./docker-wait.sh && ./docker-test.sh"
