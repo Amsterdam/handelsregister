@@ -2,16 +2,16 @@
 
 def tryStep(String message, Closure block, Closure tearDown = null) {
     try {
-        block();
+        block()
     }
     catch (Throwable t) {
         slackSend message: "${env.JOB_NAME}: ${message} failure ${env.BUILD_URL}", channel: '#ci-channel', color: 'danger'
 
-        throw t;
+        throw t
     }
     finally {
         if (tearDown) {
-            tearDown();
+            tearDown()
         }
     }
 }
@@ -34,22 +34,27 @@ node {
 
     stage("Build image") {
         tryStep "build", {
-            def image = docker.build("build.datapunt.amsterdam.nl:5000/datapunt/handelsregister:${env.BUILD_NUMBER}", "web")
-            image.push()
+            docker.withRegistry('https://repo.data.amsterdam.nl','docker-registry') {
+                def image = docker.build("datapunt/handelsregister:${env.BUILD_NUMBER}", "web")
+                image.push()
+            }
         }
     }
 }
 
+
 String BRANCH = "${env.BRANCH_NAME}"
 
-if (BRANCH == "master") {
+if (BRANCH == "develop") {
 
     node {
         stage('Push acceptance image') {
             tryStep "image tagging", {
-                def image = docker.image("build.datapunt.amsterdam.nl:5000/datapunt/handelsregister:${env.BUILD_NUMBER}")
-                image.pull()
-                image.push("acceptance")
+                docker.withRegistry('https://repo.data.amsterdam.nl','docker-registry') {
+                    def image = docker.image(datapunt/handelsregister:${env.BUILD_NUMBER}")
+                    image.pull()
+                    image.push("acceptance")
+                }
             }
         }
     }
@@ -66,7 +71,6 @@ if (BRANCH == "master") {
         }
     }
 
-
     stage('Waiting for approval') {
         slackSend channel: '#ci-channel', color: 'warning', message: 'Handelsregister is waiting for Production Release - please confirm'
         input "Deploy to Production?"
@@ -75,10 +79,12 @@ if (BRANCH == "master") {
     node {
         stage('Push production image') {
             tryStep "image tagging", {
-                def image = docker.image("build.datapunt.amsterdam.nl:5000/datapunt/handelsregister:${env.BUILD_NUMBER}")
-                image.pull()
-                image.push("production")
-                image.push("latest")
+                docker.withRegistry('https://repo.data.amsterdam.nl','docker-registry') {
+                def image = docker.image("datapunt/handelsregister:${env.BUILD_NUMBER}")
+                    image.pull()
+                    image.push("production")
+                    image.push("latest")
+                }
             }
         }
     }
