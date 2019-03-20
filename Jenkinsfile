@@ -51,7 +51,7 @@ if (BRANCH == "develop") {
         stage('Push acceptance image') {
             tryStep "image tagging", {
                 docker.withRegistry('https://repo.data.amsterdam.nl','docker-registry') {
-                    def image = docker.image(datapunt/handelsregister:${env.BUILD_NUMBER}")
+                    def image = docker.image("datapunt/handelsregister:${env.BUILD_NUMBER}")
                     image.pull()
                     image.push("acceptance")
                 }
