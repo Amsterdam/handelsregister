@@ -1,10 +1,11 @@
-version: '3.0'
+version: '3.5'
 services:
   database:
     image: amsterdam/postgres11
     environment:
       POSTGRES_PASSWORD: insecure
       POSTGRES_USER: handelsregister
+    shm_size: '4gb'
 
   elasticsearch:
     image: amsterdam/elasticsearch6
