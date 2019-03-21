@@ -11,6 +11,7 @@ services:
     volumes:
       - tmpdatabase:/tmp
       - "~/.ssh/datapunt.key:/root/.ssh/datapunt.key"
+    shm_size: '4gb'
 
   elasticsearch:
     image: amsterdam/elasticsearch6
