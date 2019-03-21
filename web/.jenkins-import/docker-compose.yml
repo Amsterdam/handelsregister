@@ -9,6 +9,7 @@ services:
       - tmpdatabase:/tmp
     extra_hosts:
       admin.datapunt.amsterdam.nl: 10.99.157.24
+    shm_size: '8gb'
 
   elasticsearch:
     image: amsterdam/elasticsearch6
