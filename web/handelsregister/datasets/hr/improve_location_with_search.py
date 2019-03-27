@@ -568,13 +568,20 @@ class SearchTask():
     def _get_num_id(self, details):
         num_id = None
 
+        street_number = f"{self.straatnaam} {self.nummers[0]}" if self.straatnaam and self.nummers else None
         if details.get('hoofdadres'):
-            num_id = details['hoofdadres'].get("landelijk_id")
-        elif details.get('adressen'):
+            # Check if hoofdadres is the adress we search for, otherwise try to use one of the other adresses
+            if details['hoofdadres']['_display'][:len(street_number)].lower() == street_number or not street_number:
+                num_id = details['hoofdadres'].get("landelijk_id")
+        if not num_id and details.get('adressen'):
             num_url = details['adressen']['href']
             num_details = self.get_response(url=num_url)
-            num_id = num_details['results'][0].get(
-                'nummeraanduidingidentificatie')
+            for result in num_details['results']:
+                if result['_display'][:len(street_number)].lower() == street_number:
+                    num_id =  result.get('landelijk_id')
+                    break
+            if not num_id:
+                num_id = num_details['results'][0].get('landelijk_id')
 
         return num_id
 
