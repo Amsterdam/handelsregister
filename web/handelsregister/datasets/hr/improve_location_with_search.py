@@ -1112,6 +1112,7 @@ buggy_voorbeelden = [
     ('Vossiusstraat 52 1071AK Amsterdam', 'Vossiusstraat 50-H'),
 
     ('Nes 33 1012KC Amsterdam', 'Nes 33-H'),
+    ('Oudezijds Voorburgwal 300 1012GL Amsterdam', 'Oudezijds Voorburgwal 300'),
 
     # WONTFIX
     ('Oude Schans t/o 14 1011LK Amsterdam', '?'),
