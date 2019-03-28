@@ -576,12 +576,13 @@ class SearchTask():
         if not num_id and details.get('adressen'):
             num_url = details['adressen']['href']
             num_details = self.get_response(url=num_url)
-            for result in num_details['results']:
+            results = num_details.get('results', [])
+            for result in results:
                 if result['_display'][:len(street_number)].lower() == street_number:
                     num_id =  result.get('landelijk_id')
                     break
-            if not num_id:
-                num_id = num_details['results'][0].get('landelijk_id')
+            if not num_id and results:
+                num_id = results[0].get('landelijk_id')
 
         return num_id
 
