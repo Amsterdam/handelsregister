@@ -137,8 +137,7 @@ UPDATE hr_locatie loc
                ST_Centroid(v.geometrie) as geometrie
           FROM bag_nummeraanduiding n
     INNER JOIN bag_{bagtype} v
-            ON n.{bagtype}_id = v.id
-         WHERE n.hoofdadres) bag
+            ON n.{bagtype}_id = v.id) bag
  WHERE bag.landelijk_id = loc.bag_vbid OR bag.landelijk_id = loc.bag_numid
     """
     with db.connection.cursor() as cursor:
