@@ -22,24 +22,44 @@ source loaddumps.sh
 # docker-compose  exec database update-table.sh bag bag_nummeraanduiding public handelsregister
 
 # load mks data into HR models, complement with BAG information
-python manage.py run_import
+python manage_gevent.py run_import
 
 # import sbicodes
-python manage.py run_import --cbs_sbi
+python manage_gevent.py run_import --cbs_sbi
 # cleanup codes / ambiguity and make relation with activiteiten
-python manage.py run_import --cbs_sbi_validate
+python manage_gevent.py run_import --cbs_sbi_validate
 
 # autocorrect locations fields with search resultaten
 python manage_gevent.py run_import --search
 
 # create geoviews
-python manage.py run_import --geovestigingen
+python manage_gevent.py run_import --geovestigingen
 
 # create dataselectie
-python manage.py run_import --dataselectie --partial=3/3 &
-python manage.py run_import --dataselectie --partial=2/3 &
-python manage.py run_import --dataselectie --partial=1/3
+python manage_gevent.py run_import --dataselectie --partial=3/3 &
+python manage_gevent.py run_import --dataselectie --partial=2/3 &
+python manage_gevent.py run_import --dataselectie --partial=1/3 &
+
+FAIL=0
+
+for job in `jobs -p`
+do
+	echo $job
+	wait $job || let "FAIL+=1"
+done
+
+echo $FAIL
+
+if [ "$FAIL" == "0" ];
+then
+    echo "YAY!"
+else
+    echo "FAIL! ($FAIL)"
+    echo 'Elastic Import Error. 1 or more workers failed'
+    exit 1
+fi
+
 
 # validate that all tables contain values
 # and enough counts
-python manage.py run_import --validate_import
+python manage_gevent.py run_import --validate_import
