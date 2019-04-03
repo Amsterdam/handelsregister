@@ -115,9 +115,11 @@ def fill_location_with_bag():
     NOTE:
 
     When search correction is done locations contain
-    new bag_id / num_id and with this funtion
+    new bag_id / num_id and with this function
     the fields get updated with bag data.
 
+    If numid is given in location update with data for that nummeraanduiding
+    Otherwise  update with data for corresponding verblijfsobject
     """
     select = """
 UPDATE hr_locatie loc
@@ -128,7 +130,9 @@ UPDATE hr_locatie loc
        straatnaam = bag._openbare_ruimte_naam,
        postcode = bag.postcode
   FROM (SELECT v.id,
-               v.landelijk_id,
+               v.landelijk_id as bag_vbid,
+               n.landelijk_id as bag_numid,
+               n.hoofdadres,
                n.huisnummer,
                n.huisletter,
                n.huisnummer_toevoeging,
@@ -138,7 +142,8 @@ UPDATE hr_locatie loc
           FROM bag_nummeraanduiding n
     INNER JOIN bag_{bagtype} v
             ON n.{bagtype}_id = v.id) bag
- WHERE bag.landelijk_id = loc.bag_vbid OR bag.landelijk_id = loc.bag_numid
+ WHERE bag.bag_numid = loc.bag_numid OR
+    (loc.bag_numid IS NULL AND bag.bag_vbid = loc.bag_vbid AND bag.hoofdadres)
     """
     with db.connection.cursor() as cursor:
         log.info("VUL geo tabel locaties met bag geometrie")
