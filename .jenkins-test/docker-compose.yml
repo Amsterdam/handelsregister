@@ -1,7 +1,7 @@
-version: '3.0'
+version: '3.5'
 services:
   database:
-    image: amsterdam/postgres
+    image: amsterdam/postgres11
     environment:
       POSTGRES_PASSWORD: insecure
       POSTGRES_USER: handelsregister
@@ -19,5 +19,4 @@ services:
       DATABASE_NAME: handelsregister
       DATABASE_USER: handelsregister
       DATABASE_PASSWORD: insecure
-    command: >
-          bash -c "./docker-wait.sh && ./docker-test.sh"
+    command: bash -c "./docker-wait.sh && ./docker-test.sh"
