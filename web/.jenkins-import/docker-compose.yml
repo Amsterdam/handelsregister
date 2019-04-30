@@ -107,8 +107,8 @@ services:
     user: root
     command: >
       bash -c "chmod -R 777 /tmp/backups \
-              && curl -X PUT http://elasticsearch:9200/_snapshot/backup -d '{ \"type\": \"fs\", \"settings\": { \"location\": \"/tmp/backups\" }}' \
-              && curl -X PUT http://elasticsearch:9200/_snapshot/backup/handelsregister?wait_for_completion=true -d '{ \"indices\": \"handelsregister\" }' \
+              && curl -X PUT http://elasticsearch:9200/_snapshot/backup -H 'Content-Type: application/json' -d '{ \"type\": \"fs\", \"settings\": { \"location\": \"/tmp/backups\" }}' \
+              && curl -X PUT http://elasticsearch:9200/_snapshot/backup/handelsregister?wait_for_completion=true -H 'Content-Type: application/json' -d '{ \"indices\": \"handelsregister\" }' \
               && chmod -R 777 /tmp/backups"
 
 volumes:
