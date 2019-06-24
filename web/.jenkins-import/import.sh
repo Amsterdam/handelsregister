@@ -31,7 +31,8 @@ sleep 50
 # load latest bag into database
 echo "Load latest verblijfsobjecten, ligplaatsen, standplaatsen and nummeraanduidingen in handelsregister database"
 
-# dc exec -T database update-db.sh atlas
+# First delete (possibly empty) dump for bag
+dc exec -T database rm -f /tmp/bag_latest.gz
 dc exec -T database update-table.sh bag bag_verblijfsobject public handelsregister
 dc exec -T database update-table.sh bag bag_ligplaats public handelsregister
 dc exec -T database update-table.sh bag bag_standplaats public handelsregister
