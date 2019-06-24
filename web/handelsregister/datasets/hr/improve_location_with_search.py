@@ -11,6 +11,7 @@ location quality of the datasets
 # monkey.patch_all(thread=False, select=False)
 
 import datetime
+import os
 import re
 import json
 import string
@@ -60,11 +61,11 @@ WORKERS = 10
 if SLOW:
     WORKERS = 1  # 25
 
-ACC = "https://acc.api.data.amsterdam.nl"
-# We search against ACC to not pollute graphs in kibana
-SEARCH_ADRES_URL = '{}/atlas/search/adres/'.format(ACC)
+# By default we search against ACC to not pollute graphs in kibana
+SEARCH_URL_BASE = os.getenv("SEARCH_URL_BASE", "https://acc.api.data.amsterdam.nl")
+SEARCH_ADRES_URL = '{}/atlas/search/adres/'.format(SEARCH_URL_BASE)
 # ?huisnummer=105&postcode=1018WR"
-PCODE_URL = "{}/bag/nummeraanduiding/".format(ACC)
+PCODE_URL = "{}/bag/nummeraanduiding/".format(SEARCH_URL_BASE)
 
 
 # These urls are used to be SAVED at the locaton object

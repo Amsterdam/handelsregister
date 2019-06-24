@@ -12,7 +12,7 @@ cryptography==2.4.2
 datapunt-authorization-django==0.2.24
 debtcollector==1.20.0
 defusedxml==0.5.0
-Django==2.1.7
+Django==2.1.9
 django-braces==1.13.0
 django-cors-headers==2.4.0
 django-debug-toolbar==1.11
@@ -21,7 +21,7 @@ django-filter==2.0.0
 django-jenkins==0.110.0
 django-rest-swagger==2.2.0
 django-shotgun==0.2
-djangorestframework==3.9.0
+djangorestframework==3.9.1
 djangorestframework-gis==0.14
 docker==3.6.0
 docker-compose==1.23.2
@@ -48,7 +48,7 @@ idna==2.8
 ipaddress==1.0.22
 iso8601==0.1.12
 itypes==1.1.0
-Jinja2==2.10
+Jinja2==2.10.1
 jsonschema==2.6.0
 keystoneauth1==3.11.2
 Markdown==3.0.1
@@ -97,7 +97,7 @@ tqdm==4.29.0
 typing==3.6.6
 unicodecsv==0.14.1
 uritemplate==3.0.0
-urllib3==1.24.1
+urllib3==1.24.2
 virtualenv==16.2.0
 virtualfish==1.0.6
 websocket-client==0.54.0
