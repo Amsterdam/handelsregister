@@ -35,7 +35,7 @@ node {
     stage("Build image") {
         tryStep "build", {
             docker.withRegistry('https://repo.data.amsterdam.nl','docker-registry') {
-                def image = docker.build("datapunt/handelsregister:${env.BUILD_NUMBER}", "--build-arg http_proxy=${JENKINS_HTTP_PROXY_STRING} --build-arg https_proxy=${JENKINS_HTTP_PROXY_STRING} web")
+                def image = docker.build("datapunt/handelsregister:${env.BUILD_NUMBER}", "web")
                 image.push()
             }
         }
