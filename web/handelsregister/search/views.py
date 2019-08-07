@@ -151,7 +151,7 @@ class TypeaheadViewSet(viewsets.ViewSet):
         # Ignoring cache in case debug is on
         ignore_cache = settings.TESTING
 
-        search = query.to_elasticsearch_object(self.client)[:12]
+        search = query.to_elasticsearch_object(self.client)[:100]
 
         # get the result from elastic
         try:
