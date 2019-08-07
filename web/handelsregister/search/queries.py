@@ -39,7 +39,8 @@ class ElasticQueryWrapper(object):
             sort_fields: [str] = None,
             indexes: [str] = None,
             size: int = None,
-            custom_sort_function: typing.Callable=None):
+            custom_sort_function: typing.Callable=None,
+            aggs: dict = None):
         """
         :param query: an elastic search query
         :param sort_fields: an optional list of fields to use for
@@ -55,6 +56,7 @@ class ElasticQueryWrapper(object):
         self.indexes = indexes
         self.size = size
         self.custom_sort_function = custom_sort_function
+        self.aggs = aggs
 
     def to_elasticsearch_object(self, client) -> Search:
         assert self.indexes
@@ -72,13 +74,16 @@ class ElasticQueryWrapper(object):
         if self.size:
             size = self.size
 
+        if self.aggs:
+            search.update_from_dict(self.aggs)
+
         search = search[0:size]
 
         return search
 
 
 def inschrijvingen_query(
-        analyzer: InputQAnalyzer, doctype=None) -> ElasticQueryWrapper:
+        analyzer: InputQAnalyzer, doctype=None, aggs=None) -> ElasticQueryWrapper:
     """ Create query/aggregation for vestiging search"""
     # vestigings nummer or handelsnaam
     vesid = kvknummer = analyzer.get_id()
@@ -150,4 +155,5 @@ def inschrijvingen_query(
         sort_fields=sort_fields,
         indexes=[HR],
         size=10,
+        aggs=aggs
     )

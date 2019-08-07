@@ -6,6 +6,7 @@ import json
 import logging
 from collections import OrderedDict
 from collections import defaultdict
+from collections import Counter
 from urllib.parse import quote, urlparse
 
 from django.conf import settings
@@ -36,6 +37,7 @@ _type_mapping = {
     'mac': 'Maatschappelijke activiteiten'
 }
 
+_reverse_type_mapping = { value:key for key, value in _type_mapping.items() }
 
 _autocomplete_group_order = [
     'Vestigingen',
@@ -134,34 +136,31 @@ class TypeaheadViewSet(viewsets.ViewSet):
 
         analyzer = InputQAnalyzer(query_string)
 
-        query_components = [
-            inschrijvingen_query(analyzer)
-            # vestiging_query(analyzer),
-            # mac_query(analyzer)
-        ]
+        aggs_count_doctype = {
+            "aggs": {
+                "count_by_type": {
+                    "terms": {
+                        "field": "doctype"
+                    }
+                }
+            }
+        }
 
-        result_data = []
+        query = inschrijvingen_query(analyzer, aggs=aggs_count_doctype)
 
         # Ignoring cache in case debug is on
         ignore_cache = settings.TESTING
 
-        # create elk queries
-        for q in query_components:  # type: ElasticQueryWrapper
+        search = query.to_elasticsearch_object(self.client)[:12]
 
-            search = q.to_elasticsearch_object(self.client)
-
-            # get the result from elastic
-            try:
-                result = search.execute(ignore_cache=ignore_cache)
-            except(TransportError):
-                log.exception(
-                    'FAILED ELK SEARCH: %s',
-                    json.dumps(search.to_dict(), indent=2))
-                continue
-            # Get the datas!
-            result_data.append(result)
-
-        return result_data
+        # get the result from elastic
+        try:
+            result = search.execute(ignore_cache=ignore_cache)
+        except(TransportError):
+            log.exception(
+                'FAILED ELK SEARCH: %s',
+                json.dumps(search.to_dict(), indent=2))
+        return result
 
     def _get_uri(self, request, hit):
         # Retrieves the uri part for an item
@@ -173,10 +172,9 @@ class TypeaheadViewSet(viewsets.ViewSet):
         """
         Group the elk results in their pretty name groups
         """
-        flat_results = (hit for r in results for hit in r)
         result_groups = defaultdict(list)
 
-        for hit in flat_results:
+        for hit in results:
             group = _type_mapping[hit.doctype]
             result_groups[group].append({
                 '_display': hit._display,
@@ -197,6 +195,8 @@ class TypeaheadViewSet(viewsets.ViewSet):
 
         # put the elk results in subtype groups
         result_groups = self._group_elk_results(request, results)
+        result_groups_count = {_type_mapping[r['key']]: r['doc_count'] for r in
+                               results['aggregations']['count_by_type']['buckets']}
 
         ordered_results = []
 
@@ -208,7 +208,8 @@ class TypeaheadViewSet(viewsets.ViewSet):
 
             ordered_results.append({
                 'label': group,
-                'content': result_groups[group][:size]
+                'content': result_groups[group][:size],
+                'total_results': result_groups_count[group]
             })
 
         return ordered_results
