@@ -1,8 +1,9 @@
 import time
-import jwt
+
 from django.conf import settings
 
-from authorization_django.config import settings as middleware_settings
+from jwcrypto.jwt import JWT
+from authorization_django.jwks import get_keyset
 
 
 class AuthorizationSetup(object):
@@ -26,17 +27,23 @@ class AuthorizationSetup(object):
             HTTP_AUTHORIZATION='Bearer {}'.format(self.token_scope_hr))
 
         """
-        # VERY NEW STYLE AUTH. JWKS public/private keys are defined in settings
-        jwks = middleware_settings()['JWKS'].signers
+        jwks = get_keyset()
+        assert len(jwks['keys']) > 0
 
-        assert len(jwks) > 0
-        (kid, key), = jwks.items()
-
+        key = next(iter(jwks['keys']))
         now = int(time.time())
 
-        token_scope_hr_r = jwt.encode({
-            'scopes': [settings.SCOPE_HR_R],
-            'iat': now, 'exp': now + 600}, key.key, algorithm=key.alg,
-             headers={'kid': kid})
+        headers = {
+            'alg': 'ES256',  # algorithm of the test key
+            'kid': key.key_id
+        }
 
-        self.token_scope_hr_r = str(token_scope_hr_r, 'utf-8')
+        payload = {
+            'iat': now,
+            'exp': now + 600,
+            'scopes': [settings.SCOPE_HR_R]
+        }
+
+        token = JWT(header=headers, claims=payload)
+        token.make_signed_token(key)
+        self.token_scope_hr_r = token.serialize()

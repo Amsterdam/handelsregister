@@ -348,6 +348,7 @@ JWKS_TEST_KEY = """
 # Security
 DATAPUNT_AUTHZ = {
     'JWKS': os.getenv('PUB_JWKS', JWKS_TEST_KEY),
+    'JWKS_URL': os.getenv('KEYCLOAK_JWKS_URL'),
     'MIN_SCOPE': SCOPE_HR_R,
     'FORCED_ANONYMOUS_ROUTES': ('/status/', '/handelsregister/static/', '/handelsregister/docs/'),
     # 'ALWAYS_OK': True,
