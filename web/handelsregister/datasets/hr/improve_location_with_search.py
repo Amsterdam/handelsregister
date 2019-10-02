@@ -1023,7 +1023,7 @@ def guess():
 
         # check if we did a good job doing corrections.
         # normally about ~60 invalid locations left of 10.000
-        assert invalid_locations.count() < 800
+        assert invalid_locations.count() < 1000
 
     status_job.kill()
 
