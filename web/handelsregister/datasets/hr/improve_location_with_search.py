@@ -1023,7 +1023,10 @@ def guess():
 
         # check if we did a good job doing corrections.
         # normally about ~60 invalid locations left of 10.000
-        assert invalid_locations.count() < 1000
+        num_invalid_locations = invalid_locations.count()
+        assert num_invalid_locations < 1000, \
+            "Out of {initial_invalid_locations} initial invalid locations, {num_invalid_locations} still exist"\
+                .format(initial_invalid_locations=count, num_invalid_locations=num_invalid_locations)
 
     status_job.kill()
 
