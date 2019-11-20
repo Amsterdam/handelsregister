@@ -132,7 +132,7 @@ UPDATE hr_locatie loc
   FROM (SELECT v.id,
                v.landelijk_id as bag_vbid,
                n.landelijk_id as bag_numid,
-               n.hoofdadres,
+               n.type_adres,
                n.huisnummer,
                n.huisletter,
                n.huisnummer_toevoeging,
@@ -143,7 +143,7 @@ UPDATE hr_locatie loc
     INNER JOIN bag_{bagtype} v
             ON n.{bagtype}_id = v.id) bag
  WHERE bag.bag_numid = loc.bag_numid OR
-    (loc.bag_numid IS NULL AND bag.bag_vbid = loc.bag_vbid AND bag.hoofdadres)
+    (loc.bag_numid IS NULL AND bag.bag_vbid = loc.bag_vbid AND bag.type_adres = 'Hoofdadres')
     """
     with db.connection.cursor() as cursor:
         log.info("VUL geo tabel locaties met bag geometrie")

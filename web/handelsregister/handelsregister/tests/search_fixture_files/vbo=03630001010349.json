@@ -74,7 +74,7 @@
         },
         "_display": "Silodam 340",
         "landelijk_id": "0363200000488519",
-        "hoofdadres": true,
+        "type_adres": "Hoofdadres",
         "dataset": "bag"
     },
     "adressen": {
