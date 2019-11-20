@@ -200,9 +200,9 @@ INSERT INTO hr_locatie (
       postbusnummer,
       identificatieaoa,
       identificatietgo,
-      'https://api.data.amsterdam.nl/bag/nummeraanduiding/' ||
+      'https://api.data.amsterdam.nl/bag/v1.1/nummeraanduiding/' ||
             identificatieaoa || '/',
-      'https://api.data.amsterdam.nl/bag/verblijfsobject/' ||
+      'https://api.data.amsterdam.nl/bag/v1.1/verblijfsobject/' ||
             identificatietgo || '/',
       straathuisnummer,
       postcodewoonplaats,

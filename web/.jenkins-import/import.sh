@@ -32,11 +32,11 @@ sleep 50
 echo "Load latest verblijfsobjecten, ligplaatsen, standplaatsen and nummeraanduidingen in handelsregister database"
 
 # First delete (possibly empty) dump for bag
-dc exec -T database rm -f /tmp/bag_latest.gz
-dc exec -T database update-table.sh bag bag_verblijfsobject public handelsregister
-dc exec -T database update-table.sh bag bag_ligplaats public handelsregister
-dc exec -T database update-table.sh bag bag_standplaats public handelsregister
-dc exec -T database update-table.sh bag bag_nummeraanduiding public handelsregister
+dc exec -T database rm -f /tmp/bag_v11_latest.gz
+dc exec -T database update-table.sh bag_v11 bag_verblijfsobject public handelsregister
+dc exec -T database update-table.sh bag_v11 bag_ligplaats public handelsregister
+dc exec -T database update-table.sh bag_v11 bag_standplaats public handelsregister
+dc exec -T database update-table.sh bag_v11 bag_nummeraanduiding public handelsregister
 
 echo "create hr api database / reset elastic index"
 # create the hr_data and reset elastic

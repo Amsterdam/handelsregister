@@ -110,7 +110,7 @@ DATABASES = {
     'default': DATABASE_OPTIONS[get_database_key()]
 }
 
-VBO_URI = "https://api.data.amsterdam.nl/bag/verblijfsobject/"
+VBO_URI = "https://api.data.amsterdam.nl/bag/v1.1/verblijfsobject/"
 
 # SECURITY WARNING: keep the secret key used in production secret!
 insecure_key = 'insecure'

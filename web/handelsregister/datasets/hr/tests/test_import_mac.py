@@ -123,9 +123,9 @@ class ImportMaatschappelijkeActiviteitTest(TestCase):
         self.assertIsNone(adr.toevoeging_adres)
         self.assertFalse(adr.afgeschermd)
         self.assertIsNone(adr.postbus_nummer)
-        self.assertEqual('https://api.data.amsterdam.nl/bag/nummeraanduiding/0363200000079932/',
+        self.assertEqual('https://api.data.amsterdam.nl/bag/v1.1/nummeraanduiding/0363200000079932/',
                          adr.bag_nummeraanduiding)
-        self.assertEqual('https://api.data.amsterdam.nl/bag/verblijfsobject/0363010000617641/',
+        self.assertEqual('https://api.data.amsterdam.nl/bag/v1.1/verblijfsobject/0363010000617641/',
                          adr.bag_adresseerbaar_object)
         self.assertIsNone(adr.straat_huisnummer)
         self.assertIsNone(adr.postcode_woonplaats)
@@ -178,7 +178,7 @@ class ImportMaatschappelijkeActiviteitTest(TestCase):
         self.assertIsNone(mac.postadres.bag_nummeraanduiding)
 
         self.assertIsNotNone(mac.bezoekadres)
-        self.assertEqual('https://api.data.amsterdam.nl/bag/nummeraanduiding/0363200000089973/',
+        self.assertEqual('https://api.data.amsterdam.nl/bag/v1.1/nummeraanduiding/0363200000089973/',
                          mac.bezoekadres.bag_nummeraanduiding)
 
     def test_buitenlands_adres(self):

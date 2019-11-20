@@ -52,10 +52,6 @@ Make sure your database is up to date
       # this is automatic after previous docker-compose up -d  --build
       ./manage.py migrate
 
-Import the latest BAG geo data
-
-     docker-import-dev.sh
-
 Load latest makelaarsuite data from the object store
 
 Prerequisites: create data folder and set Objectstore passworfind d

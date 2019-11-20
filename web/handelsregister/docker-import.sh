@@ -14,13 +14,6 @@ source loaddumps.sh
 # source loaddumps_local.sh
 
 
-# we need BAG data to properly import HR.
-# done in import.sh
-# docker-compose exec database update-table.sh bag bag_verblijfsobject public handelsregister
-# docker-compose  exec database update-table.sh bag bag_standplaats public handelsregister
-# docker-compose  exec database update-table.sh bag bag_ligplaats public handelsregister
-# docker-compose  exec database update-table.sh bag bag_nummeraanduiding public handelsregister
-
 # load mks data into HR models, complement with BAG information
 python manage_gevent.py run_import
 

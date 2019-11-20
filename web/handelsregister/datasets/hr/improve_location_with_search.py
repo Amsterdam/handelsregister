@@ -23,7 +23,6 @@ from collections import OrderedDict
 
 from requests import Session
 import grequests
-import gevent
 
 from django.conf import settings
 from django.contrib.gis.geos import GEOSGeometry
@@ -65,13 +64,13 @@ if SLOW:
 SEARCH_URL_BASE = os.getenv("SEARCH_URL_BASE", "https://acc.api.data.amsterdam.nl")
 SEARCH_ADRES_URL = '{}/atlas/search/adres/'.format(SEARCH_URL_BASE)
 # ?huisnummer=105&postcode=1018WR"
-PCODE_URL = "{}/bag/nummeraanduiding/".format(SEARCH_URL_BASE)
+PCODE_URL = "{}/bag/v1.1/nummeraanduiding/".format(SEARCH_URL_BASE)
 
 
 # These urls are used to be SAVED at the locaton object
 ROOT = "https://api.datA.amsterdam.nl"
-NUM_URL = "{}/bag/nummeraanduiding".format(ROOT)
-VBO_URL = "{}/bag/verblijfsobject".format(ROOT)
+NUM_URL = "{}/bag/v1.1/nummeraanduiding".format(ROOT)
+VBO_URL = "{}/bag/v1.1/verblijfsobject".format(ROOT)
 
 
 def make_status_line():

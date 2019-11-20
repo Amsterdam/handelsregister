@@ -1,7 +1,7 @@
 {
     "_links": {
         "self": {
-            "href": "https://acc.api.data.amsterdam.nl/bag/verblijfsobject/?kadastrale_objecten__id=NL%2eKAD%2eOnroerendeZaak%2e11450749270000&page=1"
+            "href": "https://acc.api.data.amsterdam.nl/bag/v1.1/verblijfsobject/?kadastrale_objecten__id=NL%2eKAD%2eOnroerendeZaak%2e11450749270000&page=1"
         },
         "next": {
             "href": null
@@ -15,7 +15,7 @@
         {
             "_links": {
                 "self": {
-                    "href": "https://acc.api.data.amsterdam.nl/bag/verblijfsobject/03630001987628/"
+                    "href": "https://acc.api.data.amsterdam.nl/bag/v1.1/verblijfsobject/03630001987628/"
                 }
             },
             "_display": "Beursplein 1",
@@ -26,7 +26,7 @@
         {
             "_links": {
                 "self": {
-                    "href": "https://acc.api.data.amsterdam.nl/bag/verblijfsobject/03630001987888/"
+                    "href": "https://acc.api.data.amsterdam.nl/bag/v1.1/verblijfsobject/03630001987888/"
                 }
             },
             "_display": "Beursplein 3",
@@ -37,7 +37,7 @@
         {
             "_links": {
                 "self": {
-                    "href": "https://acc.api.data.amsterdam.nl/bag/verblijfsobject/03630001034471/"
+                    "href": "https://acc.api.data.amsterdam.nl/bag/v1.1/verblijfsobject/03630001034471/"
                 }
             },
             "_display": "Beursstraat 2",
@@ -48,7 +48,7 @@
         {
             "_links": {
                 "self": {
-                    "href": "https://acc.api.data.amsterdam.nl/bag/verblijfsobject/03630001987889/"
+                    "href": "https://acc.api.data.amsterdam.nl/bag/v1.1/verblijfsobject/03630001987889/"
                 }
             },
             "_display": "Beursstraat 6",
@@ -59,7 +59,7 @@
         {
             "_links": {
                 "self": {
-                    "href": "https://acc.api.data.amsterdam.nl/bag/verblijfsobject/03630022327221/"
+                    "href": "https://acc.api.data.amsterdam.nl/bag/v1.1/verblijfsobject/03630022327221/"
                 }
             },
             "_display": "Damrak 213",
@@ -70,7 +70,7 @@
         {
             "_links": {
                 "self": {
-                    "href": "https://acc.api.data.amsterdam.nl/bag/verblijfsobject/03630022327193/"
+                    "href": "https://acc.api.data.amsterdam.nl/bag/v1.1/verblijfsobject/03630022327193/"
                 }
             },
             "_display": "Damrak 243",
@@ -81,7 +81,7 @@
         {
             "_links": {
                 "self": {
-                    "href": "https://acc.api.data.amsterdam.nl/bag/verblijfsobject/03630001987927/"
+                    "href": "https://acc.api.data.amsterdam.nl/bag/v1.1/verblijfsobject/03630001987927/"
                 }
             },
             "_display": "Oudebrugsteeg 9",
@@ -92,7 +92,7 @@
         {
             "_links": {
                 "self": {
-                    "href": "https://acc.api.data.amsterdam.nl/bag/verblijfsobject/03630001987901/"
+                    "href": "https://acc.api.data.amsterdam.nl/bag/v1.1/verblijfsobject/03630001987901/"
                 }
             },
             "_display": "Oudebrugsteeg 11",
@@ -103,7 +103,7 @@
         {
             "_links": {
                 "self": {
-                    "href": "https://acc.api.data.amsterdam.nl/bag/verblijfsobject/03630001987928/"
+                    "href": "https://acc.api.data.amsterdam.nl/bag/v1.1/verblijfsobject/03630001987928/"
                 }
             },
             "_display": "Oudebrugsteeg 13",
