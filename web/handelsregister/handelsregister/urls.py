@@ -21,9 +21,9 @@ from django.conf import settings
 from django.conf.urls import url, include
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
-from rest_framework import routers, renderers, schemas, response
-from rest_framework.decorators import api_view, renderer_classes
-from rest_framework_swagger.renderers import OpenAPIRenderer
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
+from rest_framework import routers, permissions
 
 from datasets.hr import views as hr_views
 from datasets.sbicodes import views as sbi_views
@@ -149,18 +149,27 @@ grouped_url_patterns = {
 }
 
 
-@api_view()
-@renderer_classes(
-    [OpenAPIRenderer, renderers.CoreJSONRenderer])
-def hr_schema_view(request):
-    generator = schemas.SchemaGenerator(title='Handelsregister API')
-    return response.Response(generator.get_schema(request=request))
+schema_view = get_schema_view(
+    openapi.Info(
+        title="Bouwdossiers API",
+        default_version='v1',
+        description="Bouwdossiers API",
+        terms_of_service="https://data.amsterdam.nl/",
+        contact=openapi.Contact(email="datapunt@amsterdam.nl"),
+        license=openapi.License(name="CC0 1.0 Universal"),
+    ),
+    public=False,
+    permission_classes=(permissions.AllowAny,),
+)
 
 
 urlpatterns = [
-                  url('^handelsregister/docs/api-docs/$', hr_schema_view),
-              ] + [_url for pattern_list in grouped_url_patterns.values()
-                   for _url in pattern_list]
+    url(r'^handelsregister/docs/api-docs(?P<format>\.json|\.yaml)$',
+        schema_view.without_ui(cache_timeout=None)),
+    url('^handelsregister/docs/api-docs/$',
+        schema_view.with_ui('swagger', cache_timeout=None)),
+] + [_url for pattern_list in grouped_url_patterns.values()
+     for _url in pattern_list]
 
 urlpatterns += staticfiles_urlpatterns()
 

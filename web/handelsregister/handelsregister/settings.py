@@ -149,7 +149,8 @@ INSTALLED_APPS = [
     'django.contrib.gis',
     'rest_framework',
     'rest_framework_gis',
-    'rest_framework_swagger',
+    # 'rest_framework_swagger',
+    'drf_yasg',
 
 ]
 
@@ -236,14 +237,10 @@ REST_FRAMEWORK = dict(
     PAGE_SIZE=100,
     DATETIME_FORMAT=('%d-%m-%Y'),
 
-    UNAUTHENTICATED_USER={},
-    UNAUTHENTICATED_TOKEN={},
+    UNAUTHENTICATED_USER=None,
+    UNAUTHENTICATED_TOKEN=None,
 
     MAX_PAGINATE_BY=100,
-    DEFAULT_AUTHENTICATION_CLASSES=(
-        'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
-    ),
     DEFAULT_PAGINATION_CLASS='drf_hal_json.pagination.HalPageNumberPagination',
     DEFAULT_PARSER_CLASSES=('drf_hal_json.parsers.JsonHalParser',),
     DEFAULT_RENDERER_CLASSES=(
