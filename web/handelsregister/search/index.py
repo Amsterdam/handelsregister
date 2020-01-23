@@ -52,7 +52,7 @@ class ResetIndexTask(object):
 
         # create doc types
         for dt in self.doc_types:
-            idx.doc_type(dt)
+            idx.document(dt)
 
         # create index
         idx.create()

@@ -112,25 +112,25 @@ typeahead = SearchRouter()
 geosearch = SearchRouter()
 
 typeahead.register(
-    r'', search_views.TypeaheadViewSet, base_name='typeahead')
+    r'', search_views.TypeaheadViewSet, basename='typeahead')
 
 # Alias voor nummeraanduiding
 search.register(
     r'vestiging',
-    search_views.SearchVestigingViewSet, base_name='search/vestiging')
+    search_views.SearchVestigingViewSet, basename='search/vestiging')
 
 search.register(
     r'maatschappelijkeactiviteit',
     search_views.SearchMacViewSet,
-    base_name='search/maatschappelijke_activiteit')
+    basename='search/maatschappelijke_activiteit')
 
 search.register(
     r'inschrijving',
-    search_views.SearchVestigingViewSet, base_name='search/inschrijving')
+    search_views.SearchVestigingViewSet, basename='search/inschrijving')
 
 
 geosearch.register(
-    r'', search_views.GeoSearchViewSet, base_name='geosearch')
+    r'', search_views.GeoSearchViewSet, basename='geosearch')
 
 grouped_url_patterns = {
     'base_patterns': [
