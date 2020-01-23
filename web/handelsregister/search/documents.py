@@ -30,7 +30,7 @@ def get_centroid(geom, transform=None):
     return result.coords
 
 
-class Inschrijving(es.Document):
+class Inschrijving(es.DocType):
 
     _display = es.Keyword()
 

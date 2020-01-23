@@ -373,7 +373,7 @@ LOGGING = {
 
         'graypy': {
             'level': 'ERROR',
-            'class': 'graypy.GELFUDPHandler',
+            'class': 'graypy.GELFHandler',
             'host': LOGSTASH_HOST,
             'port': LOGSTASH_PORT,
         },
