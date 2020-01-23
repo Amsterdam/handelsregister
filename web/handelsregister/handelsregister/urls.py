@@ -24,6 +24,7 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from rest_framework import routers, renderers, schemas, response
 from rest_framework.decorators import api_view, renderer_classes
 from rest_framework_swagger.renderers import OpenAPIRenderer
+from rest_framework_swagger.renderers import SwaggerUIRenderer
 
 from datasets.hr import views as hr_views
 from datasets.sbicodes import views as sbi_views
@@ -149,18 +150,16 @@ grouped_url_patterns = {
 }
 
 
-@api_view()
-@renderer_classes(
-    [OpenAPIRenderer, renderers.CoreJSONRenderer])
-def hr_schema_view(request):
-    generator = schemas.SchemaGenerator(title='Handelsregister API')
-    return response.Response(generator.get_schema(request=request))
-
-
 urlpatterns = [
-                  url('^handelsregister/docs/api-docs/$', hr_schema_view),
-              ] + [_url for pattern_list in grouped_url_patterns.values()
-                   for _url in pattern_list]
+    url('^handelsregister/docs/api-docs/$', schemas.get_schema_view(
+        title='Handelsregister API',
+        patterns=grouped_url_patterns['hr_patterns'],
+        renderer_classes=[
+            SwaggerUIRenderer, OpenAPIRenderer, renderers.CoreJSONRenderer
+        ]
+    )),
+] + [_url for pattern_list in grouped_url_patterns.values()
+     for _url in pattern_list]
 
 urlpatterns += staticfiles_urlpatterns()
 
