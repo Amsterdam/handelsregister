@@ -151,9 +151,9 @@ grouped_url_patterns = {
 
 schema_view = get_schema_view(
     openapi.Info(
-        title="Bouwdossiers API",
+        title="Handelsregister API",
         default_version='v1',
-        description="Bouwdossiers API",
+        description="Handelsregister API",
         terms_of_service="https://data.amsterdam.nl/",
         contact=openapi.Contact(email="datapunt@amsterdam.nl"),
         license=openapi.License(name="CC0 1.0 Universal"),
