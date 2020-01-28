@@ -256,6 +256,7 @@ REST_FRAMEWORK = dict(
 
 SWAGGER_SETTINGS = {
     'VALIDATOR_URL': None,
+    'USE_SESSION_AUTH': False,
     'SECURITY_DEFINITIONS': {
         'oauth2': {
             'type': 'oauth2',
