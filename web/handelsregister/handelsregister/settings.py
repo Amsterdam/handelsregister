@@ -254,47 +254,9 @@ REST_FRAMEWORK = dict(
     COERCE_DECIMAL_TO_STRING=True,
 )
 
-# SWAGGER
-
-swag_path = 'https://acc.api.data.amsterdam.nl/handelsregister/docs'
-
-if DEBUG:
-    swag_path = '127.0.0.1:8000/handelsregister/docs'
-
 SWAGGER_SETTINGS = {
-    'exclude_namespaces': [],
-    'api_version': '0.1',
-    'api_path': '/',
-
-    'enabled_methods': [
-        'get',
-    ],
-
-    'api_key': '',
-    'USE_SESSION_AUTH': False,
     'VALIDATOR_URL': None,
-
-    'is_authenticated': False,
-    'is_superuser': False,
-
-    'unauthenticated_user': 'django.contrib.auth.models.AnonymousUser',
-    'permission_denied_handler': None,
-    'resource_access_handler': None,
-
-    'protocol': 'https' if not DEBUG else '',
-    'base_path': swag_path,
-
-    'info': {
-        'contact': 'atlas.basisinformatie@amsterdam.nl',
-        'description': 'This is the Handelsregister API server.',
-        'license': 'Not known yet',
-        'licenseUrl': '://www.amsterdam.nl/stelselpedia/',
-        'termsOfServiceUrl': 'https://data.amsterdam.nl/terms/',
-        'title': 'Handelsregister',
-    },
-
-    'doc_expansion': 'list',
-
+    'USE_SESSION_AUTH': False,
     'SECURITY_DEFINITIONS': {
         'oauth2': {
             'type': 'oauth2',
