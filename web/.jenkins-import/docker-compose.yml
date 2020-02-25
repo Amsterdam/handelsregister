@@ -20,7 +20,7 @@ services:
     command: elasticsearch -Ehttp.host=0.0.0.0 -Etransport.host=127.0.0.1
 
   importer:
-    image: repo.data.amsterdam.nl/datapunt/handelsregister:${ENVIRONMENT}
+    image: ${DOCKER_REGISTRY_HOST}/datapunt/handelsregister:${ENVIRONMENT}
     links:
       - elasticsearch
       - database
@@ -41,7 +41,7 @@ services:
                && python manage.py build_index --reset"
 
   importer_el1:
-    image: repo.data.amsterdam.nl/datapunt/handelsregister:${ENVIRONMENT}
+    image: ${DOCKER_REGISTRY_HOST}/datapunt/handelsregister:${ENVIRONMENT}
     links:
       - database
       - elasticsearch
@@ -55,7 +55,7 @@ services:
               && python manage.py build_index --partial=1/3 --build"
 
   importer_el2:
-    image: repo.data.amsterdam.nl/datapunt/handelsregister:${ENVIRONMENT}
+    image: ${DOCKER_REGISTRY_HOST}/datapunt/handelsregister:${ENVIRONMENT}
     links:
       - database
       - elasticsearch
@@ -69,7 +69,7 @@ services:
               && python manage.py build_index --partial=2/3 --build"
 
   importer_el3:
-    image: repo.data.amsterdam.nl/datapunt/handelsregister:${ENVIRONMENT}
+    image: ${DOCKER_REGISTRY_HOST}/datapunt/handelsregister:${ENVIRONMENT}
     links:
       - database
       - elasticsearch
