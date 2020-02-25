@@ -5,6 +5,7 @@ services:
     environment:
       POSTGRES_PASSWORD: insecure
       POSTGRES_USER: handelsregister
+      ENVIRONMENT:
     volumes:
       - tmpdatabase:/tmp
     extra_hosts:
