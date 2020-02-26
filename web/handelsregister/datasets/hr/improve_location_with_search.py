@@ -61,16 +61,13 @@ if SLOW:
     WORKERS = 1  # 25
 
 # By default we search against ACC to not pollute graphs in kibana
-SEARCH_URL_BASE = os.getenv("SEARCH_URL_BASE", "https://api.data.amsterdam.nl")
+SEARCH_URL_BASE = os.getenv("SEARCH_URL_BASE", "https://acc.api.data.amsterdam.nl")
 SEARCH_ADRES_URL = '{}/atlas/search/adres/'.format(SEARCH_URL_BASE)
 # ?huisnummer=105&postcode=1018WR"
 PCODE_URL = "{}/bag/v1.1/nummeraanduiding/".format(SEARCH_URL_BASE)
-
-
 # These urls are used to be SAVED at the locaton object
-ROOT = "https://api.datA.amsterdam.nl"
-NUM_URL = "{}/bag/v1.1/nummeraanduiding".format(ROOT)
-VBO_URL = "{}/bag/v1.1/verblijfsobject".format(ROOT)
+NUM_URL = "{}/bag/v1.1/nummeraanduiding".format(SEARCH_URL_BASE)
+VBO_URL = "{}/bag/v1.1/verblijfsobject".format(SEARCH_URL_BASE)
 
 
 def make_status_line():

@@ -31,6 +31,7 @@ services:
       DATABASE_USER: handelsregister
       DATABASE_PASSWORD: insecure
       HANDELSREGISTER_OBJECTSTORE_PASSWORD:
+      SEARCH_URL_BASE: ${SEARCH_URL_BASE:-https://acc.api.data.amsterdam.nl/}
       PGPASSWORD: insecure
       DATAPUNT_API_URL:
     command: >
