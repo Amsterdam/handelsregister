@@ -20,6 +20,7 @@ import time
 import editdistance
 
 from collections import OrderedDict
+from itertools import cycle
 
 from requests import Session
 import grequests
@@ -68,6 +69,17 @@ PCODE_URL = "{}/bag/v1.1/nummeraanduiding/".format(SEARCH_URL_BASE)
 # These urls are used to be SAVED at the locaton object
 NUM_URL = "{}/bag/v1.1/nummeraanduiding".format(SEARCH_URL_BASE)
 VBO_URL = "{}/bag/v1.1/verblijfsobject".format(SEARCH_URL_BASE)
+
+
+SEARCH_URL_ROUNDROBIN = os.getenv("SEARCH_URL_ROUNDROBIN")
+if SEARCH_URL_ROUNDROBIN:
+    SEARCH_URL_BASES = cycle(SEARCH_URL_ROUNDROBIN.split(","))
+else:
+    SEARCH_URL_BASES = cycle([SEARCH_URL_BASE])
+
+
+def get_search_url_base():
+    return next(SEARCH_URL_BASES)
 
 
 def make_status_line():
@@ -282,9 +294,13 @@ class SearchTask():
 
     def get_response(self, parameters={}, url=SEARCH_ADRES_URL):
         """
-        Actualy do the http api search call
+        Actually do the http api search call
         """
         # parameters = {'q': self.get_q()}
+
+        url_base = get_search_url_base()
+        url = url.replace(SEARCH_URL_BASE, url_base)
+
         async_r = grequests.get(url, params=parameters, session=self.session)
         # send a request and wait for results
         gevent.spawn(async_r.send).join()
@@ -576,7 +592,7 @@ class SearchTask():
             results = num_details.get('results', [])
             for result in results:
                 if result['_display'][:len(street_number)].lower() == street_number:
-                    num_id =  result.get('landelijk_id')
+                    num_id = result.get('landelijk_id')
                     break
             if not num_id and results:
                 num_id = results[0].get('landelijk_id')
