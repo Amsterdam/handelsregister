@@ -160,6 +160,7 @@ class TypeaheadViewSet(viewsets.ViewSet):
             log.exception(
                 'FAILED ELK SEARCH: %s',
                 json.dumps(search.to_dict(), indent=2))
+            result = []
         return result
 
     def _get_uri(self, request, hit):
