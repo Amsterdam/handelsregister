@@ -301,13 +301,19 @@ class SearchTask():
         url_base = get_search_url_base()
         url = url.replace(SEARCH_URL_BASE, url_base)
 
-        async_r = grequests.get(url, params=parameters, session=self.session)
+        header = {'X-Api-Key': settings.DATAPUNT_API_REQUEST_HEADER}
+        async_r = grequests.get(url, params=parameters, session=self.session, headers=header, timeout=(5,27))
         # send a request and wait for results
         gevent.spawn(async_r.send).join()
         # Do something with the result count?
 
         if async_r.response is None:
-            log.error('RESPONSE NONE %s %s', url, parameters)
+            if hasattr(async_r, "exception"):
+                e = str(async_r.exception)
+            else:
+                e = 'None'
+            log.error('RESPONSE NONE %s %s, %s, %s', url, parameters, id(gevent.getcurrent()), e)
+            gevent.sleep(2.0)
             return {}
 
         if async_r.response.status_code == 404:
