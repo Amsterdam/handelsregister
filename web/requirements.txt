@@ -2,7 +2,7 @@ asn1crypto==0.24.0
 Babel==2.6.0
 cached-property==1.5.1
 certifi==2018.11.29
-cffi==1.11.5
+cffi==1.14.4
 chardet==3.0.4
 click==7.0
 coreapi==2.3.3
