@@ -20,7 +20,7 @@ django-extensions==2.1.4
 django-filter==2.0.0
 django-jenkins==0.110.0
 django-shotgun==0.2
-djangorestframework==3.9.1
+djangorestframework==3.11.2
 djangorestframework-gis==0.14
 docker==4.4.1
 docker-compose==1.28.2
