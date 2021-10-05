@@ -17,8 +17,9 @@ psql -d handelsregister -h database -U handelsregister -f dropallkvk.sql
 
 cd /app/unzipped/
 
-#Load all sql files
-
+# Load all sql files
+# Ignore lines which match certain patterns (grep)
+# or replace values with '' (sed)
 for sql in *.sql; do
     grep -v OWNER $sql | grep -v search_path | grep -v REVOKE |  \
     grep -v ^GRANT | \
@@ -30,6 +31,7 @@ for sql in *.sql; do
     grep -v "PRIMARY KEY (" | \
     sed 's/^.*geometry(Point.*$/    geopunt GEOMETRY(Point,28992)/' | \
     sed 's/igp_sw44z0001_cmg_owner\.//' | \
+    sed 's/igp_pgplup_cmg_owner\.//' | \
     psql -v ON_ERROR_STOP=1 -d handelsregister -h database -U handelsregister
 done
 
