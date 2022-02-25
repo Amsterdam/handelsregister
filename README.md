@@ -1,6 +1,9 @@
 Handelsregister API
 =====================
 
+**Deprecated** This repo is no longer actively maintained. All stakeholders should migrate to dso-api 
+as soon as possible. This is repo is kept only to support legacy users.
+
 Handelsregister (HR)
 
 Serve a stelselpedia API of Handelsregister items
