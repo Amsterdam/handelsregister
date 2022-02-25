@@ -261,7 +261,7 @@ SWAGGER_SETTINGS = {
     'SECURITY_DEFINITIONS': {
         'oauth2': {
             'type': 'oauth2',
-            'authorizationUrl': DATAPUNT_API_URL + "oauth2/authorize",
+            'authorizationUrl': "https://iam.amsterdam.nl/auth/realms/datapunt-ad/protocol/openid-connect/auth",
             'flow': 'implicit',
             'scopes': {
                 SCOPE_HR_R: "Toegang HR",
