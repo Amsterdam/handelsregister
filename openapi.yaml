@@ -3,6 +3,8 @@ swagger: '2.0'
 info:
   title: Handelsregister API
   description: |
+        Waarschuwing! Deze API wordt niet meer actief ondersteund. Alles gebruikers 
+        zouden zo snel mogelijk moeten overstappen op de nieuwe api op api.data.amsterdam.nl/v1/
         Door datapunt verrijkte dataset van het Handelsregister. (HR)
         Venieuwing is wekelijks. 10% van adressen in het Handelsregister
         zijn geen BAG adressen. Dit hebben wij bij datapunt zo goed mogelijk
