@@ -262,7 +262,8 @@ SWAGGER_SETTINGS = {
         'oauth2': {
             'type': 'oauth2',
             'authorizationUrl': "https://iam.amsterdam.nl/auth/realms/datapunt-ad/protocol/openid-connect/auth",
-            'flow': 'implicit',
+            'flow': 'accessCode',
+            'clientId': 'datadiensten-swagger-ui',
             'scopes': {
                 SCOPE_HR_R: "Toegang HR",
             }
