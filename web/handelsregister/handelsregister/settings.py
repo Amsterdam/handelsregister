@@ -261,7 +261,7 @@ SWAGGER_SETTINGS = {
     'SECURITY_DEFINITIONS': {
         'oauth2': {
             'type': 'oauth2',
-            'authorizationUrl': os.getenv('KEYCLOAK_JWKS_URL'),
+            'authorizationUrl': "/".join(os.getenv('KEYCLOAK_JWKS_URL').rsplit('/')[0:-1]) + "/auth",
             'flow': 'accessCode',
             'scopes': {
                 SCOPE_HR_R: "Toegang HR",
