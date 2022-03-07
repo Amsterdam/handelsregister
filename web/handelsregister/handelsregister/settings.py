@@ -256,21 +256,15 @@ REST_FRAMEWORK = dict(
 )
 
 
-auth_url = ""
-if os.getenv('KEYCLOAK_JWKS_URL'):
-    auth_url = "/".join(os.getenv('KEYCLOAK_JWKS_URL').rsplit('/')[0:-1]) + "/auth"
-
 SWAGGER_SETTINGS = {
     'VALIDATOR_URL': None,
     'USE_SESSION_AUTH': False,
     'SECURITY_DEFINITIONS': {
         'oauth2': {
             'type': 'oauth2',
-            'authorizationUrl': auth_url,
-            'flow': 'accessCode',
-            'scopes': {
-                SCOPE_HR_R: "Toegang HR",
-            }
+            'authorizationUrl': os.getenv('OAUTH_URL'),
+            'flow': 'implicit',
+            "clientId": 'datadiensten-swagger-ui'
         }
     },
     'OAUTH2_CONFIG': {
