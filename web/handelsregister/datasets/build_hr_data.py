@@ -6,6 +6,7 @@ import logging
 
 from django import db
 from django.conf import settings
+from django.db.models import Q
 
 from datasets.sbicodes.models import SBICodeHierarchy
 
@@ -18,16 +19,15 @@ from datasets.hr import models as hrmodels
 log = logging.getLogger(__name__)
 
 
-def fill_stelselpedia(keep_outside_amsterdam=False):
+def fill_stelselpedia():
     """
     Go through all tables and fill Stelselpedia tables.
     """
     with db.connection.cursor() as cursor:
-        sql_steps(
-            cursor, keep_outside_amsterdam=keep_outside_amsterdam)
+        sql_steps(cursor)
 
 
-def sql_steps(cursor, keep_outside_amsterdam=False):
+def sql_steps(cursor):
 
     log.info("Converteren locaties")
     _converteer_locaties(cursor)
@@ -99,13 +99,14 @@ def sql_steps(cursor, keep_outside_amsterdam=False):
     # log.info("Link Vestiging activiteiten aan MAC")
     # _link_mac_ativiteiten_table(cursor)
 
-    # Dropall vestigingen outside of Amsterdam
-    # if not settings.TESTING:
-    if not keep_outside_amsterdam:
-        log.info("Verwijder vestigingen met bezoekadres buiten Amsterdam")
-        deleted = Vestiging.objects.exclude(
-            bezoekadres__volledig_adres__iendswith=' amsterdam').delete()
-        log.info(deleted)
+    # Delete all vestigingen outside of given plaatsen.
+    # The plaatsnaam in the bezoekadres should be prefixed with a space separator.
+    q_plaatsen = Q()
+    for plaats in [" amsterdam", " weesp"]:
+        q_plaatsen |= Q(bezoekadres__volledig_adres__iendswith=plaats)
+
+    deleted = Vestiging.objects.exclude(q_plaatsen).delete()
+    log.info(deleted)
 
 
 def fill_location_with_bag():
