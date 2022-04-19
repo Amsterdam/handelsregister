@@ -43,7 +43,7 @@ class ImportActiviteitenTest(TestCase):
         kvk_vestiging.volledigadres = "iets in Amsterdam"
 
         kvk_vestiging.save()
-        build_hr_data.fill_stelselpedia(keep_outside_amsterdam=True)
+        build_hr_data.fill_stelselpedia()
 
         v = models.Vestiging.objects.get(pk=kvk_vestiging.pk)
         return list(v.activiteiten.all())
