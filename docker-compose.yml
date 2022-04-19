@@ -2,22 +2,24 @@ version: '3.0'
 services:
   database:
     image: amsterdam/postgres11
-    ports:
-      - "5406:5432"
+#    ports:
+#      - "5406:5432"
     environment:
       POSTGRES_PASSWORD: insecure
       POSTGRES_DB: handelsregister
       POSTGRES_USER: handelsregister
+      PGDATA: /var/lib/postgresql/data/pgdata
     volumes:
       - tmpdatabase:/tmp
+      - ./pgdata:/var/lib/postgresql/data
       - "~/.ssh/datapunt.key:/root/.ssh/datapunt.key"
 
   elasticsearch:
     image: amsterdam/elasticsearch6
     command:  elasticsearch -Ehttp.host=0.0.0.0 -Etransport.host=127.0.0.1
-    ports:
-      - "9200:9200"
-      - "9300:9300"
+#    ports:
+#      - "9200:9200"
+#      - "9300:9300"
     volumes:
       - "~/.ssh/datapunt.key:/root/.ssh/datapunt.key"
 
@@ -34,6 +36,7 @@ services:
       DATABASE_NAME: handelsregister
       DATABASE_USER: handelsregister
       DATABASE_PASSWORD: insecure
+      DATABASE_HOST_OVERRIDE: database
       PGPASSWORD: insecure
       UWSGI_HTTP: ":8080"
       UWSGI_MODULE: "handelsregister.wsgi:application"
@@ -46,10 +49,10 @@ services:
       UWSGI_DIE_ON_TERM: 1
       command: bash /app/docker-run.sh
 
-  swaggerui:
-    image: amsterdam/oauth2swaggerui
-    ports:
-      - 8686:8686
+#  swaggerui:
+#    image: amsterdam/oauth2swaggerui
+#    ports:
+#      - 8686:8686
 
 volumes:
    tmpdatabase:

@@ -14,9 +14,8 @@ class ImportMaatschappelijkeActiviteitTest(TestCase):
     def setUp(self):
         utils.generate_schema()
 
-    def _convert(self, m: kvk.KvkMaatschappelijkeActiviteit,
-                 keep_outside_amsterdam=False) -> models.MaatschappelijkeActiviteit:
-        build_hr_data.fill_stelselpedia(keep_outside_amsterdam=keep_outside_amsterdam)
+    def _convert(self, m: kvk.KvkMaatschappelijkeActiviteit) -> models.MaatschappelijkeActiviteit:
+        build_hr_data.fill_stelselpedia()
         return models.MaatschappelijkeActiviteit.objects.get(pk=m.pk)
 
     def test_import_typical_example(self):
@@ -204,7 +203,7 @@ class ImportMaatschappelijkeActiviteitTest(TestCase):
             adrhibver=Decimal('0')
         ))
 
-        mac = self._convert(m, keep_outside_amsterdam=True)
+        mac = self._convert(m)
         adr = mac.postadres
 
         self.assertIsNotNone(adr)
