@@ -5,12 +5,12 @@ set -e   # stop on any error
 set -x
 
 echo 'Downloading latest mks dumps'
-#echo "SKIPPING..."
+
 # uses data and unzipped dir
-#python get_mks_dumps.py
-#
-#echo 'Store mks dumps in database'
-#source loaddumps.sh
+python get_mks_dumps.py
+
+echo 'Store mks dumps in database'
+source loaddumps.sh
 # to test locally
 # source loaddumps_local.sh
 
