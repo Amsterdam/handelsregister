@@ -32,11 +32,13 @@ services:
       - elasticsearch
     volumes:
       - $PWD/data:/app/data
+      - $PWD/web/handelsregister/handelsregister:/app/handelsregister
     environment:
       DATABASE_NAME: handelsregister
       DATABASE_USER: handelsregister
       DATABASE_PASSWORD: insecure
       DATABASE_HOST_OVERRIDE: database
+      ELASTIC_HOST_OVERRIDE: elasticsearch
       PGPASSWORD: insecure
       UWSGI_HTTP: ":8080"
       UWSGI_MODULE: "handelsregister.wsgi:application"
