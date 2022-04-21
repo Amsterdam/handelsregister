@@ -39,6 +39,8 @@ AMSTERDAM_PLAATSEN = [
     "weesp",
     "zandvoort",
 ]
+
+
 def fill_stelselpedia(keep_outside_amsterdam=False):
     """
     Go through all tables and fill Stelselpedia tables.
