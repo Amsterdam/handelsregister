@@ -5,6 +5,7 @@ set -e   # stop on any error
 set -x
 
 echo 'Downloading latest mks dumps'
+
 # uses data and unzipped dir
 python get_mks_dumps.py
 

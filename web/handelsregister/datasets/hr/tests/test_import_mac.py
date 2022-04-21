@@ -16,7 +16,7 @@ class ImportMaatschappelijkeActiviteitTest(TestCase):
 
     def _convert(self, m: kvk.KvkMaatschappelijkeActiviteit,
                  keep_outside_amsterdam=False) -> models.MaatschappelijkeActiviteit:
-        build_hr_data.fill_stelselpedia(keep_outside_amsterdam=keep_outside_amsterdam)
+        build_hr_data.fill_stelselpedia(keep_outside_amsterdam)
         return models.MaatschappelijkeActiviteit.objects.get(pk=m.pk)
 
     def test_import_typical_example(self):

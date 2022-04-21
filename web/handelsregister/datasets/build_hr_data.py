@@ -6,6 +6,7 @@ import logging
 
 from django import db
 from django.conf import settings
+from django.db.models import Q
 
 from datasets.sbicodes.models import SBICodeHierarchy
 
@@ -17,14 +18,35 @@ from datasets.hr import models as hrmodels
 
 log = logging.getLogger(__name__)
 
+# All plaatsen in Amsterdam
+AMSTERDAM_PLAATSEN = [
+    "amsterdam",
+    "aalsmeer",
+    "almere",
+    "amstelveen",
+    "amsterdam-duivendrecht"
+    "amsterdam zuidoost"
+    "beverwijk",
+    "diemen",
+    "duivendrecht",
+    "haarlem",
+    "heemstede",
+    "hilversum",
+    "landsmeer",
+    "oostzaan",
+    "purmerend",
+    "velsen",
+    "weesp",
+    "zandvoort",
+]
+
 
 def fill_stelselpedia(keep_outside_amsterdam=False):
     """
     Go through all tables and fill Stelselpedia tables.
     """
     with db.connection.cursor() as cursor:
-        sql_steps(
-            cursor, keep_outside_amsterdam=keep_outside_amsterdam)
+        sql_steps(cursor, keep_outside_amsterdam=keep_outside_amsterdam)
 
 
 def sql_steps(cursor, keep_outside_amsterdam=False):
@@ -99,12 +121,14 @@ def sql_steps(cursor, keep_outside_amsterdam=False):
     # log.info("Link Vestiging activiteiten aan MAC")
     # _link_mac_ativiteiten_table(cursor)
 
-    # Dropall vestigingen outside of Amsterdam
-    # if not settings.TESTING:
-    if not keep_outside_amsterdam:
-        log.info("Verwijder vestigingen met bezoekadres buiten Amsterdam")
-        deleted = Vestiging.objects.exclude(
-            bezoekadres__volledig_adres__iendswith=' amsterdam').delete()
+    # Delete all vestigingen outside of given plaatsen.
+    # The plaatsnaam in the bezoekadres should be prefixed with a space separator.
+    if keep_outside_amsterdam is False:
+        q_plaatsen = Q()
+        for plaats in AMSTERDAM_PLAATSEN:
+            q_plaatsen |= Q(bezoekadres__volledig_adres__iendswith=f" {plaats}")
+
+        deleted = Vestiging.objects.exclude(q_plaatsen).delete()
         log.info(deleted)
 
 

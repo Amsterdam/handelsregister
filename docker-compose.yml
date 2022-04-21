@@ -8,8 +8,10 @@ services:
       POSTGRES_PASSWORD: insecure
       POSTGRES_DB: handelsregister
       POSTGRES_USER: handelsregister
+      PGDATA: /var/lib/postgresql/data/pgdata
     volumes:
       - tmpdatabase:/tmp
+      - ./pgdata:/var/lib/postgresql/data
       - "~/.ssh/datapunt.key:/root/.ssh/datapunt.key"
 
   elasticsearch:
@@ -29,11 +31,13 @@ services:
       - database
       - elasticsearch
     volumes:
-      - $PWD/data:/app/data
+      - $PWD/web/handelsregister:/app
     environment:
       DATABASE_NAME: handelsregister
       DATABASE_USER: handelsregister
       DATABASE_PASSWORD: insecure
+      DATABASE_HOST_OVERRIDE: database
+      ELASTIC_HOST_OVERRIDE: elasticsearch
       PGPASSWORD: insecure
       UWSGI_HTTP: ":8080"
       UWSGI_MODULE: "handelsregister.wsgi:application"
