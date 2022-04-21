@@ -31,8 +31,7 @@ services:
       - database
       - elasticsearch
     volumes:
-      - $PWD/data:/app/data
-      - $PWD/web/handelsregister/handelsregister:/app/handelsregister
+      - $PWD/web/handelsregister:/app
     environment:
       DATABASE_NAME: handelsregister
       DATABASE_USER: handelsregister

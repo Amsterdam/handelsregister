@@ -18,16 +18,36 @@ from datasets.hr import models as hrmodels
 
 log = logging.getLogger(__name__)
 
-
-def fill_stelselpedia():
+# All plaatsen in Amsterdam
+AMSTERDAM_PLAATSEN = [
+    "amsterdam",
+    "aalsmeer",
+    "almere",
+    "amstelveen",
+    "amsterdam-duivendrecht"
+    "amsterdam zuidoost"
+    "beverwijk",
+    "diemen",
+    "duivendrecht",
+    "haarlem",
+    "heemstede",
+    "hilversum",
+    "landsmeer",
+    "oostzaan",
+    "purmerend",
+    "velsen",
+    "weesp",
+    "zandvoort",
+]
+def fill_stelselpedia(keep_outside_amsterdam=False):
     """
     Go through all tables and fill Stelselpedia tables.
     """
     with db.connection.cursor() as cursor:
-        sql_steps(cursor)
+        sql_steps(cursor, keep_outside_amsterdam=keep_outside_amsterdam)
 
 
-def sql_steps(cursor):
+def sql_steps(cursor, keep_outside_amsterdam=False):
 
     log.info("Converteren locaties")
     _converteer_locaties(cursor)
@@ -101,12 +121,13 @@ def sql_steps(cursor):
 
     # Delete all vestigingen outside of given plaatsen.
     # The plaatsnaam in the bezoekadres should be prefixed with a space separator.
-    q_plaatsen = Q()
-    for plaats in [" amsterdam", " weesp"]:
-        q_plaatsen |= Q(bezoekadres__volledig_adres__iendswith=plaats)
+    if keep_outside_amsterdam is False:
+        q_plaatsen = Q()
+        for plaats in AMSTERDAM_PLAATSEN:
+            q_plaatsen |= Q(bezoekadres__volledig_adres__iendswith=f" {plaats}")
 
-    deleted = Vestiging.objects.exclude(q_plaatsen).delete()
-    log.info(deleted)
+        deleted = Vestiging.objects.exclude(q_plaatsen).delete()
+        log.info(deleted)
 
 
 def fill_location_with_bag():
