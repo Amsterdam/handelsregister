@@ -31,7 +31,7 @@ for sql in *.sql; do
     grep -v "ALTER TABLE" | \
     grep -v "PRIMARY KEY (" | \
     sed 's/^.*geometry(Point.*$/    geopunt GEOMETRY(Point,28992)/' | \
-    sed 's/igp_sw44z0001_cmg_owner\.//' | \
+    sed -r 's/igp_[a-zA-Z0-9_]+_cmg_owner\.//' | \
     psql -v ON_ERROR_STOP=1 -d handelsregister -h ${DATABASE_PORT_5432_TCP_ADDR} -p  ${DATABASE_PORT_5432_TCP_PORT} -U handelsregister
 done
 
