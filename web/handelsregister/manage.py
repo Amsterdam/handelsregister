@@ -7,7 +7,6 @@ import sys
 
 log = logging.getLogger(__name__)
 
-log.info('NOTE: gevent is loaded.')
 
 if __name__ == "__main__":
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "handelsregister.settings")

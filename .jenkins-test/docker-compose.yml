@@ -2,21 +2,28 @@ version: '3.5'
 services:
   database:
     image: amsterdam/postgres11
+    ports:
+      - "5406:5432"
     environment:
       POSTGRES_PASSWORD: insecure
       POSTGRES_USER: handelsregister
 
   elasticsearch:
     image: amsterdam/elasticsearch6
+    ports:
+      - "9200:9200"
+      - "9300:9300"
     command: elasticsearch -Ehttp.host=0.0.0.0 -Etransport.host=127.0.0.1
 
   tests:
     build: ../web
-    links:
+    depends_on:
       - database
       - elasticsearch
     environment:
       DATABASE_NAME: handelsregister
       DATABASE_USER: handelsregister
       DATABASE_PASSWORD: insecure
-    command: bash -c "./docker-wait.sh && ./docker-test.sh"
+      DATABASE_HOST_OVERRIDE: database
+      ELASTIC_HOST_OVERRIDE: elasticsearch
+    command: python /app/manage.py test --noinput

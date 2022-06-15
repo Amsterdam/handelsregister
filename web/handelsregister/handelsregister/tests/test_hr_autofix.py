@@ -11,16 +11,12 @@ from .fixtures import patch_search_requests
 
 @patch_search_requests
 class CorrectBySearchTest(APITestCase):
-    """Test the module that fixes incomplete location entries
-    """
-
-    # create some factory stuff
+    """Test the module that fixes incomplete location entries."""
 
     def setUp(self):
         """
         For x bag panden
         """
-
         self.locaties = factories_hr.create_search_test_locaties()
 
     def test_creation(self):
@@ -33,16 +29,16 @@ class CorrectBySearchTest(APITestCase):
         self.assertEqual(2, invalid.count())
 
     def test_completing(self):
-        """check if after guessing the is no more incomplete location
-        """
+        """Check if after guessing the is no more incomplete location."""
         improve_location_with_search.guess()
         invalid = improve_location_with_search.create_qs_of_invalid_locations('Amsterdam')
-        # check that all adresses have been seen
-        # and a correction attempt has been made
+
+        # check that all adresses have been seen and a correction attempt has been made
         self.assertEqual(0, invalid.count())
 
-        corrected = models_hr.Locatie.objects\
+        corrected = models_hr.Locatie.objects \
             .filter(geometrie__isnull=False) \
-            .filter(volledig_adres__endswith='Amsterdam') \
+            .filter(volledig_adres__endswith='Amsterdam')
+
         # Check that 1 item should be corrected with toevoeging
         self.assertEqual(1, corrected.count())
