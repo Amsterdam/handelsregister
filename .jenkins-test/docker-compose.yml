@@ -26,4 +26,4 @@ services:
       DATABASE_PASSWORD: insecure
       DATABASE_HOST_OVERRIDE: database
       ELASTIC_HOST_OVERRIDE: elasticsearch
-    command: python /app/manage.py test --noinput
+    command: python /app/manage_gevent.py test --noinput

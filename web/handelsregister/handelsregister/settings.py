@@ -117,7 +117,7 @@ DATAPUNT_API_REQUEST_HEADER = os.getenv('DATAPUNT_API_REQUEST_HEADER', 'e1d3b888
 insecure_key = 'insecure'
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', insecure_key)
 DEBUG = SECRET_KEY == insecure_key
-DEBUG = False
+
 
 ALLOWED_HOSTS = ['*']
 
@@ -360,7 +360,8 @@ LOGGING = {
 
         'datasets.hr.improve_location_with_search': {
             'handlers': ['console'],
-            'level': 'INFO',
+            'level': 'DEBUG' if DEBUG else 'INFO',
+            'propagate': False
         },
         # Debug all batch jobs
         'doc': {

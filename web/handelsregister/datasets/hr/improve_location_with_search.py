@@ -39,6 +39,8 @@ log = logging.getLogger(__name__)
 
 SEARCHES_QUEUE = JoinableQueue(maxsize=1500)
 
+STATUS_INTERVAL = 10.0  # dont spam logs
+
 # TO see step by step what search does.
 SLOW = False
 
@@ -99,15 +101,13 @@ def fix_counter():
     """
     Get an indication of the request per second
     """
-    interval = 10.0  # dont spam logs
-
     while True:
         start = STATS['correcties']
-        gevent.sleep(interval)
+        gevent.sleep(STATUS_INTERVAL)
         diff = STATS['correcties'] - start + 0.001
-        speed = (diff // interval) + 1
+        speed = (diff // STATUS_INTERVAL) + 1
         STATS['fixs'] = '%.2f' % speed
-        seconds_left = abs((STATS['total'] + 1) - STATS['correcties']) // speed
+        seconds_left = abs((STATS['total'] + 1) - STATS['correcties']) // speed if speed > 0 else 0
         STATS['left'] = datetime.timedelta(seconds=seconds_left)
         log.info(make_status_line())
 
@@ -154,8 +154,7 @@ GEMEENTEN = [
     # 'Wijdemeren'
 ]
 
-REPLACE_TABLE = "".maketrans(
-    string.punctuation, len(string.punctuation)*" ")
+REPLACE_TABLE = "".maketrans(string.punctuation, len(string.punctuation)*" ")
 
 
 def first_house_number(input_tokens):
@@ -266,11 +265,10 @@ def is_straat_huisnummer(tokens) -> int:
 
 
 class SearchTask:
-    """
-    All data relevant for async search instance
-    We get raw 'volledig_adres' and try to ind
+    """All data relevant for async search instance."""
 
-    """
+    HEADER = {'X-Api-Key': settings.DATAPUNT_API_REQUEST_HEADER}
+    RETRIES = 1 if settings.TESTING else 3
 
     def __init__(self, locatieobject, query_string, straatnaam,
                  nummers, toevoegingen, postcode):
@@ -300,11 +298,11 @@ class SearchTask:
         async_r = grequests.get(
             url=url,
             params=parameters,
-            headers={'X-Api-Key': settings.DATAPUNT_API_REQUEST_HEADER},
+            headers=self.HEADER,
             timeout=(5, 27),
         )
 
-        for n in range(3):
+        for n in range(self.RETRIES):
             gevent.spawn(async_r.send).join()
             resp: Response = async_r.response
 
@@ -314,7 +312,8 @@ class SearchTask:
                 log.error("(%s) RESPONSE %s, %s", n, resp.status_code, resp.url)
             except AttributeError:
                 msg = "(%s) RESPONSE NONE %s, %s, %s"
-                log.error(msg, n, f"{url}?{urlencode(parameters, quote_via=quote)}", id(gevent.getcurrent()), str(async_r.exception))
+                url = f"{url}?{urlencode(parameters, quote_via=quote)}"
+                log.error(msg, n, url, id(gevent.getcurrent()), str(async_r.exception))
             else:
                 return resp.json()
 
@@ -983,7 +982,7 @@ def run_workers(jobs):
             gevent.spawn(async_determine_rd_coordinates)
         )
 
-    with gevent.Timeout(3600, False):
+    with gevent.Timeout(3600, exception=False):
         # waint untill all search tasks are done
         # but no longer than an hour
         gevent.joinall(jobs)
@@ -999,7 +998,6 @@ def guess():
     status_job = gevent.spawn(fix_counter)
 
     for gemeente in GEMEENTEN:
-
         invalid_locations = create_qs_of_invalid_locations(gemeente)
 
         if SLOW:
@@ -1025,26 +1023,22 @@ def guess():
 
         STATS[gemeente] = STATS['correcties']  # store corrections for each gemeente
 
-        log.debug('\nCorrecties %s Duration %i seconds\n',
-                  STATS['correcties'], time.time() - STATS['start'])
+        log.debug('\nCorrecties %s Duration %i seconds\n', STATS['correcties'], time.time() - STATS['start'])
 
-        # reset correcties count
-        STATS['correcties'] = 0
+        STATS['correcties'] = 0  # reset correcties count
 
         # check if we did a good job doing corrections.
         # normally about ~60 invalid locations left of 10.000
         num_invalid_locations = invalid_locations.count()
         assert num_invalid_locations < 1000, \
-            "Out of {initial_invalid_locations} initial invalid locations, {num_invalid_locations} still exist"\
-                .format(initial_invalid_locations=count, num_invalid_locations=num_invalid_locations)
+            f"Out of {count} initial invalid locations, {num_invalid_locations} still exist"
 
-    status_job.kill()
+    status_job.kill(timeout=STATUS_INTERVAL + 0.1)  # wait for last status msg
 
     # log end result
     for gemeente in GEMEENTEN:
-        if gemeente not in STATS:
-            continue
-        log.debug('%s - correcties: %s', gemeente, STATS[gemeente])
+        if gemeente in STATS:
+            log.info('%s - correcties: %s', gemeente, STATS[gemeente])
 
     # check if we did any corrections.
     assert any([STATS.get(gem, 0) > 0 for gem in GEMEENTEN])

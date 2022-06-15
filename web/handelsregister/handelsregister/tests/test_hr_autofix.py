@@ -21,24 +21,30 @@ class CorrectBySearchTest(APITestCase):
 
     def test_creation(self):
         """check if things are created"""
-        self.assertEqual(2, models_hr.Locatie.objects.count())
+        self.assertEqual(3, models_hr.Locatie.objects.count())
 
     def test_invalid_count(self):
         """check if we can find invalid locations"""
         invalid = improve_location_with_search.create_qs_of_invalid_locations('Amsterdam')
         self.assertEqual(2, invalid.count())
 
+        invalid = improve_location_with_search.create_qs_of_invalid_locations('Weesp')
+        self.assertEqual(1, invalid.count())
+
     def test_completing(self):
         """Check if after guessing the is no more incomplete location."""
-        improve_location_with_search.guess()
-        invalid = improve_location_with_search.create_qs_of_invalid_locations('Amsterdam')
 
-        # check that all adresses have been seen and a correction attempt has been made
-        self.assertEqual(0, invalid.count())
+        for gemeente in ("Amsterdam", "Weesp"):
+            invalid_adam = improve_location_with_search.create_qs_of_invalid_locations(gemeente)
 
-        corrected = models_hr.Locatie.objects \
-            .filter(geometrie__isnull=False) \
-            .filter(volledig_adres__endswith='Amsterdam')
+            improve_location_with_search.guess()
 
-        # Check that 1 item should be corrected with toevoeging
-        self.assertEqual(1, corrected.count())
+            # check that all adresses have been seen and a correction attempt has been made
+            self.assertEqual(0, invalid_adam.count())
+
+            corrected = models_hr.Locatie.objects \
+                .filter(geometrie__isnull=False) \
+                .filter(volledig_adres__endswith=gemeente)
+
+            # Check that 1 item should be corrected with toevoeging
+            self.assertEqual(1, corrected.count())
