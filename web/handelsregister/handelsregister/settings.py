@@ -418,6 +418,11 @@ LOGGING = {
             'propagate': False,
         },
 
+        'faker': {
+            'handlers': ['console'],
+            'level': 'ERROR',
+            'propagate': False,
+        },
     },
 }
 
