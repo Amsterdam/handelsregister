@@ -228,6 +228,18 @@ def create_search_test_locaties():
 
     )
 
+    # locatie zonder geo maar met
+    # adres en geo in fixture (Weesp)
+    loc_3 = LocatieFactory.create(
+        id=2 * 100 + 2,
+        bag_numid=None,
+        bag_vbid=None,
+        geometrie=None,
+        correctie=None,
+        volledig_adres='ikbestawel 10 A, 1013AW, Weesp'
+
+    )
+
     VestigingFactory.create(
         bezoekadres=loc_1,
     )
@@ -236,4 +248,8 @@ def create_search_test_locaties():
         bezoekadres=loc_2,
     )
 
-    return [loc_1, loc_2]
+    VestigingFactory.create(
+        bezoekadres=loc_3,
+    )
+
+    return [loc_1, loc_2, loc_3]
