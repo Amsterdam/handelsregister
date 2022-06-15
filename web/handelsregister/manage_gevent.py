@@ -1,6 +1,8 @@
 #!/usr/bin/env python
-from gevent import monkey
-monkey.patch_all(thread=False, select=False)
+# from gevent import monkey
+# monkey.patch_all(thread=False, select=False)
+# importing grequests does this for us
+import grequests
 
 import logging
 import os

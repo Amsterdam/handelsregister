@@ -10,6 +10,10 @@ location quality of the datasets
 # from gevent import monkey
 # monkey.patch_all(thread=False, select=False)
 
+import grequests
+import gevent
+from gevent.queue import JoinableQueue
+
 import datetime
 import os
 import re
@@ -19,18 +23,15 @@ import logging
 import time
 import editdistance
 
+from urllib.parse import urlencode, quote
 from collections import OrderedDict
 from itertools import cycle
 
-from requests import Session
-import grequests
+from requests import HTTPError, Response
 
 from django.conf import settings
 from django.contrib.gis.geos import GEOSGeometry
 from django.db.models import Q
-
-import gevent
-from gevent.queue import JoinableQueue
 
 from .models import Locatie
 
@@ -98,7 +99,7 @@ def fix_counter():
     """
     Get an indication of the request per second
     """
-    interval = 3.0
+    interval = 10.0  # dont spam logs
 
     while True:
         start = STATS['correcties']
@@ -141,7 +142,7 @@ GEMEENTEN = [
     # 'Waterland',
     # 'Haarlemmerliede',
     # 'Haarlemmermeer',
-    # 'Weesp',
+    'Weesp',
     # 'Gooise Meren',
     # 'De Ronde Venen',
     # 'Purmerend',
@@ -264,7 +265,7 @@ def is_straat_huisnummer(tokens) -> int:
         return i
 
 
-class SearchTask():
+class SearchTask:
     """
     All data relevant for async search instance
     We get raw 'volledig_adres' and try to ind
@@ -289,44 +290,37 @@ class SearchTask():
         self.bag_id = None
         # corrected geometrie
         self.geometrie = None
-        # http session
-        self.session = Session()
 
-    def get_response(self, parameters={}, url=SEARCH_ADRES_URL):
+    def get_response(self, parameters=None, url=SEARCH_ADRES_URL) -> dict:
         """
         Actually do the http api search call
         """
-        # parameters = {'q': self.get_q()}
+        url = url.replace(SEARCH_URL_BASE, get_search_url_base())
 
-        url_base = get_search_url_base()
-        url = url.replace(SEARCH_URL_BASE, url_base)
+        async_r = grequests.get(
+            url=url,
+            params=parameters,
+            headers={'X-Api-Key': settings.DATAPUNT_API_REQUEST_HEADER},
+            timeout=(5, 27),
+        )
 
-        header = {'X-Api-Key': settings.DATAPUNT_API_REQUEST_HEADER}
-        async_r = grequests.get(url, params=parameters, session=self.session, headers=header, timeout=(5,27))
-        # send a request and wait for results
-        gevent.spawn(async_r.send).join()
-        # Do something with the result count?
+        for n in range(3):
+            gevent.spawn(async_r.send).join()
+            resp: Response = async_r.response
 
-        if async_r.response is None:
-            if hasattr(async_r, "exception"):
-                e = str(async_r.exception)
+            try:
+                resp.raise_for_status()
+            except HTTPError:
+                log.error("(%s) RESPONSE %s, %s", n, resp.status_code, resp.url)
+            except AttributeError:
+                msg = "(%s) RESPONSE NONE %s, %s, %s"
+                log.error(msg, n, f"{url}?{urlencode(parameters, quote_via=quote)}", id(gevent.getcurrent()), str(async_r.exception))
             else:
-                e = 'None'
-            log.error('RESPONSE NONE %s %s, %s, %s', url, parameters, id(gevent.getcurrent()), e)
-            gevent.sleep(2.0)
-            return {}
+                return resp.json()
 
-        if async_r.response.status_code == 404:
-            log.error('404 %s %s', url, parameters)
-            return {}
+            gevent.sleep(1.0)
 
-        if not async_r.response:
-            log.error('NO RESPONSE %s %s', url, parameters)
-            return {}
-
-        result_json = async_r.response.json()
-
-        return result_json
+        return {}
 
     def determine_rd_coordinates(self):
         """
@@ -1023,15 +1017,13 @@ def guess():
 
         log.debug('\n Processing gemeente {} {} \n'.format(gemeente, count))
 
-        #
-        jobs = [gevent.spawn(
-            create_improve_locations_tasks, invalid_locations)]
+        jobs = [gevent.spawn(create_improve_locations_tasks, invalid_locations)]
 
         wait_for_filled_queue()
 
         run_workers(jobs)
-        # store corrections for each gemeente
-        STATS[gemeente] = STATS['correcties']
+
+        STATS[gemeente] = STATS['correcties']  # store corrections for each gemeente
 
         log.debug('\nCorrecties %s Duration %i seconds\n',
                   STATS['correcties'], time.time() - STATS['start'])
@@ -1055,11 +1047,10 @@ def guess():
         log.debug('%s - correcties: %s', gemeente, STATS[gemeente])
 
     # check if we did any corrections.
-    assert STATS['Amsterdam'] > 0
+    assert any([STATS.get(gem, 0) > 0 for gem in GEMEENTEN])
 
     total_seconds = time.time() - STATS['start']
-    log.debug('\nTotal Duration %i m: %i\n',
-              total_seconds / 60.0, total_seconds % 60)
+    log.debug('\nTotal Duration %i m: %i\n', total_seconds / 60.0, total_seconds % 60)
 
 
 def test_one_weird_one(test="", target=""):

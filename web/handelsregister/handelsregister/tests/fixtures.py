@@ -51,7 +51,7 @@ def set_response_with_fixture_file(res, filename):
         with open('{}/search_fixture_files/{}'.format(DIRECTORY, filename), 'rb') as f:
             res._content = f.read()
             res.status_code = 200
-    except(FileNotFoundError):
+    except FileNotFoundError:
         res.status_code = 404
 
 
@@ -65,7 +65,7 @@ def _search_fixtures_get(url, *args, **kwargs):
     try:
         q = kwargs['params']['q']
         filename = 'q={}'.format(q)
-    except KeyError:
+    except (KeyError, TypeError):
         pass
 
     if not filename:

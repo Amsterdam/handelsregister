@@ -27,7 +27,7 @@ services:
     build: ./web
     ports:
       - "8102:8080"
-    links:
+    depends_on:
       - database
       - elasticsearch
     volumes:
@@ -53,7 +53,14 @@ services:
   swaggerui:
     image: amsterdam/oauth2swaggerui
     ports:
-      - 8686:8686
+      - "8686:8686"
 
 volumes:
-   tmpdatabase:
+  tmpdatabase:
+
+# Required for vpn to connect to admin.data.amsterdam.nl
+#networks:
+#  default:
+#    driver: bridge
+#    driver_opts:
+#      com.docker.network.driver.mtu: 1200
