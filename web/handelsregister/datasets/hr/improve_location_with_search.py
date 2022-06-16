@@ -23,7 +23,7 @@ import logging
 import time
 import editdistance
 
-from urllib.parse import urlencode, quote
+from urllib.parse import urlencode
 from collections import OrderedDict
 from itertools import cycle
 
@@ -59,7 +59,7 @@ P6LEVEL = 1000
 
 # the amount of concurrent workers that do requests
 # to the search api
-WORKERS = 7
+WORKERS = 8
 
 if SLOW:
     WORKERS = 1  # 25
@@ -293,7 +293,9 @@ class SearchTask:
         """
         Actually do the http api search call
         """
+        parameters = parameters or {}
         url = url.replace(SEARCH_URL_BASE, get_search_url_base())
+        encoded_url = f"{url}?{urlencode(parameters)}"
 
         async_r = grequests.get(
             url=url,
@@ -312,13 +314,15 @@ class SearchTask:
                 log.error("(%s) RESPONSE %s, %s", n, resp.status_code, resp.url)
             except AttributeError:
                 msg = "(%s) RESPONSE NONE %s, %s, %s"
-                url = f"{url}?{urlencode(parameters, quote_via=quote)}"
-                log.error(msg, n, url, id(gevent.getcurrent()), str(async_r.exception))
+                log.error(msg, n, encoded_url, id(gevent.getcurrent()), str(async_r.exception))
             else:
+                if n > 0:
+                    log.info("(RETRY %s) RESPONSE %s, %s", n, resp.status_code, resp.url)
                 return resp.json()
 
             gevent.sleep(1.0)
 
+        log.error("No response after %s retries: %s", self.RETRIES, encoded_url)
         return {}
 
     def determine_rd_coordinates(self):

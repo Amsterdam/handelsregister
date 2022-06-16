@@ -360,7 +360,7 @@ LOGGING = {
 
         'datasets.hr.improve_location_with_search': {
             'handlers': ['console'],
-            'level': 'DEBUG' if DEBUG else 'INFO',
+            'level': 'INFO',
             'propagate': False
         },
         # Debug all batch jobs
