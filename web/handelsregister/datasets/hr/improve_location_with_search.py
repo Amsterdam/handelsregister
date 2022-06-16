@@ -59,7 +59,7 @@ P6LEVEL = 1000
 
 # the amount of concurrent workers that do requests
 # to the search api
-WORKERS = 10
+WORKERS = 7
 
 if SLOW:
     WORKERS = 1  # 25
