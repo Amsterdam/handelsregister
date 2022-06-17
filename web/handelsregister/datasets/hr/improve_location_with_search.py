@@ -57,9 +57,9 @@ STRAATLEVEL = 0
 POSTCODELEVEL = 200
 P6LEVEL = 1000
 
-# the amount of concurrent workers that do requests
-# to the search api
-WORKERS = 8
+# the amount of concurrent workers that do requests to the search api
+# tune this to prevent 429 responses
+WORKERS = 5
 
 if SLOW:
     WORKERS = 1  # 25
@@ -110,22 +110,6 @@ def fix_counter():
         seconds_left = abs((STATS['total'] + 1) - STATS['correcties']) // speed if speed > 0 else 0
         STATS['left'] = datetime.timedelta(seconds=seconds_left)
         log.info(make_status_line())
-
-
-class LOGHANDLER():
-    """
-    set up some logging
-    """
-    wtf = logging.getLogger('onbekend')
-    bag_error = logging.getLogger('bagerror')
-
-    def __init__(self):
-        if not settings.DEBUG:
-            self.wtf.setLevel(logging.CRITICAL)
-            self.bag_error.setLevel(logging.CRITICAL)
-
-
-LOG = LOGHANDLER()
 
 
 # we corrigeren alleen voor Amsterdam.
@@ -294,8 +278,8 @@ class SearchTask:
         Actually do the http api search call
         """
         parameters = parameters or {}
-        url = url.replace(SEARCH_URL_BASE, get_search_url_base())
-        encoded_url = f"{url}?{urlencode(parameters)}"
+        url = url.replace(SEARCH_URL_BASE, get_search_url_base()).strip()
+        encoded_url = f"{url}?{urlencode(parameters)}" if parameters else url
 
         async_r = grequests.get(
             url=url,
@@ -311,13 +295,14 @@ class SearchTask:
             try:
                 resp.raise_for_status()
             except HTTPError:
-                log.error("(%s) RESPONSE %s, %s", n, resp.status_code, resp.url)
+                log.warning("(%s) RESPONSE %s, %s", n, resp.status_code, resp.url)
+                log.debug("%s", resp.headers)
             except AttributeError:
                 msg = "(%s) RESPONSE NONE %s, %s, %s"
                 log.error(msg, n, encoded_url, id(gevent.getcurrent()), str(async_r.exception))
             else:
                 if n > 0:
-                    log.info("(RETRY %s) RESPONSE %s, %s", n, resp.status_code, resp.url)
+                    log.info("(%s) RESPONSE %s, %s", n, resp.status_code, resp.url)
                 return resp.json()
 
             gevent.sleep(1.0)
@@ -354,7 +339,7 @@ class SearchTask:
                 num, point, bag_id, num_id, correctie_level)
         else:
             log.exception('Point/Bagid missing: %s', num)
-            self.log_wtf_loc()
+            self.log_not_found()
             return
 
     def get_q(self, toevoeging, nummer=None, postcode=None):
@@ -548,22 +533,23 @@ class SearchTask:
         if self.locatie.correctie is None:
             self.locatie.correctie = False
             self.locatie.save()
-            self.log_wtf_loc()
+            self.log_not_found()
 
         return 9999, []
 
-    def log_wtf_loc(self):
+    def log_not_found(self):
         """
         nothing found
         """
-        LOG.wtf.debug(
+        log.debug(
             '%s, %s, %s, %s, %s, %s',
             self.locatie.id,
             self.straatnaam,
             self.postcode,
             self.nummers,
             self.toevoegingen,
-            self.query_string)
+            self.query_string
+        )
 
         STATS['onbekend'] += 1
 
