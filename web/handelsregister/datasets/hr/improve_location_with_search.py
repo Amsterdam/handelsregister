@@ -252,7 +252,7 @@ class SearchTask:
     """All data relevant for async search instance."""
 
     HEADER = {'X-Api-Key': settings.DATAPUNT_API_REQUEST_HEADER}
-    RETRIES = 1 if settings.TESTING else 3
+    RETRIES = 1 if settings.TESTING else 5
 
     def __init__(self, locatieobject, query_string, straatnaam,
                  nummers, toevoegingen, postcode):
@@ -277,8 +277,8 @@ class SearchTask:
         """
         Actually do the http api search call
         """
-        parameters = parameters or {}
         url = url.replace(SEARCH_URL_BASE, get_search_url_base()).strip()
+        parameters = {k: str(v).strip() for k, v in parameters.items()} if parameters else {}
         encoded_url = f"{url}?{urlencode(parameters)}" if parameters else url
 
         async_r = grequests.get(
@@ -305,7 +305,7 @@ class SearchTask:
                     log.info("(%s) RESPONSE %s, %s", n, resp.status_code, resp.url)
                 return resp.json()
 
-            gevent.sleep(1.0)
+            gevent.sleep(1.0 * (n+1)**2)
 
         log.error("No response after %s retries: %s", self.RETRIES, encoded_url)
         return {}
