@@ -31,7 +31,7 @@ drf-amsterdam==0.1.4
 drf-extensions==0.4.0
 drf-hal-json==0.9.1
 drf-nested-fields==0.9.4
-drf-yasg==1.20.0
+drf-yasg==1.21.4
 editdistance==0.5.2
 elasticsearch==6.3.1
 elasticsearch-dsl==6.3.1
@@ -64,8 +64,8 @@ os-service-types==1.4.0
 oslo.config==6.7.0
 oslo.i18n==3.23.0
 oslo.serialization==2.28.1
-oslo.utils==3.39.0
-packaging==18.0
+oslo.utils==4.10.1
+packaging>=21.0
 pbr==5.1.1
 pies==2.6.7
 pip-review==1.0
@@ -81,7 +81,7 @@ pyslack-real==0.6.0
 python-dateutil==2.7.5
 python-keystoneclient==3.18.0
 python-swiftclient==3.6.0
-pytz==2018.9
+pytz==2021.1
 PyYAML==5.4
 requests==2.25.0
 rfc3986==1.2.0
