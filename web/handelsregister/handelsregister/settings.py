@@ -15,6 +15,7 @@ import sys
 
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
+from pathlib import Path
 
 # Handelsregister
 SCOPE_HR_R = 'HR/R'
@@ -109,6 +110,9 @@ DATABASE_OPTIONS = {
 DATABASES = {
     'default': DATABASE_OPTIONS[get_database_key()]
 }
+
+if os.getenv("AZURE", False):
+    DATABASES["default"]["PASSWORD"] = Path(os.environ["DATABASE_PW_LOCATION"]).open().read()
 
 VBO_URI = os.getenv('BAG_API_ROOT', 'https://api.data.amsterdam.nl/bag/v1.1') + "/verblijfsobject/"
 

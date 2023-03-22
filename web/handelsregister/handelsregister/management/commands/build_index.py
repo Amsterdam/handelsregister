@@ -19,13 +19,8 @@ class Command(BaseCommand):
     ordered = ['mac', 'ves']
 
     index_tasks = {
-        'mac': [build_index.index_mac_docs],
-        'ves': [build_index.index_ves_docs],
-    }
-
-    reset_tasks = {
-        'mac': [build_index.reset_hr_docs],
-        'ves': [],
+        'mac': [build_index.index_mac_docs], # maatschappelijke activiteiten
+        'ves': [build_index.index_ves_docs], # vestigingen
     }
 
     def add_arguments(self, parser):
@@ -101,14 +96,12 @@ class Command(BaseCommand):
 
         self.set_partial_config(options)
 
-        for ds in sets:
+        if options['reset_indexes']:
+            build_index.reset_hr_docs()
 
-            if options['build_index']:
+        if options['build_index']:
+            for ds in sets:
                 for task in self.index_tasks[ds]:
-                    task()
-
-            if options['reset_indexes']:
-                for task in self.reset_tasks[ds]:
                     task()
 
         self.stdout.write(

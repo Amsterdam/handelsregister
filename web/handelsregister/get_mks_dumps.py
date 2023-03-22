@@ -1,5 +1,5 @@
 """
-We use the objectstore to get the latest and greatest of the mks dump
+Get the latest state of the Makelaarssuite dump from the objectstore.
 """
 
 import os
