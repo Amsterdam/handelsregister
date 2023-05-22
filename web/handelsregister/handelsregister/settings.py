@@ -114,6 +114,12 @@ DATABASES = {
 if os.getenv("AZURE", False):
     DATABASES["default"]["PASSWORD"] = Path(os.environ["DATABASE_PW_LOCATION"]).open().read()
 
+DATABASE_SCHEMA =  os.getenv("DATABASE_SCHEMA")
+if DATABASE_SCHEMA is not None:
+    # https://www.postgresql.org/docs/11/ddl-schemas.html under 5.8.3
+    # public is required for using the PostGis extension
+    DATABASES["default"]["OPTIONS"] = {"options": f"-c search_path={DATABASE_SCHEMA},public"}
+
 VBO_URI = os.getenv('BAG_API_ROOT', 'https://api.data.amsterdam.nl/bag/v1.1') + "/verblijfsobject/"
 
 DATAPUNT_API_REQUEST_HEADER = os.getenv('DATAPUNT_API_REQUEST_HEADER', 'e1d3b888-fd6a-4be8-ad96-0d63b4aa7982')
