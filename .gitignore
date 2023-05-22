@@ -159,3 +159,6 @@ data/
 unzipped/
 hr_cbs_sbicodes/
 pgdata/
+
+# local compose overrides
+docker-compose.override.*
