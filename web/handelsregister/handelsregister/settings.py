@@ -126,7 +126,7 @@ DATAPUNT_API_REQUEST_HEADER = os.getenv('DATAPUNT_API_REQUEST_HEADER', 'e1d3b888
 # SECURITY WARNING: keep the secret key used in production secret!
 insecure_key = 'insecure'
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', insecure_key)
-DEBUG = SECRET_KEY == insecure_key
+DEBUG = os.getenv('DEBUG', False)
 
 
 ALLOWED_HOSTS = ['*']
@@ -324,8 +324,11 @@ DATAPUNT_AUTHZ = {
     'JWKS_URL': os.getenv('KEYCLOAK_JWKS_URL'),
     'MIN_SCOPE': SCOPE_HR_R,
     'FORCED_ANONYMOUS_ROUTES': ('/status/', '/handelsregister/static/', '/handelsregister/docs/'),
-    # 'ALWAYS_OK': True,
+    'ALWAYS_OK': False
 }
+
+if DEBUG:
+    DATAPUNT_AUTHZ['ALWAYS_OK'] = True
 
 LOGGING = {
     'version': 1,

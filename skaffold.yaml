@@ -1,0 +1,18 @@
+apiVersion: skaffold/v4beta5
+kind: Config
+metadata:
+  name: handelsregister
+build:
+  artifacts:
+    - image: handelsregister
+      context: web
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: handelsregister/**/*.py
+            dest: /app
+            strip: 'handelsregister'
+manifests:
+  rawYaml:
+    - k8s/deployment.yaml

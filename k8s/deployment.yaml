@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: workload-hr
+  labels:
+    helm.sh/chart: handelsregister-0.1.0
+    app.kubernetes.io/name: hr
+    app.kubernetes.io/instance: workload
+    app.kubernetes.io/version: "0.1"
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/component: "handelsregister"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: hr
+      app.kubernetes.io/instance: workload
+  template:
+    metadata:
+      labels:
+        app: hr
+        app.kubernetes.io/name: hr
+        app.kubernetes.io/instance: workload
+    spec:
+      securityContext:
+        runAsUser: 0
+      containers:
+        - name: handelsregister
+          command: ["uwsgi", "-i", "--python-autoreload", "/app"]
+          image: "handelsregister:latest"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          envFrom:
+            - configMapRef:
+                name: workload-hr
+                optional: false
+          resources:
+            limits:
+              cpu: 100m
+              memory: 256Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
