@@ -26,4 +26,5 @@ services:
       DATABASE_PASSWORD: insecure
       DATABASE_HOST_OVERRIDE: database
       ELASTIC_HOST_OVERRIDE: elasticsearch
+      DJANGO_SECRET_KEY: insecure
     command: bash -c "./docker-wait.sh && python /app/manage_gevent.py test --noinput"
