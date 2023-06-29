@@ -6,6 +6,7 @@ import os
 import logging
 
 from swiftclient.client import Connection
+from pathlib import Path
 
 import datetime
 
@@ -13,7 +14,11 @@ from dateutil import parser
 
 log = logging.getLogger('objectstore')
 
-assert os.getenv('HANDELSREGISTER_OBJECTSTORE_PASSWORD')
+def get_objectstore_password():
+    if os.getenv("HANDELSREGISTER_OBJECTSTORE_PW_LOCATION"):
+        return Path(os.environ["HANDELSREGISTER_OBJECTSTORE_PW_LOCATION"]).open().read()
+
+    return os.environ["HANDELSREGISTER_OBJECTSTORE_PASSWORD"]
 
 OBJECTSTORE = dict(
     VERSION='2.0',
@@ -21,7 +26,7 @@ OBJECTSTORE = dict(
     TENANT_NAME='BGE000081_Handelsregister',
     TENANT_ID='0efc828b88584759893253f563b35f9b',
     USER=os.getenv('OBJECTSTORE_USER', 'handelsregister'),
-    PASSWORD=os.getenv('HANDELSREGISTER_OBJECTSTORE_PASSWORD'),
+    PASSWORD=get_objectstore_password(),
     REGION_NAME='NL',
 )
 
