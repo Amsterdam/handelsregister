@@ -124,10 +124,8 @@ VBO_URI = os.getenv('BAG_API_ROOT', 'https://api.data.amsterdam.nl/bag/v1.1') + 
 
 DATAPUNT_API_REQUEST_HEADER = os.getenv('DATAPUNT_API_REQUEST_HEADER', 'e1d3b888-fd6a-4be8-ad96-0d63b4aa7982')
 # SECURITY WARNING: keep the secret key used in production secret!
-insecure_key = 'insecure'
-SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', insecure_key)
-DEBUG = SECRET_KEY == insecure_key
-
+SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
+DEBUG = os.getenv('DEBUG', False)
 
 ALLOWED_HOSTS = ['*']
 
