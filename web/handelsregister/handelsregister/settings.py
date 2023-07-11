@@ -118,7 +118,7 @@ DATABASE_SCHEMA =  os.getenv("DATABASE_SCHEMA")
 if DATABASE_SCHEMA is not None:
     # https://www.postgresql.org/docs/11/ddl-schemas.html under 5.8.3
     # public is required for using the PostGis extension
-    DATABASES["default"]["OPTIONS"] = {"options": f"-c search_path={DATABASE_SCHEMA},public"}
+    DATABASES["default"]["OPTIONS"] = {"options": f"-c search_path={DATABASE_SCHEMA}"}
 
 VBO_URI = os.getenv('BAG_API_ROOT', 'https://api.data.amsterdam.nl/bag/v1.1') + "/verblijfsobject/"
 
