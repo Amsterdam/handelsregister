@@ -73,3 +73,4 @@ texttable==1.5.0
 tqdm==4.29.0
 typing==3.6.6
 urllib3==1.26.15
+azure-identity==1.14.0
