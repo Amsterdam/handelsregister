@@ -25,7 +25,7 @@ for f in data/*.gz; do
     gunzip -c "${f}" > unzipped/"${STEM}"
 done
 
-export PGPASSWORD=${PGPASSWORD-$(cat DATABASE_PW_LOCATION)}
+export PGPASSWORD=${PGPASSWORD-$(cat $DATABASE_PW_LOCATION)}
 export HANDELSREGISTER_SCHEMA=${DATABASE_SCHEMA%%,*}
 
 psql -d $DATABASE_NAME -h $DATABASE_HOST_OVERRIDE -U $DATABASE_USER -v search_path=$DATABASE_SCHEMA -c "\
