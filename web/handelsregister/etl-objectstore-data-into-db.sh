@@ -63,4 +63,4 @@ done
 # PUT BAVK WD! ^*&^*^
 cd /app/
 
-./manage.py run_import
+./manage.py run_import --dataselectie
