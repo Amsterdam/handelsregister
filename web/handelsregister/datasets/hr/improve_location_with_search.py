@@ -251,7 +251,10 @@ def is_straat_huisnummer(tokens) -> int:
 class SearchTask:
     """All data relevant for async search instance."""
 
-    HEADER = {'X-Api-Key': settings.DATAPUNT_API_REQUEST_HEADER}
+    # {'X-Api-Key': settings.DATAPUNT_API_REQUEST_HEADER}
+    # Temp disable X-Api-Key until there is a valid key for this repo
+
+    HEADER = {}
     RETRIES = 1 if settings.TESTING else 5
 
     def __init__(self, locatieobject, query_string, straatnaam,
