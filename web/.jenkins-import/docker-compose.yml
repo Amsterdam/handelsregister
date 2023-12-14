@@ -1,7 +1,7 @@
 version: '3.0'
 services:
   database:
-    image: amsterdam/postgres11
+    image: amsterdam/postgres12
     environment:
       POSTGRES_PASSWORD: insecure
       POSTGRES_USER: handelsregister
@@ -88,7 +88,7 @@ services:
               && python manage.py build_index --partial=3/3 --build"
 
   db-backup:
-    image: amsterdam/postgres11
+    image: amsterdam/postgres12
     volumes:
       - ./backups:/tmp/backups
     environment:
